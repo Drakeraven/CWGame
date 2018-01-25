@@ -61,11 +61,13 @@ GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
 
-    this.ctx.canvas.addEventListener("keydown", function (e) {
-        if (String.fromCharCode(e.which) === ' ') that.space = true;
-//        console.log(e);
-        e.preventDefault();
-    }, false);
+    this.ctx.canvas.addEventListener("click", function(event) {
+        that.click = getXandY(event);
+        console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY)
+    })
+
+    this.ctx.canvas.addEventListener("")
+    
 
     console.log('Input started');
 }
