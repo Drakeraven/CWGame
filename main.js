@@ -83,6 +83,20 @@ var ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./img/Weaver.png");
 ASSET_MANAGER.queueDownload("./img/emptyCartMan.png");
+ASSET_MANAGER.queueDownload("./img/barleyCartMan.png");
+ASSET_MANAGER.queueDownload("./img/beerCartMan.png");
+ASSET_MANAGER.queueDownload("./img/beerCartMan.png");
+ASSET_MANAGER.queueDownload("./img/clayCartMan.png");
+ASSET_MANAGER.queueDownload("./img/flaxCartMan.png");
+ASSET_MANAGER.queueDownload("./img/goldCartMan.png");
+ASSET_MANAGER.queueDownload("./img/grainCartMan.png");
+ASSET_MANAGER.queueDownload("./img/linenCartMan.png");
+ASSET_MANAGER.queueDownload("./img/meatCartMan.png");
+ASSET_MANAGER.queueDownload("./img/potsCartMan.png");
+ASSET_MANAGER.queueDownload("./img/WatahMan.png");
+
+
+
 
 ASSET_MANAGER.downloadAll(function () {
     console.log("starting up da sheild");
@@ -90,13 +104,34 @@ ASSET_MANAGER.downloadAll(function () {
     var ctx = canvas.getContext('2d');
 
     var gameEngine = new GameEngine();
-    var bg = new Background(gameEngine);
-    var weaver = new Weaver(gameEngine);
-    var cartMen = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), 200, 200, 200);
-
-    gameEngine.addEntity(bg);
-    gameEngine.addEntity(weaver);
- 
     gameEngine.init(ctx);
     gameEngine.start();
+    var bg = new Background(gameEngine);
+    var weaver = new Weaver(gameEngine);
+    var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), 0, 300);
+    var barcm = new barCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/barleyCartMan.png"), 0, 350);
+    var becm = new beCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/beerCartMan.png"), 0, 400);
+    var ccm = new cCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/clayCartMan.png"), 0, 450);
+    var fcm = new fCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/flaxCartMan.png"), 0, 500);
+    var glcm = new glCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/goldCartMan.png"), 0, 550);
+    var grcm = new grCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/grainCartMan.png"), 0, 600);
+    var lcm = new lCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/linenCartMan.png"), 0, 650);
+    var mcm = new mCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/meatCartMan.png"), 0, 700);
+    var pcm = new pCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/potsCartMan.png"), 0, 750);
+    var wm = new watahMan(gameEngine, ASSET_MANAGER.getAsset("./img/WatahMan.png"), 0, 780);
+
+    gameEngine.addEntity(ecm);
+    gameEngine.addEntity(barcm);
+    gameEngine.addEntity(becm);
+    gameEngine.addEntity(ccm);
+    gameEngine.addEntity(fcm);
+    gameEngine.addEntity(glcm);
+    gameEngine.addEntity(grcm);
+    gameEngine.addEntity(lcm);
+    gameEngine.addEntity(mcm);
+    gameEngine.addEntity(pcm);
+    gameEngine.addEntity(wm);
+    //gameEngine.addEntity(bg);
+    //gameEngine.addEntity(weaver);
+ 
 });

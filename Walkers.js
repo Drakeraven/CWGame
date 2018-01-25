@@ -1,35 +1,123 @@
-function Walker4(game, img, lX, lY, speed) {
+
+var speed = 50;
+var aSpeed = .05;
+
+function Walker4(game, img, lX, lY) {
+    this.sY = lY;
+    this.animation = null;
     this.img = img;
-    this.x = lX;
-    this.y = lY;
-    this.speed = speed;
-    Entity.call(this, lX, lY);
+    Entity.call(this, game, lX, lY);
 }
 
 Walker4.prototype = new Entity();
 Walker4.prototype.constructor = Walker4;
 
 Walker4.prototype.update = function () {
-    this.lX = this.game.clockTick * this.speed;
-    if (this.lX > 800) {
-        this.lX = -100;
+    this.x += this.game.clockTick * speed;
+    this.y -= this.game.clockTick * speed;
+    if (this.x > 800 || this.y < -50) {
+        this.x = -100;
+        this.y = this.sY;
     }
     Entity.prototype.update.call(this);
 }
 
-Walker4.prototype.draw = function () {
-    this.currentAnimation.drawFrame(this.game.clockTick, this.lX, this.lY);
+Walker4.prototype.draw = function (ctx) {
+    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
     Entity.prototype.draw.call(this);
 }
 
-function eCartMan(game, img, lX, lY, speed) {
-    this.animation = new Animation(img, 400, 400, 49, 38, 12, .2, 12, true);
-    Walker4.call(this, game, img, lX, lY, speed);
+//Cart Walkers 
+
+function eCartMan(game, img, lX, lY) {
+    Walker4.call(this, game, img, lX, lY);
+    this.animation = new Animation(img, 0, 0, 60, 48, 12, aSpeed, 12, true);
 }
 
 eCartMan.prototype = new Walker4();
 eCartMan.prototype.constructor = eCartMan;
 
+function barCartMan(game, img, lX, lY) {
+    Walker4.call(this, game, img, lX, lY);
+    this.animation = new Animation(img, 0, 0, 60, 60, 12, aSpeed, 12, true);
+}
+
+barCartMan.prototype = new Walker4();
+barCartMan.prototype.constructor = barCartMan;
+
+function beCartMan(game, img, lX, lY) {
+    Walker4.call(this, game, img, lX, lY);
+    this.animation = new Animation(img, 0, 0, 60, 60, 12, aSpeed, 12, true);
+}
+
+beCartMan.prototype = new Walker4();
+beCartMan.prototype.constructor = beCartMan;
+
+function cCartMan(game, img, lX, lY) {
+    Walker4.call(this, game, img, lX, lY);
+    this.animation = new Animation(img, 0, 0, 60, 48, 12, aSpeed, 12, true);
+}
+
+cCartMan.prototype = new Walker4();
+cCartMan.prototype.constructor = cCartMan;
+
+function fCartMan(game, img, lX, lY) {
+    Walker4.call(this, game, img, lX, lY);
+    this.animation = new Animation(img, 0, 0, 60, 48, 12, aSpeed, 12, true);
+}
+
+fCartMan.prototype = new Walker4();
+fCartMan.prototype.constructor = fCartMan;
+
+function glCartMan(game, img, lX, lY) {
+    Walker4.call(this, game, img, lX, lY);
+    this.animation = new Animation(img, 0, 0, 60, 48, 12, aSpeed, 12, true);
+}
+
+glCartMan.prototype = new Walker4();
+glCartMan.prototype.constructor = glCartMan;
+
+function grCartMan(game, img, lX, lY) {
+    Walker4.call(this, game, img, lX, lY);
+    this.animation = new Animation(img, 0, 0, 60, 48, 12, aSpeed, 12, true);
+}
+
+grCartMan.prototype = new Walker4();
+grCartMan.prototype.constructor = grCartMan;
+
+function lCartMan(game, img, lX, lY) {
+    Walker4.call(this, game, img, lX, lY);
+    this.animation = new Animation(img, 0, 0, 60, 48, 12, aSpeed, 12, true);
+}
+
+lCartMan.prototype = new Walker4();
+lCartMan.prototype.constructor = lCartMan;
+
+function mCartMan(game, img, lX, lY) {
+    Walker4.call(this, game, img, lX, lY);
+    this.animation = new Animation(img, 0, 0, 60, 48, 12, aSpeed, 12, true);
+}
+
+mCartMan.prototype = new Walker4();
+mCartMan.prototype.constructor = mCartMan;
+
+function pCartMan(game, img, lX, lY) {
+    Walker4.call(this, game, img, lX, lY);
+    this.animation = new Animation(img, 0, 0, 60, 48, 12, aSpeed, 12, true);
+}
+
+pCartMan.prototype = new Walker4();
+pCartMan.prototype.constructor = pCartMan;
+
+function watahMan(game, img, lX, lY) {
+    Walker4.call(this, game, img, lX, lY);
+    this.animation = new Animation(img, 0, 0, 48, 46, 12, aSpeed, 12, true);
+}
+
+watahMan.prototype = new Walker4();
+watahMan.prototype.constructor = watahMan;
+
+//End of Cart Walkers
 
 //function Walker8(game, imgNE, imgNW, imgSE, imgSW, imgD, imgN, imgS, imgE, imgW, lX, lY) {
 //    Walker4.call(game, imgNE, imgNW, imgSE, imSW, imgD, lX, lY);
