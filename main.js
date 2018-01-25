@@ -58,29 +58,28 @@ Background.prototype.draw = function (ctx) {
     ctx.fillRect(0,500,800,300);
     Entity.prototype.draw.call(this);
 }
-function Weaver(game) {
-    this.animation = new Animation(ASSET_MANAGER.getAsset("./img/Weaver.png"), 0, 1, 118, 100, 6, .15, 12, true);
-    Entity.call(this, game, 0, 400);
 
-}
 
-Weaver.prototype = new Entity();
-Weaver.prototype.constructor = Weaver;
-
-Weaver.prototype.update = function () {
-    Entity.prototype.update.call(this);
-}
-
-Weaver.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-    Entity.prototype.draw.call(this);
-}
 
 // the "main" code begins here
 
 var ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./img/Weaver.png");
+ASSET_MANAGER.queueDownload("./img/ArchBuild-1.png");
+ASSET_MANAGER.queueDownload("./img/Bazaar.png");
+ASSET_MANAGER.queueDownload("./img/COPS-1.png");
+ASSET_MANAGER.queueDownload("./img/Brewery.png");
+ASSET_MANAGER.queueDownload("./img/Firehouse-1.png");
+ASSET_MANAGER.queueDownload("./img/GoldMine.png");
+ASSET_MANAGER.queueDownload("./img/HousingAlone.png");
+ASSET_MANAGER.queueDownload("./img/HuntingLodge.png");
+ASSET_MANAGER.queueDownload("./img/Mansion.png");
+ASSET_MANAGER.queueDownload("./img/Potter.png");
+ASSET_MANAGER.queueDownload("./img/farm1.png");
+ASSET_MANAGER.queueDownload("./img/taxHouse.png");
+ASSET_MANAGER.queueDownload("./img/palace.png");
+ASSET_MANAGER.queueDownload("./img/FarmPlots.png");
 
 ASSET_MANAGER.downloadAll(function () {
     console.log("starting up da sheild");
@@ -89,10 +88,39 @@ ASSET_MANAGER.downloadAll(function () {
 
     var gameEngine = new GameEngine();
     var bg = new Background(gameEngine);
-    var weaver = new Weaver(gameEngine);
+    var weaver = new Weaver(gameEngine, ASSET_MANAGER.getAsset("./img/Weaver.png"));
+    var archbuild = new ArchBuild(gameEngine, ASSET_MANAGER.getAsset("./img/ArchBuild-1.png"));
+    var bazaar = new Bazaar(gameEngine, ASSET_MANAGER.getAsset("./img/Bazaar.png"));
+    var copstore = new CopStore(gameEngine, ASSET_MANAGER.getAsset("./img/COPS-1.png"));
+    var brewery = new Brewery(gameEngine, ASSET_MANAGER.getAsset("./img/Brewery.png"));
+    var firehouse = new Firehouse(gameEngine, ASSET_MANAGER.getAsset("./img/Firehouse-1.png"));
+    var goldmine = new Goldmine(gameEngine, ASSET_MANAGER.getAsset("./img/GoldMine.png"));
+    var housingalone = new Housing(gameEngine, ASSET_MANAGER.getAsset("./img/HousingAlone.png"));
+    var huntinglodge = new HuntingLodge(gameEngine, ASSET_MANAGER.getAsset("./img/HuntingLodge.png"));
+    var mansion = new Mansion(gameEngine, ASSET_MANAGER.getAsset("./img/Mansion.png"));
+    var potter = new Potter(gameEngine, ASSET_MANAGER.getAsset("./img/Potter.png"));
+    var workcamp = new WorkCamp(gameEngine, ASSET_MANAGER.getAsset("./img/farm1.png"));
+    var taxhouse = new TaxHouse(gameEngine, ASSET_MANAGER.getAsset("./img/taxHouse.png"));
+    var palace = new Palace(gameEngine, ASSET_MANAGER.getAsset("./img/palace.png"));
+    var barley = new Barley(gameEngine, ASSET_MANAGER.getAsset("./img/FarmPlots.png"));
+
 
     gameEngine.addEntity(bg);
     gameEngine.addEntity(weaver);
+    gameEngine.addEntity(archbuild);
+    gameEngine.addEntity(bazaar);
+    gameEngine.addEntity(copstore);
+    gameEngine.addEntity(brewery);
+    gameEngine.addEntity(firehouse);
+    gameEngine.addEntity(goldmine);
+    gameEngine.addEntity(housingalone);
+    gameEngine.addEntity(huntinglodge);
+    gameEngine.addEntity(mansion);
+    gameEngine.addEntity(potter);
+    gameEngine.addEntity(workcamp);
+    gameEngine.addEntity(taxhouse);
+    gameEngine.addEntity(palace);
+    gameEngine.addEntity(barley);
  
     gameEngine.init(ctx);
     gameEngine.start();
