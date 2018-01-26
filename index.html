@@ -8,9 +8,71 @@
     <script type="text/javascript" src="./assetmanager.js"></script>
     <script type="text/javascript" src="./main.js"></script>
     <script type="text/javascript" src="./buildings.js"></script>
-	<script type="text/javascript" src="./Walkers.js"></script>
+    <script type="text/javascript" src="./Walkers.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <style>
+        .pharoh-button {
+            max-width: 50px;
+            max-height: 50px;
+            margin: 0 0 0px 0px;
+            float:left;
+            display: block;
+        }
+        .button-container {
+            width: 110px;
+            padding-bottom: 2px;
+            height: auto;
+            float: left;
+        }
+        img.title{
+            max-width: 150px;
+            max-height: 80px;
+        }
+        img.bt{
+            max-width: 50px;
+            max-height: 50px; 
+        }
+        .game-container {
+            max-height: 500px;
+        }
+        .pharoh-image-display {
+            max-width: 200px;
+            max-height: 100px;
+            margin: 0 0 0px 0px;
+        }
+        #gameWorld {
+            float: left;
+        }
+        .selected {
+            background-color: lightsalmon;
+        }
+        .selected img {
+            opacity: 0.5;
+        }
+    </style>
 </head>
 <body>
-    <canvas id="gameWorld" tabindex="1" width="800" height="800" style="border: 1px solid brown; background: lightskyblue"></canvas>
+    <div class="game-container">
+        <canvas id="gameWorld" tabindex="1" width="800" height="600" style="border: 1px solid brown; background: lightskyblue"></canvas>
+        <div class="button-container">
+            <div class="pharoh-image-display" ><img class="title" src="./img/Untitled.png"/></div>
+            <div class="pharoh-button" title="Housing">
+                <img class="bt" src="./img/HousingBtn.png"/>
+            </div>
+            <div class="pharoh-button" title="Food and Farm" >
+                <img class="bt" src="./img/FoodFarmButton.png"/>
+            </div>
+            <div class="pharoh-button" title="Roads"><img/></div>
+        </div>
+    </div>
 </body>
+<script>
+    $(function(){
+        $('.pharoh-button').click(function(){
+            $('.pharoh-button').removeClass('selected');
+            $(this).addClass('selected');
+
+        });
+    });
+</script>
 </html>
