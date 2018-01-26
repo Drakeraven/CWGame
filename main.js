@@ -1,3 +1,4 @@
+
 function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, sheetWidth, frameDuration, frames, loop) {
     this.spriteSheet = spriteSheet;
     this.startX = startX * frameWidth;
@@ -80,6 +81,25 @@ ASSET_MANAGER.queueDownload("./img/farm1.png");
 ASSET_MANAGER.queueDownload("./img/taxHouse.png");
 ASSET_MANAGER.queueDownload("./img/palace.png");
 ASSET_MANAGER.queueDownload("./img/FarmPlots.png");
+ASSET_MANAGER.queueDownload("./img/emptyCartMan.png");
+ASSET_MANAGER.queueDownload("./img/barleyCartMan.png");
+ASSET_MANAGER.queueDownload("./img/beerCartMan.png");
+ASSET_MANAGER.queueDownload("./img/beerCartMan.png");
+ASSET_MANAGER.queueDownload("./img/clayCartMan.png");
+ASSET_MANAGER.queueDownload("./img/flaxCartMan.png");
+ASSET_MANAGER.queueDownload("./img/goldCartMan.png");
+ASSET_MANAGER.queueDownload("./img/grainCartMan.png");
+ASSET_MANAGER.queueDownload("./img/linenCartMan.png");
+ASSET_MANAGER.queueDownload("./img/meatCartMan.png");
+ASSET_MANAGER.queueDownload("./img/potsCartMan.png");
+ASSET_MANAGER.queueDownload("./img/WatahMan.png");
+ASSET_MANAGER.queueDownload("./img/Architect.png");
+ASSET_MANAGER.queueDownload("./img/actualcop.png");
+ASSET_MANAGER.queueDownload("./img/actuallyfarmer.png");
+ASSET_MANAGER.queueDownload("./img/FireDude1.png");
+ASSET_MANAGER.queueDownload("./img/gazelle.png");
+ASSET_MANAGER.queueDownload("./img/emigrant.png");
+ASSET_MANAGER.queueDownload("./img/TaxCollector.png");
 
 ASSET_MANAGER.downloadAll(function () {
     console.log("starting up da sheild");
@@ -87,7 +107,10 @@ ASSET_MANAGER.downloadAll(function () {
     var ctx = canvas.getContext('2d');
 
     var gameEngine = new GameEngine();
+    gameEngine.init(ctx);
+    gameEngine.start();
     var bg = new Background(gameEngine);
+
     var weaver = new Weaver(gameEngine, ASSET_MANAGER.getAsset("./img/Weaver.png"));
     var archbuild = new ArchBuild(gameEngine, ASSET_MANAGER.getAsset("./img/ArchBuild-1.png"));
     var bazaar = new Bazaar(gameEngine, ASSET_MANAGER.getAsset("./img/Bazaar.png"));
@@ -121,7 +144,43 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(taxhouse);
     gameEngine.addEntity(palace);
     gameEngine.addEntity(barley);
- 
-    gameEngine.init(ctx);
-    gameEngine.start();
+
+    var weaver = new Weaver(gameEngine);
+    var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), 0, 300);
+    var barcm = new barCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/barleyCartMan.png"), 0, 350);
+    var becm = new beCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/beerCartMan.png"), 0, 400);
+    var ccm = new cCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/clayCartMan.png"), 0, 450);
+    var fcm = new fCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/flaxCartMan.png"), 0, 500);
+    var glcm = new glCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/goldCartMan.png"), 0, 550);
+    var grcm = new grCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/grainCartMan.png"), 0, 600);
+    var lcm = new lCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/linenCartMan.png"), 0, 650);
+    var mcm = new mCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/meatCartMan.png"), 0, 700);
+    var pcm = new pCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/potsCartMan.png"), 0, 750);
+    var wm = new watahMan(gameEngine, ASSET_MANAGER.getAsset("./img/WatahMan.png"), 0, 780);
+    var archi = new architect(gameEngine, ASSET_MANAGER.getAsset("./img/Architect.png"), 0, 250);
+    var copi = new cop(gameEngine, ASSET_MANAGER.getAsset("./img/actualcop.png"), 0, 200);
+    var farmi = new farmer(gameEngine, ASSET_MANAGER.getAsset("./img/actuallyfarmer.png"), 200, 200);
+    var firei = new fireMan(gameEngine, ASSET_MANAGER.getAsset("./img/FireDude1.png"), 0, 150);
+    var gaz = new gazelle(gameEngine, ASSET_MANAGER.getAsset("./img/gazelle.png"), 300, 300);
+    var emi = new emigrant(gameEngine, ASSET_MANAGER.getAsset("./img/emigrant.png"), 400, 400);
+    var tax = new taxMan(gameEngine, ASSET_MANAGER.getAsset("./img/TaxCollector.png"), 500, 500);
+
+    gameEngine.addEntity(ecm);
+    gameEngine.addEntity(barcm);
+    gameEngine.addEntity(becm);
+    gameEngine.addEntity(ccm);
+    gameEngine.addEntity(fcm);
+    gameEngine.addEntity(glcm);
+    gameEngine.addEntity(grcm);
+    gameEngine.addEntity(lcm);
+    gameEngine.addEntity(mcm);
+    gameEngine.addEntity(pcm);
+    gameEngine.addEntity(wm);
+    gameEngine.addEntity(archi);
+    gameEngine.addEntity(copi);
+    gameEngine.addEntity(farmi);
+    gameEngine.addEntity(firei);
+    gameEngine.addEntity(gaz);
+    gameEngine.addEntity(emi);
+    gameEngine.addEntity(tax); 
 });
