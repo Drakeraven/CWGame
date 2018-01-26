@@ -94,6 +94,13 @@ ASSET_MANAGER.queueDownload("./img/linenCartMan.png");
 ASSET_MANAGER.queueDownload("./img/meatCartMan.png");
 ASSET_MANAGER.queueDownload("./img/potsCartMan.png");
 ASSET_MANAGER.queueDownload("./img/WatahMan.png");
+ASSET_MANAGER.queueDownload("./img/Architect.png");
+ASSET_MANAGER.queueDownload("./img/actualcop.png");
+ASSET_MANAGER.queueDownload("./img/actuallyfarmer.png");
+ASSET_MANAGER.queueDownload("./img/FireDude1.png");
+ASSET_MANAGER.queueDownload("./img/gazelle.png");
+ASSET_MANAGER.queueDownload("./img/emigrant.png");
+ASSET_MANAGER.queueDownload("./img/TaxCollector.png");
 
 
 
@@ -119,6 +126,13 @@ ASSET_MANAGER.downloadAll(function () {
     var mcm = new mCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/meatCartMan.png"), 0, 700);
     var pcm = new pCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/potsCartMan.png"), 0, 750);
     var wm = new watahMan(gameEngine, ASSET_MANAGER.getAsset("./img/WatahMan.png"), 0, 780);
+    var archi = new architect(gameEngine, ASSET_MANAGER.getAsset("./img/Architect.png"), 0, 250);
+    var copi = new cop(gameEngine, ASSET_MANAGER.getAsset("./img/actualcop.png"), 0, 200);
+    var farmi = new farmer(gameEngine, ASSET_MANAGER.getAsset("./img/actuallyfarmer.png"), 200, 200);
+    var firei = new fireMan(gameEngine, ASSET_MANAGER.getAsset("./img/FireDude1.png"), 0, 150);
+    var gaz = new gazelle(gameEngine, ASSET_MANAGER.getAsset("./img/gazelle.png"), 300, 300);
+    var emi = new emigrant(gameEngine, ASSET_MANAGER.getAsset("./img/emigrant.png"), 400, 400);
+    var tax = new taxMan(gameEngine, ASSET_MANAGER.getAsset("./img/TaxCollector.png"), 500, 500);
 
     gameEngine.addEntity(ecm);
     gameEngine.addEntity(barcm);
@@ -131,6 +145,13 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(mcm);
     gameEngine.addEntity(pcm);
     gameEngine.addEntity(wm);
+    gameEngine.addEntity(archi);
+    gameEngine.addEntity(copi);
+    gameEngine.addEntity(farmi);
+    gameEngine.addEntity(firei);
+    gameEngine.addEntity(gaz);
+    gameEngine.addEntity(emi);
+    gameEngine.addEntity(tax);
     //gameEngine.addEntity(bg);
     //gameEngine.addEntity(weaver);
  
