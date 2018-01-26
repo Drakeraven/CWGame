@@ -66,7 +66,7 @@ GameEngine.prototype.startInput = function () {
         console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY)
     })
 
-    this.ctx.canvas.addEventListener("")
+   // this.ctx.canvas.addEventListener("")
     
 
     console.log('Input started');
