@@ -62,8 +62,30 @@ GameEngine.prototype.startInput = function () {
     var that = this;
 
     this.ctx.canvas.addEventListener("click", function(event) {
-        that.click = getXandY(event);
-        console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY)
+        //that.click = getXandY(event);
+        let currentSelection = $('.pharoh-button.selected').attr('title');
+        switch (currentSelection){
+            case "Housing": 
+                console.log("itahouse");
+                that.addEntity(
+                    new taxMan(
+                        that,
+                        ASSET_MANAGER.getAsset("./img/TaxCollector.png"), 
+                        event.clientX,
+                        event.clientY
+                    )
+                );
+                break;
+            case "Food and Farm":
+                console.log("itfuud");
+                break;
+            default : 
+                console.log('nuthin2seahear')
+                break
+        }
+
+        
+        console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY);
     })
 
    // this.ctx.canvas.addEventListener("")
