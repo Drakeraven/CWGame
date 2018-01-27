@@ -87,12 +87,13 @@ ASSET_MANAGER.queueDownload("./img/Firehouse-1.png");
 ASSET_MANAGER.queueDownload("./img/GoldMine.png");
 ASSET_MANAGER.queueDownload("./img/HousingAlone.png");
 ASSET_MANAGER.queueDownload("./img/HuntingLodge.png");
-ASSET_MANAGER.queueDownload("./img/Mansion.png");
+ASSET_MANAGER.queueDownload("./img/mansion.png");
 ASSET_MANAGER.queueDownload("./img/Potter.png");
 ASSET_MANAGER.queueDownload("./img/farm1.png");
 ASSET_MANAGER.queueDownload("./img/taxHouse.png");
 ASSET_MANAGER.queueDownload("./img/palace.png");
 ASSET_MANAGER.queueDownload("./img/FarmPlots.png");
+//TODO: add in imgs for fixed walkers
 
 ASSET_MANAGER.downloadAll(function () {
     console.log("starting up da sheild");
@@ -111,24 +112,24 @@ ASSET_MANAGER.downloadAll(function () {
     var goldmine = new Goldmine(gameEngine, ASSET_MANAGER.getAsset("./img/GoldMine.png"));
     var housingalone = new Housing(gameEngine, ASSET_MANAGER.getAsset("./img/HousingAlone.png"));
     var huntinglodge = new HuntingLodge(gameEngine, ASSET_MANAGER.getAsset("./img/HuntingLodge.png"));
-    var mansion = new Mansion(gameEngine, ASSET_MANAGER.getAsset("./img/Mansion.png"));
+    var mansion = new Mansion(gameEngine, ASSET_MANAGER.getAsset("./img/mansion.png"));
     var potter = new Potter(gameEngine, ASSET_MANAGER.getAsset("./img/Potter.png"));
     var workcamp = new WorkCamp(gameEngine, ASSET_MANAGER.getAsset("./img/farm1.png"));
     var taxhouse = new TaxHouse(gameEngine, ASSET_MANAGER.getAsset("./img/taxHouse.png"));
     var palace = new Palace(gameEngine, ASSET_MANAGER.getAsset("./img/palace.png"));
     var barley = new Barley(gameEngine, ASSET_MANAGER.getAsset("./img/FarmPlots.png"));
-    var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), 0, 300);
-    var barcm = new barCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/barleyCartMan.png"), 0, 350);
-    var becm = new beCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/beerCartMan.png"), 0, 400);
-    var ccm = new cCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/clayCartMan.png"), 0, 450);
-    var fcm = new fCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/flaxCartMan.png"), 0, 500);
-    var glcm = new glCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/goldCartMan.png"), 0, 550);
-    var grcm = new grCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/grainCartMan.png"), 0, 600);
-    var lcm = new lCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/linenCartMan.png"), 0, 650);
-    var mcm = new mCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/meatCartMan.png"), 0, 700);
-    var pcm = new pCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/potsCartMan.png"), 0, 750);
-    var wm = new watahMan(gameEngine, ASSET_MANAGER.getAsset("./img/WatahMan.png"), 0, 780);
-
+    var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), 0, 750);
+    var barcm = new barCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/barleyCartMan.png"), 20, 750);
+    var becm = new beCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/beerCartMan.png"), 60, 750);
+    var ccm = new cCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/clayCartMan.png"), 100, 750);
+    var fcm = new fCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/flaxCartMan.png"), 140, 750);
+    var glcm = new glCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/goldCartMan.png"), 180, 750);
+    var grcm = new grCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/grainCartMan.png"), 220, 750);
+    var lcm = new lCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/linenCartMan.png"), 260, 750);
+    var mcm = new mCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/meatCartMan.png"), 300, 750);
+    var pcm = new pCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/potsCartMan.png"), 340, 750);
+    var wm = new watahMan(gameEngine, ASSET_MANAGER.getAsset("./img/WatahMan.png"), 390, 750);
+    //TODO: add in entities and vars for fixed walkers
     gameEngine.addEntity(ecm);
     gameEngine.addEntity(barcm);
     gameEngine.addEntity(becm);
