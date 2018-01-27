@@ -60,38 +60,64 @@ GameEngine.prototype.start = function () {
 GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
-
     this.ctx.canvas.addEventListener("click", function(event) {
-        //that.click = getXandY(event);
-        let currentSelection = $('.pharoh-button.selected').attr('title');
-        switch (currentSelection){
-            case "Housing": 
-                console.log("itahouse");
-                that.addEntity(
-                    new taxMan(
-                        that,
-                        ASSET_MANAGER.getAsset("./img/TaxCollector.png"), 
-                        event.clientX,
-                        event.clientY
-                    )
-                );
-                break;
-            case "Food and Farm":
-                console.log("itfuud");
-                break;
-            default : 
-                console.log('nuthin2seahear')
-                break
-        }
-
-        
+        that.buildOnCanvas(event.clientX, event.clientY);
         console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY);
-    })
+    });
+    //hotkey 
+    this.ctx.canvas.addEventListener("keypress", function(event) {
+        if (event.code === "KeyH") {
+            setButton("Housing");
+        } else if (event.code === "KeyF") {
+            setButton("Food and Farm");
+        }
+        console.log("the following key was pressed: " + event.code);
 
-   // this.ctx.canvas.addEventListener("")
+    });
     
-
     console.log('Input started');
+}
+
+function setButton(newSelection) {
+    $('.pharoh-button').removeClass('selected');
+    $('.pharoh-button[title="' + newSelection + '"]').addClass('selected');
+}
+
+GameEngine.prototype.buildOnCanvas = function(x, y) {
+    let selection = "";
+    //Will return nothing if no buttons are selected
+    let selectedButton = $('.pharoh-button.selected');
+    //this is check, so we don't call .attr on null
+    if (selectedButton.length > 0) {
+        selection = selectedButton.attr('title');
+    }
+    switch (selection){
+        case "Housing": 
+            console.log("itahouse");
+            this.addEntity(
+                new taxMan(
+                    this,
+                    ASSET_MANAGER.getAsset("./img/TaxCollector.png"), 
+                    x,
+                    y
+                )
+            );
+            break;
+        case "Food and Farm":
+            console.log("itfuud");
+            this.addEntity(
+                new taxMan(
+                    this,
+                    ASSET_MANAGER.getAsset("./img/TaxCollector.png"), 
+                    x,
+                    y
+                )
+            );
+            break;
+        default : 
+            console.log('nuthin2seahear')
+            break
+    }  
 }
 
 GameEngine.prototype.addEntity = function (entity) {
