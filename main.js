@@ -12,6 +12,19 @@ function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, sheetWi
     this.loop = loop;
 }
 
+function twodtoisoX(x,y) {
+  return ((x - y) * 29);
+}
+function twodtoisoY(x,y) {
+  return  (x + y) * 15;
+}
+function isototwodX(x,y) {
+  return ((x + y ) / 29 - 10) ;
+}
+function isototwodY(x,y) {
+  return ((x - y ) / 15 + 1) ;
+}
+
 Animation.prototype.drawFrame = function (tick, ctx, x, y) {
     this.elapsedTime += tick;
     if (this.loop) {
@@ -28,7 +41,7 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y) {
     if ((colIndex + 1) * this.frameWidth > this.spriteSheet.width) {
         rowIndex++;
     }
-  
+
     ctx.drawImage(this.spriteSheet, colIndex * this.frameWidth + this.startX,
         rowIndex * this.frameHeight + this.startY, this.frameWidth,
         this.frameHeight, x, y, this.frameWidth, this.frameHeight);
@@ -58,6 +71,60 @@ Background.prototype.draw = function (ctx) {
     ctx.fillRect(0,500,800,300);
     Entity.prototype.draw.call(this);
 }
+
+
+// tiling going down
+function Tile(game, tileType, x, y) {
+  this.animation = new Animation(ASSET_MANAGER.getAsset("./img/grass.png"), 0, 0, 58, 30, 1, .15, 1, true);
+  this.game = game;
+  this.x = x;
+  this.y = y;
+  this.tileType = tileType;
+}
+
+Tile.prototype = new Entity();
+Tile.prototype.constructor = Tile;
+
+Tile.prototype.draw = function(ctx) {
+    console.log(this.x + ' ' + this.y);
+    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+    Entity.prototype.draw.call(this);
+}
+
+function Map(gameEngine) {
+    this.game = gameEngine;
+    this.mapList = new Array(12);
+    this.mapArray = [[0,0,0,0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0,0,0,0]];
+}
+
+Map.prototype = new Entity();
+Map.prototype.constructor = Map;
+
+Map.prototype.readMap = function(mapData) {
+    for(i = 0; i < 12; i++) {
+        for(j = 0; j < 12; j++) {
+          this.mapList[i] = new Array(12);
+            x = j + 10;
+            y = i - 1;
+            tileType = mapData[i][j];
+            var tile = new Tile(this.game, tileType, twodtoisoX(x,y), twodtoisoY(x,y) );
+            this.mapList[i][j] = tile;
+            this.game.addEntity(this.mapList[i][j]);
+        }
+    }
+}
+
 function Weaver(game) {
     this.animation = new Animation(ASSET_MANAGER.getAsset("./img/Weaver.png"), 0, 1, 118, 100, 6, .15, 12, true);
     Entity.call(this, game, 0, 400);
@@ -81,6 +148,7 @@ Weaver.prototype.draw = function (ctx) {
 var ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./img/Weaver.png");
+ASSET_MANAGER.queueDownload("./img/grass.png");
 
 ASSET_MANAGER.downloadAll(function () {
     console.log("starting up da sheild");
@@ -90,10 +158,13 @@ ASSET_MANAGER.downloadAll(function () {
     var gameEngine = new GameEngine();
     var bg = new Background(gameEngine);
     var weaver = new Weaver(gameEngine);
+    var map =  new Map(gameEngine);
+
 
     gameEngine.addEntity(bg);
     gameEngine.addEntity(weaver);
- 
+
     gameEngine.init(ctx);
+        map.readMap(map.mapArray);
     gameEngine.start();
 });
