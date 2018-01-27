@@ -1,11 +1,12 @@
 
-var speed = 0;
+var speed = 50;
 var aSpeed = .05;
 
 function Walker4(game, img, lX, lY) {
     this.sY = lY;
     this.animation = null;
     this.img = img;
+    this.ping = false; //TODO probably get rid of later 
     Entity.call(this, game, lX, lY);
 }
 
@@ -13,11 +14,21 @@ Walker4.prototype = new Entity();
 Walker4.prototype.constructor = Walker4;
 
 Walker4.prototype.update = function () {
-    this.x += this.game.clockTick * speed;
-    this.y -= this.game.clockTick * speed;
-    if (this.x > 800 || this.y < -50) {
-        this.x = -100;
-        this.y = this.sY;
+    if (this.y < 470 || this.ping) {
+        this.ping = true;
+        this.x -= this.game.clockTick * speed;
+        this.y += this.game.clockTick * speed;
+        this.animation.startY = 3 * this.animation.frameHeight;
+    }
+    if (this.x < 0 || this.y === 0) {
+        this.ping = false;
+        this.animation.startY = 0 * this.animation.frameHeight;
+
+    }
+    if (!this.ping) {
+        this.x += this.game.clockTick * speed;
+        this.y -= this.game.clockTick * speed;
+
     }
     Entity.prototype.update.call(this);
 }
@@ -109,7 +120,6 @@ function pCartMan(game, img, lX, lY) {
 pCartMan.prototype = new Walker4();
 pCartMan.prototype.constructor = pCartMan;
 
-//End of Cart Walkers
 function watahMan(game, img, lX, lY) {
     Walker4.call(this, game, img, lX, lY);
     this.animation = new Animation(img, 0, 0, 48, 46, 12, aSpeed, 12, true);
@@ -118,65 +128,63 @@ function watahMan(game, img, lX, lY) {
 watahMan.prototype = new Walker4();
 watahMan.prototype.constructor = watahMan;
 
-function architect(game, img, lX, lY) {
-    Walker4.call(this, game, img, lX, lY);
-    this.animation = new Animation(img, 0, 1, 32, 38, 12, aSpeed, 12, true);
-}
+//End of Cart Walkers
 
-architect.prototype = new Walker4();
-architect.prototype.constructor = architect;
-
-function cop(game, img, lX, lY) {
-    Walker4.call(this, game, img, lX, lY);
-    this.animation = new Animation(img, 0, 14, 21, 34, 12, aSpeed, 12, true);
-}
-
-cop.prototype = new Walker4();
-cop.prototype.constructor = cop;
-
-function farmer(game, img, lX, lY) {
-    Walker4.call(this, game, img, lX, lY);
-    this.animation = new Animation(img, 0, 4, 43, 45, 12, aSpeed, 12, true);
-}
-
-farmer.prototype = new Walker4();
-farmer.prototype.constructor = farmer;
-
-function fireMan(game, img, lX, lY) {
-    Walker4.call(this, game, img, lX, lY);
-    this.animation = new Animation(img, 0, 0, 46, 40, 12, aSpeed, 12, true);
-}
-
-fireMan.prototype = new Walker4();
-fireMan.prototype.constructor = fireMan;
-
-function gazelle(game, img, lX, lY) {
-    Walker4.call(this, game, img, lX, lY);
-    this.animation = new Animation(img, 0, 2, 45, 48, 60, aSpeed, 60, true);
-}
-
-gazelle.prototype = new Walker4();
-gazelle.prototype.constructor = gazelle
-
-function emigrant(game, img, lX, lY) {
-    Walker4.call(this, game, img, lX, lY);
-    this.animation = new Animation(img, 0, 2, 25, 26, 12, aSpeed, 12, true);
-}
-
-emigrant.prototype = new Walker4();
-emigrant.prototype.constructor = emigrant
-
-function taxMan(game, img, lX, lY) {
-    Walker4.call(this, game, img, lX, lY);
-    this.animation = new Animation(img, 0, 2, 41, 38, 12, aSpeed, 12, true);
-}
-
-taxMan.prototype = new Walker4();
-taxMan.prototype.constructor = taxMan
-
-
-
-
+//function architect(game, img, lX, lY) {
+//     Walker4.call(this, game, img, lX, lY);
+//     this.animation = new Animation(img, 0, 1, 32, 38, 12, aSpeed, 12, true);
+// }
+// 
+// architect.prototype = new Walker4();
+// architect.prototype.constructor = architect;
+// 
+// function cop(game, img, lX, lY) {
+//     Walker4.call(this, game, img, lX, lY);
+//     this.animation = new Animation(img, 0, 14, 21, 34, 12, aSpeed, 12, true);
+// }
+// 
+// cop.prototype = new Walker4();
+// cop.prototype.constructor = cop;
+// 
+// function farmer(game, img, lX, lY) {
+//     Walker4.call(this, game, img, lX, lY);
+//     this.animation = new Animation(img, 0, 4, 43, 45, 12, aSpeed, 12, true);
+// }
+// 
+// farmer.prototype = new Walker4();
+// farmer.prototype.constructor = farmer;
+// 
+// function fireMan(game, img, lX, lY) {
+//     Walker4.call(this, game, img, lX, lY);
+//     this.animation = new Animation(img, 0, 0, 46, 40, 12, aSpeed, 12, true);
+// }
+// 
+// fireMan.prototype = new Walker4();
+// fireMan.prototype.constructor = fireMan;
+// 
+// function gazelle(game, img, lX, lY) {
+//     Walker4.call(this, game, img, lX, lY);
+//     this.animation = new Animation(img, 0, 2, 45, 48, 60, aSpeed, 60, true);
+// }
+// 
+// gazelle.prototype = new Walker4();
+// gazelle.prototype.constructor = gazelle
+// 
+// function emigrant(game, img, lX, lY) {
+//     Walker4.call(this, game, img, lX, lY);
+//     this.animation = new Animation(img, 0, 2, 25, 26, 12, aSpeed, 12, true);
+// }
+// 
+// emigrant.prototype = new Walker4();
+// emigrant.prototype.constructor = emigrant
+// 
+// function taxMan(game, img, lX, lY) {
+//     Walker4.call(this, game, img, lX, lY);
+//     this.animation = new Animation(img, 0, 2, 41, 38, 12, aSpeed, 12, true);
+// }
+// 
+// taxMan.prototype = new Walker4();
+// taxMan.prototype.constructor = taxMan
 
 //function Walker8(game, imgNE, imgNW, imgSE, imgSW, imgD, imgN, imgS, imgE, imgW, lX, lY) {
 //    Walker4.call(game, imgNE, imgNW, imgSE, imSW, imgD, lX, lY);
