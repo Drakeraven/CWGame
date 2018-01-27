@@ -125,9 +125,9 @@ Goldmine.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Housing(game, img) {
+function Housing(game, img, x = 150, y = 110) {
     this.animation = new Animation(img, 0, 0, 118, 97, 6, 1, 12, true);
-    Entity.call(this, game, 150, 110);
+    Entity.call(this, game, x, y);
 
 }
 
@@ -251,9 +251,9 @@ Palace.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Barley(game, img) {
+function Barley(game, img, x = 600, y = 300) {
     this.animation = new Animation(img, 0, 1, 178, 91, 6, 1, 6, true);
-    Entity.call(this, game, 600, 300);
+    Entity.call(this, game, x, y);
 
 }
 

@@ -1,6 +1,7 @@
 function AssetManager() {
     this.successCount = 0;
     this.errorCount = 0;
+    /**map of path to images*/
     this.cache = [];
     this.downloadQueue = [];
 }

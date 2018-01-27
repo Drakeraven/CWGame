@@ -91,27 +91,41 @@ GameEngine.prototype.buildOnCanvas = function(x, y) {
     if (selectedButton.length > 0) {
         selection = selectedButton.attr('title');
     }
+    let offsetX = 0;
+    let offsetY = 0;
+    let entity = null;
+
     switch (selection){
         case "Housing": 
             console.log("itahouse");
+            entity = new Housing(
+                this,
+                ASSET_MANAGER.getAsset("./img/HousingAlone.png"),
+                x,
+                y,
+            );
+            offsetX = entity.animation.frameWidth / 2
+            offsetY = entity.animation.frameHeight / 2
+            entity.x = x - offsetX;
+            entity.y = y - offsetY;
             this.addEntity(
-                new taxMan(
-                    this,
-                    ASSET_MANAGER.getAsset("./img/TaxCollector.png"), 
-                    x,
-                    y
-                )
+                entity
             );
             break;
         case "Food and Farm":
             console.log("itfuud");
+            entity = new Barley(
+                this,
+                ASSET_MANAGER.getAsset("./img/FarmPlots.png"),
+                x,
+                y,
+            );
+            offsetX = entity.animation.frameWidth / 2
+            offsetY = entity.animation.frameHeight / 2
+            entity.x = x - offsetX;
+            entity.y = y - offsetY;
             this.addEntity(
-                new taxMan(
-                    this,
-                    ASSET_MANAGER.getAsset("./img/TaxCollector.png"), 
-                    x,
-                    y
-                )
+                entity
             );
             break;
         default : 
