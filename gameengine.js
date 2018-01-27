@@ -60,14 +60,78 @@ GameEngine.prototype.start = function () {
 GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
+    this.ctx.canvas.addEventListener("click", function(event) {
+        that.buildOnCanvas(event.clientX, event.clientY);
+        console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY);
+    });
+    //hotkey 
+    this.ctx.canvas.addEventListener("keypress", function(event) {
+        if (event.code === "KeyH") {
+            setButton("Housing");
+        } else if (event.code === "KeyF") {
+            setButton("Food and Farm");
+        }
+        console.log("the following key was pressed: " + event.code);
 
-    this.ctx.canvas.addEventListener("keydown", function (e) {
-        if (String.fromCharCode(e.which) === ' ') that.space = true;
-//        console.log(e);
-        e.preventDefault();
-    }, false);
-
+    });
+    
     console.log('Input started');
+}
+
+function setButton(newSelection) {
+    $('.pharoh-button').removeClass('selected');
+    $('.pharoh-button[title="' + newSelection + '"]').addClass('selected');
+}
+
+GameEngine.prototype.buildOnCanvas = function(x, y) {
+    let selection = "";
+    //Will return nothing if no buttons are selected
+    let selectedButton = $('.pharoh-button.selected');
+    //this is check, so we don't call .attr on null
+    if (selectedButton.length > 0) {
+        selection = selectedButton.attr('title');
+    }
+    let offsetX = 0;
+    let offsetY = 0;
+    let entity = null;
+
+    switch (selection){
+        case "Housing": 
+            console.log("itahouse");
+            entity = new Housing(
+                this,
+                ASSET_MANAGER.getAsset("./img/HousingAlone.png"),
+                x,
+                y,
+            );
+            offsetX = entity.animation.frameWidth / 2
+            offsetY = entity.animation.frameHeight / 2
+            entity.x = x - offsetX;
+            entity.y = y - offsetY;
+            this.addEntity(
+                entity
+            );
+            break;
+        case "Food and Farm":
+            console.log("itfuud");
+            entity = new Barley(
+                this,
+                ASSET_MANAGER.getAsset("./img/FarmPlots.png"),
+                x,
+                y,
+            );
+            offsetX = entity.animation.frameWidth / 2
+            offsetY = entity.animation.frameHeight / 2
+            entity.x = x - offsetX;
+            entity.y = y - offsetY;
+            this.addEntity(
+                entity
+            );
+            break;
+        default : 
+            console.log('nuthin2seahear')
+            break
+    }  
 }
 
 GameEngine.prototype.addEntity = function (entity) {
