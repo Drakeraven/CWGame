@@ -144,8 +144,12 @@ Housing.prototype.draw = function (ctx) {
 }
 
 function HuntingLodge(game, img) {
+    this.x = 0;
+    this.y = 0;
     this.animation = new Animation(img, 0, 1, 118, 111, 9, 0.15, 18, true);
-    Entity.call(this, game, 300, 110);
+    this.dimensionX = 2;
+    this.dimensionY = 2;
+    Entity.call(this, game, this.x,this.y);
 
 }
 
@@ -268,10 +272,3 @@ Barley.prototype.draw = function (ctx) {
     this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
     Entity.prototype.draw.call(this);
 }
-
-
-
-
-
-
-

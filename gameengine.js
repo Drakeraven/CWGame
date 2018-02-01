@@ -30,6 +30,7 @@ Timer.prototype.tick = function () {
 
 function GameEngine() {
     this.entities = [];
+    this.map;
     this.showOutlines = false;
     this.ctx = null;
     this.click = null;
@@ -64,7 +65,7 @@ GameEngine.prototype.startInput = function () {
         that.buildOnCanvas(event.clientX, event.clientY);
         console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY);
     });
-    //hotkey 
+    //hotkey
     this.ctx.canvas.addEventListener("keypress", function(event) {
         if (event.code === "KeyH") {
             setButton("Housing");
@@ -74,7 +75,7 @@ GameEngine.prototype.startInput = function () {
         console.log("the following key was pressed: " + event.code);
 
     });
-    
+
     console.log('Input started');
 }
 
@@ -96,7 +97,7 @@ GameEngine.prototype.buildOnCanvas = function(x, y) {
     let entity = null;
 
     switch (selection){
-        case "Housing": 
+        case "Housing":
             console.log("itahouse");
             entity = new Housing(
                 this,
@@ -128,10 +129,10 @@ GameEngine.prototype.buildOnCanvas = function(x, y) {
                 entity
             );
             break;
-        default : 
+        default :
             console.log('nuthin2seahear')
             break
-    }  
+    }
 }
 
 GameEngine.prototype.addEntity = function (entity) {
@@ -142,6 +143,11 @@ GameEngine.prototype.addEntity = function (entity) {
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
+    for(var i = 0; i < this.map.mapList.length; i++) {
+      for(var j = 0; j < this.map.mapList[1].length; j++) {
+        this.map.mapList[i][j].draw(this.ctx);
+      }
+    }
     for (var i = 0; i < this.entities.length; i++) {
         this.entities[i].draw(this.ctx);
     }
