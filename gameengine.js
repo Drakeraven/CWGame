@@ -143,6 +143,11 @@ GameEngine.prototype.addEntity = function (entity) {
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
+    for(var i = 0; i < this.map.mapList.length; i++) {
+      for(var j = 0; j < this.map.mapList[1].length; j++) {
+        this.map.mapList[i][j].draw(this.ctx);
+      }
+    }
     for (var i = 0; i < this.entities.length; i++) {
         this.entities[i].draw(this.ctx);
     }

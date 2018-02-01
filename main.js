@@ -55,23 +55,6 @@ Animation.prototype.isDone = function () {
     return (this.elapsedTime >= this.totalTime);
 }
 
-function Background(game) {
-    Entity.call(this, game, 0, 400);
-    this.radius = 200;
-}
-
-Background.prototype = new Entity();
-Background.prototype.constructor = Background;
-
-Background.prototype.update = function () {
-}
-
-Background.prototype.draw = function (ctx) {
-    ctx.fillStyle = "SaddleBrown";
-    ctx.fillRect(0,500,800,300);
-    Entity.prototype.draw.call(this);
-}
-
 // tiling going down
 function Tile(game, tileType, x, y) {
   //this.animation = new Animation(ASSET_MANAGER.getAsset("./img/grass.png"), 0, 0, 58, 30, 1, .15, 1, true);
@@ -79,6 +62,7 @@ function Tile(game, tileType, x, y) {
   if(tileType === 0) {
     this.gfxString = "./img/grass.png";
   }
+  this.thing;
   this.image = new Image();
   this.image.src = this.gfxString;
   this.game = game;
@@ -91,7 +75,6 @@ Tile.prototype = new Entity();
 Tile.prototype.constructor = Tile;
 
 Tile.prototype.addThing = function(thing) {
-  if(this.thing === undefined) {
     this.thing = thing;
     thing.x = this.x;
     thing.y = this.y;
@@ -99,44 +82,44 @@ Tile.prototype.addThing = function(thing) {
     arrY = Math.floor(isototwodY(this.x, this.y))
     this.origin = 1;
     this.game.addEntity(thing);
-  }
 
 }
 
 Tile.prototype.draw = function(ctx) {
     //this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-    Entity.prototype.draw.call(this);
-        ctx.drawImage(this.image, this.x, this.y);
-
+          //Entity.prototype.draw.call(this);
+      //this.thing.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+      //Entity.prototype.draw.call(this);
+      ctx.drawImage(this.image, this.x, this.y)
 }
 
 function Map(gameEngine) {
     this.game = gameEngine;
-    this.mapList = new Array(100);
+    this.mapList = new Array(30);
     // Note: easier and cleaner way to get this: var array1 = Array(100).fill(Array(100).fill(0));
     this.mapArray = Array(30).fill(Array(30).fill(0));
 }
-
-Map.prototype = new Entity();
 Map.prototype.constructor = Map;
 
 Map.prototype.readMap = function(mapData) {
 
     for(i = 0; i < mapData.length; i++) {
+                this.mapList[i] = new Array(30);
         for(j = 0; j < mapData[i].length; j++) {
 
-          this.mapList[i] = new Array(100);
+
             x = j;
             y = i;
             tileType = mapData[i][j];
             //console.log(twodtoisoX(x, y) + ' '+ twodtoisoY(x, y));
             var tile = new Tile(this.game, tileType, twodtoisoX(x,y), twodtoisoY(x,y) );
+            //this.game.addEntity(tile);
             this.mapList[i][j] = tile;
-            this.game.addEntity(this.mapList[i][j]);
-            if(x % 2 === 0 && y % 2 === 0) {
+            if(x % 2 == 0 && y % 2 == 0) {
               var copstore = new CopStore(this.game, ASSET_MANAGER.getAsset("./img/COPS-1.png"));
               this.mapList[i][j].addThing(copstore);
             }
+
 
         }
     }
@@ -184,9 +167,7 @@ ASSET_MANAGER.downloadAll(function () {
     var ctx = canvas.getContext('2d');
 
     var gameEngine = new GameEngine();
-    var bg = new Background(gameEngine);
-    var map =  new Map(gameEngine);
-    gameEngine.map = map;
+    gameEngine.map =  new Map(gameEngine);
 //    var weaver = new Weaver(gameEngine, ASSET_MANAGER.getAsset("./img/Weaver.png"));
 //    var archbuild = new ArchBuild(gameEngine, ASSET_MANAGER.getAsset("./img/ArchBuild-1.png"));
 //    var bazaar = new Bazaar(gameEngine, ASSET_MANAGER.getAsset("./img/Bazaar.png"));
@@ -214,7 +195,10 @@ ASSET_MANAGER.downloadAll(function () {
 //    var pcm = new pCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/potsCartMan.png"), 340, 750);
 //    var wm = new watahMan(gameEngine, ASSET_MANAGER.getAsset("./img/WatahMan.png"), 390, 750);
     //TODO: add in entities and vars for fixed walkers
-    map.readMap(map.mapArray);
+
+
+
+
     //gameEngine.addEntity(ecm);
     //gameEngine.addEntity(barcm);
     //gameEngine.addEntity(becm);
@@ -243,7 +227,7 @@ ASSET_MANAGER.downloadAll(function () {
     //gameEngine.addEntity(palace);
     //gameEngine.addEntity(barley);
 
-    console.log(twodtoisoX(0, 0) + ' '+ twodtoisoY(0, 0));
     gameEngine.init(ctx);
+    gameEngine.map.readMap(gameEngine.map.mapArray);
     gameEngine.start();
 });
