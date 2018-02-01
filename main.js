@@ -13,16 +13,16 @@ function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, sheetWi
 }
 
 function twodtoisoX(x,y) {
-  return ((x - y) * 29);
+  return ((((x - y) + 10) * 29) );
 }
 function twodtoisoY(x,y) {
-  return  ((x + y) * 15);
+  return  (((x + y) + 10) * 15);
 }
 function isototwodX(x,y) {
   return ((x + y ) /29) ;
 }
 function isototwodY(x,y) {
-  return ((x - y ) /15) ;
+  return (((x - y ) /15)) ;
 }
 
 Animation.prototype.drawFrame = function (tick, ctx, x, y) {
@@ -95,21 +95,19 @@ Tile.prototype.addThing = function(thing) {
     this.thing = thing;
     thing.x = this.x;
     thing.y = this.y;
-    this.game.addEntity(thing);
     arrX = Math.floor(isototwodX(this.x, this.y));
     arrY = Math.floor(isototwodY(this.x, this.y))
-    for(x = arrX + 1; x < arrX + thing.dimensionX; x++) {
-        this.game.map.mapArray[x]
-    }
+    this.origin = 1;
+    this.game.addEntity(thing);
   }
-
 
 }
 
 Tile.prototype.draw = function(ctx) {
     //this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
     Entity.prototype.draw.call(this);
-    ctx.drawImage(this.image, this.x, this.y);
+        ctx.drawImage(this.image, this.x, this.y);
+
 }
 
 function Map(gameEngine) {
@@ -126,7 +124,7 @@ Map.prototype.readMap = function(mapData) {
 
     for(i = 0; i < mapData.length; i++) {
         for(j = 0; j < mapData[i].length; j++) {
-          var huntinglodge = new HuntingLodge(this.game, ASSET_MANAGER.getAsset("./img/HuntingLodge.png"));
+
           this.mapList[i] = new Array(100);
             x = j;
             y = i;
@@ -135,10 +133,13 @@ Map.prototype.readMap = function(mapData) {
             var tile = new Tile(this.game, tileType, twodtoisoX(x,y), twodtoisoY(x,y) );
             this.mapList[i][j] = tile;
             this.game.addEntity(this.mapList[i][j]);
-            tile.addThing(huntinglodge);
+            if(x % 2 === 0 && y % 2 === 0) {
+              var copstore = new CopStore(this.game, ASSET_MANAGER.getAsset("./img/COPS-1.png"));
+              this.mapList[i][j].addThing(copstore);
+            }
+
         }
     }
-
 }
 
 
