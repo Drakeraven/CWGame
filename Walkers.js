@@ -14,6 +14,22 @@ Walker4.prototype = new Entity();
 Walker4.prototype.constructor = Walker4;
 
 Walker4.prototype.update = function () {
+        /*For mindless walkers:
+        if a walker can continue forward, do so
+        if he can't continue forward, randomly pick to go left or right
+        if he can't go left OR right, double back on himself
+        Calculate new facing direction animation
+        move piece forward
+    */
+
+    /*For Destination Walkers:
+        Have a data structure of your viable destination buildings
+        check if you meet requirements to embark for each building
+        calculate shortest path with level data
+        walk path to destination
+        depending on goal, update your animation (eg. cart boi taking what)
+        Calculate shortest path to return
+        return, update data as needed.*/
     if (this.y < 470 || this.ping) {
         this.ping = true;
         this.x -= this.game.clockTick * speed;
