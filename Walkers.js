@@ -3,6 +3,8 @@ var speed = 50;
 var aSpeed = .05;
 
 function Walker4(game, img, lX, lY) {
+    this.dX = Math.random(0, 5);
+    this.dY = Math.random(0, 5);
     this.sY = lY;
     this.animation = null;
     this.img = img;
@@ -22,6 +24,16 @@ Walker4.prototype.update = function () {
         move piece forward
     */
 
+    inPlaceX = getTileCoordsX(this.x, this.y);
+    inPlaceY = getTileCoordsY(this.x, this.y);
+
+    //surround = getNeighbors(inPlaceX, inPlaceY, this.game);
+
+
+
+    //this.x += dX * speed;
+    //this.y += dY * speed;
+
     /*For Destination Walkers:
         Have a data structure of your viable destination buildings
         check if you meet requirements to embark for each building
@@ -30,22 +42,22 @@ Walker4.prototype.update = function () {
         depending on goal, update your animation (eg. cart boi taking what)
         Calculate shortest path to return
         return, update data as needed.*/
-    if (this.y < 470 || this.ping) {
-        this.ping = true;
-        this.x -= this.game.clockTick * speed;
-        this.y += this.game.clockTick * speed;
-        this.animation.startY = 3 * this.animation.frameHeight;
-    }
-    if (this.x < 0 || this.y === 0) {
-        this.ping = false;
-        this.animation.startY = 0 * this.animation.frameHeight;
+    //if (this.y < 470 || this.ping) {
+    //    this.ping = true;
+    //    this.x -= this.game.clockTick * speed;
+    //    this.y += this.game.clockTick * speed;
+    //    this.animation.startY = 3 * this.animation.frameHeight;
+    //}
+    //if (this.x < 0 || this.y === 0) {
+    //    this.ping = false;
+    //    this.animation.startY = 0 * this.animation.frameHeight;
 
-    }
-    if (!this.ping) {
-        this.x += this.game.clockTick * speed;
-        this.y -= this.game.clockTick * speed;
+    //}
+    //if (!this.ping) {
+    //    this.x += this.game.clockTick * speed;
+    //    this.y -= this.game.clockTick * speed;
 
-    }
+    //}
     Entity.prototype.update.call(this);
 }
 
