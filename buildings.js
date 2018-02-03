@@ -67,7 +67,7 @@ CopStore.prototype.update = function () {
 }
 
 CopStore.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+    this.animation.drawFrame(this.game.clockTick, ctx, twodtoisoX(this.x, this.y), twodtoisoY(this.x, this.y));
     Entity.prototype.draw.call(this);
 }
 
@@ -144,12 +144,8 @@ Housing.prototype.draw = function (ctx) {
 }
 
 function HuntingLodge(game, img) {
-    this.x = 0;
-    this.y = 0;
     this.animation = new Animation(img, 0, 1, 118, 111, 9, 0.15, 18, true);
-    this.dimensionX = 2;
-    this.dimensionY = 2;
-    Entity.call(this, game, this.x,this.y);
+    Entity.call(this, game, 300, 110);
 
 }
 

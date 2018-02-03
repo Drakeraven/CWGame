@@ -13,16 +13,16 @@ function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, sheetWi
 }
 
 function twodtoisoX(x,y) {
-  return ((((x - y) + 10) * 29) );
+  return ((((x - y))) * 29 );
 }
 function twodtoisoY(x,y) {
-  return  (((x + y) + 10) * 15);
+  return  (((x + y)) * 15);
 }
 function isototwodX(x,y) {
-  return ((x + y ) /29) ;
+  return ((x + y ) / 29) ;
 }
 function isototwodY(x,y) {
-  return (((x - y ) /15)) ;
+  return (((x - y )) / 15) ;
 }
 
 Animation.prototype.drawFrame = function (tick, ctx, x, y) {
@@ -90,7 +90,7 @@ Tile.prototype.draw = function(ctx) {
           //Entity.prototype.draw.call(this);
       //this.thing.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
       //Entity.prototype.draw.call(this);
-      ctx.drawImage(this.image, this.x, this.y)
+      ctx.drawImage(this.image, twodtoisoX(this.x, this.y), twodtoisoY(this.x, this.y));
 }
 
 function Map(gameEngine) {
@@ -106,16 +106,14 @@ Map.prototype.readMap = function(mapData) {
     for(i = 0; i < mapData.length; i++) {
                 this.mapList[i] = new Array(30);
         for(j = 0; j < mapData[i].length; j++) {
-
-
             x = j;
             y = i;
             tileType = mapData[i][j];
             //console.log(twodtoisoX(x, y) + ' '+ twodtoisoY(x, y));
-            var tile = new Tile(this.game, tileType, twodtoisoX(x,y), twodtoisoY(x,y) );
+            var tile = new Tile(this.game, tileType, x, y );
             //this.game.addEntity(tile);
             this.mapList[i][j] = tile;
-            if(x % 2 == 0 && y % 2 == 0) {
+            if(y % 2 == 0) {
               var copstore = new CopStore(this.game, ASSET_MANAGER.getAsset("./img/COPS-1.png"));
               this.mapList[i][j].addThing(copstore);
             }
