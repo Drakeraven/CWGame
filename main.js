@@ -42,40 +42,31 @@ Animation.prototype.isDone = function () {
     return (this.elapsedTime >= this.totalTime);
 }
 
-function twodtoisoX(x,y) {
-  return ((((x - y) + 10) * 29) );
+function twodtoisoX(x, y) {
+    return ((((x - y))+ 15) * 29);
 }
-function twodtoisoY(x,y) {
-  return  (((x + y) + 10) * 15);
+function twodtoisoY(x, y) {
+    return (((x + y)) * 15);
 }
-function isototwodX(x,y) {
-  return ((x + y ) /29) ;
+function isototwodX(x, y) {
+    return ((x + y) / 29);
 }
-function isototwodY(x,y) {
-  return (((x - y ) /15)) ;
-}
-
-//TODO: be adjusted for camera, compacted into point objects 58 x 30 
-function getTileCoordsX(x, y) {
+function isototwodY(x, y) {
+    return (((x - y)) / 15);
 }
 
-function getTileCoordsY(x, y) {
 
+function getTileInfo(x, y, game) {
+    return game.map.mapList[x][y];  
 }
 
-function getTileInfo(x, y) {
-    return GameEngine.map.mapList[x][y];
-    
-}
 
-//Idk if you can even assign like this 
 function getNeighbors(x, y, game) {
     neighbors = [];
-    neighbors["above"] = game.map.mapList[x][y + 1];
-    neighbors["below"] = game.map.mapList[x][y - 1];
-    neighbors["left"] = game.map.mapList[x - 1][y];
-    neighbors["right"] = game.map.mapList[x + 1][y];
-    console.log(neighbors);
+    neighbors["above"] = game.map.mapList[x - 1][y];
+    neighbors["below"] = game.map.mapList[x + 1][y];
+    neighbors["left"] = game.map.mapList[x][y - 1];
+    neighbors["right"] = game.map.mapList[x][y + 1];
     return neighbors;
 }
 
@@ -116,7 +107,7 @@ Tile.prototype.draw = function(ctx) {
           //Entity.prototype.draw.call(this);
       //this.thing.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
       //Entity.prototype.draw.call(this);
-      ctx.drawImage(this.image, this.x, this.y)
+      ctx.drawImage(this.image, twodtoisoX(this.x, this.y), twodtoisoY(this.x, this.y));
 }
 
 function Map(gameEngine) {
@@ -131,15 +122,14 @@ Map.prototype.readMap = function(mapData) {
 
     for (i = 0; i < mapData.length; i++) {
         this.mapList[i] = new Array(mapData.length);
-        for(j = 0; j < mapData[i].length; j++) {
-
+        for (j = 0; j < mapData[i].length; j++) {
 
             x = j;
             y = i;
             tileType = mapData[i][j];
             //console.log(mapData[i][j]);
             //console.log(twodtoisoX(x, y) + ' '+ twodtoisoY(x, y));
-            var tile = new Tile(this.game, tileType, twodtoisoX(x,y), twodtoisoY(x,y) );
+            var tile = new Tile(this.game, tileType, x, y);
             //this.game.addEntity(tile);
             this.mapList[i][j] = tile;
             //if (x % 2 == 0 && y % 2 == 0) {
@@ -200,9 +190,10 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.map =  new Map(gameEngine);
     gameEngine.init(ctx);
     gameEngine.map.readMap(new mapData().testMap);
-    gameEngine.map.mapList[10][10].image.src = " ";
+    gameEngine.map.mapList[16][6].image.src = " ";
+    console.log(gameEngine.map.mapList[6][19]);
 
-    var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), 400, 400);
+    var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), 6, 16);
     gameEngine.addEntity(ecm);
     //easyStar.setGrid(gameEngine.map.mapList); // maybe mapData instead? 
     //TODO: set acceptable tiles???
