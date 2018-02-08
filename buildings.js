@@ -55,7 +55,7 @@ Bazaar.prototype.draw = function (ctx) {
 
 function CopStore(game, img) {
     this.animation = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
-    Entity.call(this, game, 400, 0);
+    Entity.call(this, game, 0, 0);
 
 }
 
@@ -67,7 +67,7 @@ CopStore.prototype.update = function () {
 }
 
 CopStore.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, twodtoisoX(this.x, this.y), twodtoisoY(this.x, this.y));
+    this.animation.drawFrame(this.game.clockTick, ctx, this.game.twodtoisoX(this.x, this.y), this.game.twodtoisoY(this.x, this.y) -74);
     Entity.prototype.draw.call(this);
 }
 

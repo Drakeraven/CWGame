@@ -12,6 +12,7 @@ window.requestAnimFrame = (function () {
 })();
 
 
+
 function Timer() {
     this.gameTime = 0;
     this.maxStep = 0.05;
@@ -40,13 +41,16 @@ function GameEngine() {
     this.surfaceHeight = null;
 }
 
+
+
 GameEngine.prototype.init = function (ctx) {
     this.ctx = ctx;
     this.surfaceWidth = this.ctx.canvas.width;
     this.surfaceHeight = this.ctx.canvas.height;
     this.startInput();
     this.timer = new Timer();
-
+    this.cameraoffX = 0;
+    this.cameraoffY = 0;
     console.log('game initialized');
 }
 
@@ -58,13 +62,24 @@ GameEngine.prototype.start = function () {
         requestAnimFrame(gameLoop, that.ctx.canvas);
     })();
 }
-
+GameEngine.prototype.twodtoisoX = function (x,y) {
+  return (((x - y) + this.cameraoffX) * 29 );
+}
+GameEngine.prototype.twodtoisoY = function (x,y) {
+  return (((x + y)-this.cameraoffY)) * 15 ;
+}
+GameEngine.prototype.isototwodX = function (x,y) {
+  return ((x / 29 + y / 29 ) ) - 8;
+}
+GameEngine.prototype.isototwodY = function (x,y) {
+  return (((x /15 -y /15 )) );
+}
 GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
     this.ctx.canvas.addEventListener("click", function(event) {
         that.buildOnCanvas(event.clientX, event.clientY);
-        console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY);
+        console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY + '(board coord at )' + that.isototwodX(event.clientX, event.clientY) + ' ' + that.isototwodY(event.clientX, event.clientY));
     });
     //hotkey
     this.ctx.canvas.addEventListener("keypress", function(event) {
@@ -72,6 +87,14 @@ GameEngine.prototype.startInput = function () {
             setButton("Housing");
         } else if (event.code === "KeyF") {
             setButton("Food and Farm");
+        } else if (event.code === "ArrowRight") {
+            that.cameraoffX += 1;
+        }else if (event.code === "ArrowLeft") {
+            that.cameraoffX -= 1;
+        }else if (event.code === "ArrowUp") {
+            that.cameraoffY += 1;
+        }else if (event.code === "ArrowDown") {
+            that.cameraoffY -= 1;
         }
         console.log("the following key was pressed: " + event.code);
 
