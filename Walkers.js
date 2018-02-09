@@ -226,36 +226,33 @@ function pCartMan(game, img, Ai, lX, lY) {
 pCartMan.prototype = new Walker4();
 pCartMan.prototype.constructor = pCartMan;
 
-//End 4Walkers
 
-//function Walker8(game, imgNE, imgNW, imgSE, imgSW, imgD, imgN, imgS, imgE, imgW, lX, lY) {
-//    Walker4.call(game, imgNE, imgNW, imgSE, imSW, imgD, lX, lY);
-//    this.animationN = imgN;
-//    this.animationS = imgS;
-//    this.animationE = imgE;
-//    this.animationW = imgW;
-//}
+function Walker8(game, img, Ai, lX, lY);
+    this.animation["N"] = null;
+    this.animationS["S"] = null;
+    this.animationE["E"] = null;
+    this.animationW["W"] = null;
+}
 
-//Walker8.prototype = new Walker4();
-//Walker8.prototype.constructor = Walker8;
+Walker8.prototype = new Walker4();
+Walker8.prototype.constructor = Walker8;
 
-//Walker8.prototype.update = function () {
-//    //TODO Generalized Updating
-//    Walker4.prototype.update.call(this);
-//}
+Walker8.prototype.update = function  {
+    //TODO Generalized Updating
+    Walker4.prototype.update.call(this);
+}
 
-//Walker8.prototype.draw = function () {
-//    //TODO Generalized Drawing
-//    Walker4.prototype.draw.call(this);
-//}
+Walker8.prototype.draw = function () {
+    Walker4.prototype.draw.call(this);
+}
 
-// function farmer(game, img, Ai, lX, lY) {
-//  Walker4.call(this, game, img, Ai, lX, lY);
-//     this.animation = new Animation(img, 0, 4, 43, 45, 12, aSpeed, 12, true);
-// }
-// 
-// farmer.prototype = new Walker4();
-// farmer.prototype.constructor = farmer;
+ function farmer(game, img, Ai, lX, lY) {
+  Walker4.call(this, game, img, Ai, lX, lY);
+     this.animation = new Animation(img, 0, 4, 43, 45, 12, aSpeed, 12, true);
+ }
+ 
+ farmer.prototype = new Walker4();
+ farmer.prototype.constructor = farmer;
 // 
 // function fireMan(game, img, Ai, lX, lY) {
 //  Walker4.call(this, game, img, Ai, lX, lY);
