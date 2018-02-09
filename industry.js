@@ -26,9 +26,11 @@ industry.prototype.update = function () {
     //if you detect a walker arrived with resources, up your resources
     //if you detect a lady came by to buy your shit, sell your shit.
     //Roll chance for destruction :))
+    Entity.prototype.update.call(this);
 
 }
 
-industry.prototype.draw = function () {
+industry.prototype.draw = function (ctx) {
     //simple draw? just gotta draw open/close, or nothing if it blew up.
+    Entity.prototype.update.draw.call(this);
 }

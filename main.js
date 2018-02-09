@@ -142,6 +142,20 @@ Map.prototype.readMap = function(mapData) {
     }
 }
 
+//need an instance at start. we can adjust values as needed.
+function gameWorld() {
+    this.prosperity = 0;
+    this.population = 0;
+    this.taxRev = .10;
+    this.funds = 0;
+    this.goals = [];
+}
+
+gameWorld.prototype.calcProsperity = function () {
+    /*However we wanna calculate prosperity here??*/
+
+}
+
 
 // the "main" code begins here
 
@@ -194,15 +208,15 @@ ASSET_MANAGER.downloadAll(function () {
     easyStar.setAcceptableTiles([1]); //Test, expand as needed.
     easyStar.disableCornerCutting();
 
-    ecm2 = new beCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/beerCartMan.png"), easyStar, 0, 1);
+    ecm2 = new beCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/beerCartMan.png"), new EasyStar.js(), 0, 1);
     ecm2.destX = 6;
     ecm2.destY = 19;
     gameEngine.addEntity(ecm2);
-    var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), easyStar, 9, 9);
+    var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), new EasyStar.js(), 9, 9);
     ecm.destX = 6;
     ecm.destY = 18;
     gameEngine.addEntity(ecm);
-    ecm1 = new barCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/barleyCartMan.png"), easyStar, 4, 1);
+    ecm1 = new barCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/barleyCartMan.png"), new EasyStar.js(), 4, 1);
     ecm1.destX = 6;
     ecm1.destY = 17;
     gameEngine.addEntity(ecm1);

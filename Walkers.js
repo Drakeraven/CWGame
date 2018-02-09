@@ -8,7 +8,18 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
+function copy(o) {
+    var output, v, key;
+    output = Array.isArray(o) ? [] : {};
+    for (key in o) {
+        v = o[key];
+        output[key] = (typeof v === "object") ? copy(v) : v;
+    }
+    return output;
+}
+
 function Walker4(game, img, Ai, lX, lY) {
+    Entity.call(this, game, lX, lY);
     this.easyStar = Ai;
     this.dX = 0;
     this.dY = -1;
@@ -27,10 +38,9 @@ function Walker4(game, img, Ai, lX, lY) {
     this.path = [];
     this.next = null;
     this.loadCount = 0;
-    Entity.call(this, game, lX, lY);
 }
 
-Walker4.prototype = new Entity();
+Walker4.prototype = Object.create(Entity.prototype);
 Walker4.prototype.constructor = Walker4;
 
 Walker4.prototype.update = function () {
@@ -43,7 +53,7 @@ Walker4.prototype.update = function () {
         Calculate shortest path to return
         return, update data as needed.*/
 
-    if (this.isFindingPath) return;
+    //if (this.isFindingPath) return;
     if (this.isWalking) this.walkPath();
 
     if (this.destX != null && this.destY != null) {
@@ -54,20 +64,22 @@ Walker4.prototype.update = function () {
                 console.log("No path :(");
             } else {
                 console.log("Path! The first Point is " + path[0].x + " " + path[0].y);
-                that.path = path;
+                that.path = copy(path);
                 that.next = that.path.shift();
-                that.isWalking = true;
+                
             }
         });
         this.destX = null;
         this.destY = null;
-        this.isFindingPath = false;
+        this.isWalking = true;
+        //this.isFindingPath = false;
         easyStar.calculate();
     }
     Entity.prototype.update.call(this);
 }
 
 Walker4.prototype.walkPath = function () {
+    console.log(this.next);
     if (this.path.length == 0) {
         if (Math.floor(this.x) == this.next.x && Math.floor(this.y) == this.next.y) {
             this.dX = 0;
@@ -114,7 +126,7 @@ function eCartMan(game, img, Ai, lX, lY) {
     this.currAnimation = this.animation["NE"];
 }
 
-eCartMan.prototype = new Walker4();
+eCartMan.prototype = Object.create(Walker4.prototype);
 eCartMan.prototype.constructor = eCartMan;
 
 function barCartMan(game, img, Ai, lX, lY) {
@@ -127,7 +139,7 @@ function barCartMan(game, img, Ai, lX, lY) {
 
 }
 
-barCartMan.prototype = new Walker4();
+barCartMan.prototype = Object.create(Walker4.prototype);
 barCartMan.prototype.constructor = barCartMan;
 
 function beCartMan(game, img, Ai, lX, lY) {
@@ -139,7 +151,7 @@ function beCartMan(game, img, Ai, lX, lY) {
     this.currAnimation = this.animation["NE"];
 }
 
-beCartMan.prototype = new Walker4();
+beCartMan.prototype = Object.create(Walker4.prototype);
 beCartMan.prototype.constructor = beCartMan;
 
 function cCartMan(game, img, Ai, lX, lY) {
@@ -227,7 +239,7 @@ pCartMan.prototype = new Walker4();
 pCartMan.prototype.constructor = pCartMan;
 
 
-function Walker8(game, img, Ai, lX, lY);
+function Walker8(game, img, Ai, lX, lY) {
     this.animation["N"] = null;
     this.animationS["S"] = null;
     this.animationE["E"] = null;
@@ -237,7 +249,7 @@ function Walker8(game, img, Ai, lX, lY);
 Walker8.prototype = new Walker4();
 Walker8.prototype.constructor = Walker8;
 
-Walker8.prototype.update = function  {
+Walker8.prototype.update = function ()  {
     //TODO Generalized Updating
     Walker4.prototype.update.call(this);
 }
