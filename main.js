@@ -187,17 +187,26 @@ ASSET_MANAGER.downloadAll(function () {
     var ctx = canvas.getContext('2d');
 
     var gameEngine = new GameEngine();
-    gameEngine.map =  new Map(gameEngine);
+    gameEngine.map = new Map(gameEngine);
     gameEngine.init(ctx);
     gameEngine.map.readMap(new mapData().testMap);
-    gameEngine.map.mapList[16][6].image.src = " ";
-    console.log(gameEngine.map.mapList[6][19]);
+    easyStar.setGrid(new mapData().testMap);
+    easyStar.setAcceptableTiles([1]); //Test, expand as needed.
+    easyStar.disableCornerCutting();
 
-    var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), 6, 16);
+    ecm2 = new beCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/beerCartMan.png"), easyStar, 0, 1);
+    ecm2.destX = 6;
+    ecm2.destY = 19;
+    gameEngine.addEntity(ecm2);
+    var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), easyStar, 9, 9);
+    ecm.destX = 6;
+    ecm.destY = 18;
     gameEngine.addEntity(ecm);
-    //easyStar.setGrid(gameEngine.map.mapList); // maybe mapData instead? 
-    //TODO: set acceptable tiles???
-    //easyStar.disableCornerCutting();
+    ecm1 = new barCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/barleyCartMan.png"), easyStar, 4, 1);
+    ecm1.destX = 6;
+    ecm1.destY = 17;
+    gameEngine.addEntity(ecm1);
+
 
     gameEngine.start();
 });
