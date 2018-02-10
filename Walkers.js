@@ -52,10 +52,9 @@ Walker4.prototype.update = function () {
         depending on goal, update your animation (eg. cart boi taking what)
         Calculate shortest path to return
         return, update data as needed.*/
-
-    //if (this.isFindingPath) return;
+ 
+    if (this.isFindingPath) return;
     if (this.isWalking) this.walkPath();
-
     if (this.destX != null && this.destY != null) {
         this.isFindingPath = true;
         that = this;
@@ -71,8 +70,8 @@ Walker4.prototype.update = function () {
         });
         this.destX = null;
         this.destY = null;
-        this.isWalking = true;
-        //this.isFindingPath = false;
+        //this.isWalking = true;
+        this.isFindingPath = false;
         easyStar.calculate();
     }
     Entity.prototype.update.call(this);

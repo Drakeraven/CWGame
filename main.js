@@ -219,6 +219,7 @@ ASSET_MANAGER.downloadAll(function () {
     ecm1 = new barCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/barleyCartMan.png"), new EasyStar.js(), 4, 1);
     ecm1.destX = 6;
     ecm1.destY = 17;
+    
     gameEngine.addEntity(ecm1);
 
 
