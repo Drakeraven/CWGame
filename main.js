@@ -209,7 +209,7 @@ ASSET_MANAGER.downloadAll(function () {
     //easyStar.setGrid(new mapData().testMap);
     //easyStar.setAcceptableTiles([1]); //Test, expand as needed.
     //easyStar.disableCornerCutting();
-    var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, gameEngine.timer, 9, 9, 2, 2);
+    var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, 5, 8, 2, 2);
     gameEngine.addEntity(weaver);
     //var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), walkerMap, 9, 9);
     //ecm.destX = 6;
