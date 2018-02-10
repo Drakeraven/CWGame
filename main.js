@@ -193,7 +193,7 @@ ASSET_MANAGER.queueDownload("./img/palace.png");
 ASSET_MANAGER.queueDownload("./img/FarmPlots.png");
 //TODO: add in imgs for fixed walkers
 
-var easyStar = new EasyStar.js();
+//var easyStar = new EasyStar.js();
 
 ASSET_MANAGER.downloadAll(function () {
     console.log("starting up da sheild");
@@ -204,24 +204,21 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.map = new Map(gameEngine);
     gameEngine.init(ctx);
     gameEngine.map.readMap(new mapData().testMap);
-    easyStar.setGrid(new mapData().testMap);
-    easyStar.setAcceptableTiles([1]); //Test, expand as needed.
-    easyStar.disableCornerCutting();
+    var walkerMap = new mapData().testMap
 
-    ecm2 = new beCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/beerCartMan.png"), new EasyStar.js(), 0, 1);
-    ecm2.destX = 6;
-    ecm2.destY = 19;
-    gameEngine.addEntity(ecm2);
-    var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), new EasyStar.js(), 9, 9);
-    ecm.destX = 6;
-    ecm.destY = 18;
-    gameEngine.addEntity(ecm);
-    ecm1 = new barCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/barleyCartMan.png"), new EasyStar.js(), 4, 1);
-    ecm1.destX = 6;
-    ecm1.destY = 17;
-    
-    gameEngine.addEntity(ecm1);
+    //easyStar.setGrid(new mapData().testMap);
+    //easyStar.setAcceptableTiles([1]); //Test, expand as needed.
+    //easyStar.disableCornerCutting();
+    var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, gameEngine.timer, 9, 9, 2, 2);
+    gameEngine.addEntity(weaver);
+    //var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), walkerMap, 9, 9);
+    //ecm.destX = 6;
+    //ecm.destY = 18;
+    //ecm.ID = '2';
+    //gameEngine.addEntity(ecm);
+
 
 
     gameEngine.start();
 });
+

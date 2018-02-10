@@ -30,6 +30,7 @@ Timer.prototype.tick = function () {
 
 function GameEngine() {
     this.entities = [];
+    this.walkers = []; //Add Walkers to this
     this.map;
     this.showOutlines = false;
     this.ctx = null;

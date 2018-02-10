@@ -1,20 +1,20 @@
-function Weaver(game, img) {
-    this.animation = new Animation(img, 0, 1, 118, 100, 6, .15, 12, true);
-    Entity.call(this, game, 0, 0);
+//function Weaver(game, img) {
+//    this.animation = new Animation(img, 0, 1, 118, 100, 6, .15, 12, true);
+//    Entity.call(this, game, 0, 0);
 
-}
+//}
 
-Weaver.prototype = new Entity();
-Weaver.prototype.constructor = Weaver;
+//Weaver.prototype = new Entity();
+//Weaver.prototype.constructor = Weaver;
 
-Weaver.prototype.update = function () {
-    Entity.prototype.update.call(this);
-}
+//Weaver.prototype.update = function () {
+//    Entity.prototype.update.call(this);
+//}
 
-Weaver.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-    Entity.prototype.draw.call(this);
-}
+//Weaver.prototype.draw = function (ctx) {
+//    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+//    Entity.prototype.draw.call(this);
+//}
 
 
 function ArchBuild(game, img) {
