@@ -174,7 +174,6 @@ ASSET_MANAGER.queueDownload("./img/Land1a_00002.png");
 ASSET_MANAGER.queueDownload("./img/emptyCartMan.png");
 ASSET_MANAGER.queueDownload("./img/barleyCartMan.png");
 ASSET_MANAGER.queueDownload("./img/beerCartMan.png");
-ASSET_MANAGER.queueDownload("./img/beerCartMan.png");
 ASSET_MANAGER.queueDownload("./img/clayCartMan.png");
 ASSET_MANAGER.queueDownload("./img/flaxCartMan.png");
 ASSET_MANAGER.queueDownload("./img/goldCartMan.png");
@@ -217,6 +216,23 @@ ASSET_MANAGER.downloadAll(function () {
     //easyStar.setGrid(new mapData().testMap);
     //easyStar.setAcceptableTiles([1]); //Test, expand as needed.
     //easyStar.disableCornerCutting();
+    //var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, gameEngine.timer, 9, 9, 2, 2);
+    //gameEngine.addEntity(weaver);
+    var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), walkerMap, 9, 9);
+    ecm.destX = 6;
+    ecm.destY = 18;
+    ecm.ID = '2';
+    var ccm = new cCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/clayCartMan.png"), walkerMap, 9, 7);
+    ccm.destX = 6;
+    ccm.destY = 18;
+    ccm.ID = '2';
+    var becm = new beCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/beerCartMan.png"), walkerMap, 9, 5);
+    becm.destX = 6;
+    becm.destY = 18;
+    becm.ID = '2';
+    gameEngine.addEntity(ecm);
+    gameEngine.addEntity(ccm);
+    gameEngine.addEntity(becm);
     var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, 5, 8, 2, 2);
     gameEngine.addEntity(weaver);
 
