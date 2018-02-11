@@ -31,7 +31,9 @@ function industry(img, game, x, y, bWidth, bHeight) {
     this.numResources = 0;
     this.resType = "";
     this.numMerch = 0;
-    this.buffer = { x: x - 1, y: y - 1, width: bWidth + 1, height: bHeight + 1};
+    this.merchCost = 0;
+    this.prodTime = 0;
+    this.buffer = { x: x - 1, y: y - 1, width: bWidth + 2, height: bHeight + 2};
     Entity.call(this, game, x, y);
 }
 
@@ -56,7 +58,7 @@ industry.prototype.update = function () {
         this.currAnim = this.closedAnim;
     } else {
         this.currAnim = this.openAnim;
-        if (this.game.timer.gameTime - this.workTime >= 10) {
+        if (this.game.timer.gameTime - this.workTime >= this.prodTime) {
             this.workTime = this.game.timer.gameTime;
             this.numMerch += this.merchStep;
         }
@@ -67,7 +69,7 @@ industry.prototype.update = function () {
                 }
 
                 if (this.game.walkers[i].loadType == "buyer") {
-                    this.game.walkers[i].funds -= 50;
+                    this.game.walkers[i].funds -= this.merchCost;
                     this.numMerch -= this.game.walkers[i].loadCount; //TODO: Bazaar lady is gonna be more unique.
                 }
             }
@@ -78,10 +80,7 @@ industry.prototype.update = function () {
 industry.prototype.draw = function (ctx) {
     pt1 = twodtoisoX(this.x, this.y);
     pt2 = twodtoisoY(this.x, this.y);
-    ptR1 = twodtoisoX(this.buffer.x, this.buffer.y);
-    ptR2 = twodtoisoY(this.buffer.x, this.buffer.y);
-    ctx.rect(ptR1, ptR2, 4, 4);
-    ctx.stroke();
+    ctx.fillRect(pt1, pt2, 5, 5);
     this.currAnim.drawFrame(this.game.clockTick, ctx, pt1, pt2);
     Entity.prototype.draw.call(this);
 }
@@ -95,10 +94,43 @@ function Weaver(img, game, x, y, bWidth, bHeight) {
     this.resType = "linen";
     this.numEmpNeeded = 12;
     this.placeCost = 50;
+    this.merchCost = 50;
+    this.prodTime = 10;
     //FOR TESTING
-    this.numEmployed = 12;
-    this.numResources = 100;
+    //this.numEmployed = 12;
+    //this.numResources = 100;
+    //console.log(this.buffer);
 }
 
 Weaver.prototype = new industry();
 Weaver.prototype.constructor = Weaver;
+
+function Brewery(img, game, x, y, bWidth, bHeight) {
+    industry.call(this, img, game, x, y, bWidth, bHeight);
+    this.workTime = game.timer.gameTime;
+    this.openAnim = new Animation(img, 0, 1, 118, 90, 4, .15, 12, true);
+    this.closedAnim = new Animation(img, 0, 0, 118, 90, 1, .15, 1, true);
+    this.resType = "beer";
+    this.numEmpNeeded = 14;
+    this.placeCost = 60;
+    this.merchCost = 45;
+    this.prodTime = 15;
+}
+
+Brewery.prototype = new industry();
+Brewery.prototype.constructor = Brewery;
+
+function Potter(img, game, x, y, bWidth, bHeight) {
+    industry.call(this, img, game, x, y, bWidth, bHeight);
+    this.workTime = game.timer.gameTime;
+    this.openAnim = new Animation(img, 0, 1, 118, 90, 9, 0.15, 18, true);
+    this.closedAnim = new Animation(img, 0, 0, 118, 90, 1, 0.15, 1, true);
+    this.resType = "pottery";
+    this.numEmpNeeded = 16;
+    this.placeCost = 70;
+    this.merchCost = 55;
+    this.prodTime = 20;
+}
+
+Potter.prototype = new industry();
+Potter.prototype.constructor = Potter;

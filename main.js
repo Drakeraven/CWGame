@@ -143,19 +143,26 @@ Map.prototype.readMap = function(mapData) {
 }
 
 //need an instance at start. we can adjust values as needed.
-function gameWorld() {
+function GameWorld() {
     this.prosperity = 0;
     this.population = 0;
+    this.workForce = 0;
     this.taxRev = .10;
     this.funds = 0;
     this.goals = [];
 }
 
-gameWorld.prototype.calcProsperity = function () {
-    /*However we wanna calculate prosperity here??*/
-
+GameWorld.prototype.addPop = function (num) {
+    this.population += num;
 }
 
+GameWorld.prototype.remPop = function (num) {
+    this.population -= num;
+}
+
+GameWorld.prototype.getWorkForce = function () {
+    return Math.floor(this.population * .40); //40% population is work force, change how I'm doing it??
+}
 
 // the "main" code begins here
 
@@ -204,6 +211,7 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.map = new Map(gameEngine);
     gameEngine.init(ctx);
     gameEngine.map.readMap(new mapData().testMap);
+    //var gameWorld = new gameWorld();
     var walkerMap = new mapData().testMap
 
     //easyStar.setGrid(new mapData().testMap);
@@ -211,6 +219,12 @@ ASSET_MANAGER.downloadAll(function () {
     //easyStar.disableCornerCutting();
     var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, 5, 8, 2, 2);
     gameEngine.addEntity(weaver);
+
+    var brewery = new Brewery(ASSET_MANAGER.getAsset("./img/Brewery.png"), gameEngine, 1, 2, 2, 2);
+    gameEngine.addEntity(brewery);
+
+    var potter = new Potter(ASSET_MANAGER.getAsset("./img/Potter.png"), gameEngine, 10, 10, 2, 2);
+    gameEngine.addEntity(potter);
     //var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), walkerMap, 9, 9);
     //ecm.destX = 6;
     //ecm.destY = 18;
