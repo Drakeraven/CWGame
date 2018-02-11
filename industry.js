@@ -31,7 +31,6 @@ function industry(img, game, x, y, bWidth, bHeight) {
     this.numResources = 0;
     this.resType = "";
     this.numMerch = 0;
-    this.workTime = game.timer.gameTime;
     this.buffer = { x: x - 1, y: y - 1, width: bWidth + 1, height: bHeight + 1};
     Entity.call(this, game, x, y);
 }
@@ -40,6 +39,7 @@ industry.prototype = new Entity();
 industry.prototype.constructor = industry;
 
 industry.prototype.update = function () {
+    Entity.prototype.update.call(this);
 
     if (getRandomInt(1, 101) <= fireResist) {
         //Catches on fire
@@ -52,12 +52,13 @@ industry.prototype.update = function () {
     }
 
     //if out of employees or no resources, close operation
-    if (this.numEmployed == 0 || this.numResources == 0) {
+    if (this.numEmployed < this.numEmpNeeded || this.numResources == 0) {
         this.currAnim = this.closedAnim;
     } else {
+        this.currAnim = this.openAnim;
         if (this.game.timer.gameTime - this.workTime >= 10) {
-            this.workTime = this.game.gameTime;
-            numMerch += merchStep;
+            this.workTime = this.game.timer.gameTime;
+            this.numMerch += this.merchStep;
         }
         for (var i = 0; i < this.game.walkers.length; i++) {//loop through walkers 
             if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) {
@@ -72,23 +73,31 @@ industry.prototype.update = function () {
             }
         }   
     }
-    Entity.prototype.update.call(this);
 }
 
 industry.prototype.draw = function (ctx) {
-    //this.currAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+    pt1 = twodtoisoX(this.x, this.y);
+    pt2 = twodtoisoY(this.x, this.y);
+    ptR1 = twodtoisoX(this.buffer.x, this.buffer.y);
+    ptR2 = twodtoisoY(this.buffer.x, this.buffer.y);
+    ctx.rect(ptR1, ptR2, 4, 4);
+    ctx.stroke();
+    this.currAnim.drawFrame(this.game.clockTick, ctx, pt1, pt2);
     Entity.prototype.draw.call(this);
 }
 
 //For each industry, define a resource type as a string.
 function Weaver(img, game, x, y, bWidth, bHeight) {
+    industry.call(this, img, game, x, y, bWidth, bHeight);
+    this.workTime = game.timer.gameTime;
     this.openAnim = new Animation(img, 0, 1, 118, 100, 6, .15, 12, true);
     this.closedAnim = new Animation(img, 0, 0, 118, 100, 1, .15, 1, true); // maybe set false??
     this.resType = "linen";
     this.numEmpNeeded = 12;
     this.placeCost = 50;
-    industry.call(this, img, game, x, y, bWidth, bHeight);
-
+    //FOR TESTING
+    this.numEmployed = 12;
+    this.numResources = 100;
 }
 
 Weaver.prototype = new industry();
