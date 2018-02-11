@@ -1,6 +1,7 @@
-function Weaver(game, img) {
+
+function Weaver(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 118, 100, 6, .15, 12, true);
-    Entity.call(this, game, 0, 0);
+    Entity.call(this, game, x, y);
 
 }
 
@@ -17,9 +18,9 @@ Weaver.prototype.draw = function (ctx) {
 }
 
 
-function ArchBuild(game, img) {
+function ArchBuild(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
-    Entity.call(this, game, 150, 0);
+    Entity.call(this, game, x, y);
 
 }
 
@@ -35,9 +36,9 @@ ArchBuild.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Bazaar(game, img) {
+function Bazaar(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 118, 82, 4, .15, 12, true);
-    Entity.call(this, game, 250, 0);
+    Entity.call(this, game, x, y);
 
 }
 
@@ -53,9 +54,9 @@ Bazaar.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function CopStore(game, img) {
+function CopStore(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
-    Entity.call(this, game, 400, 0);
+    Entity.call(this, game, x, y);
 
 }
 
@@ -71,9 +72,9 @@ CopStore.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Brewery(game, img) {
+function Brewery(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 118, 90, 4, .15, 12, true);
-    Entity.call(this, game, 500, 0);
+    Entity.call(this, game, x, y);
 
 }
 
@@ -89,9 +90,9 @@ Brewery.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Firehouse(game, img) {
+function Firehouse(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 58, 100, 6, .15, 12, true);
-    Entity.call(this, game, 650, 0);
+    Entity.call(this, game, x, y);
 
 }
 
@@ -107,9 +108,9 @@ Firehouse.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Goldmine(game, img) {
+function Goldmine(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 118, 63, 17, .15, 9, true);
-    Entity.call(this, game, 0, 110);
+    Entity.call(this, game, x, y);
 
 }
 
@@ -125,7 +126,7 @@ Goldmine.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Housing(game, img, x = 150, y = 110) {
+function Housing(game, img, x, y) {
     this.animation = new Animation(img, 0, 0, 118, 97, 6, 1, 12, true);
     Entity.call(this, game, x, y);
 
@@ -143,13 +144,9 @@ Housing.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function HuntingLodge(game, img) {
-    this.x = 0;
-    this.y = 0;
+function HuntingLodge(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 118, 111, 9, 0.15, 18, true);
-    this.dimensionX = 2;
-    this.dimensionY = 2;
-    Entity.call(this, game, this.x,this.y);
+    Entity.call(this, game, x, y);
 
 }
 
@@ -165,9 +162,9 @@ HuntingLodge.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Mansion(game, img) {
+function Mansion(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 238, 159, 6, 0.15, 12, true);
-    Entity.call(this, game, 450, 110);
+    Entity.call(this, game, x, y);
 
 }
 
@@ -183,9 +180,9 @@ Mansion.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Potter(game, img) {
+function Potter(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 118, 90, 6, 0.15, 12, true);
-    Entity.call(this, game, 0, 220);
+    Entity.call(this, game, x, y);
 
 }
 
@@ -201,9 +198,9 @@ Potter.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function WorkCamp(game, img) {
+function WorkCamp(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 118, 83, 10, 0.15, 20, true);
-    Entity.call(this, game, 0, 320);
+    Entity.call(this, game, x, y);
 
 }
 
@@ -219,9 +216,9 @@ WorkCamp.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function TaxHouse(game, img) {
+function TaxHouse(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 118, 96, 8, 0.15, 8, true);
-    Entity.call(this, game, 150, 250);
+    Entity.call(this, game, x, y);
 
 }
 
@@ -237,9 +234,9 @@ TaxHouse.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Palace(game, img) {
+function Palace(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 298, 187, 6, 0.15, 6, true);
-    Entity.call(this, game, 300, 300);
+    Entity.call(this, game, x, y);
 
 }
 
@@ -255,7 +252,7 @@ Palace.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Barley(game, img, x = 600, y = 300) {
+function Barley(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 178, 91, 6, 1, 6, true);
     Entity.call(this, game, x, y);
 
