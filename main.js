@@ -82,8 +82,8 @@ function Map(gameEngine) {
 }
 Map.prototype.constructor = Map;
 
-Map.prototype.checkTileForThing = function(x, y) {
-  return mapList[y][x].getThing();
+Map.prototype.checkTileForThing = function(xIndex, yIndex) {
+  return this.mapList[yIndex][xIndex].getThing();
 }
 
 Map.prototype.addThing = function(thing, x, y) {
@@ -227,5 +227,7 @@ ASSET_MANAGER.downloadAll(function () {
 
     gameEngine.init(ctx);
     gameEngine.map.readMap(gameEngine.map.mapArray);
+    gameEngine.map.addThing(copstore, 10, 10);
+    console.log(gameEngine.map.checkTileForThing(10,10).constructor.name);
     gameEngine.start();
 });
