@@ -210,6 +210,8 @@ ASSET_MANAGER.downloadAll(function () {
 
     var housingalone = new Housing(gameEngine, ASSET_MANAGER.getAsset("./img/HousingAlone.png"), 5, 6, 2, 2);
     gameEngine.addBuilding(housingalone);
+    var baz = new bazaar(gameEngine, ASSET_MANAGER.getAsset("./img/Bazaar.png"), 2, 2, 2, 2);
+    gameEngine.addBuilding(baz);
 
     gameEngine.start();
 });

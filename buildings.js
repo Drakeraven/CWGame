@@ -36,7 +36,7 @@ ArchBuild.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Bazaar(game, img, x, y) {
+/*function Bazaar(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 118, 82, 4, .15, 12, true);
     Entity.call(this, game, x, y);
 
@@ -52,7 +52,7 @@ Bazaar.prototype.update = function () {
 Bazaar.prototype.draw = function (ctx) {
     this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
     Entity.prototype.draw.call(this);
-}
+}*/
 
 function CopStore(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);

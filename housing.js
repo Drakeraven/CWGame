@@ -14,10 +14,11 @@ function house(game, img, x, y, bWidth, bHeight) {
     this.level = 0;
     this.destroyedAnim = null;
     this.currAnim = null;
+    this.animFrame = [];        
     this.numHoused = 0;
     this.placeCost = null;
     this.waterLevel = false;
-    this.foodLevel = false;
+    this.foodLevel = 0;
     this.weaverLevel = false; 
     this.potterLevel = false; 
     this.brewerLevel = false; 
@@ -40,21 +41,36 @@ house.prototype.update = function () {
         return;
     }
 
-    //if (!this.waterLevel) { 
-    //    this.currAnim = change back to init
-    //} 
-    if (this.waterLevel) { 
-        //this.currAnim = new Animation(this.img, this.x, this.y, 118, 97, 1, 0, 1, true);
+    if (!this.waterLevel) { 
+        this.level = 0;
+    } else { 
+        if (this.waterLevel && this.foodLevel && this.potterLevel && this.weaverLevel && this.brewerLevel) { 
+            this.level = 5;
+        } else if (this.waterLevel && this.foodLevel 
+            && ((this.potterLevel && this.weaverLevel) 
+                || (this.potterLevel && this.brewerLevel)
+                || (this.weaverLevel && this.brewerLevel))) {
+            this.level = 4;     
+        } else if(this.waterLevel && this.foodLevel 
+            && (this.potterLevel || this.weaverLevel || this.brewerLevel)) {
+            this.level = 3; 
+        } else if(this.waterLevel && this.foodLevel) { 
+            this.level = 2; 
+        } else { 
+            this.level = 1;
+        }
     }
-    this.waterLevel = true;
-    //detect who within your radius
-    //check if a goal has been met 
-    //change the current animation
-    //if you lose a goal, downgrade a level - 
-    //downgrade to the level before the one that required goal to build
+    this.currAnim = this.animFrame[this.level];
+    this.numHoused = (this.level + 1) * 30; 
+    //add later: if prosperity over certain %, upgrade?
     
+    //detect who within your radius
+    
+    //get food from others >> after set amount of time, eat X amount of food 
+
     //UPDATE Pop: 
     //Iterate over all buildings in array, add/subtract difference between gameWorld pop and array pop
+    //PUSH POP TO INDUSTRY LIST > check gameWorld for population stat > 40%? > only give each industry building what they need 
 }
 
 house.prototype.draw = function (ctx) {
@@ -68,11 +84,18 @@ house.prototype.draw = function (ctx) {
 
 function Housing(game, img, x, y, bWidth, bHeight) {
     house.call(this, game, img, x, y, bWidth, bHeight);
+    this.foodTime = game.timer.gameTime;
     this.img = img;
-    this.level = 1;
-    //this.destroyedAnim = null;
-    this.currAnim = new Animation(img, 0, 0, 118, 97, 1, 0.15, 1, true);
-    this.numHoused = 50;    
+    this.level = 0;
+    this.placeCost = 25;
+    this.animFrame[0] = new Animation(img, 0, 0, 118, 97, 1, 0.15, 1, true);
+    this.animFrame[1] = new Animation(img, 3, 0, 118, 97, 1, 0.15, 1, true);
+    this.animFrame[2] = new Animation(img, 5, 0, 118, 97, 1, 0.15, 1, true);
+    this.animFrame[3] = new Animation(img, 1, 1, 118, 97, 1, 0.15, 1, true);
+    this.animFrame[4] = new Animation(img, 3, 1, 118, 97, 1, 0.15, 1, true);
+    this.animFrame[5] = new Animation(img, 5, 1, 118, 97, 1, 0.15, 1, true);
+    this.currAnim = this.animFrame[0];
+    this.numHoused = 30;    
 }
 
 Housing.prototype = new house();
