@@ -197,6 +197,10 @@ ASSET_MANAGER.queueDownload("./img/farm1.png");
 ASSET_MANAGER.queueDownload("./img/taxHouse.png");
 ASSET_MANAGER.queueDownload("./img/palace.png");
 ASSET_MANAGER.queueDownload("./img/FarmPlots.png");
+ASSET_MANAGER.queueDownload("./img/bazaarLady 22x42.png");
+ASSET_MANAGER.queueDownload("./img/FireDude1.png")
+ASSET_MANAGER.queueDownload("./img/Firedude2.png");
+
 //TODO: add in imgs for fixed walkers
 
 //var easyStar = new EasyStar.js();
@@ -213,42 +217,39 @@ ASSET_MANAGER.downloadAll(function () {
     //var gameWorld = new gameWorld();
     var walkerMap = new mapData().testMap
 
-    //easyStar.setGrid(new mapData().testMap);
-    //easyStar.setAcceptableTiles([1]); //Test, expand as needed.
-    //easyStar.disableCornerCutting();
     //var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, gameEngine.timer, 9, 9, 2, 2);
     //gameEngine.addEntity(weaver);
-    var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), walkerMap, 9, 9);
-    ecm.destX = 6;
-    ecm.destY = 18;
-    ecm.ID = '2';
-    var ccm = new cCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/clayCartMan.png"), walkerMap, 9, 7);
-    ccm.destX = 6;
-    ccm.destY = 18;
-    ccm.ID = '2';
-    var becm = new beCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/beerCartMan.png"), walkerMap, 9, 5);
-    becm.destX = 6;
-    becm.destY = 18;
-    becm.ID = '2';
-    gameEngine.addEntity(ecm);
-    gameEngine.addEntity(ccm);
-    gameEngine.addEntity(becm);
-    var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, 5, 8, 2, 2);
-    gameEngine.addEntity(weaver);
-
-    var brewery = new Brewery(ASSET_MANAGER.getAsset("./img/Brewery.png"), gameEngine, 1, 2, 2, 2);
-    gameEngine.addEntity(brewery);
-
-    var potter = new Potter(ASSET_MANAGER.getAsset("./img/Potter.png"), gameEngine, 10, 10, 2, 2);
-    gameEngine.addEntity(potter);
-    //var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), walkerMap, 9, 9);
+    //var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), walkerMap, 0, 1);
     //ecm.destX = 6;
     //ecm.destY = 18;
-    //ecm.ID = '2';
-    //gameEngine.addEntity(ecm);
+    //var ccm = new cCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/clayCartMan.png"), walkerMap, 5, 1);
+    //ccm.destX = 6;
+    //ccm.destY = 18;
+    //var becm = new beCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/beerCartMan.png"), walkerMap, 9, 5);
+    //becm.destX = 6;
+    //becm.destY = 18;
+    //gameEngine.addWalker(ecm);
+    //gameEngine.addWalker(ccm);
+    //gameEngine.addWalker(becm);
+    //var baz = new bazLad(gameEngine, ASSET_MANAGER.getAsset("./img/bazaarLady 22x42.png"), walkerMap, 0, 1, 100, "pottery");
+    //baz.destX = 16;
+    //baz.destY = 11;
+    //gameEngine.addWalker(baz);
+
+    var fiyah = new FireMan(gameEngine, ASSET_MANAGER.getAsset("./img/FireDude1.png"), ASSET_MANAGER.getAsset("./img/Firedude2.png"), walkerMap, 0, 1);
+    fiyah.destX = 6;
+    fiyah.destY = 18;
+    gameEngine.addWalker(fiyah);
 
 
+    var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, 3, 11, 2, 2);
+    gameEngine.addIndustry(weaver);
 
+    var brewery = new Brewery(ASSET_MANAGER.getAsset("./img/Brewery.png"), gameEngine, 1, 2, 2, 2);
+    //gameEngine.addIndustry(brewery);
+
+    var potter = new Potter(ASSET_MANAGER.getAsset("./img/Potter.png"), gameEngine, 14, 11, 2, 2);
+    gameEngine.addIndustry(potter);
     gameEngine.start();
 });
 

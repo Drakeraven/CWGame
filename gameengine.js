@@ -30,7 +30,8 @@ Timer.prototype.tick = function () {
 
 function GameEngine() {
     this.entities = [];
-    this.walkers = []; //Add Walkers to this
+    this.walkers = []; //Add Walkers to this ONLY
+    this.industries = []; //Add Industries to this ONLY 
     this.map;
     this.showOutlines = false;
     this.ctx = null;
@@ -141,6 +142,16 @@ GameEngine.prototype.addEntity = function (entity) {
     this.entities.push(entity);
 }
 
+GameEngine.prototype.addWalker = function (walker) {
+    console.log("added walker");
+    this.walkers.push(walker);
+}
+
+GameEngine.prototype.addIndustry = function (industry) {
+    console.log("added industry");
+    this.industries.push(industry);
+}
+
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
@@ -152,6 +163,15 @@ GameEngine.prototype.draw = function () {
     for (var i = 0; i < this.entities.length; i++) {
         this.entities[i].draw(this.ctx);
     }
+
+    for (var i = 0; i < this.industries.length; i++) {
+        this.industries[i].draw(this.ctx);
+    }
+
+    for (var i = 0; i < this.walkers.length; i++) {
+        this.walkers[i].draw(this.ctx);
+    }
+
     this.ctx.restore();
 }
 
@@ -166,9 +186,37 @@ GameEngine.prototype.update = function () {
         }
     }
 
+    for (var i = 0; i < this.industries.length; i++) {
+        var industry = this.industries[i];
+
+        if (!industry.removeFromWorld) {
+            industry.update();
+        }
+    }
+
+    for (var i = 0; i < this.walkers.length; i++) {
+        var walker = this.walkers[i];
+
+        if (!walker.removeFromWorld) {
+            walker.update();
+        }
+    }
+
     for (var i = this.entities.length - 1; i >= 0; --i) {
         if (this.entities[i].removeFromWorld) {
             this.entities.splice(i, 1);
+        }
+    }
+
+    for (var i = this.industries.length - 1; i >= 0; --i) {
+        if (this.industries[i].removeFromWorld) {
+            this.industries.splice(i, 1);
+        }
+    }
+
+    for (var i = this.walkers.length - 1; i >= 0; --i) {
+        if (this.walkers[i].removeFromWorld) {
+            this.walkers.splice(i, 1);
         }
     }
 }
