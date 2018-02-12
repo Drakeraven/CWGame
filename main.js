@@ -200,6 +200,9 @@ ASSET_MANAGER.queueDownload("./img/FarmPlots.png");
 ASSET_MANAGER.queueDownload("./img/bazaarLady 22x42.png");
 ASSET_MANAGER.queueDownload("./img/FireDude1.png")
 ASSET_MANAGER.queueDownload("./img/Firedude2.png");
+ASSET_MANAGER.queueDownload("./img/Hunter1.5.png");
+ASSET_MANAGER.queueDownload("./img/Hunter2.png");
+ASSET_MANAGER.queueDownload("./img/immig.png");
 
 //TODO: add in imgs for fixed walkers
 
@@ -236,20 +239,29 @@ ASSET_MANAGER.downloadAll(function () {
     //baz.destY = 11;
     //gameEngine.addWalker(baz);
 
-    var fiyah = new FireMan(gameEngine, ASSET_MANAGER.getAsset("./img/FireDude1.png"), ASSET_MANAGER.getAsset("./img/Firedude2.png"), walkerMap, 0, 1);
-    fiyah.destX = 6;
-    fiyah.destY = 18;
-    gameEngine.addWalker(fiyah);
+    //var fiyah = new FireMan(gameEngine, ASSET_MANAGER.getAsset("./img/FireDude1.png"), ASSET_MANAGER.getAsset("./img/Firedude2.png"), walkerMap, 0, 1);
+    //fiyah.destX = 6;
+    //fiyah.destY = 18;
+    //gameEngine.addWalker(fiyah);
 
+    //var huntah = new Hunter(gameEngine, ASSET_MANAGER.getAsset("./img/Hunter1.5.png"), ASSET_MANAGER.getAsset("./img/Hunter2.png"), walkerMap, 0, 1);
+    //huntah.destX = 6;
+    //huntah.destY = 18;
+    //gameEngine.addWalker(huntah);
+
+    var peeps = new Migrant(gameEngine, ASSET_MANAGER.getAsset("./img/immig.png"), walkerMap, 0, 1);
+    peeps.destX = 6;
+    peeps.destY = 18;
+    gameEngine.addWalker(peeps);
 
     var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, 3, 11, 2, 2);
     gameEngine.addIndustry(weaver);
 
-    var brewery = new Brewery(ASSET_MANAGER.getAsset("./img/Brewery.png"), gameEngine, 1, 2, 2, 2);
+    //var brewery = new Brewery(ASSET_MANAGER.getAsset("./img/Brewery.png"), gameEngine, 1, 2, 2, 2);
     //gameEngine.addIndustry(brewery);
 
-    var potter = new Potter(ASSET_MANAGER.getAsset("./img/Potter.png"), gameEngine, 14, 11, 2, 2);
-    gameEngine.addIndustry(potter);
+    //var potter = new Potter(ASSET_MANAGER.getAsset("./img/Potter.png"), gameEngine, 14, 11, 2, 2);
+    //gameEngine.addIndustry(potter);
     gameEngine.start();
 });
 

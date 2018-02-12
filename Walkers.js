@@ -42,15 +42,14 @@ Walker4.prototype = Object.create(Entity.prototype);
 Walker4.prototype.constructor = Walker4;
 
 Walker4.prototype.update = function () {
-
+   // console.log(this.x, this.y);
     if (this.isFindingPath) return;
     //console.log("Walker: (" + Math.floor(this.x) + ", " + Math.floor(this.y) + ")");
     if (this.isWalking) this.walkPath();
     if (this.destX != null && this.destY != null) {
         this.isFindingPath = true;
         let that = this;
-        this.easyStar.findPath(this.x, this.y, this.destX, this.destY, function (path) {
-            console.log(that.ID);
+        this.easyStar.findPath(Math.floor(this.x), Math.floor(this.y), this.destX, this.destY, function (path) {
             if (path === null) {
                 console.log("No path :("); //Do something for when you can't find a path to anything --  leave??
             } else {
@@ -71,10 +70,10 @@ Walker4.prototype.update = function () {
 
 Walker4.prototype.walkPath = function () {
     if (this.path.length == 0) {
-        if (Math.floor(this.x) == this.next.x && Math.floor(this.y) == this.next.y) {
+        //if (Math.floor(this.x) == this.next.x && Math.floor(this.y) == this.next.y) {
             this.dX = 0;
             this.dY = 0;
-        }
+        //}
         isWalking = false;
         return;
     }
@@ -311,17 +310,61 @@ function Hunter(game, img1, img2, map, lX, lY) {
     this.animation["SW"] = new Animation(img1, 0, 5, 37, 36, 12, aSpeed, 12, true);
     this.animation["W"] =  new Animation(img1, 0, 6, 37, 36, 12, aSpeed, 12, true);
     this.animation["NW"] = new Animation(img1, 0, 7, 37, 36, 12, aSpeed, 12, true);
-    this.huntAnim = new Animation(img2, 0, 3, 53, 52, 37, aSpeed, 37, true);
+    this.huntAnim = [];
+    this.huntAnim["N"] =  new Animation(img2, 0, 1, 45, 38, 12, aSpeed, 12, true);
+    this.huntAnim["NE"] = new Animation(img2, 0, 2, 45, 38, 12, aSpeed, 12, true);
+    this.huntAnim["E"] =  new Animation(img2, 0, 3, 45, 38, 12, aSpeed, 12, true);
+    this.huntAnim["SE"] = new Animation(img2, 0, 4, 45, 38, 12, aSpeed, 12, true);
+    this.huntAnim["S"] =  new Animation(img2, 0, 5, 45, 38, 12, aSpeed, 12, true);
+    this.huntAnim["SW"] = new Animation(img2, 0, 6, 45, 38, 12, aSpeed, 12, true);
+    this.huntAnim["W"] =  new Animation(img2, 0, 7, 45, 38, 12, aSpeed, 12, true);
+    this.huntAnim["NW"] = new Animation(img2, 0, 8, 45, 38, 12, aSpeed, 12, true);
     this.currAnimation = this.animation['NE'];
+    this.startX = lX;
+    this.startY = lY;
     this.huntTime = 0;
+    this.hunted = false;
 }
 
-// function emigrant(game, img, Ai, lX, lY) {
-//  Walker4.call(this, game, img, map, lX, lY);
-//     this.animation = new Animation(img, 0, 2, 25, 26, 12, aSpeed, 12, true);
-// }
-// 
-// emigrant.prototype = Object.create(Walker4.prototype);
-// emigrant.prototype.constructor = emigrant
+Hunter.prototype = Object.create(Walker8.prototype);
+Hunter.prototype.constructor = Hunter;
+
+//hunting lodge will need to handle removing the hunter from the world when it gets back from hunting.
+Hunter.prototype.update = function () {
+    Walker8.prototype.update.apply(this);
+    if (this.path == 0) {
+        this.currAnimation.loop = false;
+        this.huntTime++;
+    }
+    if (this.huntTime > 300) {
+        this.hunted = true;
+        this.currAnimation.loop = true;
+        this.destX = this.startX;
+        this.destY = this.startY;
+        this.huntTime = 0;
+    }
+
+    if (this.hunted) {
+        this.currAnimation = this.huntAnim[setFace(this.dX, this.dY)];
+    }
+
+}
+
+ function Migrant(game, img, map, lX, lY) {
+     Walker8.call(this, game, img, map, lX, lY);
+     this.animation["N"] =  new Animation(img, 0, 0, 48.8, 48, 12, aSpeed, 12, true);
+     this.animation["NE"] = new Animation(img, 0, 1, 48.8, 48, 12, aSpeed, 12, true);
+     this.animation["E"] =  new Animation(img, 0, 2, 48.8, 48, 12, aSpeed, 12, true);
+     this.animation["SE"] = new Animation(img, 0, 3, 48.8, 48, 12, aSpeed, 12, true);
+     this.animation["S"] =  new Animation(img, 0, 4, 48.8, 48, 12, aSpeed, 12, true);
+     this.animation["SW"] = new Animation(img, 0, 5, 48.8, 48, 12, aSpeed, 12, true);
+     this.animation["W"] =  new Animation(img, 0, 6, 48.8, 48, 12, aSpeed, 12, true);
+     this.animation["NW"] = new Animation(img, 0, 7, 48.8, 48, 12, aSpeed, 12, true);
+     this.currAnimation = this.animation['NE'];
+
+ }
+ 
+ Migrant.prototype = Object.create(Walker8.prototype);
+ Migrant.prototype.constructor = Migrant;
 
 
