@@ -44,6 +44,21 @@ Animation.prototype.isDone = function () {
     return (this.elapsedTime >= this.totalTime);
 }
 
+
+function getTileInfo(x, y, game) {
+    return game.map.mapList[x][y];
+}
+
+
+function getNeighbors(x, y, game) {
+    neighbors = [];
+    neighbors["above"] = game.map.mapList[x - 1][y];
+    neighbors["below"] = game.map.mapList[x + 1][y];
+    neighbors["left"] = game.map.mapList[x][y - 1];
+    neighbors["right"] = game.map.mapList[x][y + 1];
+    return neighbors;
+}
+
 // tiling going down
 function Tile(game, tileType, x, y) {
   //this.animation = new Animation(ASSET_MANAGER.getAsset("./img/grass.png"), 0, 0, 58, 30, 1, .15, 1, true);
@@ -81,10 +96,6 @@ function Map(gameEngine) {
     this.mapArray = Array(30).fill(Array(30).fill(0));
 }
 Map.prototype.constructor = Map;
-
-Map.prototype.checkTileForThing = function(xIndex, yIndex) {
-  return this.mapList[yIndex][xIndex].getThing();
-}
 
 Map.prototype.addThing = function(thing, x, y) {
   if(this.mapList[y][x].thing == null) {
