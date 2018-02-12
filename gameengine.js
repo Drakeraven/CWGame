@@ -11,8 +11,6 @@ window.requestAnimFrame = (function () {
             };
 })();
 
-
-
 function Timer() {
     this.gameTime = 0;
     this.maxStep = 0.05;
@@ -41,8 +39,6 @@ function GameEngine() {
     this.surfaceHeight = null;
 }
 
-
-
 GameEngine.prototype.init = function (ctx) {
     this.ctx = ctx;
     this.surfaceWidth = this.ctx.canvas.width;
@@ -69,17 +65,21 @@ GameEngine.prototype.twodtoisoY = function (x,y) {
   return (((x + y)-this.cameraoffY)) * 15 ;
 }
 GameEngine.prototype.isototwodX = function (x,y) {
-  return ((x / 29 + y / 29 ) ) - 8;
+  return Math.floor((((x / 29) - this.cameraoffX) + ((y / 15) + this.cameraoffY )) / 2) - 1;
 }
 GameEngine.prototype.isototwodY = function (x,y) {
-  return (((x /15 -y /15 )) );
+  return Math.floor((((y /15) + this.cameraoffY) - ((x / 29) - this.cameraoffX)) /2);
 }
 GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
     this.ctx.canvas.addEventListener("click", function(event) {
         that.buildOnCanvas(event.clientX, event.clientY);
-        console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY + '(board coord at )' + that.isototwodX(event.clientX, event.clientY) + ' ' + that.isototwodY(event.clientX, event.clientY));
+        fixX = event.clientX - (event.clientX % 29);
+        fixY = event.clientY - (event.clientY % 15);
+        console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY + '(board coord at )' + that.isototwodX(fixX, fixY) + ' ' + that.isototwodY(fixX, fixY));
+        copstore = new HuntingLodge(that, ASSET_MANAGER.getAsset("./img/HuntingLodge.png"));
+        that.map.addThing(copstore, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
     });
     //hotkey
     this.ctx.canvas.addEventListener("keypress", function(event) {
@@ -96,7 +96,7 @@ GameEngine.prototype.startInput = function () {
         }else if (event.code === "ArrowDown") {
             that.cameraoffY -= 1;
         }
-        console.log("the following key was pressed: " + event.code);
+        console.log("the following key was pressed: " + event.code + "cam off x: " + that.cameraoffX + " cam off y: " + that.cameraoffY);
 
     });
 

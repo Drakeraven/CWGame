@@ -63,17 +63,7 @@ function Tile(game, tileType, x, y) {
 Tile.prototype = new Entity();
 Tile.prototype.constructor = Tile;
 
-Tile.prototype.addThing = function(thing) {
-  if(this.thing == null) {
-    this.thing = thing;
-    thing.x = this.x;
-    thing.y = this.y;
-    arrX = Math.floor(this.game.isototwodX(this.x, this.y));
-    arrY = Math.floor(this.game.isototwodY(this.x, this.y))
-    this.origin = 1;
-    this.game.addEntity(thing);
-  }
-}
+
 
 Tile.prototype.draw = function(ctx) {
     //this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
@@ -91,6 +81,27 @@ function Map(gameEngine) {
 }
 Map.prototype.constructor = Map;
 
+Map.prototype.addThing = function(thing, x, y) {
+  if(this.mapList[y][x].thing == null) {
+    this.mapList[y][x].thing = thing;
+    thing.x = x;
+    thing.y = y;
+    this.game.addEntity(thing);
+    
+    if(thing.dimensionX > 1) {
+      console.log('hi')
+          for(i = x + 1; i < x + thing.dimensionX; i++) {
+            this.mapList[y][i].thing = thing;
+            console.log(this.mapList[y][i].thing)
+          }
+    }
+    if(thing.dimensionY > 1) {
+          for(i = y + 1; i < y + thing.dimensionY; i++) {
+            this.mapList[i][x].thing = thing;
+          }
+    }
+  }
+}
 Map.prototype.readMap = function(mapData) {
 
     for(i = 0; i < mapData.length; i++) {
@@ -103,12 +114,6 @@ Map.prototype.readMap = function(mapData) {
             var tile = new Tile(this.game, tileType, x, y );
             //this.game.addEntity(tile);
             this.mapList[i][j] = tile;
-          //  if(x % 2 == 0 && y % 2 == 0) {
-              var copstore = new CopStore(this.game, ASSET_MANAGER.getAsset("./img/COPS-1.png"));
-              this.mapList[i][j].addThing(copstore);
-        //    }
-
-
         }
     }
 }
@@ -159,7 +164,7 @@ ASSET_MANAGER.downloadAll(function () {
 //    var weaver = new Weaver(gameEngine, ASSET_MANAGER.getAsset("./img/Weaver.png"));
 //    var archbuild = new ArchBuild(gameEngine, ASSET_MANAGER.getAsset("./img/ArchBuild-1.png"));
 //    var bazaar = new Bazaar(gameEngine, ASSET_MANAGER.getAsset("./img/Bazaar.png"));
-//    var copstore = new CopStore(gameEngine, ASSET_MANAGER.getAsset("./img/COPS-1.png"));
+    var copstore = new CopStore(gameEngine, ASSET_MANAGER.getAsset("./img/COPS-1.png"));
 //    var brewery = new Brewery(gameEngine, ASSET_MANAGER.getAsset("./img/Brewery.png"));
 //    var firehouse = new Firehouse(gameEngine, ASSET_MANAGER.getAsset("./img/Firehouse-1.png"));
 //    var goldmine = new Goldmine(gameEngine, ASSET_MANAGER.getAsset("./img/GoldMine.png"));

@@ -54,9 +54,10 @@ Bazaar.prototype.draw = function (ctx) {
 }
 
 function CopStore(game, img) {
+  this.dimensionX = 2;
+  this.dimensionY = 2;
     this.animation = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
     Entity.call(this, game, 0, 0);
-
 }
 
 CopStore.prototype = new Entity();
@@ -144,8 +145,10 @@ Housing.prototype.draw = function (ctx) {
 }
 
 function HuntingLodge(game, img) {
+  this.dimensionX = 2;
+  this.dimensionY = 2;
     this.animation = new Animation(img, 0, 1, 118, 111, 9, 0.15, 18, true);
-    Entity.call(this, game, 300, 110);
+    Entity.call(this, game, 0, 0);
 
 }
 
@@ -157,7 +160,7 @@ HuntingLodge.prototype.update = function () {
 }
 
 HuntingLodge.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+    this.animation.drawFrame(this.game.clockTick, ctx, this.game.twodtoisoX(this.x, this.y) - 30, this.game.twodtoisoY(this.x, this.y) - 52);
     Entity.prototype.draw.call(this);
 }
 
