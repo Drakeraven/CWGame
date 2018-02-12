@@ -16,7 +16,7 @@ function bazaar(game, img, x, y, bWidth, bHeight) {
     this.destroyedAnim = null;
     this.currAnim = new Animation(img, 0, 0, 118, 82, 1, .15, 1, true);
     this.animFrame = [];        
-    this.numEmployed = 20;
+    this.numEmployed = 0;
     this.maxEmployed = 20;
     this.placeCost = 50;
     this.foodLevel = 0;
@@ -46,6 +46,16 @@ bazaar.prototype.update = function () {
     } else { 
         this.currAnim = this.closedAnim;
     }
+
+    //do this at a set time, 
+    for (i = 0; i < this.game.housingArr.length; i++) { 
+        //for any house in the area, push food to them 
+        //set amount to each place - 2 per person? idk housing level * amt 
+        //sell stock of items 
+        //gain money from general fund (item cost * items sold)
+    }
+
+
 }
 
 bazaar.prototype.draw = function (ctx) {

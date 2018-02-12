@@ -67,6 +67,8 @@ house.prototype.update = function () {
     //detect who within your radius
     
     //get food from others >> after set amount of time, eat X amount of food 
+    // if gametime = 1 month 
+        //this.foodLevel -= numHoused;
 
     //UPDATE Pop: 
     //Iterate over all buildings in array, add/subtract difference between gameWorld pop and array pop
