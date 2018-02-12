@@ -36,6 +36,8 @@ ArchBuild.prototype.draw = function (ctx) {
 }
 
 function Bazaar(game, img) {
+  this.dimensionX = 2;
+  this.dimensionY = 2;
     this.animation = new Animation(img, 0, 1, 118, 82, 4, .15, 12, true);
     Entity.call(this, game, 250, 0);
 
@@ -49,13 +51,15 @@ Bazaar.prototype.update = function () {
 }
 
 Bazaar.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+    this.animation.drawFrame(this.game.clockTick, ctx,
+      this.game.twodtoisoX(this.x, this.y) - 35,
+      this.game.twodtoisoY(this.x, this.y) -25);
     Entity.prototype.draw.call(this);
 }
 
 function CopStore(game, img) {
-  this.dimensionX = 2;
-  this.dimensionY = 2;
+  this.dimensionX = 1;
+  this.dimensionY = 1;
     this.animation = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
     Entity.call(this, game, 0, 0);
 }
@@ -73,6 +77,8 @@ CopStore.prototype.draw = function (ctx) {
 }
 
 function Brewery(game, img) {
+    this.dimensionX = 2;
+    this.dimensionY = 2;
     this.animation = new Animation(img, 0, 1, 118, 90, 4, .15, 12, true);
     Entity.call(this, game, 500, 0);
 
@@ -86,7 +92,7 @@ Brewery.prototype.update = function () {
 }
 
 Brewery.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+    this.animation.drawFrame(this.game.clockTick, ctx, this.game.twodtoisoX(this.x, this.y) - 30, this.game.twodtoisoY(this.x, this.y) -30);
     Entity.prototype.draw.call(this);
 }
 

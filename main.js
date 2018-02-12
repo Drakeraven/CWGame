@@ -179,9 +179,9 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.map =  new Map(gameEngine);
 //    var weaver = new Weaver(gameEngine, ASSET_MANAGER.getAsset("./img/Weaver.png"));
 //    var archbuild = new ArchBuild(gameEngine, ASSET_MANAGER.getAsset("./img/ArchBuild-1.png"));
-//    var bazaar = new Bazaar(gameEngine, ASSET_MANAGER.getAsset("./img/Bazaar.png"));
+    var bazaar = new Bazaar(gameEngine, ASSET_MANAGER.getAsset("./img/Bazaar.png"));
     var copstore = new CopStore(gameEngine, ASSET_MANAGER.getAsset("./img/COPS-1.png"));
-//    var brewery = new Brewery(gameEngine, ASSET_MANAGER.getAsset("./img/Brewery.png"));
+    var brewery = new Brewery(gameEngine, ASSET_MANAGER.getAsset("./img/Brewery.png"));
 //    var firehouse = new Firehouse(gameEngine, ASSET_MANAGER.getAsset("./img/Firehouse-1.png"));
 //    var goldmine = new Goldmine(gameEngine, ASSET_MANAGER.getAsset("./img/GoldMine.png"));
 //    var housingalone = new Housing(gameEngine, ASSET_MANAGER.getAsset("./img/HousingAlone.png"));
@@ -239,6 +239,7 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.init(ctx);
     gameEngine.map.readMap(gameEngine.map.mapArray);
     gameEngine.map.addThing(copstore, 10, 10);
-    console.log(gameEngine.map.checkTileForThing(10,10).constructor.name);
+    gameEngine.map.addThing(brewery, 14, 14);
+      gameEngine.map.addThing(bazaar, 0, 0);
     gameEngine.start();
 });
