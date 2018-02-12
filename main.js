@@ -220,8 +220,7 @@ ASSET_MANAGER.downloadAll(function () {
     //var gameWorld = new gameWorld();
     var walkerMap = new mapData().testMap
 
-    //var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, gameEngine.timer, 9, 9, 2, 2);
-    //gameEngine.addEntity(weaver);
+    
     //var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), walkerMap, 0, 1);
     //ecm.destX = 6;
     //ecm.destY = 18;
@@ -240,28 +239,28 @@ ASSET_MANAGER.downloadAll(function () {
     //gameEngine.addWalker(baz);
 
     //var fiyah = new FireMan(gameEngine, ASSET_MANAGER.getAsset("./img/FireDude1.png"), ASSET_MANAGER.getAsset("./img/Firedude2.png"), walkerMap, 0, 1);
-    //fiyah.destX = 6;
+    //fiyah.destX = 9;
     //fiyah.destY = 18;
     //gameEngine.addWalker(fiyah);
 
     //var huntah = new Hunter(gameEngine, ASSET_MANAGER.getAsset("./img/Hunter1.5.png"), ASSET_MANAGER.getAsset("./img/Hunter2.png"), walkerMap, 0, 1);
-    //huntah.destX = 6;
+    //huntah.destX = 12;
     //huntah.destY = 18;
     //gameEngine.addWalker(huntah);
 
-    var peeps = new Migrant(gameEngine, ASSET_MANAGER.getAsset("./img/immig.png"), walkerMap, 0, 1);
-    peeps.destX = 6;
-    peeps.destY = 18;
-    gameEngine.addWalker(peeps);
+    //var peeps = new Migrant(gameEngine, ASSET_MANAGER.getAsset("./img/immig.png"), walkerMap, 0, 1);
+    //peeps.destX = 6;
+    //peeps.destY = 18;
+    //gameEngine.addWalker(peeps);
 
     var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, 3, 11, 2, 2);
     gameEngine.addIndustry(weaver);
 
-    //var brewery = new Brewery(ASSET_MANAGER.getAsset("./img/Brewery.png"), gameEngine, 1, 2, 2, 2);
-    //gameEngine.addIndustry(brewery);
+    var brewery = new Brewery(ASSET_MANAGER.getAsset("./img/Brewery.png"), gameEngine, 3, 2, 2, 2);
+    gameEngine.addIndustry(brewery);
 
-    //var potter = new Potter(ASSET_MANAGER.getAsset("./img/Potter.png"), gameEngine, 14, 11, 2, 2);
-    //gameEngine.addIndustry(potter);
+    var potter = new Potter(ASSET_MANAGER.getAsset("./img/Potter.png"), gameEngine, 14, 11, 2, 2);
+    gameEngine.addIndustry(potter);
     gameEngine.start();
 });
 

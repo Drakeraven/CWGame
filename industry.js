@@ -133,8 +133,8 @@ function Brewery(img, game, x, y, bWidth, bHeight) {
     this.openAnim = new Animation(img, 0, 1, 118, 90, 4, .15, 12, true);
     this.closedAnim = new Animation(img, 0, 0, 118, 90, 1, .15, 1, true);
     this.currAnim = this.closedAnim;
-    this.renderX = 55;
-    this.renderY = 23;
+    this.renderX = 31;
+    this.renderY = 30;
     this.resType = "barley";
     this.merchType = "beer";
     this.numEmpNeeded = 14;
@@ -156,8 +156,8 @@ function Potter(img, game, x, y, bWidth, bHeight) {
     this.openAnim = new Animation(img, 0, 1, 118, 90, 9, 0.15, 18, true);
     this.closedAnim = new Animation(img, 0, 0, 118, 90, 1, 0.15, 1, true);
     this.currAnim = this.closedAnim;
-    this.renderX = 35;
-    this.renderY = 35;
+    this.renderX = 31;
+    this.renderY = 30;
     this.resType = "clay";
     this.merchType = "pottery";
     this.numEmpNeeded = 16;
