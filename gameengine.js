@@ -30,6 +30,7 @@ Timer.prototype.tick = function () {
 
 function GameEngine() {
     this.entities = [];
+    this.housingArr = []; //add houses here
     this.map;
     this.showOutlines = false;
     this.ctx = null;
@@ -140,6 +141,11 @@ GameEngine.prototype.addEntity = function (entity) {
     this.entities.push(entity);
 }
 
+GameEngine.prototype.addBuilding = function (entity) {
+    console.log('added building');
+    this.housingArr.push(entity);
+}
+
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
@@ -150,6 +156,10 @@ GameEngine.prototype.draw = function () {
     }
     for (var i = 0; i < this.entities.length; i++) {
         this.entities[i].draw(this.ctx);
+    }
+
+    for(var i = 0; i < this.housingArr.length; i++) { 
+        this.housingArr[i].draw(this.ctx);
     }
     this.ctx.restore();
 }
@@ -168,6 +178,20 @@ GameEngine.prototype.update = function () {
     for (var i = this.entities.length - 1; i >= 0; --i) {
         if (this.entities[i].removeFromWorld) {
             this.entities.splice(i, 1);
+        }
+    }
+
+    for (var i = 0; i < this.housingArr.length; i++) {
+        var myHouse = this.housingArr[i];
+        if (!myHouse.removeFromWorld) {
+            //console.log("Updating building")
+            myHouse.update();
+        }
+    }
+
+    for (var i = this.housingArr.length - 1; i >= 0; --i) {
+        if (this.housingArr[i].removeFromWorld) {
+            this.housingArr.splice(i, 1);
         }
     }
 }

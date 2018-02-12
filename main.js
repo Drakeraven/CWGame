@@ -208,53 +208,8 @@ ASSET_MANAGER.downloadAll(function () {
     easyStar.setAcceptableTiles([1]); //Test, expand as needed.
     easyStar.disableCornerCutting();
 
-    var weaver = new Weaver(gameEngine, ASSET_MANAGER.getAsset("./img/Weaver.png"), 0, 0);
-    var archbuild = new ArchBuild(gameEngine, ASSET_MANAGER.getAsset("./img/ArchBuild-1.png"), 150, 0);
-    var bazaar = new Bazaar(gameEngine, ASSET_MANAGER.getAsset("./img/Bazaar.png"), 250, 0);
-    var copstore = new CopStore(gameEngine, ASSET_MANAGER.getAsset("./img/COPS-1.png"), 400, 0);
-    var brewery = new Brewery(gameEngine, ASSET_MANAGER.getAsset("./img/Brewery.png"), 500, 0);
-    var firehouse = new Firehouse(gameEngine, ASSET_MANAGER.getAsset("./img/Firehouse-1.png"), 650, 0);
-    var goldmine = new Goldmine(gameEngine, ASSET_MANAGER.getAsset("./img/GoldMine.png"), 0, 110);
-    var housingalone = new Housing(gameEngine, ASSET_MANAGER.getAsset("./img/HousingAlone.png"), 150, 110 );
-    var huntinglodge = new HuntingLodge(gameEngine, ASSET_MANAGER.getAsset("./img/HuntingLodge.png"), 300, 110);
-    var mansion = new Mansion(gameEngine, ASSET_MANAGER.getAsset("./img/Mansion.png"), 450, 110);
-    var potter = new Potter(gameEngine, ASSET_MANAGER.getAsset("./img/Potter.png"), 0, 220);
-    var workcamp = new WorkCamp(gameEngine, ASSET_MANAGER.getAsset("./img/farm1.png"), 150, 250);
-    var taxhouse = new TaxHouse(gameEngine, ASSET_MANAGER.getAsset("./img/taxHouse.png"), 150, 250);
-    var palace = new Palace(gameEngine, ASSET_MANAGER.getAsset("./img/palace.png"), 300, 300);
-    var barley = new Barley(gameEngine, ASSET_MANAGER.getAsset("./img/FarmPlots.png"), 600, 300);
-    var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), 0, 300);
-    var barcm = new barCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/barleyCartMan.png"), 0, 350);
-    var becm = new beCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/beerCartMan.png"), 0, 400);
-    var ccm = new cCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/clayCartMan.png"), 0, 450);
-    var fcm = new fCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/flaxCartMan.png"), 0, 500);
-    var glcm = new glCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/goldCartMan.png"), 0, 550);
-    var grcm = new grCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/grainCartMan.png"), 0, 600);
-    var lcm = new lCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/linenCartMan.png"), 0, 650);
-    var mcm = new mCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/meatCartMan.png"), 0, 700);
-    var pcm = new pCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/potsCartMan.png"), 0, 750);
-    var wm = new watahMan(gameEngine, ASSET_MANAGER.getAsset("./img/WatahMan.png"), 0, 780);
-
-    ecm2 = new beCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/beerCartMan.png"), new EasyStar.js(), 0, 1);
-    ecm2.destX = 6;
-    ecm2.destY = 19;
-    gameEngine.addEntity(ecm2);
-    var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), new EasyStar.js(), 9, 9);
-    ecm.destX = 6;
-    ecm.destY = 18;
-    ecm2 = new beCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/beerCartMan.png"), new EasyStar.js(), 0, 1);
-    ecm2.destX = 6;
-    ecm2.destY = 19;
-    gameEngine.addEntity(ecm2);
-    var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), new EasyStar.js(), 9, 9);
-    ecm.destX = 6;
-    ecm.destY = 18;
-    gameEngine.addEntity(ecm);
-    ecm1 = new barCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/barleyCartMan.png"), new EasyStar.js(), 4, 1);
-    ecm1.destX = 6;
-    ecm1.destY = 17;
-    gameEngine.addEntity(ecm1);
-
+    var housingalone = new Housing(gameEngine, ASSET_MANAGER.getAsset("./img/HousingAlone.png"), 5, 6, 2, 2);
+    gameEngine.addBuilding(housingalone);
 
     gameEngine.start();
 });

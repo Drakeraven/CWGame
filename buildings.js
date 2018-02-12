@@ -126,8 +126,8 @@ Goldmine.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Housing(game, img, x, y) {
-    this.animation = new Animation(img, 0, 0, 118, 97, 6, 1, 12, true);
+/*function Housing(game, img, x, y, currFrameX, currFrameY, bWidth, bHeight) {
+    this.animation = new Animation(img, currFrameX, currFrameY, 118, 97, 1, 1, 1, true);
     Entity.call(this, game, x, y);
 
 }
@@ -142,7 +142,7 @@ Housing.prototype.update = function () {
 Housing.prototype.draw = function (ctx) {
     this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
     Entity.prototype.draw.call(this);
-}
+}*/
 
 function HuntingLodge(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 118, 111, 9, 0.15, 18, true);
