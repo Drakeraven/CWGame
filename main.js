@@ -63,14 +63,15 @@ function Tile(game, tileType, x, y) {
 Tile.prototype = new Entity();
 Tile.prototype.constructor = Tile;
 
-
-
+Tile.prototype.getThing = function() {
+  return this.thing;
+}
 Tile.prototype.draw = function(ctx) {
-    //this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-          //Entity.prototype.draw.call(this);
-      //this.thing.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-      //Entity.prototype.draw.call(this);
-      ctx.drawImage(this.image, this.game.twodtoisoX(this.x, this.y), this.game.twodtoisoY(this.x, this.y));
+      ctx.drawImage(
+        this.image,
+        this.game.twodtoisoX(this.x, this.y),
+        this.game.twodtoisoY(this.x, this.y)
+      );
 }
 
 function Map(gameEngine) {
@@ -81,13 +82,17 @@ function Map(gameEngine) {
 }
 Map.prototype.constructor = Map;
 
+Map.prototype.checkTileForThing = function(x, y) {
+  return mapList[y][x].getThing();
+}
+
 Map.prototype.addThing = function(thing, x, y) {
   if(this.mapList[y][x].thing == null) {
     this.mapList[y][x].thing = thing;
     thing.x = x;
     thing.y = y;
     this.game.addEntity(thing);
-    
+
     if(thing.dimensionX > 1) {
       console.log('hi')
           for(i = x + 1; i < x + thing.dimensionX; i++) {
