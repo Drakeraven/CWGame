@@ -99,8 +99,8 @@ industry.prototype.update = function () {
 }
 
 industry.prototype.draw = function (ctx) {
-    pt1 = twodtoisoX(this.x, this.y) - this.renderX;
-    pt2 = twodtoisoY(this.x, this.y) - this.renderY;
+    pt1 = this.game.twodtoisoX(this.x, this.y) - this.renderX;
+    pt2 = this.game.twodtoisoY(this.x, this.y) - this.renderY;
     ctx.fillRect(pt1, pt2, 5, 5);
     this.currAnim.drawFrame(this.game.clockTick, ctx, pt1, pt2);
     Entity.prototype.draw.call(this);
@@ -144,7 +144,7 @@ function Brewery(img, game, x, y, bWidth, bHeight) {
     this.placeCost = 60;
     this.merchCost = 45;
     this.prodTime = 15;
-  
+
     //FOR TESTING
     this.numEmployed = 14;
     this.numResources = 100;
