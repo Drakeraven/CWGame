@@ -111,9 +111,13 @@ GameEngine.prototype.startInput = function () {
     console.log('Input started');
 }
 
-function setButton(newSelection) {
+function setButton(titleOfCurrentButtonSelection) {
     $('.pharoh-button').removeClass('selected');
-    $('.pharoh-button[title="' + newSelection + '"]').addClass('selected');
+    $('.pharoh-button[title="' + titleOfCurrentButtonSelection + '"]').addClass('selected');
+    var buttonPaneTitle = titleOfCurrentButtonSelection;
+    if (buttonPaneTitle == 'Messages') buttonPaneTitle = 'Default';
+    $('.button-pane img').hide();
+    $('.button-pane img[title="' + buttonPaneTitle + '"]').show();
 }
 
 GameEngine.prototype.buildOnCanvas = function(x, y) {
@@ -144,6 +148,7 @@ GameEngine.prototype.buildOnCanvas = function(x, y) {
             this.addEntity(
                 entity
             );
+            
             break;
         case "Food and Farm":
             console.log("itfuud");
@@ -160,6 +165,7 @@ GameEngine.prototype.buildOnCanvas = function(x, y) {
             this.addEntity(
                 entity
             );
+            $("title").attr('src','./img/FoodAndFarmPane.png')
             break;
         default :
             console.log('nuthin2seahear')
