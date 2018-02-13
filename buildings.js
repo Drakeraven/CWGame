@@ -16,7 +16,6 @@
 //    Entity.prototype.draw.call(this);
 //}
 
-
 function ArchBuild(game, img) {
     this.animation = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
     Entity.call(this, game, 150, 0);
