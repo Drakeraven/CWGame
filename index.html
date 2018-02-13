@@ -66,12 +66,33 @@
 
 
         }
-
         .button-pane img {
             width: 150px;
             height: 70px;
             border: 1px solid rgb(5, 4, 4);
             margin-bottom: 5px;
+        }
+        .stats-box{
+            width:150px;
+            height:100px;
+            border: 1px solid rgb(5, 4, 4);
+            margin-bottom: 5px;
+            background-color: rgb(235, 151, 96);
+        }
+        .menu-button-container{
+            width: 150px;
+            height: auto;
+            
+            border: 1px solid rgb(5, 4, 4);
+        }
+        .building-options-menu{
+            width:150px;
+            height:60px;
+            border: 1px solid rgb(5, 4, 4);
+            margin-bottom: 5px;
+            margin-top: 5px;
+            background-color: rgb(235, 151, 96);
+            
         }
     </style>
 </head>
@@ -85,7 +106,8 @@
                 <img class="title" src="./img/Title.png" />
             </div>
             <div class="stats-box">
-                <p class="stats" src = "./img/"></p>
+                <p class="stats" >Building Status Box IP
+                </p>
             </div>
             <div class="button-pane">
                 <img title="Default" style="display:block;" src="./img/DefaultPane.png" />
@@ -105,35 +127,42 @@
                     <img class="btn" src="./img/Housing.png" />
                 </div>
                 <div class="pharoh-button" title="Utilities">
-                    <img/ class="btn" src="./img/Utilities.png" />
+                    <img class="btn" src="./img/Utilities.png" />
                 </div>
-                <div class="pharoh-button" title="StorageAndDistribution">
-                    <img/ class="btn" src="./img/StorageAndDistribution.png" />
+                <div class="pharoh-button" title="Storage and Distribution">
+                    <img class="btn" src="./img/StorageAndDistribution.png" />
                 </div>
 
                 <div class="pharoh-button" title="Food and Farm">
                     <img class="btn" src="./img/FoodAndFarming.png" />
                 </div>
                 <div class="pharoh-button" title="Industrial">
-                    <img/ class="btn" src="./img/Industrial.png" />
+                    <img class="btn" src="./img/Industrial.png" />
                 </div>
-                <div class="pharoh-button" title="RawMaterials">
-                    <img/ class="btn" src="./img/RawMaterials.png" />
+                <div class="pharoh-button" title="Raw Materials">
+                    <img class="btn" src="./img/RawMaterials.png" />
                 </div>
 
                 <div class="pharoh-button" title="Roads">
-                    <img/ class="btn" src="./img/Roads.png" />
+                    <img class="btn" src="./img/Roads.png" />
                 </div>
-                <div class="pharoh-button" title="ClearLand">
-                    <img/ class="btn" src="./img/ClearLand1.png" />
+                <div class="pharoh-button" title="Clear Land">
+                    <img class="btn" src="./img/ClearLand1.png" />
                 </div>
                 <div class="pharoh-button" title="Messages">
-                    <img/ class="btn" src="./img/Messages.png" />
+                    <img class="btn" src="./img/Messages.png" />
                 </div>
 
             </div>
+
+            <div class="building-options-menu">
+                <div class="Options"/>
+            </div>
+
             <div class="menu-button-container">
-                <div class="menu-button"
+                <div class="pharaoh-button" title "UserStatsAndGoals" style:"border: 1px solid ">
+                    <img/ class="btn" src="./img/StatsAndGoals.png" />
+                </div>
             </div>
         </div>
     </div>
@@ -153,6 +182,8 @@
     <script type="text/javascript" src="./resourceBuild.js"></script>
     <script type="text/javascript" src="./bubblebuild.js"></script>
 </body>
+
+
 <script>
     $(function () {
         $('.pharoh-button').click(function () {
