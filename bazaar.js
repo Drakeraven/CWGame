@@ -19,6 +19,7 @@ function bazaar(game, img, x, y, bWidth, bHeight) {
     this.numEmployed = 0;
     this.maxEmployed = 20;
     this.placeCost = 50;
+    this.range = 50;
     this.foodLevel = 0;
     this.weaverLevel = 0; 
     this.potterLevel = 0; 
@@ -49,6 +50,10 @@ bazaar.prototype.update = function () {
 
     //do this at a set time, 
     for (i = 0; i < this.game.housingArr.length; i++) { 
+        //compare x and y to the range
+        if ( sqrt(pow((housingArr[i].x - this.x), 2) + pow((housingArr[i].y - this.y), 2) < this.range )) { 
+            //push food/goods && send bazaar lady
+        } 
         //for any house in the area, push food to them 
         //set amount to each place - 2 per person? idk housing level * amt 
         //sell stock of items 
