@@ -30,7 +30,7 @@ Timer.prototype.tick = function () {
 function GameEngine() {
     this.entities = [];
     this.walkers = []; //Add Walkers to this ONLY
-    this.industries = []; //Add Industries to this ONLY 
+    this.industries = []; //Add Industries to this ONLY
     this.map;
     this.showOutlines = false;
     this.ctx = null;
@@ -84,7 +84,7 @@ GameEngine.prototype.startInput = function () {
         that.map.addThing(copstore, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
     });
     //hotkey
-    this.ctx.canvas.addEventListener("keypress", function(event) {
+    this.ctx.canvas.addEventListener("keydown", function(event) {
         if (event.code === "KeyH") {
             setButton("Housing");
         } else if (event.code === "KeyF") {
