@@ -6,7 +6,6 @@
     <title>Game Project Shell</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <style>
-        
         .button-container {
             width: 150px;
             height: auto;
@@ -60,38 +59,64 @@
         .GameUI {
             padding: 5px;
             height: 690px;
+            width:150px;
             border: 1px solid rgb(5, 4, 4);
             background-image: url("./img/Background3.jpg");
             float: left;
 
 
         }
+
         .button-pane img {
             width: 150px;
             height: 70px;
             border: 1px solid rgb(5, 4, 4);
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            margin-top: 10px;
         }
-        .stats-box{
-            width:150px;
-            height:100px;
-            border: 1px solid rgb(5, 4, 4);
-            margin-bottom: 5px;
-            background-color: rgb(235, 151, 96);
-        }
-        .menu-button-container{
+
+        .stats-box {
             width: 150px;
-            height: auto;
-            
-            border: 1px solid rgb(5, 4, 4);
-        }
-        .building-options-menu{
-            width:150px;
-            height:60px;
+            height: 100px;
             border: 1px solid rgb(5, 4, 4);
             margin-bottom: 5px;
             margin-top: 5px;
             background-color: rgb(235, 151, 96);
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+             border-radius: 5px;
+        }
+
+        .options {
+            width:150px;
+            height:50px;
+            text-align: center;
+            font-size: 12px;
+            margin-top: 5px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+             border-radius: 5px;
+        }
+
+        select option {
+            background: rgba(128, 52, 2, 0.3);
+            color: rgb(24, 20, 18);
+            text-shadow: 0 1px 0 rgba(248, 8, 8, 0.4);
+           
+        }
+        .message-box {
+            width: 150px;
+            height: 50px;
+            border: 1px solid rgb(5, 4, 4);
+            margin-bottom: 10px;
+            margin-top: 10px;
+            background-color: rgb(235, 151, 96);
+        }
+        .menu-button-container {
+            width: 100px;
+            height: auto;
+            float: left;
+            border: 1px solid rgb(5, 4, 4);
             
         }
     </style>
@@ -106,7 +131,7 @@
                 <img class="title" src="./img/Title.png" />
             </div>
             <div class="stats-box">
-                <p class="stats" >Building Status Box IP
+                <p class="stats" style="text-align:center; font-size:12px;">Building Status Box IP
                 </p>
             </div>
             <div class="button-pane">
@@ -154,18 +179,35 @@
                 </div>
 
             </div>
-
-            <div class="building-options-menu">
-                <div class="Options"/>
+            <div class="options" width="150" height="300" style="border: 1px solid rgb(5, 4, 4); background:rgb(235, 151, 96); padding:5px; ">
+                <p>
+                    <label>Building Type:</label>
+                    <br />
+                    <select name="builiding" class="disabled">
+                        <option class="opt" value="Default">Select One</option>
+                        <option class="opt" value="unif">Uniform</option>
+                        <option class="opt" value="lnorm">Log-normal</option>
+                        <option class="opt" value="exp">Exponential</option>
+                    </select>
+                </p>
             </div>
-
             <div class="menu-button-container">
-                <div class="pharaoh-button" title "User Status and Goals" style:"border: 1px solid ">
-                    <img/ class="btn" src="./img/StatsAndGoals.png" />
+                <div class="pharoh-button" title="Select">
+                    <img class="btn" src="./img/Select.png" />
+                </div>
+                <div class="pharoh-button" title="Game Information">
+                    <img class="btn" src="./img/StatsAndGoals.png" />
                 </div>
             </div>
+            <div class="message-box">
+                    <p class="MessageTitle" style="text-align:center; font-size:12px;">Messages:
+                    </p><br/>
+                    <p class="current-msg"style="text-align:center; font-size:12px;">
+                        Oh no! Your whole world is on fire, you suck at this game...and life.
+                    </p>
+                </div>
+
         </div>
-    </div>
 
 
 
@@ -197,6 +239,7 @@
         });
     });
 </script>
+
 </html>
 
 </html>
