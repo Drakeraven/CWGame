@@ -1,6 +1,7 @@
 var wageRate = 30; //annually removed, change to percentage of pop?
 var fireResist = 5; // percent chance of burning? lowerable
 var collapseResist = 3; //percent chance of collapse? lowerable.
+
 var merchStep = 100; //how much of an item is created at the end of a buidl cycle
 
 function arrived(rect1, r2X, r2Y) {
@@ -72,6 +73,7 @@ industry.prototype.update = function () {
             this.workTime = this.game.timer.gameTime;
             this.numMerch += this.merchStep;
         }
+
         for (var i = 0; i < this.game.walkers.length; i++) {//loop through walkers
             if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) {
                 if (this.game.walkers[i].loadType == this.resType && this.numResources < 300) {
@@ -91,6 +93,7 @@ industry.prototype.update = function () {
                     this.game.walkers[i].destY = this.game.walkers[i].startY;
                 }
             }
+
         }
     }
 }
@@ -141,6 +144,7 @@ function Brewery(img, game, x, y, bWidth, bHeight) {
     this.placeCost = 60;
     this.merchCost = 45;
     this.prodTime = 15;
+  
     //FOR TESTING
     this.numEmployed = 14;
     this.numResources = 100;
