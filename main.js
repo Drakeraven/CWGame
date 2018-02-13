@@ -211,9 +211,9 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.init(ctx);
     gameEngine.map.readMap(new mapData().testMap);
     //var gameWorld = new gameWorld();
-    var walkerMap = new mapData().testMap
+    //var walkerMap = new mapData().testMap
 
-    
+
     //var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), walkerMap, 0, 1);
     //ecm.destX = 6;
     //ecm.destY = 18;
@@ -256,4 +256,3 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addIndustry(potter);
     gameEngine.start();
 });
-
