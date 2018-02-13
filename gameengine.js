@@ -11,7 +11,6 @@ window.requestAnimFrame = (function () {
             };
 })();
 
-
 function Timer() {
     this.gameTime = 0;
     this.maxStep = .05;
@@ -48,6 +47,8 @@ GameEngine.prototype.init = function (ctx) {
     this.surfaceHeight = this.ctx.canvas.height;
     this.startInput();
     this.timer = new Timer();
+    this.cameraoffX = 0;
+    this.cameraoffY = 0;
     console.log('game initialized');
 }
 
@@ -59,13 +60,28 @@ GameEngine.prototype.start = function () {
         requestAnimFrame(gameLoop, that.ctx.canvas);
     })();
 }
-
+GameEngine.prototype.twodtoisoX = function (x,y) {
+  return (((x - y) + this.cameraoffX) * 29 );
+}
+GameEngine.prototype.twodtoisoY = function (x,y) {
+  return (((x + y)-this.cameraoffY)) * 15 ;
+}
+GameEngine.prototype.isototwodX = function (x,y) {
+  return Math.floor((((x / 29) - this.cameraoffX) + ((y / 15) + this.cameraoffY )) / 2) - 1;
+}
+GameEngine.prototype.isototwodY = function (x,y) {
+  return Math.floor((((y /15) + this.cameraoffY) - ((x / 29) - this.cameraoffX)) /2);
+}
 GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
     this.ctx.canvas.addEventListener("click", function(event) {
         that.buildOnCanvas(event.clientX, event.clientY);
-        console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY);
+        fixX = event.clientX - (event.clientX % 29);
+        fixY = event.clientY - (event.clientY % 15);
+        console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY + '(board coord at )' + that.isototwodX(fixX, fixY) + ' ' + that.isototwodY(fixX, fixY));
+        copstore = new HuntingLodge(that, ASSET_MANAGER.getAsset("./img/HuntingLodge.png"));
+        that.map.addThing(copstore, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
     });
     //hotkey
     this.ctx.canvas.addEventListener("keypress", function(event) {
@@ -73,8 +89,16 @@ GameEngine.prototype.startInput = function () {
             setButton("Housing");
         } else if (event.code === "KeyF") {
             setButton("Food and Farm");
+        } else if (event.code === "ArrowRight") {
+            that.cameraoffX += 1;
+        }else if (event.code === "ArrowLeft") {
+            that.cameraoffX -= 1;
+        }else if (event.code === "ArrowUp") {
+            that.cameraoffY += 1;
+        }else if (event.code === "ArrowDown") {
+            that.cameraoffY -= 1;
         }
-        console.log("the following key was pressed: " + event.code);
+        console.log("the following key was pressed: " + event.code + "cam off x: " + that.cameraoffX + " cam off y: " + that.cameraoffY);
 
     });
 
