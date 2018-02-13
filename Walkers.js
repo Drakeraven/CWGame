@@ -5,7 +5,7 @@ set his destX and destY for a building of your choice.
 */
 var speed = 2.5;
 var aSpeed = .06;
-//TODO:Hunter Logic. Fix rendering of sprite 
+//TODO:Hunter Logic. Fix rendering of sprite
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -56,7 +56,7 @@ Walker4.prototype.update = function () {
                 console.log("Path! The first Point is " + path[0].x + " " + path[0].y);
                 that.path = path;
                 that.next = that.path.shift();
-                that.isWalking = true; 
+                that.isWalking = true;
             }
         });
         this.easyStar.calculate();
@@ -91,15 +91,15 @@ Walker4.prototype.walkPath = function () {
 }
 
 Walker4.prototype.draw = function (ctx) {
-    pt1 = twodtoisoX(this.x, this.y) + 27 - this.currAnimation.frameWidth / 2;
-    pt2 = twodtoisoY(this.x, this.y) + 10 - this.currAnimation.frameHeight / 2;
+    pt1 = this.game.twodtoisoX(this.x, this.y) + 27 - this.currAnimation.frameWidth / 2;
+    pt2 = this.game.twodtoisoY(this.x, this.y) + 10 - this.currAnimation.frameHeight / 2;
     ctx.fillRect(pt1, pt2, 5, 5);
     //console.log(pt1, pt2);
     this.currAnimation.drawFrame(this.game.clockTick, ctx, pt1, pt2);
     Entity.prototype.draw.call(this);
 }
 
-//Cart Walkers 
+//Cart Walkers
 
 function eCartMan(game, img, map, lX, lY)   {
     Walker4.call(this, game, img, map, lX, lY);
@@ -363,8 +363,6 @@ Hunter.prototype.update = function () {
      this.currAnimation = this.animation['NE'];
 
  }
- 
+
  Migrant.prototype = Object.create(Walker8.prototype);
  Migrant.prototype.constructor = Migrant;
-
-
