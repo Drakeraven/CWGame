@@ -195,7 +195,7 @@ GameEngine.prototype.buildOnCanvas = function(x, y) {
             //create entity
         case "Storage and Distribution":
         case "Industrial":
-        case "Raw Materials"
+        case "Raw Materials":
         default :
             console.log('nuthin2seahear')
             break
