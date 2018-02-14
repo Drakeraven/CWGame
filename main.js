@@ -207,6 +207,8 @@ ASSET_MANAGER.downloadAll(function () {
 
     var gameEngine = new GameEngine();
 
+    gameEngine.gameWorld = new GameWorld(); 
+
     gameEngine.map = new Map(gameEngine);
     gameEngine.init(ctx);
     gameEngine.map.readMap(new mapData().testMap);
@@ -215,9 +217,9 @@ ASSET_MANAGER.downloadAll(function () {
     easyStar.disableCornerCutting();
 
     var housingalone = new Housing(gameEngine, ASSET_MANAGER.getAsset("./img/HousingAlone.png"), 5, 6, 2, 2);
-    gameEngine.addBuilding(housingalone);
+    gameEngine.addHouse(housingalone);
     var baz = new bazaar(gameEngine, ASSET_MANAGER.getAsset("./img/Bazaar.png"), 2, 2, 2, 2);
-    gameEngine.addBuilding(baz);
+    gameEngine.addHouse(baz);
     //var gameWorld = new gameWorld();
     var walkerMap = new mapData().testMap
 

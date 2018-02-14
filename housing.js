@@ -21,7 +21,10 @@ function house(game, img, x, y, bWidth, bHeight) {
     this.foodLevel = 0;
     this.weaverLevel = false; 
     this.potterLevel = false; 
-    this.brewerLevel = false; 
+    this.brewerLevel = false;
+    this.renderX = 0;
+    this.renderY = 0; 
+    this.buffer = { x: x - 1, y: y - 1, width: bWidth + 1, height: bHeight + 1};
     Entity.call(this, game, x, y);
 }
 
@@ -70,15 +73,23 @@ house.prototype.update = function () {
     // if gametime = 1 month 
         //this.foodLevel -= numHoused;
 
-    //UPDATE Pop: 
+    //UPDATE Pop:
+    /*currentPop = 0;
+    for (i = 0; i < this.game.housingArr.length; i++) {
+        currentPop += numHoused;
+    } 
+
+    if (currentPop > this.game.GameWorld.prosperity) { 
+
+    }*/
     //Iterate over all buildings in array, add/subtract difference between gameWorld pop and array pop
     //PUSH POP TO INDUSTRY LIST > check gameWorld for population stat > 40%? > only give each industry building what they need 
 }
 
 house.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
-    pt1 = twodtoisoX(this.x, this.y);
-    pt2 = twodtoisoY(this.x, this.y);
+    pt1 = this.game.twodtoisoX(this.x, this.y);
+    pt2 = this.game.twodtoisoY(this.x, this.y);
     ctx.fillRect(pt1, pt2, 5, 5);
     this.currAnim.drawFrame(this.game.clockTick, ctx, pt1, pt2);
 }

@@ -37,7 +37,7 @@ function industry(img, game, x, y, bWidth, bHeight) {
     this.numMerch = 0;
     this.merchCost = 0;
     this.prodTime = 0;
-    this.buffer = { x: x - 1, y: y - 1, width: bWidth + 2, height: bHeight + 2};
+    this.buffer = { x: x - 1, y: y - 1, width: bWidth + 1, height: bHeight + 1};
     Entity.call(this, game, x, y);
 }
 
