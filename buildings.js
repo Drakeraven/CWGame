@@ -76,11 +76,11 @@ CopStore.prototype.draw = function (ctx) {
 }
 
 
-function Brewery(game, img) {
-    this.dimensionX = 2;
-    this.dimensionY = 2;
-    this.animation = new Animation(img, 0, 1, 118, 90, 4, .15, 12, true);
-    Entity.call(this, game, 500, 0);
+//function Brewery(game, img) {
+//    this.dimensionX = 2;
+//    this.dimensionY = 2;
+//    this.animation = new Animation(img, 0, 1, 118, 90, 4, .15, 12, true);
+//    Entity.call(this, game, 500, 0);
 
 //}
 
@@ -91,10 +91,10 @@ function Brewery(game, img) {
 //    Entity.prototype.update.call(this);
 //}
 
-Brewery.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.game.twodtoisoX(this.x, this.y) - 30, this.game.twodtoisoY(this.x, this.y) -30);
-    Entity.prototype.draw.call(this);
-}
+//Brewery.prototype.draw = function (ctx) {
+//    this.animation.drawFrame(this.game.clockTick, ctx, this.game.twodtoisoX(this.x, this.y) - 30, this.game.twodtoisoY(this.x, this.y) -30);
+//    Entity.prototype.draw.call(this);
+//}
 
 function Firehouse(game, img) {
     this.animation = new Animation(img, 0, 1, 58, 100, 6, .15, 12, true);
@@ -132,23 +132,23 @@ Goldmine.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Housing(game, img, x = 150, y = 110) {
-    this.animation = new Animation(img, 0, 0, 118, 97, 6, 1, 12, true);
-    Entity.call(this, game, x, y);
+//function Housing(game, img, x = 150, y = 110) {
+//    this.animation = new Animation(img, 0, 0, 118, 97, 6, 1, 12, true);
+//    Entity.call(this, game, x, y);
 
-}
+//}
 
-Housing.prototype = new Entity();
-Housing.prototype.constructor = Housing;
+//Housing.prototype = new Entity();
+//Housing.prototype.constructor = Housing;
 
-Housing.prototype.update = function () {
-    Entity.prototype.update.call(this);
-}
+//Housing.prototype.update = function () {
+//    Entity.prototype.update.call(this);
+//}
 
-Housing.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-    Entity.prototype.draw.call(this);
-}
+//Housing.prototype.draw = function (ctx) {
+//    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+//    Entity.prototype.draw.call(this);
+//}
 
 function HuntingLodge(game, img) {
   this.dimensionX = 2;
@@ -260,20 +260,20 @@ Palace.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Barley(game, img, x = 600, y = 300) {
-    this.animation = new Animation(img, 0, 1, 178, 91, 6, 1, 6, true);
-    Entity.call(this, game, x, y);
+//function Barley(game, img, x = 600, y = 300) {
+//    this.animation = new Animation(img, 0, 1, 178, 91, 6, 1, 6, true);
+//    Entity.call(this, game, x, y);
 
-}
+//}
 
-Barley.prototype = new Entity();
-Barley.prototype.constructor = Barley;
+//Barley.prototype = new Entity();
+//Barley.prototype.constructor = Barley;
 
-Barley.prototype.update = function () {
-    Entity.prototype.update.call(this);
-}
+//Barley.prototype.update = function () {
+//    Entity.prototype.update.call(this);
+//}
 
-Barley.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-    Entity.prototype.draw.call(this);
-}
+//Barley.prototype.draw = function (ctx) {
+//    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+//    Entity.prototype.draw.call(this);
+//}

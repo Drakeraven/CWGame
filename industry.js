@@ -4,20 +4,6 @@ var collapseResist = 3; //percent chance of collapse? lowerable.
 
 var merchStep = 100; //how much of an item is created at the end of a buidl cycle
 
-function arrived(rect1, r2X, r2Y) {
-    //return (rect1.x < rect2X + 0) &&
-    //    (rect1.x + rect1.width > r2X && rect1.y < r2Y + 0) &&
-    //    (rect1.height + rect1.y > r2);
-    return (r2X < rect1.x + rect1.width && r2X > rect1.x) &&
-        (r2Y < rect1.y + rect1.height && r2Y > rect1.y);
-}
-
-function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-}
-
 function industry(img, game, x, y, bWidth, bHeight) {
     this.game = game;
     this.img = img;
@@ -37,7 +23,8 @@ function industry(img, game, x, y, bWidth, bHeight) {
     this.numMerch = 0;
     this.merchCost = 0;
     this.prodTime = 0;
-    this.buffer = { x: x - 1, y: y - 1, width: bWidth + 2, height: bHeight + 2};
+    this.buffer = { x: x - 1, y: y - 1, width: bWidth + 1, height: bHeight + 1 };
+    this.roadTiles = [];
     Entity.call(this, game, x, y);
 }
 
@@ -46,6 +33,7 @@ industry.prototype.constructor = industry;
 
 industry.prototype.update = function () {
     Entity.prototype.update.call(this);
+    this.roadTiles = findRoad(this.buffer);
 
     //Checks for fire/collapse. Need to make this happen, not ALOT of the time...
     //if (getRandomInt(1, 101) <= fireResist) {
@@ -76,7 +64,7 @@ industry.prototype.update = function () {
 
         for (var i = 0; i < this.game.walkers.length; i++) {//loop through walkers
             if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) {
-                if (this.game.walkers[i].loadType == this.resType && this.numResources < 300) {
+                if (this.game.walkers[i].loadType == this.resType && this.numResources < 100) {
                     this.numResources += this.game.walkers[i].loadCount;
                     this.game.walkers[i].removeFromWorld = true;
                 }

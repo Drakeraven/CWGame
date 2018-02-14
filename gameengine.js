@@ -80,7 +80,8 @@ GameEngine.prototype.startInput = function () {
         fixX = event.clientX - (event.clientX % 29);
         fixY = event.clientY - (event.clientY % 15);
         console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY + '(board coord at )' + that.isototwodX(fixX, fixY) + ' ' + that.isototwodY(fixX, fixY));
-        copstore = new HuntingLodge(that, ASSET_MANAGER.getAsset("./img/HuntingLodge.png"));
+        //copstore = new Weaver(ASSET_MANAGER.getAsset('./img/Weaver.png'), that, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY), 2, 2);
+        copstore = new grainFarm(ASSET_MANAGER.getAsset('./img/FarmPlots.png'), that, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
         that.map.addThing(copstore, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
     });
     //hotkey
