@@ -42,22 +42,8 @@ Animation.prototype.isDone = function () {
     return (this.elapsedTime >= this.totalTime);
 }
 
-function twodtoisoX(x, y) {
-    return ((((x - y))+ 15) * 29);
-}
-function twodtoisoY(x, y) {
-    return (((x + y)) * 15);
-}
-function isototwodX(x, y) {
-    return ((x + y) / 29);
-}
-function isototwodY(x, y) {
-    return (((x - y)) / 15);
-}
-
-
 function getTileInfo(x, y, game) {
-    return game.map.mapList[x][y];  
+    return game.map.mapList[x][y];
 }
 
 
@@ -91,23 +77,15 @@ function Tile(game, tileType, x, y) {
 Tile.prototype = new Entity();
 Tile.prototype.constructor = Tile;
 
-Tile.prototype.addThing = function(thing) {
-    this.thing = thing;
-    thing.x = this.x;
-    thing.y = this.y;
-    arrX = Math.floor(isototwodX(this.x, this.y));
-    arrY = Math.floor(isototwodY(this.x, this.y))
-    this.origin = 1;
-    this.game.addEntity(thing);
-
+Tile.prototype.getThing = function() {
+  return this.thing;
 }
-
 Tile.prototype.draw = function(ctx) {
-    //this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-          //Entity.prototype.draw.call(this);
-      //this.thing.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-      //Entity.prototype.draw.call(this);
-      ctx.drawImage(this.image, twodtoisoX(this.x, this.y), twodtoisoY(this.x, this.y));
+      ctx.drawImage(
+        this.image,
+        this.game.twodtoisoX(this.x, this.y),
+        this.game.twodtoisoY(this.x, this.y)
+      );
 }
 
 function Map(gameEngine) {
@@ -118,44 +96,65 @@ function Map(gameEngine) {
 }
 Map.prototype.constructor = Map;
 
+Map.prototype.addThing = function(thing, x, y) {
+  if(this.mapList[y][x].thing == null) {
+    this.mapList[y][x].thing = thing;
+    thing.x = x;
+    thing.y = y;
+    this.game.addEntity(thing);
+
+    if(thing.dimensionX > 1) {
+      console.log('hi')
+          for(i = x + 1; i < x + thing.dimensionX; i++) {
+            this.mapList[y][i].thing = thing;
+            console.log(this.mapList[y][i].thing)
+          }
+    }
+    if(thing.dimensionY > 1) {
+          for(i = y + 1; i < y + thing.dimensionY; i++) {
+            this.mapList[i][x].thing = thing;
+          }
+    }
+  }
+}
 Map.prototype.readMap = function(mapData) {
 
     for (i = 0; i < mapData.length; i++) {
         this.mapList[i] = new Array(mapData.length);
         for (j = 0; j < mapData[i].length; j++) {
-
             x = j;
             y = i;
             tileType = mapData[i][j];
             //console.log(mapData[i][j]);
             //console.log(twodtoisoX(x, y) + ' '+ twodtoisoY(x, y));
-            var tile = new Tile(this.game, tileType, x, y);
+            var tile = new Tile(this.game, tileType, x, y );
             //this.game.addEntity(tile);
             this.mapList[i][j] = tile;
-            //if (x % 2 == 0 && y % 2 == 0) {
-            //    var copstore = new ArchBuild(this.game, ASSET_MANAGER.getAsset("./img/ArchBuild-1.png"));
-            //    this.mapList[i][j].addThing(copstore);
-            //}
-
-
         }
     }
 }
 
 //need an instance at start. we can adjust values as needed.
-function gameWorld() {
+function GameWorld() {
     this.prosperity = 0;
     this.population = 0;
+    this.workForce = 0;
     this.taxRev = .10;
     this.funds = 0;
     this.goals = [];
 }
 
-gameWorld.prototype.calcProsperity = function () {
-    /*However we wanna calculate prosperity here??*/
-
+GameWorld.prototype.addPop = function (num) {
+    this.population += num;
 }
 
+GameWorld.prototype.remPop = function (num) {
+    this.population -= num;
+}
+
+GameWorld.prototype.getWorkForce = function () {
+    return Math.floor(this.population * .40); //40% population is work force, change how I'm doing it??
+}
 
 // the "main" code begins here
 
@@ -166,7 +165,6 @@ ASSET_MANAGER.queueDownload("./img/grass.png");
 ASSET_MANAGER.queueDownload("./img/Land1a_00002.png");
 ASSET_MANAGER.queueDownload("./img/emptyCartMan.png");
 ASSET_MANAGER.queueDownload("./img/barleyCartMan.png");
-ASSET_MANAGER.queueDownload("./img/beerCartMan.png");
 ASSET_MANAGER.queueDownload("./img/beerCartMan.png");
 ASSET_MANAGER.queueDownload("./img/clayCartMan.png");
 ASSET_MANAGER.queueDownload("./img/flaxCartMan.png");
@@ -191,9 +189,16 @@ ASSET_MANAGER.queueDownload("./img/farm1.png");
 ASSET_MANAGER.queueDownload("./img/taxHouse.png");
 ASSET_MANAGER.queueDownload("./img/palace.png");
 ASSET_MANAGER.queueDownload("./img/FarmPlots.png");
+ASSET_MANAGER.queueDownload("./img/bazaarLady 22x42.png");
+ASSET_MANAGER.queueDownload("./img/FireDude1.png")
+ASSET_MANAGER.queueDownload("./img/Firedude2.png");
+ASSET_MANAGER.queueDownload("./img/Hunter1.5.png");
+ASSET_MANAGER.queueDownload("./img/Hunter2.png");
+ASSET_MANAGER.queueDownload("./img/immig.png");
+
 //TODO: add in imgs for fixed walkers
 
-var easyStar = new EasyStar.js();
+//var easyStar = new EasyStar.js();
 
 ASSET_MANAGER.downloadAll(function () {
     console.log("starting up da sheild");
@@ -201,6 +206,7 @@ ASSET_MANAGER.downloadAll(function () {
     var ctx = canvas.getContext('2d');
 
     var gameEngine = new GameEngine();
+
     gameEngine.map = new Map(gameEngine);
     gameEngine.init(ctx);
     gameEngine.map.readMap(new mapData().testMap);
@@ -212,6 +218,49 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addBuilding(housingalone);
     var baz = new bazaar(gameEngine, ASSET_MANAGER.getAsset("./img/Bazaar.png"), 2, 2, 2, 2);
     gameEngine.addBuilding(baz);
+    //var gameWorld = new gameWorld();
+    var walkerMap = new mapData().testMap
 
+
+    var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), walkerMap, 0, 1);
+    ecm.destX = 6;
+    ecm.destY = 18;
+    var ccm = new cCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/clayCartMan.png"), walkerMap, 5, 1);
+    ccm.destX = 6;
+    ccm.destY = 18;
+    var becm = new beCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/beerCartMan.png"), walkerMap, 9, 5);
+    becm.destX = 6;
+    becm.destY = 18;
+    gameEngine.addWalker(ecm);
+    gameEngine.addWalker(ccm);
+    gameEngine.addWalker(becm);
+    var baz = new bazLad(gameEngine, ASSET_MANAGER.getAsset("./img/bazaarLady 22x42.png"), walkerMap, 0, 1, 100, "pottery");
+    baz.destX = 16;
+    baz.destY = 11;
+    gameEngine.addWalker(baz);
+
+    var fiyah = new FireMan(gameEngine, ASSET_MANAGER.getAsset("./img/FireDude1.png"), ASSET_MANAGER.getAsset("./img/Firedude2.png"), walkerMap, 0, 1);
+    fiyah.destX = 9;
+    fiyah.destY = 18;
+    gameEngine.addWalker(fiyah);
+
+    var huntah = new Hunter(gameEngine, ASSET_MANAGER.getAsset("./img/Hunter1.5.png"), ASSET_MANAGER.getAsset("./img/Hunter2.png"), walkerMap, 0, 1);
+    huntah.destX = 12;
+    huntah.destY = 18;
+    gameEngine.addWalker(huntah);
+
+    var peeps = new Migrant(gameEngine, ASSET_MANAGER.getAsset("./img/immig.png"), walkerMap, 0, 1);
+    peeps.destX = 6;
+    peeps.destY = 18;
+    gameEngine.addWalker(peeps);
+
+    var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, 3, 11, 2, 2);
+    gameEngine.addIndustry(weaver);
+
+    var brewery = new Brewery(ASSET_MANAGER.getAsset("./img/Brewery.png"), gameEngine, 3, 2, 2, 2);
+    gameEngine.addIndustry(brewery);
+
+    var potter = new Potter(ASSET_MANAGER.getAsset("./img/Potter.png"), gameEngine, 14, 11, 2, 2);
+    gameEngine.addIndustry(potter);
     gameEngine.start();
 });

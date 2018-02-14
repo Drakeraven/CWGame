@@ -27,10 +27,15 @@ function setDirection(current, next) {
 
 function setFace(x, y) {
     if (x == 0) {
-        if (y == -1) return "NE";
-        return "SW";
-    } else if (y == 0) {
-        if (x == 1) return "SE";
-        return "NW";
+        if (y == -1) return 'NE';
+        return 'SW';
+    } else if (x == -1) {
+        if (y == -1) return 'N';
+        if (y == 1) return 'W';
+        return 'NW';
+    } else {
+        if (y == 1) return 'S';
+        if (y == -1) return 'E';
+        return 'SE';
     }
 }

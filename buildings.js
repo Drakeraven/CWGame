@@ -1,22 +1,20 @@
+//function Weaver(game, img) {
+//    this.animation = new Animation(img, 0, 1, 118, 100, 6, .15, 12, true);
+//    Entity.call(this, game, 0, 0);
 
-function Weaver(game, img, x, y) {
-    this.animation = new Animation(img, 0, 1, 118, 100, 6, .15, 12, true);
-    Entity.call(this, game, x, y);
+//}
 
-}
+//Weaver.prototype = new Entity();
+//Weaver.prototype.constructor = Weaver;
 
-Weaver.prototype = new Entity();
-Weaver.prototype.constructor = Weaver;
+//Weaver.prototype.update = function () {
+//    Entity.prototype.update.call(this);
+//}
 
-Weaver.prototype.update = function () {
-    Entity.prototype.update.call(this);
-}
-
-Weaver.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-    Entity.prototype.draw.call(this);
-}
-
+//Weaver.prototype.draw = function (ctx) {
+//    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+//    Entity.prototype.draw.call(this);
+//}
 
 function ArchBuild(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
@@ -37,6 +35,9 @@ ArchBuild.prototype.draw = function (ctx) {
 }
 
 /*function Bazaar(game, img, x, y) {
+function Bazaar(game, img) {
+  this.dimensionX = 2;
+  this.dimensionY = 2;
     this.animation = new Animation(img, 0, 1, 118, 82, 4, .15, 12, true);
     Entity.call(this, game, x, y);
 
@@ -50,14 +51,21 @@ Bazaar.prototype.update = function () {
 }
 
 Bazaar.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+    this.animation.drawFrame(this.game.clockTick, ctx,
+      this.game.twodtoisoX(this.x, this.y) - 35,
+      this.game.twodtoisoY(this.x, this.y) -25);
     Entity.prototype.draw.call(this);
 }*/
 
-function CopStore(game, img, x, y) {
+/*function CopStore(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
     Entity.call(this, game, x, y);
-
+*/
+function CopStore(game, img) {
+  this.dimensionX = 1;
+  this.dimensionY = 1;
+    this.animation = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
+    Entity.call(this, game, 0, 0);
 }
 
 CopStore.prototype = new Entity();
@@ -68,25 +76,28 @@ CopStore.prototype.update = function () {
 }
 
 CopStore.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+    this.animation.drawFrame(this.game.clockTick, ctx, this.game.twodtoisoX(this.x, this.y), this.game.twodtoisoY(this.x, this.y) -74);
     Entity.prototype.draw.call(this);
 }
 
-function Brewery(game, img, x, y) {
+
+function Brewery(game, img) {
+    this.dimensionX = 2;
+    this.dimensionY = 2;
     this.animation = new Animation(img, 0, 1, 118, 90, 4, .15, 12, true);
     Entity.call(this, game, x, y);
 
 }
 
-Brewery.prototype = new Entity();
-Brewery.prototype.constructor = Brewery;
+//Brewery.prototype = new Entity();
+//Brewery.prototype.constructor = Brewery;
 
-Brewery.prototype.update = function () {
-    Entity.prototype.update.call(this);
-}
+//Brewery.prototype.update = function () {
+//    Entity.prototype.update.call(this);
+//}
 
 Brewery.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+    this.animation.drawFrame(this.game.clockTick, ctx, this.game.twodtoisoX(this.x, this.y) - 30, this.game.twodtoisoY(this.x, this.y) -30);
     Entity.prototype.draw.call(this);
 }
 
@@ -147,7 +158,13 @@ Housing.prototype.draw = function (ctx) {
 function HuntingLodge(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 118, 111, 9, 0.15, 18, true);
     Entity.call(this, game, x, y);
+function HuntingLodge(game, img) {
+  this.dimensionX = 2;
+  this.dimensionY = 2;
+    this.animation = new Animation(img, 0, 1, 118, 111, 9, 0.15, 18, true);
+    Entity.call(this, game, 0, 0);
 
+    }
 }
 
 HuntingLodge.prototype = new Entity();
@@ -158,7 +175,7 @@ HuntingLodge.prototype.update = function () {
 }
 
 HuntingLodge.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+    this.animation.drawFrame(this.game.clockTick, ctx, this.game.twodtoisoX(this.x, this.y) - 30, this.game.twodtoisoY(this.x, this.y) - 52);
     Entity.prototype.draw.call(this);
 }
 
@@ -180,23 +197,23 @@ Mansion.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Potter(game, img, x, y) {
-    this.animation = new Animation(img, 0, 1, 118, 90, 6, 0.15, 12, true);
-    Entity.call(this, game, x, y);
+//function Potter(game, img) {
+//    this.animation = new Animation(img, 0, 1, 118, 90, 6, 0.15, 12, true);
+//    Entity.call(this, game, 0, 220);
 
-}
+//}
 
-Potter.prototype = new Entity();
-Potter.prototype.constructor = Potter;
+//Potter.prototype = new Entity();
+//Potter.prototype.constructor = Potter;
 
-Potter.prototype.update = function () {
-    Entity.prototype.update.call(this);
-}
+//Potter.prototype.update = function () {
+//    Entity.prototype.update.call(this);
+//}
 
-Potter.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-    Entity.prototype.draw.call(this);
-}
+//Potter.prototype.draw = function (ctx) {
+//    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+//    Entity.prototype.draw.call(this);
+//}
 
 function WorkCamp(game, img, x, y) {
     this.animation = new Animation(img, 0, 1, 118, 83, 10, 0.15, 20, true);
