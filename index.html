@@ -59,7 +59,7 @@
         .GameUI {
             padding: 5px;
             height: 690px;
-            width:150px;
+            width: 150px;
             border: 1px solid rgb(5, 4, 4);
             background-image: url("./img/Background3.jpg");
             float: left;
@@ -73,6 +73,8 @@
             border: 1px solid rgb(5, 4, 4);
             margin-bottom: 10px;
             margin-top: 10px;
+            float: left;
+
         }
 
         .stats-box {
@@ -81,46 +83,65 @@
             border: 1px solid rgb(5, 4, 4);
             margin-bottom: 5px;
             margin-top: 5px;
-            background-color: rgb(235, 151, 96);
+            background-color: rgb(243, 172, 125);
             -webkit-border-radius: 5px;
             -moz-border-radius: 5px;
-             border-radius: 5px;
+            border-radius: 5px;
+            float: left;
+
         }
 
         .options {
-            width:150px;
-            height:50px;
+            width: 150px;
+            height: 40px;
             margin-bottom: 5px;
             margin-top: 5px;
-            background-color: rgb(235, 151, 96);
+            background-color: rgb(243, 172, 125);
             text-align: center;
             font-size: 12px;
-            margin-top: 5px;
+            margin-top: 10px;
             -webkit-border-radius: 5px;
             -moz-border-radius: 5px;
-             border-radius: 5px;
+            border-radius: 5px;
+            float: left;
+            border: 1px solid rgb(5, 4, 4);
+
+
         }
 
         select option {
-            background: rgba(128, 52, 2, 0.3);
+            background: rgba(245, 101, 5, 0.3);
             color: rgb(24, 20, 18);
             text-shadow: 0 1px 0 rgba(248, 8, 8, 0.4);
-           
+            float: left;
+
+
         }
+
         .message-box {
             width: 150px;
-            height: 50px;
+            height: 80px;
             border: 1px solid rgb(5, 4, 4);
             margin-bottom: 10px;
             margin-top: 10px;
-            background-color: rgb(235, 151, 96);
+            background-color: rgb(243, 172, 125);
+            float: left;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+
         }
+
         .menu-button-container {
             width: 100px;
             height: auto;
             float: left;
             border: 1px solid rgb(5, 4, 4);
-            
+
+        }
+
+        label {
+            font-weight: bold
         }
     </style>
 </head>
@@ -134,8 +155,9 @@
                 <img class="title" src="./img/Title.png" />
             </div>
             <div class="stats-box">
-                <p class="stats" style="text-align:center; font-size:12px;">Building Status Box IP
-                </p>
+                <div class="stats" style="text-align:center; font-size:12px;">
+                    <label>Building Status Box</label>
+                </div>
             </div>
             <div class="button-pane">
                 <img title="Default" style="display:block;" src="./img/DefaultPane.png" />
@@ -183,32 +205,32 @@
 
             </div>
             <div class="options">
-                <p>
-                    <label>Building Type:</label>
-                    <br />
-                    <select name="builiding" class="disabled" style="background:transparent;">
-                        <option class="opt" value="Default">Select One</option>
-                        <option class="opt" value="unif">Uniform</option>
-                        <option class="opt" value="lnorm">Log-normal</option>
-                        <option class="opt" value="exp">Exponential</option>
-                    </select>
-                </p>
+                <label>Building Type:</label>
+                <br />
+                <select name="builiding" class="disabled" style="background:rgb(240, 207, 163);">
+                    <option class="opt" value="Default">Select One</option>
+                    <option class="opt" value="unif">Uniform</option>
+                    <option class="opt" value="lnorm">Log-normal</option>
+                    <option class="opt" value="exp">Exponential</option>
+                </select>
             </div>
             <div class="menu-button-container">
-                <div class="pharoh-button" title="Select">
-                    <img class="btn" src="./img/Select.png" />
-                </div>
-                <div class="pharoh-button" title="Game Information">
-                    <img class="btn" src="./img/StatsAndGoals.png" />
+                <div class="control" style="margin: auto; float:none;display:inline-block;">
+                    <div class="pharoh-button" title="Select">
+                        <img class="btn" src="./img/Select.png" />
+                    </div>
+                    <div class="pharoh-button" title="Game Information">
+                        <img class="btn" src="./img/StatsAndGoals.png" />
+                    </div>
                 </div>
             </div>
-            <div class="message-box">
-                    <p class="MessageTitle" style="text-align:center; font-size:12px;">Messages:
-                    </p><br/>
-                    <p class="current-msg"style="text-align:center; font-size:12px;">
-                        Oh no! Your whole world is on fire, you suck at this game...and life.
-                    </p>
+            <div class="message-box" style="text-align:center; font-size:12px;">
+                <label>Messages</label>
+                <br/>
+                <div class="current-msg">
+                    Oh no! Your whole world is on fire, you suck at this game...and life.
                 </div>
+            </div>
 
         </div>
 
