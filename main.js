@@ -195,6 +195,8 @@ ASSET_MANAGER.queueDownload("./img/Firedude2.png");
 ASSET_MANAGER.queueDownload("./img/Hunter1.5.png");
 ASSET_MANAGER.queueDownload("./img/Hunter2.png");
 ASSET_MANAGER.queueDownload("./img/immig.png");
+ASSET_MANAGER.queueDownload("./img/smallWell.png");
+ASSET_MANAGER.queueDownload("./img/bigWell.png"); 
 
 //TODO: add in imgs for fixed walkers
 
@@ -212,14 +214,6 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.map = new Map(gameEngine);
     gameEngine.init(ctx);
     gameEngine.map.readMap(new mapData().testMap);
-    easyStar.setGrid(new mapData().testMap);
-    easyStar.setAcceptableTiles([1]); //Test, expand as needed.
-    easyStar.disableCornerCutting();
-
-    var housingalone = new Housing(gameEngine, ASSET_MANAGER.getAsset("./img/HousingAlone.png"), 5, 6, 2, 2);
-    gameEngine.addHouse(housingalone);
-    var baz = new bazaar(gameEngine, ASSET_MANAGER.getAsset("./img/Bazaar.png"), 2, 2, 2, 2);
-    gameEngine.addHouse(baz);
     //var gameWorld = new gameWorld();
     var walkerMap = new mapData().testMap
 
@@ -262,7 +256,7 @@ ASSET_MANAGER.downloadAll(function () {
     var brewery = new Brewery(ASSET_MANAGER.getAsset("./img/Brewery.png"), gameEngine, 3, 2, 2, 2);
     gameEngine.addIndustry(brewery);
 
-    var potter = new Potter(ASSET_MANAGER.getAsset("./img/Potter.png"), gameEngine, 14, 11, 2, 2);
-    gameEngine.addIndustry(potter);
+    var house1 = new WaterSupply(ASSET_MANAGER.getAsset("./img/bigWell.png"), gameEngine, 13, 11, 2, 2);
+    gameEngine.addHouse(house1);
     gameEngine.start();
 });
