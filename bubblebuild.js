@@ -41,17 +41,21 @@ bubbleBuilding.prototype.update = function () {
             } else if (this.identity === "fire") { 
                 this.game.housingArr[i].fireResist == 0.01; 
             } else if (this.identity === "tax") { 
+                console.log("Should be?");
                 myPop += this.game.housingArr[i].numHoused;
             } else if (this.identity === "cop") { 
-                
+                //this should probably be over the list of walkers 
             }
         }
     }
 
     // for a set interval, collect taxes from myPop
     //(30mon / 10ppl)
-    
-    /* go through industry list later??? nah 
+    console.log(myPop);
+    myTax = (Math.ceil((Math.floor((myPop / 10)) * 30) * 0.1)); //10 percent of 30 money per 10 people 
+    console.log(myTax);
+    //send a gold cart man every 45-1min seconds w/ this fundage
+    /* go through industry list later??? nope dont need to  
     */
 
 }
@@ -82,7 +86,7 @@ function WaterSupply (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/bigWell.png");
     bubbleBuilding.call(this, img, game, x, y, 1, 1, 30);
     workTime = game.timer.gameTime;
-    radius = { x: x - 1, y: y - 1, width: bWidth + 30, height: bHeight + 30}; 
+    radius = { x: x - 1, y: y - 1, width: 1 + 30, height: 1 + 30}; 
     this.identity = "water";
     this.currAnim = new Animation(img, 0, 0, 118, 77, 1, 0.15, 1, true);
 }
@@ -90,11 +94,11 @@ function WaterSupply (game, x, y) {
 WaterSupply.prototype = new bubbleBuilding();
 WaterSupply.prototype.constructor = WaterSupply;
 
-function TaxHouse (game, x, y,) { 
+function TaxHouse (game, x, y) { 
     img = ASSET_MANAGER.getAsset("./img/taxHouse.png");
     bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
     this.workTime = game.timer.gameTime;
-    radius = { x: x - 1, y: y - 1, width: bWidth + 30, height: bHeight + 30}; 
+    radius = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30}; 
     this.renderX = 28;
     this.renderY = 35;
     this.identity = "tax";
@@ -108,7 +112,7 @@ function FireHouse (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/Firehouse-1.png");
     bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
     this.workTime = game.timer.gameTime;
-    this.radius = { x: x - 1, y: y - 1, width: bWidth + 30, height: bHeight + 30}; 
+    this.radius = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30}; 
     this.renderX = 0;
     this.renderY = 40;
     this.identity = "fire";
@@ -122,7 +126,7 @@ function CopHouse (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/COPS-1.png");
     bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
     this.workTime = game.timer.gameTime;
-    this.radius = { x: x - 1, y: y - 1, width: bWidth + 30, height: bHeight + 30}; 
+    this.radius = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30}; 
     this.renderX = 0; 
     this.renderY = 40;
     this.identity = "cop";

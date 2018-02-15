@@ -265,5 +265,8 @@ ASSET_MANAGER.downloadAll(function () {
     var bazaar1 = new bazaar(gameEngine, 6, 11);
     gameEngine.addEntity(bazaar1);
 
+    var taxxyBoi = new TaxHouse(gameEngine, 14, 16);
+    gameEngine.addEntity(taxxyBoi);
+
     gameEngine.start();
 });
