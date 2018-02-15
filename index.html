@@ -133,7 +133,7 @@
         }
 
         .menu-button-container {
-            width: 100px;
+            width: 150px;
             height: auto;
             float: left;
             border: 1px solid rgb(5, 4, 4);
@@ -199,19 +199,20 @@
                 <div class="pharoh-button" title="Clear Land">
                     <img class="btn" src="./img/ClearLand1.png" />
                 </div>
-                <div class="pharoh-button" title="Messages">
-                    <img class="btn" src="./img/Messages.png" />
+                <div class="pharoh-button" title="Municipal Buildings">
+                    <img class="btn" src="./img/Municipal.png" />
                 </div>
+
 
             </div>
             <div class="options">
                 <label>Building Type:</label>
                 <br />
-                <select name="builiding" class="disabled" style="background:rgb(240, 207, 163);">
-                    <option class="opt1" value="Default">Select One</option>
-                    <option class="opt2" value="unif">Uniform</option>
-                    <option class="opt3" value="lnorm">Log-normal</option>
-                    <option class="opt4" value="exp">Exponential</option>
+                <select name="builiding" class="disabled" id="selectId" style="background:rgb(240, 207, 163);">
+                    <option class="opt1" value="Default">Test</option>
+                    <option class="opt2" value="unif">Test</option>
+                    <option class="opt3" value="lnorm">Test</option>
+                    <option class="opt4" value="exp">Test</option>
                 </select>
             </div>
             <div class="menu-button-container">
@@ -222,6 +223,10 @@
                     <div class="pharoh-button" title="Game Information">
                         <img class="btn" src="./img/StatsAndGoals.png" />
                     </div>
+                    <div class="pharoh-button" title="Messages">
+                        <img class="btn" src="./img/Messages.png" />
+                    </div>
+
                 </div>
             </div>
             <div class="message-box" style="text-align:center; font-size:12px;">
@@ -272,69 +277,75 @@
                 selection = selectedButton.attr('title');
             }
             //checks which button was selected and change select option
-            var newOptions = {};
-
-
-            var $el = $("#selectId");
-            $el.empty(); // remove old options
-            $.each(newOptions, function (key, value) {
-                $el.append($("<option></option>")
-                    .attr("value", value).text(key));
-            });
+            $newOptions = "";
             switch (selection) {
                 case "Housing":
                     console.log("itahouse");
-                    newOptions = {
-                        "Option 1": "House";
-                    };
+                    newOptions = "<option>House</options>"
 
                     break;
                 case "Food and Farm":
                     console.log("itfuud");
                     newOptions = {
-                        "Option 1": "Barley",
-                        "Option 2": "value2",
-                        "Option 3": "value3"
+                        "Option 1": "Grain Farm",
+                        "Option 2": "Barley Farm",
+                        "Option 3": "Flax Farm"
                     };
 
                     break;
                 case "Utilities":
                     newOptions = {
-                        "Option 1": "value1",
-                        "Option 2": "value2",
-                        "Option 3": "value3"
+                        "Option 1": "Well",
+                        "Option 2": "Water Supply",
                     };
-
+                    break;
                 case "Storage and Distribution":
                     newOptions = {
-                        "Option 1": "value1",
-                        "Option 2": "value2",
-                        "Option 3": "value3"
+                        "Option 1": "Bazaar",
+                        "Option 2": "Granary",
+                        "Option 3": "Storage Yard"
                     };
+                    break;
                 case "Industrial":
                     newOptions = {
-                        "Option 1": "value1",
-                        "Option 2": "value2",
-                        "Option 3": "value3"
+                        "Option 1": "Weaver",
+                        "Option 2": "Brewery",
+                        "Option 3": "Potter"
                     };
+                    break;
                 case "Raw Materials":
                     newOptions = {
-                        "Option 1": "value1",
-                        "Option 2": "value2",
-                        "Option 3": "value3"
+                        "Option 1": "Gold Mine",
+                        "Option 2": "Clay Pit"
                     };
+                    break;
                 case "Roads":
-                    
-                //clears select
+                //clear select/disable select
+                case "Municipal Buildings":
+                    newOptions = {
+                        "Option 3": "Police Station",
+                        "Option 2": "Fire House",
+                        "Option 3": "Palace",
+                        "Option 4": "Tax Collector's Office",
+                    };
                 default:
-                    console.log('nuthin2seahear')
+                    console.log('nuthin2seahear');
                     break
             }
-        }
+
         });
-    });
-      //handles options choosing selected- which affects actions in gameengine
-        //when x and y coordinates are chosen for an entity to be placed on
+        $('select#selectId').html($newoptions);
+       /* var $el = $("#selectId");
+        $el.empty(); // remove old options
+        $.each(newOptions, function (key, value) {
+            $el.append($("<option></option>")
+                .attr("value", value).text(key));*/
+        });
+    
+    //handles options choosing selected- which affects actions in gameengine
+    //when x and y coordinates are chosen for an entity to be placed on
+   
+
 </script>
 
 </html>
