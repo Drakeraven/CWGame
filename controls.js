@@ -1,5 +1,5 @@
 //handles buttons changing UI (like categories change select)
-
+var selectedBuilding = "";
 $(function () {
     $('.pharoh-button').click(function () {
         //Deals with what button is shaded on UI, one at a time only
@@ -8,6 +8,14 @@ $(function () {
     });
 
     // TODO add callback for selected option
+    $("select")
+        .change(function () {
+            var selection = "";
+            $("select option:selected").each(function () {
+                selectedBuilding = $(this).text();
+            });
+        })
+        .trigger("change");
 });
 
 function setHotKeys(event) {
@@ -54,7 +62,6 @@ function setButton(titleOfCurrentButtonSelection) {
     if (buttonPaneTitle == 'Select') buttonPaneTitle = 'Default';
     $('.button-pane img').hide();
     $('.button-pane img[title="' + buttonPaneTitle + '"]').show();
-
     switch (titleOfCurrentButtonSelection) {
         case "Housing":
             setSelectOptions(Constants.Buildings.Housing);
@@ -76,19 +83,19 @@ function setButton(titleOfCurrentButtonSelection) {
             break;
         case "Municipal":
             setSelectOptions(Constants.Buildings.Municipal);
-            case "Roads":
+        case "Roads":
             setSelectOptions(Constants.Buildings.Roads);
             break;
-            case "Messages":
+        case "Messages":
             setSelectOptions(Constants.Buildings.Messages);
             break;
-            case "Game Information":
+        case "Game Information":
             setSelectOptions(Constants.Buildings.GameInformation);
             break;
-            case "Clear Land":
+        case "Clear Land":
             setSelectOptions(Constants.Buildings.ClearLand);
             break;
-            case "Select":
+        case "Select":
             setSelectOptions(Constants.Buildings.ClearLand);
             break;
         default:
@@ -97,6 +104,7 @@ function setButton(titleOfCurrentButtonSelection) {
     }
 }
 
+//sets new select options based on button selected
 function setSelectOptions(options) {
     let $selectMenu = $('select#selectId');
     $selectMenu.html("");//clears select content
