@@ -145,6 +145,8 @@ function setButton(titleOfCurrentButtonSelection) {
 }
 
 GameEngine.prototype.buildOnCanvas = function(x, y) {
+    //map.addThing (instance of thing built)
+    //respective list 
     let selection = "";
     //Will return nothing if no buttons are selected
     let selectedButton = $('.pharoh-button.selected');

@@ -208,14 +208,14 @@
                 <label>Building Type:</label>
                 <br />
                 <select name="builiding" class="disabled" style="background:rgb(240, 207, 163);">
-                    <option class="opt" value="Default">Select One</option>
-                    <option class="opt" value="unif">Uniform</option>
-                    <option class="opt" value="lnorm">Log-normal</option>
-                    <option class="opt" value="exp">Exponential</option>
+                    <option class="opt1" value="Default">Select One</option>
+                    <option class="opt2" value="unif">Uniform</option>
+                    <option class="opt3" value="lnorm">Log-normal</option>
+                    <option class="opt4" value="exp">Exponential</option>
                 </select>
             </div>
             <div class="menu-button-container">
-                <div class="control" style="margin: auto; float:none;display:inline-block;">
+                <div class="control" style="margin:auto;">
                     <div class="pharoh-button" title="Select">
                         <img class="btn" src="./img/Select.png" />
                     </div>
@@ -255,14 +255,86 @@
 </body>
 
 
-<script>
+<script>//SORRY GUYS I KNOW ITS BAD PRACTICE TO WRITE SCRIPT HERE!
+    //handles buttons changing UI (like categories change select)
+
     $(function () {
         $('.pharoh-button').click(function () {
-
+            //Deals with what button is shaded on UI, one at a time only
             var selectedButtonTitle = $(this).attr('title');
             setButton(selectedButtonTitle);
+            //Deals with changing the UI- select-box
+            let selection = "";
+            //Will return nothing if no buttons are selected
+            let selectedButton = $('.pharoh-button.selected');
+            //this is check, so we don't call .attr on null
+            if (selectedButton.length > 0) {
+                selection = selectedButton.attr('title');
+            }
+            //checks which button was selected and change select option
+            var newOptions = {};
+
+
+            var $el = $("#selectId");
+            $el.empty(); // remove old options
+            $.each(newOptions, function (key, value) {
+                $el.append($("<option></option>")
+                    .attr("value", value).text(key));
+            });
+            switch (selection) {
+                case "Housing":
+                    console.log("itahouse");
+                    newOptions = {
+                        "Option 1": "House";
+                    };
+
+                    break;
+                case "Food and Farm":
+                    console.log("itfuud");
+                    newOptions = {
+                        "Option 1": "Barley",
+                        "Option 2": "value2",
+                        "Option 3": "value3"
+                    };
+
+                    break;
+                case "Utilities":
+                    newOptions = {
+                        "Option 1": "value1",
+                        "Option 2": "value2",
+                        "Option 3": "value3"
+                    };
+
+                case "Storage and Distribution":
+                    newOptions = {
+                        "Option 1": "value1",
+                        "Option 2": "value2",
+                        "Option 3": "value3"
+                    };
+                case "Industrial":
+                    newOptions = {
+                        "Option 1": "value1",
+                        "Option 2": "value2",
+                        "Option 3": "value3"
+                    };
+                case "Raw Materials":
+                    newOptions = {
+                        "Option 1": "value1",
+                        "Option 2": "value2",
+                        "Option 3": "value3"
+                    };
+                case "Roads":
+                    
+                //clears select
+                default:
+                    console.log('nuthin2seahear')
+                    break
+            }
+        }
         });
     });
+      //handles options choosing selected- which affects actions in gameengine
+        //when x and y coordinates are chosen for an entity to be placed on
 </script>
 
 </html>
