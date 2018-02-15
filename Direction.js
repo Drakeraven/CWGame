@@ -64,3 +64,21 @@ function setFace(x, y) {
         return 'SE';
     }
 }
+//Requires: array of RoadTiles, array of destination Tiles
+//Returns: [startX, startY, destX, destY] if found, null if not found.
+function generateWalker(sourceTiles, destTiles) {
+    var result = null;
+    for (let j = 0; j < sourceTiles.length; j++) {
+        for (let k = 0; k < destTiles.length; k++) {
+            var tempGraph = new Graph(walkerMap);
+            var start = tempGraph.grid[sourceTiles[j][0]][sourceTiles[j][1]];
+            var end = tempGraph.grid[destTiles[k][0]][destTiles[k][1]];
+            var result = astar.search(tempGraph, start, end);
+            if (result.length > 0) {
+                return [sourceTiles[j][1], sourceTiles[j][0], destTiles[k][1], destTiles[k][0]];
+            }
+        }
+    }
+    return result;
+
+}

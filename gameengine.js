@@ -31,6 +31,8 @@ function GameEngine() {
     this.entities = [];
     this.walkers = []; //Add Walkers to this ONLY
     this.industries = []; //Add Industries to this ONLY
+    this.yards = [];
+    this.granaries = [];
     this.map;
     this.showOutlines = false;
     this.ctx = null;
@@ -81,7 +83,7 @@ GameEngine.prototype.startInput = function () {
         fixY = event.clientY - (event.clientY % 15);
         console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY + '(board coord at )' + that.isototwodX(fixX, fixY) + ' ' + that.isototwodY(fixX, fixY));
         //copstore = new Weaver(ASSET_MANAGER.getAsset('./img/Weaver.png'), that, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY), 2, 2);
-        copstore = new grainFarm(ASSET_MANAGER.getAsset('./img/FarmPlots.png'), that, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
+        copstore = new barFarm(that, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
         that.map.addThing(copstore, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
     });
     //hotkey
@@ -99,7 +101,7 @@ GameEngine.prototype.startInput = function () {
         }else if (event.code === "ArrowDown") {
             that.cameraoffY -= 1;
         }
-        console.log("the following key was pressed: " + event.code + "cam off x: " + that.cameraoffX + " cam off y: " + that.cameraoffY);
+        //console.log("the following key was pressed: " + event.code + "cam off x: " + that.cameraoffX + " cam off y: " + that.cameraoffY);
 
     });
 
@@ -177,6 +179,16 @@ GameEngine.prototype.addIndustry = function (industry) {
     this.industries.push(industry);
 }
 
+GameEngine.prototype.addGranary = function (granary) {
+    console.log("added Granary");
+    this.granaries.push(granary);
+}
+
+GameEngine.prototype.addYard = function (yard) {
+    console.log("added Storage Yard");
+    this.yards.push(yard);
+}
+
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
@@ -191,6 +203,14 @@ GameEngine.prototype.draw = function () {
 
     for (var i = 0; i < this.industries.length; i++) {
         this.industries[i].draw(this.ctx);
+    }
+
+    for (var i = 0; i < this.granaries.length; i++) {
+        this.granaries[i].draw(this.ctx);
+    }
+
+    for (var i = 0; i < this.yards.length; i++) {
+        this.yards[i].draw(this.ctx);
     }
 
     for (var i = 0; i < this.walkers.length; i++) {
@@ -219,6 +239,20 @@ GameEngine.prototype.update = function () {
         }
     }
 
+    for (var i = 0; i < this.granaries.length; i++) {
+        var granary = this.granaries[i];
+        if (!granary.removeFromWorld) {
+            granary.update();
+        }
+    }
+
+    for (var i = 0; i < this.yards.length; i++) {
+        var yard = this.yards[i];
+        if (!yard.removeFromWorld) {
+            yard.update();
+        }
+    }
+
     for (var i = 0; i < this.walkers.length; i++) {
         var walker = this.walkers[i];
 
@@ -236,6 +270,18 @@ GameEngine.prototype.update = function () {
     for (var i = this.industries.length - 1; i >= 0; --i) {
         if (this.industries[i].removeFromWorld) {
             this.industries.splice(i, 1);
+        }
+    }
+
+    for (var i = this.granaries.length - 1; i >= 0; --i) {
+        if (this.granaries[i].removeFromWorld) {
+            this.granaries.splice(i, 1);
+        }
+    }
+
+    for (var i = this.yards.length - 1; i >= 0; --i) {
+        if (this.yards[i].removeFromWorld) {
+            this.yards.splice(i, 1);
         }
     }
 
