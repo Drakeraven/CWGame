@@ -55,8 +55,6 @@ img.btn {
     border: 1px solid rgb(5, 4, 4);
     background-image: url("./img/Background3.jpg");
     float: left;
-
-
 }
 
 .button-pane img {
@@ -66,7 +64,6 @@ img.btn {
     margin-bottom: 10px;
     margin-top: 10px;
     float: left;
-
 }
 
 .stats-box {
@@ -80,7 +77,6 @@ img.btn {
     -moz-border-radius: 5px;
     border-radius: 5px;
     float: left;
-
 }
 
 .options {
@@ -97,8 +93,6 @@ img.btn {
     border-radius: 5px;
     float: left;
     border: 1px solid rgb(5, 4, 4);
-
-
 }
 
 select option {
@@ -106,8 +100,6 @@ select option {
     color: rgb(24, 20, 18);
     text-shadow: 0 1px 0 rgba(248, 8, 8, 0.4);
     float: left;
-
-
 }
 
 .message-box {
@@ -121,7 +113,6 @@ select option {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-
 }
 
 .menu-button-container {
@@ -129,7 +120,6 @@ select option {
     height: auto;
     float: left;
     border: 1px solid rgb(5, 4, 4);
-
 }
 
 label {

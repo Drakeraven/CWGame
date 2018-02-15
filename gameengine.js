@@ -2,13 +2,13 @@
 
 window.requestAnimFrame = (function () {
     return window.requestAnimationFrame ||
-            window.webkitRequestAnimationFrame ||
-            window.mozRequestAnimationFrame ||
-            window.oRequestAnimationFrame ||
-            window.msRequestAnimationFrame ||
-            function (/* function */ callback, /* DOMElement */ element) {
-                window.setTimeout(callback, 1000 / 60);
-            };
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function (/* function */ callback, /* DOMElement */ element) {
+            window.setTimeout(callback, 1000 / 60);
+        };
 })();
 
 function Timer() {
@@ -65,22 +65,27 @@ GameEngine.prototype.start = function () {
         requestAnimFrame(gameLoop, that.ctx.canvas);
     })();
 }
-GameEngine.prototype.twodtoisoX = function (x,y) {
-  return (((x - y) + this.cameraoffX) * 29 );
+
+//2D to ISO functiosn to manipulate X and Y
+GameEngine.prototype.twodtoisoX = function (x, y) {
+    return (((x - y) + this.cameraoffX) * 29);
 }
-GameEngine.prototype.twodtoisoY = function (x,y) {
-  return (((x + y)-this.cameraoffY)) * 15 ;
+GameEngine.prototype.twodtoisoY = function (x, y) {
+    return (((x + y) - this.cameraoffY)) * 15;
 }
-GameEngine.prototype.isototwodX = function (x,y) {
-  return Math.floor((((x / 29) - this.cameraoffX) + ((y / 15) + this.cameraoffY )) / 2) - 1;
+GameEngine.prototype.isototwodX = function (x, y) {
+    return Math.floor((((x / 29) - this.cameraoffX) + ((y / 15) + this.cameraoffY)) / 2) - 1;
 }
-GameEngine.prototype.isototwodY = function (x,y) {
-  return Math.floor((((y /15) + this.cameraoffY) - ((x / 29) - this.cameraoffX)) /2);
+GameEngine.prototype.isototwodY = function (x, y) {
+    return Math.floor((((y / 15) + this.cameraoffY) - ((x / 29) - this.cameraoffX)) / 2);
 }
+
+
+//Listens to input and events
 GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
-    this.ctx.canvas.addEventListener("click", function(event) {
+    this.ctx.canvas.addEventListener("click", function (event) {
         that.buildOnCanvas(event.clientX, event.clientY);
         fixX = event.clientX - (event.clientX % 29);
         fixY = event.clientY - (event.clientY % 15);
@@ -90,52 +95,19 @@ GameEngine.prototype.startInput = function () {
         that.map.addThing(copstore, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
     });
 
-    this.ctx.canvas.addEventListener("drag", function(event){
-//TODO 
+    this.ctx.canvas.addEventListener("drag", function (event) {
+        //TODO 
     });
-    this.ctx.canvas.addEventListener("contextmenu", function(event){
+    this.ctx.canvas.addEventListener("contextmenu", function (event) {
         //TODO clears selection, when clicking objects on canvas, pops up status on statusbox
         $('.pharoh-button').removeClass('selected');
     });
-    //hotkey
-    this.ctx.canvas.addEventListener("keydown", function(event) {
-        if (event.code === "KeyH") {
-            setButton("Housing");
-        } else if (event.code === "KeyF") {
-            setButton("Food and Farm");
-        } else if (event.code === "KeyU") {
-            setButton("Utilities");
-        } else if (event.code === "KeyS") {
-            setButton("Storage and Distribution");
-        } else if (event.code === "KeyI") {
-            setButton("Industrial");
-        } else if (event.code === "KeyM") {
-            setButton("Raw Materials");
-        } else if (event.code === "KeyR") {
-            setButton("Roads");
-        } else if (event.code === "KeyC") {
-            setButton("Clear Land");
-        } else if (event.code === "KeyM") {
-            setButton("Messages");
-        } else if (event.code === "KeyG") {
-            setButton("User Status and Goals");
-        } else if (event.code === "ArrowRight") {
-            that.cameraoffX += 1;
-        } else if (event.code === "ArrowLeft") {
-            that.cameraoffX -= 1;
-        } else if (event.code === "ArrowUp") {
-            that.cameraoffY += 1;
-        } else if (event.code === "ArrowDown") {
-            that.cameraoffY -= 1;
-        }
-        //console.log("the following key was pressed: " + event.code + "cam off x: " + that.cameraoffX + " cam off y: " + that.cameraoffY);
-
-    });
-
+    //Handles Hot Keys
+    this.ctx.canvas.addEventListener("keydown", setHotKeys(event));
     console.log('Input started');
 }
 
-GameEngine.prototype.buildOnCanvas = function(x, y) {
+GameEngine.prototype.buildOnCanvas = function (x, y) {
     //map.addThing (instance of thing built)
     //respective list 
     let selection = "";
@@ -149,23 +121,8 @@ GameEngine.prototype.buildOnCanvas = function(x, y) {
     let offsetY = 0;
     let entity = null;
 
-    switch (selection){
+    switch (selection) {
         case "Housing":
-            console.log("itahouse");
-            entity = new Housing(
-                this,
-                ASSET_MANAGER.getAsset("./img/HousingAlone.png"),
-                x,
-                y,
-            );
-            offsetX = entity.animation.frameWidth / 2
-            offsetY = entity.animation.frameHeight / 2
-            entity.x = x - offsetX;
-            entity.y = y - offsetY;
-            this.addEntity(
-                entity
-            );
-            
             break;
         case "Food and Farm":
             console.log("itfuud");
@@ -182,14 +139,14 @@ GameEngine.prototype.buildOnCanvas = function(x, y) {
             this.addEntity(
                 entity
             );
-            $("title").attr('src','./img/FoodAndFarmPane.png')
+            $("title").attr('src', './img/FoodAndFarmPane.png')
             break;
         case "Utilities":
-            //create entity
+        //create entity
         case "Storage and Distribution":
         case "Industrial":
         case "Raw Materials":
-        default :
+        default:
             console.log('nuthin2seahear')
             break
     }
@@ -233,10 +190,10 @@ GameEngine.prototype.addYard = function (yard) {
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
-    for(var i = 0; i < this.map.mapList.length; i++) {
-      for(var j = 0; j < this.map.mapList[1].length; j++) {
-        this.map.mapList[i][j].draw(this.ctx);
-      }
+    for (var i = 0; i < this.map.mapList.length; i++) {
+        for (var j = 0; j < this.map.mapList[1].length; j++) {
+            this.map.mapList[i][j].draw(this.ctx);
+        }
     }
     for (var i = 0; i < this.entities.length; i++) {
         this.entities[i].draw(this.ctx);

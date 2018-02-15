@@ -10,21 +10,39 @@ $(function () {
     // TODO add callback for selected option
 });
 
-function setSelectOptions(options) {
-    let $inputProduct = $('select#selectId');
-    $inputProduct.html("");
-    if (options.length) {
-        $(options).each(function (i, v) {
-            $inputProduct.append($("<option>", v));
-        });
-        $inputProduct.removeAttr("disabled");
-    } else {
-        $inputProduct.attr("disabled", "disabled");
+function setHotKeys(event) {
+    if (event.code === "KeyH") {
+        setButton("Housing");
+    } else if (event.code === "KeyF") {
+        setButton("Food and Farm");
+    } else if (event.code === "KeyU") {
+        setButton("Utilities");
+    } else if (event.code === "KeyS") {
+        setButton("Storage and Distribution");
+    } else if (event.code === "KeyI") {
+        setButton("Industrial");
+    } else if (event.code === "KeyM") {
+        setButton("Raw Materials");
+    } else if (event.code === "KeyL") {
+        setButton("Municipal");
+    } else if (event.code === "KeyR") {
+        setButton("Roads");
+    } else if (event.code === "KeyC") {
+        setButton("Clear Land");
+    } else if (event.code === "KeyM") {
+        setButton("Messages");
+    } else if (event.code === "KeyG") {
+        setButton("Game Information");
+    } else if (event.code === "ArrowRight") {
+        that.cameraoffX += 1;
+    } else if (event.code === "ArrowLeft") {
+        that.cameraoffX -= 1;
+    } else if (event.code === "ArrowUp") {
+        that.cameraoffY += 1;
+    } else if (event.code === "ArrowDown") {
+        that.cameraoffY -= 1;
     }
 }
-
-//handles options choosing selected- which affects actions in gameengine
-//when x and y coordinates are chosen for an entity to be placed on
 
 //handles setting the button as selected based on the key listener in the game engine.
 function setButton(titleOfCurrentButtonSelection) {
@@ -32,62 +50,62 @@ function setButton(titleOfCurrentButtonSelection) {
     $('.pharoh-button[title="' + titleOfCurrentButtonSelection + '"]').addClass('selected');
     var buttonPaneTitle = titleOfCurrentButtonSelection;
     if (buttonPaneTitle == 'Messages') buttonPaneTitle = 'Default';
+    if (buttonPaneTitle == 'Game Information') buttonPaneTitle = 'Default';
+    if (buttonPaneTitle == 'Select') buttonPaneTitle = 'Default';
     $('.button-pane img').hide();
     $('.button-pane img[title="' + buttonPaneTitle + '"]').show();
 
-    var newOptions;
     switch (titleOfCurrentButtonSelection) {
         case "Housing":
             setSelectOptions(Constants.Buildings.Housing);
             break;
         case "Food and Farm":
-            console.log("itfuud");
-            newOptions = {
-                "Option 1": "Grain Farm",
-                "Option 2": "Barley Farm",
-                "Option 3": "Flax Farm"
-            };
-
+            setSelectOptions(Constants.Buildings.FoodandFarm);
             break;
         case "Utilities":
-            newOptions = {
-                "Option 1": "Well",
-                "Option 2": "Water Supply",
-            };
+            setSelectOptions(Constants.Buildings.Utilities);
             break;
         case "Storage and Distribution":
-            newOptions = {
-                "Option 1": "Bazaar",
-                "Option 2": "Granary",
-                "Option 3": "Storage Yard"
-            };
+            setSelectOptions(Constants.Buildings.StorageandDistribution);
             break;
         case "Industrial":
-            newOptions = {
-                "Option 1": "Weaver",
-                "Option 2": "Brewery",
-                "Option 3": "Potter"
-            };
+            setSelectOptions(Constants.Buildings.Industrial);
             break;
         case "Raw Materials":
-            newOptions = {
-                "Option 1": "Gold Mine",
-                "Option 2": "Clay Pit"
-            };
+            setSelectOptions(Constants.Buildings.RawMaterials);
             break;
-        case "Roads":
+        case "Municipal":
+            setSelectOptions(Constants.Buildings.Municipal);
+            case "Roads":
             setSelectOptions(Constants.Buildings.Roads);
             break;
-        //clear select/disable select
-        case "Municipal Buildings":
-            newOptions = {
-                "Option 3": "Police Station",
-                "Option 2": "Fire House",
-                "Option 3": "Palace",
-                "Option 4": "Tax Collector's Office",
-            };
+            case "Messages":
+            setSelectOptions(Constants.Buildings.Messages);
+            break;
+            case "Game Information":
+            setSelectOptions(Constants.Buildings.GameInformation);
+            break;
+            case "Clear Land":
+            setSelectOptions(Constants.Buildings.ClearLand);
+            break;
+            case "Select":
+            setSelectOptions(Constants.Buildings.ClearLand);
+            break;
         default:
             console.log('nuthin2seahear');
             break
+    }
+}
+
+function setSelectOptions(options) {
+    let $selectMenu = $('select#selectId');
+    $selectMenu.html("");//clears select content
+    if (options.length) {
+        $(options).each(function (i, v) {
+            $selectMenu.append($("<option>", v));
+        });
+        $selectMenu.removeAttr("disabled");
+    } else {
+        $selectMenu.attr("disabled", "disabled");
     }
 }
