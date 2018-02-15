@@ -86,9 +86,17 @@ GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
     this.ctx.canvas.addEventListener("click", function (event) {
-        that.buildOnCanvas(event.clientX, event.clientY);
+        //adjusts x and y
         fixX = event.clientX - (event.clientX % 29);
         fixY = event.clientY - (event.clientY % 15);
+        //converts to iso
+        fixX = isototwodX(fixX, fixY);
+        fixY = isototwodY(fixX, fixY)
+        //sets selection
+        selectedBuilding = setSelected();
+        //creates object and adds to map
+        that.buildOnCanvas(selectedBuilding, fixX, fixY);
+        
         console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY + '(board coord at )' + that.isototwodX(fixX, fixY) + ' ' + that.isototwodY(fixX, fixY));
         //copstore = new Weaver(ASSET_MANAGER.getAsset('./img/Weaver.png'), that, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY), 2, 2);
         copstore = new barFarm(that, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
@@ -112,40 +120,104 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
     //respective list 
     let selection = "";
     //Will return nothing if no buttons are selected
-    let selectedButton = $('.pharoh-button.selected');
+    let selectedButton = $('building option:selected'.text());
     //this is check, so we don't call .attr on null
     if (selectedButton.length > 0) {
-        selection = selectedButton.attr('title');
+        selection = selectedButton.attr('value');
     }
-    let offsetX = 0;
-    let offsetY = 0;
     let entity = null;
-
+    var that = this;
+    let building = null;
     switch (selection) {
-        case "Housing":
+        case "House":
+        building = new Housing(that, x, y);
+        housingArr.push(building);
+        
+        that.map.addThing(building);
             break;
-        case "Food and Farm":
-            console.log("itfuud");
-            entity = new Barley(
-                this,
-                ASSET_MANAGER.getAsset("./img/FarmPlots.png"),
-                x,
-                y,
-            );
-            offsetX = entity.animation.frameWidth / 2
-            offsetY = entity.animation.frameHeight / 2
-            entity.x = x - offsetX;
-            entity.y = y - offsetY;
-            this.addEntity(
-                entity
-            );
-            $("title").attr('src', './img/FoodAndFarmPane.png')
+
+        case "Grain Farm":
+        building = new grainFarm(that, x, y);
+        that.map.addThing();
             break;
-        case "Utilities":
-        //create entity
-        case "Storage and Distribution":
-        case "Industrial":
-        case "Raw Materials":
+
+        case "Barley Farm":
+        building = new barFarm(that, x, y);
+        that.map.addThing();
+        break;
+
+        case "Flax Farm":
+        building = new flaxFarm(that, x, y);
+        that.map.addThing();
+        break;
+
+        case "Hunting Lodge":
+        building = new HuntingLodge(that, x, y);
+        that.map.addThing();
+        case "Well":
+        building = new Well(that, x, y);
+        that.map.addThing(); 
+        break;
+
+        case "Water Supply"://
+        building = new WaterSupply(that, x, y);
+        that.map.addThing();
+        break;
+
+        case "Bazaar":
+        building = new bazaar(that, x, y);
+        that.map.addThing(); 
+        break;
+
+        case "Granary"://
+        building = new Granary(that, x, y);
+        that.map.addThing(); 
+        break;
+
+        case "Storage Yard"://
+        building = new StorageYard(that, x, y);
+        that.map.addThing();
+        break;
+
+        case "Weaver":
+        building = new Weaver(that, x, y);
+        that.map.addThing();
+        break;
+
+        case "Brewery":
+        building = new Brewery(that, x, y);
+        that.map.addThing();
+        break;
+
+        case "Potter":
+        building = new Potter(that, x, y);
+        that.map.addThing();
+        break;
+        case "Clay Pit":
+        building = new clayPit(that, x, y);
+        that.map.addThing();
+        break;
+        case "Gold Mine":
+        building = new goldMine(that, x, y);
+        that.map.addThing();
+        break;
+        case "Fire House":
+        building = new FireHouse(that, x, y);
+        that.map.addThing();
+        break;
+        case "Palace":
+        building = new Palace(that, x, y);
+        that.map.addThing();
+        break;
+        case "Police Station":
+        building = new CopHouse(that, x, y);
+        that.map.addThing();
+        break;
+        case "Tax Collector's Office":
+        building = new TaxHouse(that, x, y);
+        that.map.addThing();
+        break;
+
         default:
             console.log('nuthin2seahear')
             break
