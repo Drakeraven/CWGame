@@ -34,24 +34,27 @@ bubbleBuilding.prototype.update = function () {
     //detect who within your radius
     //impart reduced/improved affect onto the buildings in turn.
     myPop = 0;
+    that = this;  
+    console.log(this instanceof TaxHouse);
     for (i = 0; i < this.game.housingArr.length; i++) { 
         if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y)) {
-            if (this.identity === "well" || this .identity === "water") {
-                this.game.housingArr[i].waterLevel = true;
-            } else if (this.identity === "fire") { 
-                this.game.housingArr[i].fireResist == 0.01; 
-            } else if (this.identity === "tax") { 
+            console.log(this instanceof TaxHouse);
+            if (this instanceof TaxHouse) { 
                 console.log("Should be?");
                 myPop += this.game.housingArr[i].numHoused;
-            } else if (this.identity === "cop") { 
+            } else if (this instanceof Well || this instanceof WaterSupply) {
+                this.game.housingArr[i].waterLevel = true;
+            } else if (this instanceof FireHouse) {
+                console.log("FIRE") 
+                this.game.housingArr[i].fireResist == 0.01; 
+            } else if (this instanceof CopHouse) { 
                 //this should probably be over the list of walkers 
-            }
+            } 
         }
     }
 
     // for a set interval, collect taxes from myPop
     //(30mon / 10ppl)
-    console.log(myPop);
     myTax = (Math.ceil((Math.floor((myPop / 10)) * 30) * 0.1)); //10 percent of 30 money per 10 people 
     console.log(myTax);
     //send a gold cart man every 45-1min seconds w/ this fundage
@@ -72,7 +75,7 @@ function Well (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/smallWell.png");
     bubbleBuilding.call(this, img, game, x, y, 1, 1, 10);
     workTime = game.timer.gameTime;
-    radius = { x: x - 1, y: y - 1, width: 1 + 10, height: 1 + 10};
+    this.radius = { x: x - 1, y: y - 1, width: 1 + 10, height: 1 + 10};
     this.renderX = 0;
     this.renderY = -8;
     this.identity = "well";
@@ -86,7 +89,7 @@ function WaterSupply (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/bigWell.png");
     bubbleBuilding.call(this, img, game, x, y, 1, 1, 30);
     workTime = game.timer.gameTime;
-    radius = { x: x - 1, y: y - 1, width: 1 + 30, height: 1 + 30}; 
+    this.radius = { x: x - 1, y: y - 1, width: 1 + 30, height: 1 + 30}; 
     this.identity = "water";
     this.currAnim = new Animation(img, 0, 0, 118, 77, 1, 0.15, 1, true);
 }
@@ -98,10 +101,10 @@ function TaxHouse (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/taxHouse.png");
     bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
     this.workTime = game.timer.gameTime;
-    radius = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30}; 
+    this.radius = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30}; 
     this.renderX = 28;
     this.renderY = 35;
-    this.identity = "tax";
+    this.identity = "taxhouse";
     this.currAnim = new Animation(img, 0, 1, 118, 96, 8, 0.15, 8, true);
 }
 

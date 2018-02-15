@@ -259,8 +259,8 @@ ASSET_MANAGER.downloadAll(function () {
     var house1 = new Housing(gameEngine, 13, 11);
     gameEngine.addHouse(house1);
 
-    var well1 = new Well(gameEngine, 10, 11);
-    gameEngine.addBuilding(well1);
+    //var well1 = new FireHouse(gameEngine, 10, 11);
+    //gameEngine.addBuilding(well1);
 
     var bazaar1 = new bazaar(gameEngine, 6, 11);
     gameEngine.addEntity(bazaar1);
