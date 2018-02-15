@@ -1,10 +1,10 @@
 resSpeed = .10; 
 
-function resourceBuild(game, x, y, bWidth, bHeight) {
+function resourceBuild(game, x, y) {
     this.game = game;
     this.img = null;
-    this.bWidth = bWidth;
-    this.bHeight = bHeight;
+    this.bWidth = 2;
+    this.bHeight = 2;
     this.openAnim = null;
     this.closedAnim = null;
     this.currAnim = null;
@@ -15,7 +15,7 @@ function resourceBuild(game, x, y, bWidth, bHeight) {
     this.placeCost = null;
     this.resType = "";
     this.prodTime = 0;
-    this.buffer = { x: x - 1, y: y - 1, width: bWidth + 1, height: bHeight + 1 };
+    this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
     this.roadTiles = [];
     Entity.call(this, game, x, y);
 }
@@ -47,8 +47,8 @@ resourceBuild.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 } 
 
-function goldMine(game, x, y, bWidth, bHeight) {
-    resourceBuild.call(this, game, x, y, bWidth, bHeight);
+function goldMine(game, x, y) {
+    resourceBuild.call(this, game, x, y);
     this.img = ASSET_MANAGER.getAsset('./img/GoldMine.png');
     this.workTime = game.timer.gameTime;
     this.closedAnim = new Animation(this.img, 0, 0, 118, 63, 1, resSpeed, 1, true);
@@ -68,8 +68,8 @@ function goldMine(game, x, y, bWidth, bHeight) {
 goldMine.prototype = new resourceBuild();
 goldMine.prototype.constructor = goldMine;
 
-function clayPit(game, x, y, bWidth, bHeight){
-    resourceBuild.call(this, game, x, y, bWidth, bHeight);
+function clayPit(game, x, y){
+    resourceBuild.call(this, game, x, y);
     this.img = ASSET_MANAGER.getAsset('./img/ClayThingy.png');
     this.workTime = game.timer.gameTime;
     this.closedAnim = new Animation(this.img, 0, 0, 118, 77, 1, resSpeed, 1, true);

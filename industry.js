@@ -4,11 +4,11 @@ var collapseResist = 3; //percent chance of collapse? lowerable.
 
 var merchStep = 100; //how much of an item is created at the end of a buidl cycle
 
-function industry(img, game, x, y, bWidth, bHeight) {
+function industry(game, x, y) {
     this.game = game;
-    this.img = img;
-    this.bWidth = bWidth;
-    this.bHeight = bHeight;
+    this.img = null;
+    this.bWidth = 2;
+    this.bHeight = 2;
     this.openAnim = null;
     this.closedAnim = null;
     this.currAnim = null;
@@ -23,7 +23,7 @@ function industry(img, game, x, y, bWidth, bHeight) {
     this.numMerch = 0;
     this.merchCost = 0;
     this.prodTime = 0;
-    this.buffer = { x: x - 1, y: y - 1, width: bWidth + 1, height: bHeight + 1 };
+    this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
     this.roadTiles = [];
     Entity.call(this, game, x, y);
 }
@@ -95,11 +95,12 @@ industry.prototype.draw = function (ctx) {
 }
 
 //For each industry, define a resource type as a string.
-function Weaver(img, game, x, y, bWidth, bHeight) {
-    industry.call(this, img, game, x, y, bWidth, bHeight);
+function Weaver(game, x, y) {
+    industry.call(this, game, x, y);
+    this.img = ASSET_MANAGER.getAsset("./img/Weaver.png");
     this.workTime = game.timer.gameTime;
-    this.openAnim = new Animation(img, 0, 1, 118, 100, 6, .15, 12, true);
-    this.closedAnim = new Animation(img, 0, 0, 118, 100, 1, .15, 1, true); // maybe set false??
+    this.openAnim = new Animation(this.img, 0, 1, 118, 100, 6, .15, 12, true);
+    this.closedAnim = new Animation(this.img, 0, 0, 118, 100, 1, .15, 1, true); // maybe set false??
     this.currAnim = this.closedAnim;
     this.renderX = 31;
     this.renderY = 40;
@@ -118,11 +119,12 @@ function Weaver(img, game, x, y, bWidth, bHeight) {
 Weaver.prototype = new industry();
 Weaver.prototype.constructor = Weaver;
 
-function Brewery(img, game, x, y, bWidth, bHeight) {
-    industry.call(this, img, game, x, y, bWidth, bHeight);
+function Brewery(game, x, y) {
+    industry.call(this, game, x, y);
+    this.img = ASSET_MANAGER.getAsset("./img/Brewery.png");
     this.workTime = game.timer.gameTime;
-    this.openAnim = new Animation(img, 0, 1, 118, 90, 4, .15, 12, true);
-    this.closedAnim = new Animation(img, 0, 0, 118, 90, 1, .15, 1, true);
+    this.openAnim = new Animation(this.img, 0, 1, 118, 90, 4, .15, 12, true);
+    this.closedAnim = new Animation(this.img, 0, 0, 118, 90, 1, .15, 1, true);
     this.currAnim = this.closedAnim;
     this.renderX = 31;
     this.renderY = 30;
@@ -142,11 +144,12 @@ function Brewery(img, game, x, y, bWidth, bHeight) {
 Brewery.prototype = new industry();
 Brewery.prototype.constructor = Brewery;
 
-function Potter(img, game, x, y, bWidth, bHeight) {
-    industry.call(this, img, game, x, y, bWidth, bHeight);
+function Potter(game, x, y) {
+    industry.call(this, game, x, y);
+    this.img = ASSET_MANAGER.getAsset("./img/Potter.png");
     this.workTime = game.timer.gameTime;
-    this.openAnim = new Animation(img, 0, 1, 118, 90, 9, 0.15, 18, true);
-    this.closedAnim = new Animation(img, 0, 0, 118, 90, 1, 0.15, 1, true);
+    this.openAnim = new Animation(this.img, 0, 1, 118, 90, 9, 0.15, 18, true);
+    this.closedAnim = new Animation(this.img, 0, 0, 118, 90, 1, 0.15, 1, true);
     this.currAnim = this.closedAnim;
     this.renderX = 31;
     this.renderY = 30;

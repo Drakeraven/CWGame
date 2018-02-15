@@ -246,20 +246,21 @@ ASSET_MANAGER.downloadAll(function () {
     //peeps.destY = 18;
     //gameEngine.addWalker(peeps);
 
-    var gF = new grainFarm(ASSET_MANAGER.getAsset("./img/FarmPlots.png"), gameEngine, 10, 7);
+    var gF = new grainFarm(gameEngine, 10, 7);
     gameEngine.addEntity(gF);
 
     //var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, 3, 11, 2, 2);
     ////gameEngine.addIndustry(weaver);
 
-    var brewery = new Brewery(ASSET_MANAGER.getAsset("./img/Brewery.png"), gameEngine, 3, 2, 2, 2);
+    var brewery = new Brewery(gameEngine, 3, 2);
     gameEngine.addIndustry(brewery);
 
-    //var potter = new Potter(ASSET_MANAGER.getAsset("./img/Potter.png"), gameEngine, 14, 11, 2, 2);
-    ////gameEngine.addIndustry(potter);
+    //var potter = new Potter(gameEngine, 14, 11);
+    //gameEngine.addIndustry(potter);
 
-    //var mine = new goldMine(gameEngine, 3, 2, 2, 2);
-    //var pit = new clayPit(gameEngine, 3, 2, 2, 2);
+    //var mine = new goldMine(gameEngine, 3, 2);
+    //var pit = new clayPit(gameEngine, 3, 2);
+    //gameEngine.addEntity(mine);
     //gameEngine.addEntity(pit);
 
     gameEngine.start();

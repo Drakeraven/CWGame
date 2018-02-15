@@ -1,9 +1,9 @@
 //yield being the amount of whatever resource the farm produces
 //harvestTime relates to how many gameticks occur before the farm harvests
 var growSpeed = 1; //Integers only!
-function farming(img, game, x, y) {
+function farming(game, x, y) {
     this.game = game;
-    this.img = img;
+    this.img = ASSET_MANAGER.getAsset("./img/FarmPlots.png");
     this.animGrow = null;
     this.animHarvest = null;
     this.bWidth = 3;
@@ -31,6 +31,7 @@ farming.prototype.constructor = farming;
 
 farming.prototype.update = function () {
     this.roadTiles = findRoad(this.buffer);
+    console.log(this.roadTiles);
 
     this.growTime += this.game.clockTick;
     harvestCheck = Math.floor(this.game.timer.gameTime) % this.harvestTime;
@@ -59,7 +60,7 @@ farming.prototype.draw = function (ctx) {
 }
 
 farming.prototype.genWalker = function () {
-    found = [];
+    found = false;
     //for each granary building on the map, if there is one:
     for (let i = 0; i < this.game.industries.length; i++) { // just a test
         //check Granary has capacity to cut down a bit on calculations 
@@ -69,12 +70,19 @@ farming.prototype.genWalker = function () {
                 let that = this;
                 this.easyStar.findPath(this.roadTiles[j][0], this.roadTiles[j][1], indie.roadTiles[k][0], indie.roadTiles[k][1], function (path) {
                     if (path == null) {
-                       // console.log("Gen Walkers: No Path");
-                        return false;
+                        // console.log("Gen Walkers: No Path");
+                       // return false;
                     } else {
-                        //console.log("gen walkers: path");
-                        found = [that.roadTiles[j][0], that.roadTiles[j][1], indie.roadTiles[k][0], indie.roadTiles[k][1]];
-                        return true;
+                        if (!found) { 
+                        found = true;
+
+                        var gcm = new grCartMan(this.game, that.roadTiles[j][0], that.roadTiles[j][1]);
+                        gcm.destX = indie.roadTiles[k][0];
+                        gcm.destY = indie.roadTiles[k][1];
+                        that.game.addWalker(gcm);
+                        //found = [that.roadTiles[j][0], that.roadTiles[j][1], indie.roadTiles[k][0], indie.roadTiles[k][1]];
+                    }
+                       // return true;
                     }
 
                 });
@@ -100,9 +108,9 @@ farming.prototype.genWalker = function () {
 }
 
 
-function grainFarm(img, game, x, y) {
-    farming.call(this, img, game, x, y);
-    this.animHarvest = new Animation(img, 0, 2, 178, 91, 6, growSpeed, 6, true);
+function grainFarm(game, x, y) {
+    farming.call(this, game, x, y);
+    this.animHarvest = new Animation(this.img, 0, 2, 178, 91, 6, growSpeed, 6, true);
     this.yield = 500;
     this.maxYield = 500;
 
@@ -111,9 +119,9 @@ function grainFarm(img, game, x, y) {
 grainFarm.prototype = Object.create(farming.prototype);
 grainFarm.prototype.constructor = grainFarm;
 
-function barFarm(img, game, x, y) {
-    farming.call(this, img, game, x, y);
-    this.animHarvest = new Animation(img, 0, 1, 178, 91, 6, growSpeed, 6, true);
+function barFarm(game, x, y) {
+    farming.call(this, game, x, y);
+    this.animHarvest = new Animation(this.img, 0, 1, 178, 91, 6, growSpeed, 6, true);
     this.yield = 400;
     this.maxYield = 400;
 }
@@ -122,9 +130,9 @@ barFarm.prototype = new farming();
 barFarm.prototype.constructor = barFarm;
 
 
-function flaxFarm(img, game, x, y) {
-    farming.call(this, img, game, x, y);
-    this.animHarvest = new Animation(img, 0, 3, 178, 91, 6, growSpeed, 6, true);
+function flaxFarm(game, x, y) {
+    farming.call(this, game, x, y);
+    this.animHarvest = new Animation(this.img, 0, 3, 178, 91, 6, growSpeed, 6, true);
     this.yield = 400;
     this.maxYield = 400;
 }
