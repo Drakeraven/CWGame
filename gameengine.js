@@ -76,12 +76,12 @@ GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
     this.ctx.canvas.addEventListener("click", function(event) {
-        that.buildOnCanvas(event.clientX, event.clientY);
-        fixX = event.clientX - (event.clientX % 29);
-        fixY = event.clientY - (event.clientY % 15);
-        console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY + '(board coord at )' + that.isototwodX(fixX, fixY) + ' ' + that.isototwodY(fixX, fixY));
-        copstore = new Potter(ASSET_MANAGER.getAsset("./img/Potter.png"), that, 14, 11, 2, 2);
-        that.map.addThing(copstore, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
+      that.buildOnCanvas(event.clientX, event.clientY);
+fixX = event.clientX - (event.clientX % 29);
+fixY = event.clientY - (event.clientY % 15);
+console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY + '(board coord at )' + that.isototwodX(fixX, fixY) + ' ' + that.isototwodY(fixX, fixY));
+copstore = new HuntingLodge(that, ASSET_MANAGER.getAsset("./img/HuntingLodge.png"));
+that.map.addThing(copstore, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
     });
     //hotkey
     this.ctx.canvas.addEventListener("keydown", function(event) {
@@ -111,6 +111,7 @@ function setButton(newSelection) {
 }
 
 GameEngine.prototype.buildOnCanvas = function(x, y) {
+
     let selection = "";
     //Will return nothing if no buttons are selected
     let selectedButton = $('.pharoh-button.selected');
@@ -130,6 +131,8 @@ GameEngine.prototype.buildOnCanvas = function(x, y) {
                 ASSET_MANAGER.getAsset("./img/HousingAlone.png"),
                 x,
                 y,
+                2,
+                2
             );
             offsetX = entity.animation.frameWidth / 2
             offsetY = entity.animation.frameHeight / 2
@@ -146,14 +149,17 @@ GameEngine.prototype.buildOnCanvas = function(x, y) {
                 ASSET_MANAGER.getAsset("./img/FarmPlots.png"),
                 x,
                 y,
+                2,
+                2
             );
             offsetX = entity.animation.frameWidth / 2
             offsetY = entity.animation.frameHeight / 2
             entity.x = x - offsetX;
             entity.y = y - offsetY;
-            this.addEntity(
+            this.addIndustry(
                 entity
             );
+            this.map.
             break;
         default :
             console.log('nuthin2seahear')
