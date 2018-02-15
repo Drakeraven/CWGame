@@ -87,6 +87,10 @@ CopStore.prototype.draw = function (ctx) {
 //    this.animation = new Animation(img, 0, 1, 118, 90, 4, .15, 12, true);
 //    Entity.call(this, game, 500, 0);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> f7e4d0867b4348974d21a71d5bc71d04874f4d92
 
 //Brewery.prototype = new Entity();
 //Brewery.prototype.constructor = Brewery;

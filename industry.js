@@ -56,11 +56,14 @@ industry.prototype.update = function () {
     console.log("Num Emp: " + this.numEmployed);
     if (this.numEmployed < this.numEmpNeeded || this.numResources == 0) {
         this.currAnim = this.closedAnim;
+        this.numEmployed = 0;
+
     } else {
         this.currAnim = this.openAnim;
         if (this.game.timer.gameTime - this.workTime >= this.prodTime) {
             this.workTime = this.game.timer.gameTime;
-            this.numMerch += this.merchStep;
+            this.numMerch += merchStep;
+            this.numResources -= merchStep;
         }
 
         for (var i = 0; i < this.game.walkers.length; i++) {//loop through walkers

@@ -244,7 +244,7 @@ GameEngine.prototype.update = function () {
 
     for (var i = 0; i < this.industries.length; i++) {
         var industry = this.industries[i];
-        if (working > industry.numEmpNeeded) {
+        if (working > industry.numEmpNeeded && industry.numResources > 0) {
             industry.numEmployed = industry.numEmpNeeded;
             working -= industry.numEmpNeeded;
         } 

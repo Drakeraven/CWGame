@@ -196,9 +196,15 @@ ASSET_MANAGER.queueDownload("./img/Firedude2.png");
 ASSET_MANAGER.queueDownload("./img/Hunter1.5.png");
 ASSET_MANAGER.queueDownload("./img/Hunter2.png");
 ASSET_MANAGER.queueDownload("./img/immig.png");
+<<<<<<< HEAD
 ASSET_MANAGER.queueDownload("./img/smallWell.png");
 ASSET_MANAGER.queueDownload("./img/bigWell.png"); 
 ASSET_MANAGER.queueDownload("./img/ClayThingy.png");
+=======
+ASSET_MANAGER.queueDownload("./img/ClayThingy.png");
+ASSET_MANAGER.queueDownload("./img/smallWell.png");
+ASSET_MANAGER.queueDownload("./img/bigWell.png"); 
+>>>>>>> f7e4d0867b4348974d21a71d5bc71d04874f4d92
 
 //TODO: add in imgs for fixed walkers
 
