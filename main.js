@@ -270,4 +270,5 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(pit);
 
     gameEngine.start();
+    
 });
