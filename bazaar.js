@@ -25,12 +25,16 @@ function bazaar(game, x, y) {
     this.animFrame = [];        
     this.numEmployed = 0;
     this.maxEmployed = 20;
-    this.placeCost = 50;
+    this.placeCost = 400;
     this.range = 30;
-    this.foodLevel = 100;
-    this.weaverLevel = 0; 
-    this.potterLevel = 0; 
+    this.foodLevel = 0;
+    this.weaverLevel = 0;
+    this.weaverSell = 40;  
+    this.potterLevel = 0;
+    this.potterSell = 35; 
     this.brewerLevel = 0;
+    this.brewerSell = 45; 
+    this.funds = 320; 
     this.workTime = 0;
     this.pushTime = 10;
     this.buffer = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30}; 
@@ -59,25 +63,26 @@ bazaar.prototype.update = function () {
     }
 
     //do this at a set time, 
+    rangePop = 0; 
     for (i = 0; i < this.game.housingArr.length; i++) { 
-        //compare x and y to the range
-        thishouse = this.game.housingArr[i];
+        thisHouse = this.game.housingArr[i];
+        rangePop += thisHouse.numHoused;
         if (arrived(this.buffer, thisHouse.x, thisHouse.y)
              && this.game.timer.gameTime - this.workTime >= this.pushTime) { 
             this.workTime = this.game.timer.gameTime;
-            console.log("within range");
             //push food/goods && send bazaar lady
             if (this.foodLevel > 0) { 
                 thisHouse.foodLevel += thisHouse.level * 5;
-                this.foodLevel -= 5; 
-                console.log("food level");
+                this.foodLevel -= thisHouse.level * 5; 
                 console.log(this.game.housingArr[i].foodLevel);
             }
         } 
-        //for any house in the area, push food to them 
-        //set amount to each place - 2 per person? idk housing level * amt 
-        //sell stock of items 
-        //gain money from general fund (item cost * items sold)
+    }
+
+    if (this.game.gameWorld.funds > 0) {
+        //It just happens 
+        //grab the excess for sold amount then send it in a gold card to the palace 
+        //item amount x100 * itemSellprice 
     }
 
 

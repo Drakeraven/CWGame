@@ -140,7 +140,7 @@ function GameWorld() {
     this.population = 0;
     this.workForce = 0;
     this.taxRev = .10;
-    this.funds = 0;
+    this.funds = 1000;
     this.goals = [];
 }
 

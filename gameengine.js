@@ -222,6 +222,18 @@ GameEngine.prototype.draw = function () {
 
 GameEngine.prototype.update = function () {
     var entitiesCount = this.entities.length;
+    var working = this.gameWorld.workForce - 30; 
+    //give industry employees here :D 
+
+    for (var i = 0; i < this.industries.length; i++) {
+        var industry = this.industries[i];
+        if (working > industry.numEmpNeeded) {
+            industry.numEmployed = industry.numEmpNeeded;
+            working -= industry.numEmpNeeded;
+        } 
+        //console.log(working);
+        //console.log()
+    }
 
     for (var i = 0; i < entitiesCount; i++) {
         var entity = this.entities[i];

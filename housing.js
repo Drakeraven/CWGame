@@ -105,8 +105,11 @@ house.prototype.update = function () {
 
     if (currentPop > this.game.gameWorld.population) { 
         this.game.gameWorld.addPop(currentPop - this.game.gameWorld.population);
+        this.game.gameWorld.workForce = this.game.gameWorld.getWorkForce();
+        console.log(this.game.gameWorld.workForce);
     } else { 
         this.game.gameWorld.remPop(this.game.gameWorld.population - currentPop);
+        this.game.gameWorld.workForce = this.game.gameWorld.getWorkForce();
     }    
     //Iterate over all buildings in array, add/subtract difference between gameWorld pop and array pop
     //PUSH POP TO INDUSTRY LIST > check gameWorld for population stat > 40%? > only give each industry building what they need 

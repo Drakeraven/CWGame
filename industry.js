@@ -29,7 +29,7 @@ function industry(img, game, x, y, bWidth, bHeight) {
     this.renderX = 0;
     this.renderY = 0;
     this.numEmployed = 0;
-    this.numEmpNeeded = null;
+    this.numEmpNeeded = 0;
     this.placeCost = null;
     this.numResources = 0;
     this.resType = "";
@@ -65,6 +65,7 @@ industry.prototype.update = function () {
     //}
 
     //if out of employees or no resources, close operation
+    console.log("Num Emp: " + this.numEmployed);
     if (this.numEmployed < this.numEmpNeeded || this.numResources == 0) {
         this.currAnim = this.closedAnim;
     } else {
@@ -122,7 +123,7 @@ function Weaver(img, game, x, y, bWidth, bHeight) {
     this.merchCost = 50;
     this.prodTime = 10;
     //FOR TESTING
-    this.numEmployed = 12;
+    this.numEmployed = 0;
     this.numResources = 100;
     console.log(this.buffer);
 }
@@ -146,7 +147,7 @@ function Brewery(img, game, x, y, bWidth, bHeight) {
     this.prodTime = 15;
 
     //FOR TESTING
-    this.numEmployed = 14;
+    this.numEmployed = 0;
     this.numResources = 100;
     console.log(this.buffer);
 }
@@ -169,7 +170,7 @@ function Potter(img, game, x, y, bWidth, bHeight) {
     this.merchCost = 55;
     this.prodTime = 20;
     //FOR TESTING
-    this.numEmployed = 16;
+    this.numEmployed = 0;
     this.numResources = 100;
     this.numMerch = 100;
     console.log(this.buffer);
