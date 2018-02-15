@@ -159,7 +159,7 @@ GameWorld.prototype.getWorkForce = function () {
 // the "main" code begins here
 
 var ASSET_MANAGER = new AssetManager();
-var walkerMap = new mapData().testMap
+var walkerMap = new mapData().testMap;
 
 ASSET_MANAGER.queueDownload("./img/Weaver.png");
 ASSET_MANAGER.queueDownload("./img/grass.png");
@@ -196,6 +196,7 @@ ASSET_MANAGER.queueDownload("./img/Firedude2.png");
 ASSET_MANAGER.queueDownload("./img/Hunter1.5.png");
 ASSET_MANAGER.queueDownload("./img/Hunter2.png");
 ASSET_MANAGER.queueDownload("./img/immig.png");
+ASSET_MANAGER.queueDownload("./img/ClayThingy.png");
 
 //TODO: add in imgs for fixed walkers
 
@@ -248,13 +249,18 @@ ASSET_MANAGER.downloadAll(function () {
     var gF = new grainFarm(ASSET_MANAGER.getAsset("./img/FarmPlots.png"), gameEngine, 10, 7);
     gameEngine.addEntity(gF);
 
-    var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, 3, 11, 2, 2);
-    //gameEngine.addIndustry(weaver);
+    //var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, 3, 11, 2, 2);
+    ////gameEngine.addIndustry(weaver);
 
     var brewery = new Brewery(ASSET_MANAGER.getAsset("./img/Brewery.png"), gameEngine, 3, 2, 2, 2);
     gameEngine.addIndustry(brewery);
 
-    var potter = new Potter(ASSET_MANAGER.getAsset("./img/Potter.png"), gameEngine, 14, 11, 2, 2);
-    //gameEngine.addIndustry(potter);
+    //var potter = new Potter(ASSET_MANAGER.getAsset("./img/Potter.png"), gameEngine, 14, 11, 2, 2);
+    ////gameEngine.addIndustry(potter);
+
+    //var mine = new goldMine(gameEngine, 3, 2, 2, 2);
+    //var pit = new clayPit(gameEngine, 3, 2, 2, 2);
+    //gameEngine.addEntity(pit);
+
     gameEngine.start();
 });

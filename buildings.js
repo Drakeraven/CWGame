@@ -114,23 +114,23 @@ Firehouse.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Goldmine(game, img) {
-    this.animation = new Animation(img, 0, 1, 118, 63, 17, .15, 9, true);
-    Entity.call(this, game, 0, 110);
+//function Goldmine(game, img) {
+//    this.animation = new Animation(img, 0, 1, 118, 63, 17, .15, 9, true);
+//    Entity.call(this, game, 0, 110);
 
-}
+//}
 
-Goldmine.prototype = new Entity();
-Goldmine.prototype.constructor = Goldmine;
+//Goldmine.prototype = new Entity();
+//Goldmine.prototype.constructor = Goldmine;
 
-Goldmine.prototype.update = function () {
-    Entity.prototype.update.call(this);
-}
+//Goldmine.prototype.update = function () {
+//    Entity.prototype.update.call(this);
+//}
 
-Goldmine.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-    Entity.prototype.draw.call(this);
-}
+//Goldmine.prototype.draw = function (ctx) {
+//    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+//    Entity.prototype.draw.call(this);
+//}
 
 //function Housing(game, img, x = 150, y = 110) {
 //    this.animation = new Animation(img, 0, 0, 118, 97, 6, 1, 12, true);
@@ -206,23 +206,23 @@ Mansion.prototype.draw = function (ctx) {
 //    Entity.prototype.draw.call(this);
 //}
 
-function WorkCamp(game, img) {
-    this.animation = new Animation(img, 0, 1, 118, 83, 10, 0.15, 20, true);
-    Entity.call(this, game, 0, 320);
+//function WorkCamp(game, img) {
+//    this.animation = new Animation(img, 0, 1, 118, 83, 10, 0.15, 20, true);
+//    Entity.call(this, game, 0, 320);
 
-}
+//}
 
-WorkCamp.prototype = new Entity();
-WorkCamp.prototype.constructor = WorkCamp;
+//WorkCamp.prototype = new Entity();
+//WorkCamp.prototype.constructor = WorkCamp;
 
-WorkCamp.prototype.update = function () {
-    Entity.prototype.update.call(this);
-}
+//WorkCamp.prototype.update = function () {
+//    Entity.prototype.update.call(this);
+//}
 
-WorkCamp.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-    Entity.prototype.draw.call(this);
-}
+//WorkCamp.prototype.draw = function (ctx) {
+//    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+//    Entity.prototype.draw.call(this);
+//}
 
 function TaxHouse(game, img) {
     this.animation = new Animation(img, 0, 1, 118, 96, 8, 0.15, 8, true);

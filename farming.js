@@ -26,11 +26,12 @@ function farming(img, game, x, y) {
 
 }
 
-farming.prototype = new Entity();
+farming.prototype = Object.create(Entity.prototype);
 farming.prototype.constructor = farming;
 
 farming.prototype.update = function () {
     this.roadTiles = findRoad(this.buffer);
+
     this.growTime += this.game.clockTick;
     harvestCheck = Math.floor(this.game.timer.gameTime) % this.harvestTime;
 
@@ -56,9 +57,9 @@ farming.prototype.draw = function (ctx) {
     this.animHarvest.drawFrame(this.game.clockTick, ctx, pt1, pt2);
     Entity.prototype.draw.call(this);
 }
-var found = [];
-farming.prototype.genWalker = function () {
 
+farming.prototype.genWalker = function () {
+    found = [];
     //for each granary building on the map, if there is one:
     for (let i = 0; i < this.game.industries.length; i++) { // just a test
         //check Granary has capacity to cut down a bit on calculations 
@@ -72,7 +73,7 @@ farming.prototype.genWalker = function () {
                         return false;
                     } else {
                         //console.log("gen walkers: path");
-                        found.push([that.roadTiles[j][0], that.roadTiles[j][1], indie.roadTiles[k][0], indie.roadTiles[k][1]]);
+                        found = [that.roadTiles[j][0], that.roadTiles[j][1], indie.roadTiles[k][0], indie.roadTiles[k][1]];
                         return true;
                     }
 
@@ -81,16 +82,21 @@ farming.prototype.genWalker = function () {
             }
         }
     }
-    //if (found.length > 0) {
-    //    var gcm = new grCartMan(this.game, ASSET_MANAGER.getAsset('./img/grainCartMan.png'), walkerMap, found[0][0], found[0][1]);
-    //    gcm.destX = found[0][2];
-    //    gcm.destY = found[0][3];
-    //    this.game.addWalker(gcm);
+    if (found.length > 0) {
+        //var gcm = new grCartMan(this.game, ASSET_MANAGER.getAsset('./img/grainCartMan.png'), walkerMap, found[0][0], found[0][1]);
+        //gcm.destX = found[0][2];
+        //gcm.destY = found[0][3];
+        //var gcm = new grCartMan(this.game, ASSET_MANAGER.getAsset('./img/grainCartMan.png'), walkerMap, 10, 9);
+        //gcm.destX = 2;
+        //gcm.destY = 2;
+        //this.game.addWalker(gcm);
+        //console.log(gcm);
+        //this.game.addWalker(gcm);
 
-    //} else {
-    //    console.log("No path to that buildin'")
-    //}
-    
+    } else {
+        console.log("No path to that buildin'")
+    }
+    console.log(found);
 }
 
 
@@ -102,7 +108,7 @@ function grainFarm(img, game, x, y) {
 
 }
 
-grainFarm.prototype = new farming();
+grainFarm.prototype = Object.create(farming.prototype);
 grainFarm.prototype.constructor = grainFarm;
 
 function barFarm(img, game, x, y) {
