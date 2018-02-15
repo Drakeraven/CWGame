@@ -113,6 +113,7 @@ Map.prototype.addThing = function(thing, x, y) {
     if(thing.dimensionY > 1) {
           for(i = y + 1; i < y + thing.dimensionY; i++) {
             this.mapList[i][x].thing = thing;
+            console.log(this.mapList[y][i].thing)
           }
     }
   }
