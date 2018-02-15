@@ -122,9 +122,6 @@ function Weaver(img, game, x, y, bWidth, bHeight) {
     this.placeCost = 50;
     this.merchCost = 50;
     this.prodTime = 10;
-    //FOR TESTING
-    this.numEmployed = 0;
-    this.numResources = 100;
     console.log(this.buffer);
 }
 
@@ -145,10 +142,6 @@ function Brewery(img, game, x, y, bWidth, bHeight) {
     this.placeCost = 60;
     this.merchCost = 45;
     this.prodTime = 15;
-
-    //FOR TESTING
-    this.numEmployed = 0;
-    this.numResources = 100;
     console.log(this.buffer);
 }
 
@@ -169,10 +162,6 @@ function Potter(img, game, x, y, bWidth, bHeight) {
     this.placeCost = 70;
     this.merchCost = 55;
     this.prodTime = 20;
-    //FOR TESTING
-    this.numEmployed = 0;
-    this.numResources = 100;
-    this.numMerch = 100;
     console.log(this.buffer);
 }
 
