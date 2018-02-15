@@ -135,15 +135,6 @@ GameEngine.prototype.startInput = function () {
     console.log('Input started');
 }
 
-function setButton(titleOfCurrentButtonSelection) {
-    $('.pharoh-button').removeClass('selected');
-    $('.pharoh-button[title="' + titleOfCurrentButtonSelection + '"]').addClass('selected');
-    var buttonPaneTitle = titleOfCurrentButtonSelection;
-    if (buttonPaneTitle == 'Messages') buttonPaneTitle = 'Default';
-    $('.button-pane img').hide();
-    $('.button-pane img[title="' + buttonPaneTitle + '"]').show();
-}
-
 GameEngine.prototype.buildOnCanvas = function(x, y) {
     //map.addThing (instance of thing built)
     //respective list 
