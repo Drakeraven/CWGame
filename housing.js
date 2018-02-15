@@ -100,7 +100,7 @@ house.prototype.update = function () {
     //UPDATE Pop:
     currentPop = 0;
     for (i = 0; i < this.game.housingArr.length; i++) {
-        currentPop += this.numHoused;
+        currentPop += this.numHoused;    
     } 
 
     if (currentPop > this.game.gameWorld.population) { 
@@ -121,10 +121,10 @@ house.prototype.draw = function (ctx) {
 }
 
 
-function Housing(img, game, x, y, bWidth, bHeight) {
-    house.call(this, img, game, x, y, bWidth, bHeight);
+function Housing(game, x, y) {
+    img = ASSET_MANAGER.getAsset("./img/HousingAlone.png");
+    house.call(this, img, game, x, y, 2, 2);
     this.foodTime = game.timer.gameTime;
-    this.img = img;
     this.level = 0;
     this.placeCost = 25;
     this.renderX = 10;

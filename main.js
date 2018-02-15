@@ -256,11 +256,14 @@ ASSET_MANAGER.downloadAll(function () {
     var brewery = new Brewery(ASSET_MANAGER.getAsset("./img/Brewery.png"), gameEngine, 3, 2, 2, 2);
     gameEngine.addIndustry(brewery);
 
-    var house1 = new Housing(ASSET_MANAGER.getAsset("./img/HousingAlone.png"), gameEngine, 13, 11, 2, 2);
+    var house1 = new Housing(gameEngine, 13, 11);
     gameEngine.addHouse(house1);
 
-    var well1 = new Well(ASSET_MANAGER.getAsset("./img/smallWell.png"), gameEngine, 10, 11);
-    gameEngine.addHouse(well1);
+    var well1 = new Well(gameEngine, 10, 11);
+    gameEngine.addBuilding(well1);
+
+    var bazaar1 = new bazaar(gameEngine, 6, 11);
+    gameEngine.addEntity(bazaar1);
 
     gameEngine.start();
 });
