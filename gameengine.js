@@ -85,12 +85,8 @@ GameEngine.prototype.startInput = function () {
         fixX = event.clientX - (event.clientX % 29);
         fixY = event.clientY - (event.clientY % 15);
         console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY + '(board coord at )' + that.isototwodX(fixX, fixY) + ' ' + that.isototwodY(fixX, fixY));
-<<<<<<< HEAD
         //copstore = new Weaver(ASSET_MANAGER.getAsset('./img/Weaver.png'), that, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY), 2, 2);
         copstore = new barFarm(that, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
-=======
-        copstore = new Potter(ASSET_MANAGER.getAsset("./img/Potter.png"), that, 14, 11, 2, 2);
->>>>>>> quick tweaks - added a console log and changed the
         that.map.addThing(copstore, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
     });
     //hotkey
@@ -218,7 +214,7 @@ GameEngine.prototype.draw = function () {
         this.entities[i].draw(this.ctx);
     }
 
-    for(var i = 0; i < this.housingArr.length; i++) { 
+    for(var i = 0; i < this.housingArr.length; i++) {
         this.housingArr[i].draw(this.ctx);
     }
 
@@ -243,15 +239,15 @@ GameEngine.prototype.draw = function () {
 
 GameEngine.prototype.update = function () {
     var entitiesCount = this.entities.length;
-    var working = this.gameWorld.workForce + 100; 
-    //give industry employees here :D 
+    var working = this.gameWorld.workForce + 100;
+    //give industry employees here :D
 
     for (var i = 0; i < this.industries.length; i++) {
         var industry = this.industries[i];
         if (working > industry.numEmpNeeded && industry.numResources > 0) {
             industry.numEmployed = industry.numEmpNeeded;
             working -= industry.numEmpNeeded;
-        } 
+        }
         //console.log(working);
         //console.log()
     }
@@ -382,4 +378,3 @@ Entity.prototype.rotateAndCache = function (image, angle) {
     //offscreenCtx.strokeRect(0,0,size,size);
     return offscreenCanvas;
 }
-
