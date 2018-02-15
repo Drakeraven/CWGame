@@ -205,10 +205,6 @@ GameEngine.prototype.draw = function () {
         this.housingArr[i].draw(this.ctx);
     }
 
-    for(var i = 0; i < this.buildings.length; i++) { 
-        this.buildings[i].draw(this.ctx);
-    }
-
     for (var i = 0; i < this.industries.length; i++) {
         this.industries[i].draw(this.ctx);
     }
@@ -276,20 +272,6 @@ GameEngine.prototype.update = function () {
     for (var i = this.housingArr.length - 1; i >= 0; --i) {
         if (this.housingArr[i].removeFromWorld) {
             this.housingArr.splice(i, 1);
-        }
-    }
-
-    for (var i = 0; i < this.buildings.length; i++) {
-        var myHouse = this.buildings[i];
-        if (!myHouse.removeFromWorld) {
-            //console.log("Updating building")
-            myHouse.update();
-        }
-    }
-
-    for (var i = this.buildings.length - 1; i >= 0; --i) {
-        if (this.buildings[i].removeFromWorld) {
-            this.buildings.splice(i, 1);
         }
     }
 
