@@ -4,25 +4,11 @@ var collapseResist = 3; //percent chance of collapse? lowerable.
 
 var merchStep = 100; //how much of an item is created at the end of a buidl cycle
 
-function arrived(rect1, r2X, r2Y) {
-    //return (rect1.x < rect2X + 0) &&
-    //    (rect1.x + rect1.width > r2X && rect1.y < r2Y + 0) &&
-    //    (rect1.height + rect1.y > r2);
-    return (r2X < rect1.x + rect1.width && r2X > rect1.x) &&
-        (r2Y < rect1.y + rect1.height && r2Y > rect1.y);
-}
-
-function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-}
-
-function industry(img, game, x, y, bWidth, bHeight) {
+function industry(game, x, y) {
     this.game = game;
-    this.img = img;
-    this.bWidth = bWidth;
-    this.bHeight = bHeight;
+    this.img = null;
+    this.bWidth = 2;
+    this.bHeight = 2;
     this.openAnim = null;
     this.closedAnim = null;
     this.currAnim = null;
@@ -37,7 +23,8 @@ function industry(img, game, x, y, bWidth, bHeight) {
     this.numMerch = 0;
     this.merchCost = 0;
     this.prodTime = 0;
-    this.buffer = { x: x - 1, y: y - 1, width: bWidth + 1, height: bHeight + 1};
+    this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
+    this.roadTiles = [];
     Entity.call(this, game, x, y);
 }
 
@@ -46,6 +33,7 @@ industry.prototype.constructor = industry;
 
 industry.prototype.update = function () {
     Entity.prototype.update.call(this);
+    this.roadTiles = findRoad(this.buffer);
 
     //Checks for fire/collapse. Need to make this happen, not ALOT of the time...
     //if (getRandomInt(1, 101) <= fireResist) {
@@ -77,7 +65,7 @@ industry.prototype.update = function () {
 
         for (var i = 0; i < this.game.walkers.length; i++) {//loop through walkers
             if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) {
-                if (this.game.walkers[i].loadType == this.resType && this.numResources < 300) {
+                if (this.game.walkers[i].loadType == this.resType && this.numResources < 100) {
                     this.numResources += this.game.walkers[i].loadCount;
                     this.game.walkers[i].removeFromWorld = true;
                 }
@@ -108,11 +96,12 @@ industry.prototype.draw = function (ctx) {
 }
 
 //For each industry, define a resource type as a string.
-function Weaver(img, game, x, y, bWidth, bHeight) {
-    industry.call(this, img, game, x, y, bWidth, bHeight);
+function Weaver(game, x, y) {
+    industry.call(this, game, x, y);
+    this.img = ASSET_MANAGER.getAsset("./img/Weaver.png");
     this.workTime = game.timer.gameTime;
-    this.openAnim = new Animation(img, 0, 1, 118, 100, 6, .15, 12, true);
-    this.closedAnim = new Animation(img, 0, 0, 118, 100, 1, .15, 1, true); // maybe set false??
+    this.openAnim = new Animation(this.img, 0, 1, 118, 100, 6, .15, 12, true);
+    this.closedAnim = new Animation(this.img, 0, 0, 118, 100, 1, .15, 1, true); // maybe set false??
     this.currAnim = this.closedAnim;
     this.renderX = 31;
     this.renderY = 40;
@@ -128,11 +117,12 @@ function Weaver(img, game, x, y, bWidth, bHeight) {
 Weaver.prototype = new industry();
 Weaver.prototype.constructor = Weaver;
 
-function Brewery(img, game, x, y, bWidth, bHeight) {
-    industry.call(this, img, game, x, y, bWidth, bHeight);
+function Brewery(game, x, y) {
+    industry.call(this, game, x, y);
+    this.img = ASSET_MANAGER.getAsset("./img/Brewery.png");
     this.workTime = game.timer.gameTime;
-    this.openAnim = new Animation(img, 0, 1, 118, 90, 4, .15, 12, true);
-    this.closedAnim = new Animation(img, 0, 0, 118, 90, 1, .15, 1, true);
+    this.openAnim = new Animation(this.img, 0, 1, 118, 90, 4, .15, 12, true);
+    this.closedAnim = new Animation(this.img, 0, 0, 118, 90, 1, .15, 1, true);
     this.currAnim = this.closedAnim;
     this.renderX = 31;
     this.renderY = 30;
@@ -148,11 +138,12 @@ function Brewery(img, game, x, y, bWidth, bHeight) {
 Brewery.prototype = new industry();
 Brewery.prototype.constructor = Brewery;
 
-function Potter(img, game, x, y, bWidth, bHeight) {
-    industry.call(this, img, game, x, y, bWidth, bHeight);
+function Potter(game, x, y) {
+    industry.call(this, game, x, y);
+    this.img = ASSET_MANAGER.getAsset("./img/Potter.png");
     this.workTime = game.timer.gameTime;
-    this.openAnim = new Animation(img, 0, 1, 118, 90, 9, 0.15, 18, true);
-    this.closedAnim = new Animation(img, 0, 0, 118, 90, 1, 0.15, 1, true);
+    this.openAnim = new Animation(this.img, 0, 1, 118, 90, 9, 0.15, 18, true);
+    this.closedAnim = new Animation(this.img, 0, 0, 118, 90, 1, 0.15, 1, true);
     this.currAnim = this.closedAnim;
     this.renderX = 31;
     this.renderY = 30;
