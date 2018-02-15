@@ -8,6 +8,7 @@ var Constants = {
             { value: "Grain Farm", text: "Grain Farm" },
             { value: "Barley Farm", text: "Barley Farm" },
             { value: "Flax Farm", text: "Flax Farm" },
+            { value: "Hunting Lodge", text: "Hunting Lodge" },
         ],
         Utilities: [
             { value: "Well", text: "Well" },
