@@ -140,7 +140,7 @@ function GameWorld() {
     this.population = 0;
     this.workForce = 0;
     this.taxRev = .10;
-    this.funds = 0;
+    this.funds = 1000;
     this.goals = [];
 }
 
@@ -197,6 +197,8 @@ ASSET_MANAGER.queueDownload("./img/Hunter1.5.png");
 ASSET_MANAGER.queueDownload("./img/Hunter2.png");
 ASSET_MANAGER.queueDownload("./img/immig.png");
 ASSET_MANAGER.queueDownload("./img/ClayThingy.png");
+ASSET_MANAGER.queueDownload("./img/smallWell.png");
+ASSET_MANAGER.queueDownload("./img/bigWell.png"); 
 
 //TODO: add in imgs for fixed walkers
 
@@ -206,6 +208,8 @@ ASSET_MANAGER.downloadAll(function () {
     var ctx = canvas.getContext('2d');
 
     var gameEngine = new GameEngine();
+
+    gameEngine.gameWorld = new GameWorld(); 
 
     gameEngine.map = new Map(gameEngine);
     gameEngine.init(ctx);

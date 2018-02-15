@@ -15,7 +15,7 @@ function industry(game, x, y) {
     this.renderX = 0;
     this.renderY = 0;
     this.numEmployed = 0;
-    this.numEmpNeeded = null;
+    this.numEmpNeeded = 0;
     this.placeCost = null;
     this.numResources = 0;
     this.resType = "";
@@ -53,6 +53,7 @@ industry.prototype.update = function () {
     //}
 
     //if out of employees or no resources, close operation
+    console.log("Num Emp: " + this.numEmployed);
     if (this.numEmployed < this.numEmpNeeded || this.numResources == 0) {
         this.currAnim = this.closedAnim;
     } else {
@@ -110,9 +111,6 @@ function Weaver(game, x, y) {
     this.placeCost = 50;
     this.merchCost = 50;
     this.prodTime = 10;
-    //FOR TESTING
-    this.numEmployed = 12;
-    this.numResources = 100;
     console.log(this.buffer);
 }
 
@@ -134,10 +132,6 @@ function Brewery(game, x, y) {
     this.placeCost = 60;
     this.merchCost = 45;
     this.prodTime = 15;
-
-    //FOR TESTING
-    this.numEmployed = 14;
-    this.numResources = 100;
     console.log(this.buffer);
 }
 
@@ -159,10 +153,6 @@ function Potter(game, x, y) {
     this.placeCost = 70;
     this.merchCost = 55;
     this.prodTime = 20;
-    //FOR TESTING
-    this.numEmployed = 16;
-    this.numResources = 100;
-    this.numMerch = 100;
     console.log(this.buffer);
 }
 

@@ -29,6 +29,8 @@ Timer.prototype.tick = function () {
 
 function GameEngine() {
     this.entities = [];
+    this.buildings = []; //add general buildings here (cop, fire, well, water)
+    this.housingArr = []; //add houses here
     this.walkers = []; //Add Walkers to this ONLY
     this.industries = []; //Add Industries to this ONLY
     this.yards = [];
@@ -41,6 +43,7 @@ function GameEngine() {
     this.wheel = null;
     this.surfaceWidth = null;
     this.surfaceHeight = null;
+    this.gameWorld = null;
 }
 
 GameEngine.prototype.init = function (ctx) {
@@ -169,6 +172,16 @@ GameEngine.prototype.addEntity = function (entity) {
     this.entities.push(entity);
 }
 
+GameEngine.prototype.addHouse = function (entity) {
+    console.log('added house');
+    this.housingArr.push(entity);
+}
+
+GameEngine.prototype.addBuilding = function (entity) {
+    console.log('added building');
+    this.buildings.push(entity);
+}
+
 GameEngine.prototype.addWalker = function (walker) {
     console.log("added walker");
     this.walkers.push(walker);
@@ -201,6 +214,10 @@ GameEngine.prototype.draw = function () {
         this.entities[i].draw(this.ctx);
     }
 
+    for(var i = 0; i < this.housingArr.length; i++) { 
+        this.housingArr[i].draw(this.ctx);
+    }
+
     for (var i = 0; i < this.industries.length; i++) {
         this.industries[i].draw(this.ctx);
     }
@@ -222,6 +239,18 @@ GameEngine.prototype.draw = function () {
 
 GameEngine.prototype.update = function () {
     var entitiesCount = this.entities.length;
+    var working = this.gameWorld.workForce + 100; 
+    //give industry employees here :D 
+
+    for (var i = 0; i < this.industries.length; i++) {
+        var industry = this.industries[i];
+        if (working > industry.numEmpNeeded && industry.numResources > 0) {
+            industry.numEmployed = industry.numEmpNeeded;
+            working -= industry.numEmpNeeded;
+        } 
+        //console.log(working);
+        //console.log()
+    }
 
     for (var i = 0; i < entitiesCount; i++) {
         var entity = this.entities[i];
@@ -264,6 +293,20 @@ GameEngine.prototype.update = function () {
     for (var i = this.entities.length - 1; i >= 0; --i) {
         if (this.entities[i].removeFromWorld) {
             this.entities.splice(i, 1);
+        }
+    }
+
+    for (var i = 0; i < this.housingArr.length; i++) {
+        var myHouse = this.housingArr[i];
+        if (!myHouse.removeFromWorld) {
+            //console.log("Updating building")
+            myHouse.update();
+        }
+    }
+
+    for (var i = this.housingArr.length - 1; i >= 0; --i) {
+        if (this.housingArr[i].removeFromWorld) {
+            this.housingArr.splice(i, 1);
         }
     }
 
@@ -335,3 +378,4 @@ Entity.prototype.rotateAndCache = function (image, angle) {
     //offscreenCtx.strokeRect(0,0,size,size);
     return offscreenCanvas;
 }
+
