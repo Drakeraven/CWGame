@@ -10,7 +10,7 @@ $(function () {
     // TODO add callback for selected option
 });
 
-function setControlOptions(options) {
+function setSelectOptions(options) {
     let $inputProduct = $('select#selectId');
     $inputProduct.html("");
     if (options.length) {
@@ -38,7 +38,7 @@ function setButton(titleOfCurrentButtonSelection) {
     var newOptions;
     switch (titleOfCurrentButtonSelection) {
         case "Housing":
-            setControlOptions(Constants.Buildings.Housing);
+            setSelectOptions(Constants.Buildings.Housing);
             break;
         case "Food and Farm":
             console.log("itfuud");
@@ -76,7 +76,7 @@ function setButton(titleOfCurrentButtonSelection) {
             };
             break;
         case "Roads":
-            setControlOptions(Constants.Buildings.Roads);
+            setSelectOptions(Constants.Buildings.Roads);
             break;
         //clear select/disable select
         case "Municipal Buildings":
