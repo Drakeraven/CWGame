@@ -33,6 +33,7 @@ industry.prototype.constructor = industry;
 
 industry.prototype.update = function () {
     Entity.prototype.update.call(this);
+    //this.roadTiles = findRoad(this.buffer);
 
     //this.roadTiles = findRoad(this.buffer);
     //Checks for fire/collapse. Need to make this happen, not ALOT of the time...

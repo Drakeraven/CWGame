@@ -157,6 +157,7 @@ function setButton(newSelection) {
 }
 
 GameEngine.prototype.buildOnCanvas = function(x, y) {
+
     let selection = "";
     //Will return nothing if no buttons are selected
     let selectedButton = $('.pharoh-button.selected');
@@ -176,6 +177,8 @@ GameEngine.prototype.buildOnCanvas = function(x, y) {
                 ASSET_MANAGER.getAsset("./img/HousingAlone.png"),
                 x,
                 y,
+                2,
+                2
             );
             offsetX = entity.animation.frameWidth / 2
             offsetY = entity.animation.frameHeight / 2
@@ -192,14 +195,17 @@ GameEngine.prototype.buildOnCanvas = function(x, y) {
                 ASSET_MANAGER.getAsset("./img/FarmPlots.png"),
                 x,
                 y,
+                2,
+                2
             );
             offsetX = entity.animation.frameWidth / 2
             offsetY = entity.animation.frameHeight / 2
             entity.x = x - offsetX;
             entity.y = y - offsetY;
-            this.addEntity(
+            this.addIndustry(
                 entity
             );
+            this.map.
             break;
         default :
             console.log('nuthin2seahear')
