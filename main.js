@@ -229,10 +229,6 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.init(ctx);
     gameEngine.map.readMap(new mapData().testMap);
     //var gameWorld = new gameWorld();
-
-
-<<<<<<< HEAD
-
     //var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), walkerMap, 0, 1);
     //ecm.destX = 6;
     //ecm.destY = 18;
@@ -279,57 +275,15 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addIndustry(potter);
 
     //var mine = new goldMine(gameEngine, 3, 2);
-    var pit = new clayPit(gameEngine, 3, 2);
+    var pit = new clayPit(gameEngine, 0, 3);
     //gameEngine.addEntity(mine);
     gameEngine.addEntity(pit);
 
-=======
-    var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), walkerMap, 0, 1);
-    ecm.destX = 6;
-    ecm.destY = 18;
-    var ccm = new cCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/clayCartMan.png"), walkerMap, 5, 1);
-    ccm.destX = 6;
-    ccm.destY = 18;
-    var becm = new beCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/beerCartMan.png"), walkerMap, 9, 5);
-    becm.destX = 6;
-    becm.destY = 18;
-    gameEngine.addWalker(ecm);
-    gameEngine.addWalker(ccm);
-    gameEngine.addWalker(becm);
-    var baz = new bazLad(gameEngine, ASSET_MANAGER.getAsset("./img/bazaarLady 22x42.png"), walkerMap, 0, 1, 100, "pottery");
-    baz.destX = 16;
-    baz.destY = 11;
-    gameEngine.addWalker(baz);
-
-    var fiyah = new FireMan(gameEngine, ASSET_MANAGER.getAsset("./img/FireDude1.png"), ASSET_MANAGER.getAsset("./img/Firedude2.png"), walkerMap, 0, 1);
-    fiyah.destX = 9;
-    fiyah.destY = 18;
-    gameEngine.addWalker(fiyah);
-
-    var huntah = new Hunter(gameEngine, ASSET_MANAGER.getAsset("./img/Hunter1.5.png"), ASSET_MANAGER.getAsset("./img/Hunter2.png"), walkerMap, 0, 1);
-    huntah.destX = 12;
-    huntah.destY = 18;
-    gameEngine.addWalker(huntah);
-
-    var peeps = new Migrant(gameEngine, ASSET_MANAGER.getAsset("./img/immig.png"), walkerMap, 0, 1);
-    peeps.destX = 6;
-    peeps.destY = 18;
-    gameEngine.addWalker(peeps);
-
-    var weaver = new Weaver(gameEngine, 3, 11, 2, 2);
-    gameEngine.addIndustry(weaver);
-
-    var brewery = new Brewery(gameEngine, 0, 0);
-    gameEngine.addIndustry(brewery);
-
-    //var potter = new Potter(ASSET_MANAGER.getAsset("./img/Potter.png"), gameEngine, 14, 11, 2, 2);
-    //gameEngine.addIndustry(potter);
->>>>>>> maed da map biggg
     gameEngine.start();
 
 
     console.log(walkerMap);
-    gameEngine.map.addThing(brewery, 0, 0);
+  //  gameEngine.map.addThing(brewery, 0, 0);
     updateMapData(0, 0, 1);
 
 
