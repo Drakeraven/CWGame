@@ -78,6 +78,7 @@ function setButton(titleOfCurrentButtonSelection) {
             break;
         case "Municipal":
             setSelectOptions(Constants.Buildings.Municipal);
+            break;
         case "Roads":
             setSelectOptions(Constants.Buildings.Roads);
             break;

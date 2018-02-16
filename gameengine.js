@@ -79,27 +79,12 @@ GameEngine.prototype.isototwodX = function (x, y) {
 GameEngine.prototype.isototwodY = function (x, y) {
     return Math.floor((((y / 15) + this.cameraoffY) - ((x / 29) - this.cameraoffX)) / 2);
 }
-
+var isDrawing = false;
 //Listens to input and events
 GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
-    this.ctx.canvas.addEventListener("click", function (event) {
-        //adjusts x and y
-        fixX = event.clientX - (event.clientX % 29);
-        fixY = event.clientY - (event.clientY % 15);
-        //converts to iso
-        fixX = isototwodX(fixX, fixY);
-        fixY = isototwodY(fixX, fixY);
-        //sets selection
-        selectedBuilding = setSelected();
-        //creates object and adds to map
-        that.buildOnCanvas(selectedBuilding, fixX, fixY);
-        console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY + '(board coord at )' + that.isototwodX(fixX, fixY) + ' ' + that.isototwodY(fixX, fixY));
-    });
-   
-    this.ctx.canvas.addEventListener("drag", function (event) {
-        //Only calls buildoncanvas is selection is "Road"
+    this.ctx.canvas.addEventListener("mouseDown", function (event) {//click down
         //adjusts x and y
         fixX = event.clientX - (event.clientX % 29);
         fixY = event.clientY - (event.clientY % 15);
@@ -108,16 +93,56 @@ GameEngine.prototype.startInput = function () {
         fixY = isototwodY(fixX, fixY);
         selection = $('.pharoh-button').hasClass("selected").attr("title");
         if (selection == "Roads") {
-            that.buildOnCanvas(selection, fixX, fixY);
-
+            drawRoad();
+        } else {
+            if (walkerMap[fixX][fixY] != 1) {
+                //sets selection
+                selectedBuilding = setSelected();
+                //creates object and adds to map
+                that.buildOnCanvas(selectedBuilding, fixX, fixY);
+            }
         }
+
+
     });
+
+    function drawRoad(x, y) {
+        walkerMap[x][y] = 1;
+        this.map.mapList[y][x].tiletype = 1; // or should these be seperate?
+    }
+    //sets tiles to original.
+    function removeRoad(x,y){
+        walkerMap[x][y] = mapdata[x][y] ;
+        this.map.mapList[y][x].tiletype = mapdata[x][y];
+    }
+
+    this.ctx.canvas.addEventListener("drag", function (event) {//click hold
+        //Only calls buildoncanvas is selection is "Road"
+        //adjusts x and y
+        fixX = event.clientX - (event.clientX % 29);
+        fixY = event.clientY - (event.clientY % 15);
+        //converts to iso
+        fixX = isototwodX(fixX, fixY);
+        fixY = isototwodY(fixX, fixY);
+
+        if (isDrawingRoad) {
+            drawRoad();
+        }
+
+    });
+
+    this.ctx.canvas.addEventListener("mouseUp", function (event) {//click release
+        isDrawing = false;
+    });
+
     this.ctx.canvas.addEventListener("contextmenu", function (event) {
         //TODO clears selection, sets up "Select" functionality
-        setButtonSelect("Select");
+        setButton("Select");
     });
     //Handles Hot Keys
-    this.ctx.canvas.addEventListener("keydown", setHotKeys(event));
+    this.ctx.canvas.addEventListener("keydown", function (event) {
+        setHotKeys(event);
+    });
     console.log('Input started');
 }
 
@@ -141,7 +166,7 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
         //X and Y have been make ISO friendly before entering this function
         case "House":
             entity = new Housing(that, x, y);
-            housingArr.push(entity);
+            this.housingArr.push(entity);
             break;
 
         case "Grain Farm":
@@ -208,14 +233,17 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
         case "Gold Mine":
             entity = new goldMine(that, x, y);
             entities.push(entity);
+
             break;
         case "Fire House":
             entity = new FireHouse(that, x, y);
             entities.push(entity);
+
             break;
         case "Police Station":
             entity = new CopHouse(that, x, y);
             entities.push(entity);
+
             break;
         case "Tax House":
             entity = new TaxHouse(that, x, y);
@@ -228,7 +256,7 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
             console.log('nuthin2seahear')
             break
     }
-    if (selection) {//checks that selectioin is not null/ not default
+    if (selection) {//checks that selection is not null/ not default
         that.map.addThing(entity);
     }
 }
@@ -280,7 +308,7 @@ GameEngine.prototype.draw = function () {
         this.entities[i].draw(this.ctx);
     }
 
-    for(var i = 0; i < this.housingArr.length; i++) { 
+    for (var i = 0; i < this.housingArr.length; i++) {
         this.housingArr[i].draw(this.ctx);
     }
 
@@ -305,7 +333,7 @@ GameEngine.prototype.draw = function () {
 
 GameEngine.prototype.update = function () {
     var entitiesCount = this.entities.length;
-    var working = this.gameWorld.workForce + 100; 
+    var working = this.gameWorld.workForce + 100;
     //give industry employees here :D 
 
     for (var i = 0; i < this.industries.length; i++) {
@@ -313,7 +341,7 @@ GameEngine.prototype.update = function () {
         if (working > industry.numEmpNeeded && industry.numResources > 0) {
             industry.numEmployed = industry.numEmpNeeded;
             working -= industry.numEmpNeeded;
-        } 
+        }
         //console.log(working);
         //console.log()
     }
