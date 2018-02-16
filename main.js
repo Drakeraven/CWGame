@@ -136,6 +136,7 @@ Map.prototype.readMap = function(mapData) {
 
 //need an instance at start. we can adjust values as needed.
 function GameWorld() {
+    this.palace = null;
     this.prosperity = 0;
     this.population = 0;
     this.workForce = 0;
@@ -250,22 +251,23 @@ ASSET_MANAGER.downloadAll(function () {
     //peeps.destY = 18;
     //gameEngine.addWalker(peeps);
 
-    var gF = new grainFarm(gameEngine, 10, 7);
-    gameEngine.addEntity(gF);
+    //var gF = new grainFarm(gameEngine, 10, 7);
+    //gameEngine.addEntity(gF);
 
     //var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, 3, 11, 2, 2);
     ////gameEngine.addIndustry(weaver);
 
-    var brewery = new Brewery(gameEngine, 3, 2);
-    gameEngine.addIndustry(brewery);
-
-    //var potter = new Potter(gameEngine, 14, 11);
-    //gameEngine.addIndustry(potter);
+    //var brewery = new Brewery(gameEngine, 3, 2);
+    //gameEngine.addIndustry(brewery);
+    //var hunt = new huntLodge(gameEngine, 3, 2);
+    //gameEngine.addEntity(hunt);
+    var potter = new Potter(gameEngine, 14, 11);
+    gameEngine.addIndustry(potter);
 
     //var mine = new goldMine(gameEngine, 3, 2);
-    //var pit = new clayPit(gameEngine, 3, 2);
+    var pit = new clayPit(gameEngine, 3, 2);
     //gameEngine.addEntity(mine);
-    //gameEngine.addEntity(pit);
+    gameEngine.addEntity(pit);
 
     gameEngine.start();
 });
