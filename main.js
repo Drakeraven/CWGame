@@ -112,6 +112,7 @@ Map.prototype.addThing = function(thing) {
     updateMapData(x, y, thing.bWidth, thing.bHeight, 2);
     this.mapList[y][x].thing = thing;
     this.mapList[y][x].tileType = 2;
+    this.game.addEntity(thing);
     if(thing.dimensionX > 1) {
       console.log('hi');
           for(i = x + 1; i < x + thing.dimensionX; i++) {
@@ -256,14 +257,14 @@ ASSET_MANAGER.downloadAll(function () {
     peeps.destY = 18;
     gameEngine.addWalker(peeps);
 
-    var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, 3, 11, 2, 2);
+    var weaver = new Weaver(gameEngine, 3, 11, 2, 2);
     gameEngine.addIndustry(weaver);
 
-    var brewery = new Brewery(ASSET_MANAGER.getAsset("./img/Brewery.png"), gameEngine, 3, 2, 2, 2);
+    var brewery = new Brewery(gameEngine, 0, 0);
     gameEngine.addIndustry(brewery);
 
-    var potter = new Potter(ASSET_MANAGER.getAsset("./img/Potter.png"), gameEngine, 14, 11, 2, 2);
-    gameEngine.addIndustry(potter);
+    //var potter = new Potter(ASSET_MANAGER.getAsset("./img/Potter.png"), gameEngine, 14, 11, 2, 2);
+    //gameEngine.addIndustry(potter);
     gameEngine.start();
 
 
