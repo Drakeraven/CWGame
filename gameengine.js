@@ -96,28 +96,36 @@ GameEngine.prototype.startInput = function () {
         selectedBuilding = setSelected();
         //creates object and adds to map
         that.buildOnCanvas(selectedBuilding, fixX, fixY);
-        
         console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY + '(board coord at )' + that.isototwodX(fixX, fixY) + ' ' + that.isototwodY(fixX, fixY));
-        //copstore = new Weaver(ASSET_MANAGER.getAsset('./img/Weaver.png'), that, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY), 2, 2);
-        copstore = new barFarm(that, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
-        that.map.addThing(copstore, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
     });
 
     this.ctx.canvas.addEventListener("drag", function (event) {
-        //TODO 
+        //Only calls buildoncanvas is selection is "Road"
+        let selection = "";
+    //Will return nothing if no buttons are selected
+    let selectedButton = $('building option:selected'.text());
+    //this is check, so we don't call .attr on null
+    if (selectedButton.length > 0) {
+        selection = selectedButton.attr('value');
+    }
+    if (selection == "Roads"){}
     });
     this.ctx.canvas.addEventListener("contextmenu", function (event) {
-        //TODO clears selection, when clicking objects on canvas, pops up status on statusbox
-        $('.pharoh-button').removeClass('selected');
+        //TODO clears selection, sets up "Select" functionality
+        setButtonSelect("Select");
     });
     //Handles Hot Keys
     this.ctx.canvas.addEventListener("keydown", setHotKeys(event));
     console.log('Input started');
 }
 
-GameEngine.prototype.buildOnCanvas = function (x, y) {
-    //map.addThing (instance of thing built)
-    //respective list 
+GameEngine.prototype.buildOnCanvas = function (selection, x, y) {
+    //buildingSelected is there because I am still nto sure if 
+    // let selectedButton = $('building option:selected'.text());
+    // does what its supposed to
+    //still testing that 
+
+
     let selection = "";
     //Will return nothing if no buttons are selected
     let selectedButton = $('building option:selected'.text());
@@ -125,102 +133,105 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
     if (selectedButton.length > 0) {
         selection = selectedButton.attr('value');
     }
-    let entity = null;
+
+
     var that = this;
-    let building = null;
+    let entity = null;
     switch (selection) {
+        //addmap function called at the very end, so its not repeated in each case
+        //NOTICE: Some are added to special arrays defined above this gameengine, some are pushed to entities[]
+        //X and Y have been make ISO friendly before entering this function
         case "House":
-        building = new Housing(that, x, y);
-        housingArr.push(building);
-        
-        that.map.addThing(building);
+            entity = new Housing(that, x, y);
+            housingArr.push(entity);
             break;
 
         case "Grain Farm":
-        building = new grainFarm(that, x, y);
-        that.map.addThing();
+            entity = new grainFarm(that, x, y);
+            entities.push(entity);
             break;
 
         case "Barley Farm":
-        building = new barFarm(that, x, y);
-        that.map.addThing();
-        break;
+            entity = new barFarm(that, x, y);
+            entities.push(entity);
+            break;
 
         case "Flax Farm":
-        building = new flaxFarm(that, x, y);
-        that.map.addThing();
-        break;
+            entity = new flaxFarm(that, x, y);
+            entities.push(entity);
+            break;
 
         case "Hunting Lodge":
-        building = new HuntingLodge(that, x, y);
-        that.map.addThing();
+            entity = new HuntingLodge(that, x, y);
+            entities.push(entity);
         case "Well":
-        building = new Well(that, x, y);
-        that.map.addThing(); 
-        break;
+            entity = new Well(that, x, y);
+            entities.push(entity);
+            break;
 
         case "Water Supply"://
-        building = new WaterSupply(that, x, y);
-        that.map.addThing();
-        break;
+            entity = new WaterSupply(that, x, y);
+            entities.push(entity);
+            break;
 
         case "Bazaar":
-        building = new bazaar(that, x, y);
-        that.map.addThing(); 
-        break;
+            entity = new bazaar(that, x, y);
+            entities.push(entity);
+            break;
 
         case "Granary"://
-        building = new Granary(that, x, y);
-        that.map.addThing(); 
-        break;
+            entity = new Granary(that, x, y);
+            granaries.push(entity);
+            break;
 
         case "Storage Yard"://
-        building = new StorageYard(that, x, y);
-        that.map.addThing();
-        break;
+            entity = new StorageYard(that, x, y);
+            yards.push(entity);
+            break;
 
         case "Weaver":
-        building = new Weaver(that, x, y);
-        that.map.addThing();
-        break;
+            entity = new Weaver(that, x, y);
+            entities.push(entity);
+            break;
 
         case "Brewery":
-        building = new Brewery(that, x, y);
-        that.map.addThing();
-        break;
+            entity = new Brewery(that, x, y);
+            entities.push(entity);
+            break;
 
         case "Potter":
-        building = new Potter(that, x, y);
-        that.map.addThing();
-        break;
+            entity = new Potter(that, x, y);
+            entities.push(entity);
+            break;
         case "Clay Pit":
-        building = new clayPit(that, x, y);
-        that.map.addThing();
-        break;
+            entity = new clayPit(that, x, y);
+            entities.push(entity);
+            break;
         case "Gold Mine":
-        building = new goldMine(that, x, y);
-        that.map.addThing();
-        break;
+            entity = new goldMine(that, x, y);
+            entities.push(entity);
+            break;
         case "Fire House":
-        building = new FireHouse(that, x, y);
-        that.map.addThing();
-        break;
-        case "Palace":
-        building = new Palace(that, x, y);
-        that.map.addThing();
-        break;
+            entity = new FireHouse(that, x, y);
+            entities.push(entity);
+            break;
         case "Police Station":
-        building = new CopHouse(that, x, y);
-        that.map.addThing();
-        break;
-        case "Tax Collector's Office":
-        building = new TaxHouse(that, x, y);
-        that.map.addThing();
-        break;
+            entity = new CopHouse(that, x, y);
+            entities.push(entity);
+            break;
+        case "Tax House":
+            entity = new TaxHouse(that, x, y);
+            entities.push(entity);
+            break;
+        case "Roads":
+            entity = new Road(that, x, y);//will be defined in main
 
         default:
             console.log('nuthin2seahear')
             break
+    }
+    if (selection) {//checks that selectioin is not null/ not default
+        that.map.addThing(entity);
     }
 }
 

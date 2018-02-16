@@ -57,11 +57,17 @@ function setButton(titleOfCurrentButtonSelection) {
     $('.pharoh-button').removeClass('selected');
     $('.pharoh-button[title="' + titleOfCurrentButtonSelection + '"]').addClass('selected');
     var buttonPaneTitle = titleOfCurrentButtonSelection;
+
+    //General use buttons don't need to change selectmenu
     if (buttonPaneTitle == 'Messages') buttonPaneTitle = 'Default';
     if (buttonPaneTitle == 'Game Information') buttonPaneTitle = 'Default';
     if (buttonPaneTitle == 'Select') buttonPaneTitle = 'Default';
+
+    //clears out and displays new button pane
     $('.button-pane img').hide();
     $('.button-pane img[title="' + buttonPaneTitle + '"]').show();
+
+    //Handles creation of new select options in selectmenu
     switch (titleOfCurrentButtonSelection) {
         case "Housing":
             setSelectOptions(Constants.Buildings.Housing);

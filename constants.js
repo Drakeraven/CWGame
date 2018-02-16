@@ -30,9 +30,8 @@ var Constants = {
         ],
         Municipal: [
             { value: "Fire House", text: "Fire House" },
-            { value: "Palace", text: "Palace" },
             { value: "Police Station", text: "Police Station" },
-            { value: "Tax Collector's Office", text: "Tax Collector's Office" },
+            { value: "Tax House", text: "Tax House" },
         ],
         Roads: [],
         Messages: [],
