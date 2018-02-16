@@ -17,6 +17,41 @@ function Timer() {
     this.wallLastTimestamp = 0;
 }
 
+GameEngine.prototype.mergeSort  = function (arr) {
+  if (arr.length === 1) {
+    // return once we hit an array with a single item
+    return arr
+  }
+
+  const middle = Math.floor(arr.length / 2) // get the middle item of the array rounded down
+  const left = arr.slice(0, middle) // items on the left side
+  const right = arr.slice(middle) // items on the right side
+
+  return this.merge(
+    this.mergeSort(left),
+    this.mergeSort(right)
+  )
+}
+
+// compare the arrays item by item and return the concatenated result
+GameEngine.prototype.merge = function (left, right) {
+  let result = []
+  let indexLeft = 0
+  let indexRight = 0
+
+  while (indexLeft < left.length && indexRight < right.length) {
+    if (this.twodtoisoY(left[indexLeft].x, left[indexLeft].y)  > this.twodtoisoY(right[indexRight].x, right[indexRight].y)) {
+      result.push(left[indexLeft])
+      indexLeft++
+    } else {
+      result.push(right[indexRight])
+      indexRight++
+    }
+  }
+
+  return result.concat(left.slice(indexLeft)).concat(right.slice(indexRight))
+}
+
 Timer.prototype.tick = function () {
     var wallCurrent = Date.now();
     var wallDelta = (wallCurrent - this.wallLastTimestamp) / 1000;
@@ -80,8 +115,6 @@ GameEngine.prototype.startInput = function () {
 fixX = event.clientX - (event.clientX % 29);
 fixY = event.clientY - (event.clientY % 15);
 console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY + '(board coord at )' + that.isototwodX(fixX, fixY) + ' ' + that.isototwodY(fixX, fixY));
-copstore = new HuntingLodge(that, ASSET_MANAGER.getAsset("./img/HuntingLodge.png"));
-that.map.addThing(copstore, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
     });
     //hotkey
     this.ctx.canvas.addEventListener("keydown", function(event) {
@@ -90,13 +123,15 @@ that.map.addThing(copstore, that.isototwodX(fixX, fixY), that.isototwodY(fixX, f
         } else if (event.code === "KeyF") {
             setButton("Food and Farm");
         } else if (event.code === "ArrowRight") {
-            that.cameraoffX += 1;
-        }else if (event.code === "ArrowLeft") {
+
             that.cameraoffX -= 1;
+            console.log(that.cameraoffX * 29)
+        }else if (event.code === "ArrowLeft") {
+            that.cameraoffX += 1;
         }else if (event.code === "ArrowUp") {
-            that.cameraoffY += 1;
-        }else if (event.code === "ArrowDown") {
             that.cameraoffY -= 1;
+        }else if (event.code === "ArrowDown") {
+            that.cameraoffY += 1;
         }
         console.log("the following key was pressed: " + event.code + "cam off x: " + that.cameraoffX + " cam off y: " + that.cameraoffY);
 
@@ -175,33 +210,29 @@ GameEngine.prototype.addEntity = function (entity) {
 GameEngine.prototype.addWalker = function (walker) {
     console.log("added walker");
     this.walkers.push(walker);
+    this.entities.push(walker);
 }
 
 GameEngine.prototype.addIndustry = function (industry) {
     console.log("added industry");
+    this.industries.push(industry);
     this.industries.push(industry);
 }
 
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
+    this.entities = this.mergeSort(this.entities);
+
     for(var i = 0; i < this.map.mapList.length; i++) {
       for(var j = 0; j < this.map.mapList[1].length; j++) {
-        this.map.mapList[i][j].draw(this.ctx);
+        this.map.mapList[j][i].draw(this.ctx);
       }
     }
+
     for (var i = 0; i < this.entities.length; i++) {
         this.entities[i].draw(this.ctx);
     }
-
-    for (var i = 0; i < this.industries.length; i++) {
-        this.industries[i].draw(this.ctx);
-    }
-
-    for (var i = 0; i < this.walkers.length; i++) {
-        this.walkers[i].draw(this.ctx);
-    }
-
     this.ctx.restore();
 }
 

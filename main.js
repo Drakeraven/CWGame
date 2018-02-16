@@ -12,11 +12,12 @@ function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, sheetWi
     this.elapsedTime = 0;
     this.loop = loop;
 }
-
+var walkerMap = new mapData().testMap;
 function updateMapData(x, y, xDim, yDim, type) {
-  for (i = x; i < x + xDim; i++) {
-    for(j = y; j < y + yDim; j++) {
-      simpleMapData[j][i] = type;
+  for (i = x; i < x + xDim && x + xDim < walkerMap.length; i++) {
+    for(j = y; j < y + yDim && y + yDim < walkerMap[i].length; j++) {
+      walkerMap[i][j] = type;
+      console.log(walkerMap);
     }
   }
 }
@@ -106,16 +107,13 @@ function Map(gameEngine) {
 }
 Map.prototype.constructor = Map;
 
-Map.prototype.addThing = function(thing, x, y) {
-  if(this.mapList[y][x].thing == null) {
-    updateMapData(x, y, thing.bWidth, thing.bHeight, 3);
+Map.prototype.addThing = function(thing) {
+  if(this.mapList[y][x].thing == null & thing != null) {
+    updateMapData(x, y, thing.bWidth, thing.bHeight, 2);
     this.mapList[y][x].thing = thing;
-    this.mapList[y][x].tileType = 3;
-    thing.x = x;
-    thing.y = y;
-    console.log(simpleMapData);
+    this.mapList[y][x].tileType = 2;
     if(thing.dimensionX > 1) {
-      console.log('hi')
+      console.log('hi');
           for(i = x + 1; i < x + thing.dimensionX; i++) {
             this.mapList[y][i].thing = thing;
             console.log(this.mapList[y][i].thing)
@@ -133,7 +131,6 @@ Map.prototype.readMap = function(mapData) {
 
     for (i = 0; i < mapData.length; i++) {
         this.mapList[i] = new Array(mapData.length);
-        simpleMapData[i] = new Array(mapData.length);
         for (j = 0; j < mapData[i].length; j++) {
             x = j;
             y = i;
@@ -143,10 +140,8 @@ Map.prototype.readMap = function(mapData) {
             var tile = new Tile(this.game, tileType, x, y );
             //this.game.addEntity(tile);
             this.mapList[i][j] = tile;
-            simpleMapData[i][j] = tileType;
         }
     }
-    console.log(simpleMapData);
 }
 
 //need an instance at start. we can adjust values as needed.
@@ -174,7 +169,6 @@ GameWorld.prototype.getWorkForce = function () {
 // the "main" code begins here
 
 
-var simpleMapData = [];
 var ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./img/Weaver.png");
@@ -228,7 +222,7 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.init(ctx);
     gameEngine.map.readMap(new mapData().testMap);
     //var gameWorld = new gameWorld();
-    var walkerMap = new mapData().testMap;
+
 
     var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), walkerMap, 0, 1);
     ecm.destX = 6;
@@ -272,7 +266,11 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addIndustry(potter);
     gameEngine.start();
 
+
+    console.log(walkerMap);
     gameEngine.map.addThing(brewery, 0, 0);
     updateMapData(0, 0, 1);
-    console.log(simpleMapData);
+
+
+
 });

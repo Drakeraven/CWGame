@@ -82,7 +82,7 @@ function Brewery(game, img) {
     this.animation = new Animation(img, 0, 1, 118, 90, 4, .15, 12, true);
     Entity.call(this, game, 500, 0);
 
-//}
+}
 
 //Brewery.prototype = new Entity();
 //Brewery.prototype.constructor = Brewery;
