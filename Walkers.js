@@ -3,9 +3,9 @@ Initiate the right kind of walker, give him a load count (amt he carries)
 Set his starting point on a VALID TILE
 set his destX and destY for a building of your choice.
 */
-var speed = 2.5;
-var aSpeed = .06;
-//TODO:Hunter Logic. Fix rendering of sprite
+const speed = 2.5;
+const aSpeed = .06;
+//TODO:Fix rendering of sprite
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -29,11 +29,11 @@ function Walker4(game, img, map, lX, lY) {
     this.destY = null;
     this.path = [];
     this.next = null;
-    this.loadCount = 0;
+    this.loadCount = 0; // how much of a load the walker is carrying
     this.loadType = "";
     this.easyStar = new EasyStar.js();
     this.easyStar.setGrid(map);
-    this.easyStar.setAcceptableTiles([1]);// TODO: Acceptable tiles are roads and grass
+    this.easyStar.setAcceptableTiles([1]);
     this.easyStar.disableCornerCutting();
     Entity.call(this, game, lX, lY);
 }
@@ -42,16 +42,14 @@ Walker4.prototype = Object.create(Entity.prototype);
 Walker4.prototype.constructor = Walker4;
 
 Walker4.prototype.update = function () {
-   // console.log(this.x, this.y);
     if (this.isFindingPath) return;
-    //console.log("Walker: (" + Math.floor(this.x) + ", " + Math.floor(this.y) + ")");
     if (this.isWalking) this.walkPath();
     if (this.destX != null && this.destY != null) {
         this.isFindingPath = true;
         let that = this;
         this.easyStar.findPath(Math.floor(this.x), Math.floor(this.y), this.destX, this.destY, function (path) {
             if (path === null) {
-                console.log("No path :("); //Do something for when you can't find a path to anything --  leave??
+                console.log("No path :("); 
             } else {
                 console.log("Path! The first Point is " + path[0].x + " " + path[0].y);
                 that.path = path;
@@ -64,27 +62,27 @@ Walker4.prototype.update = function () {
         this.destY = null;
         this.isFindingPath = false;
     }
-    //console.log(this.ID + " " + this.isWalking);
+
     Entity.prototype.update.call(this);
 }
 
 Walker4.prototype.walkPath = function () {
-    if (this.path.length == 0) {
-        //if (Math.floor(this.x) == this.next.x && Math.floor(this.y) == this.next.y) {
-            this.dX = 0;
-            this.dY = 0;
-        //}
-        isWalking = false;
-        return;
-    }
-    if (Math.floor(this.x) == this.next.x && Math.floor(this.y) == this.next.y) {
-        this.next = this.path.shift();
-        //console.log("current: " + Math.floor(this.x) + " " + Math.floor(this.y) +
-        //    " next: " + this.next.x + " " + this.next.y);
+    arriv = Math.floor(this.x) == this.next.x && Math.floor(this.y) == this.next.y;
+
+    if (this.path.length == 0 && !arriv) {
         this.dX = setDirection(Math.floor(this.x), this.next.x);
         this.dY = setDirection(Math.floor(this.y), this.next.y);
         this.currAnimation = this.animation[setFace(this.dX, this.dY)];
-        //console.log(this.dX + " "+ this.dY);
+    } else if (this.path.length == 0) {
+        this.dX = 0;
+        this.dY = 0;
+        this.isWalking = false;
+        return;
+    } else if (arriv) {
+        this.next = this.path.shift();
+        this.dX = setDirection(Math.floor(this.x), this.next.x);
+        this.dY = setDirection(Math.floor(this.y), this.next.y);
+        this.currAnimation = this.animation[setFace(this.dX, this.dY)];
     }
     this.x += this.dX * this.game.clockTick * speed;
     this.y += this.dY * this.game.clockTick * speed;
@@ -94,7 +92,6 @@ Walker4.prototype.draw = function (ctx) {
     pt1 = this.game.twodtoisoX(this.x, this.y) + 27 - this.currAnimation.frameWidth / 2;
     pt2 = this.game.twodtoisoY(this.x, this.y) + 10 - this.currAnimation.frameHeight / 2;
     ctx.fillRect(pt1, pt2, 5, 5);
-    //console.log(pt1, pt2);
     this.currAnimation.drawFrame(this.game.clockTick, ctx, pt1, pt2);
     Entity.prototype.draw.call(this);
 }
@@ -267,10 +264,6 @@ function Walker8(game, img, map, lX, lY) {
 Walker8.prototype = Object.create(Walker4.prototype);
 Walker8.prototype.constructor = Walker8;
 
-//Walker8.prototype.draw = function () {
-//    Walker4.prototype.draw.call(this);
-//}
-
 function FireMan(game, img1, img2, map, lX, lY) {
     Walker8.call(this, game, img1, map, lX, lY);
     this.animation["N"] =  new Animation(img1, 0, 0, 54, 47, 12, aSpeed, 12, true);
@@ -299,7 +292,6 @@ FireMan.prototype.update = function () {
     }
 }
 
-//append to the hunter function, that if the hunter is returning, you use the direction array of his hunt animations
 function Hunter(game, img1, img2, map, lX, lY) {
     Walker8.call(this, game, img1, map, lX, lY);
     this.animation["N"] =  new Animation(img1, 0, 0, 37, 36, 12, aSpeed, 12, true);
@@ -329,7 +321,6 @@ function Hunter(game, img1, img2, map, lX, lY) {
 Hunter.prototype = Object.create(Walker8.prototype);
 Hunter.prototype.constructor = Hunter;
 
-//hunting lodge will need to handle removing the hunter from the world when it gets back from hunting.
 Hunter.prototype.update = function () {
     Walker8.prototype.update.apply(this);
     if (this.path == 0) {

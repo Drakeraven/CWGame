@@ -157,6 +157,11 @@ GameWorld.prototype.getWorkForce = function () {
     return Math.floor(this.population * .40); //40% population is work force, change how I'm doing it??
 }
 
+GameWorld.prototype.addFunds = function (amt) {
+    this.funds += amt;
+    console.log("Added " + amt + " to the treasury. Funds: " + this.funds);
+}
+
 // the "main" code begins here
 
 var ASSET_MANAGER = new AssetManager();
@@ -189,7 +194,7 @@ ASSET_MANAGER.queueDownload("./img/mansion.png");
 ASSET_MANAGER.queueDownload("./img/Potter.png");
 ASSET_MANAGER.queueDownload("./img/farm1.png");
 ASSET_MANAGER.queueDownload("./img/taxHouse.png");
-ASSET_MANAGER.queueDownload("./img/palace.png");
+ASSET_MANAGER.queueDownload("./img/DONUTSTEAL.png");
 ASSET_MANAGER.queueDownload("./img/FarmPlots.png");
 ASSET_MANAGER.queueDownload("./img/bazaarLady 22x42.png");
 ASSET_MANAGER.queueDownload("./img/FireDude1.png")
@@ -210,13 +215,14 @@ ASSET_MANAGER.downloadAll(function () {
 
     var gameEngine = new GameEngine();
 
-    gameEngine.gameWorld = new GameWorld(); 
+    gameEngine.gameWorld = new GameWorld();
+    gameEngine.gameWorld.palace = new Palace(gameEngine, 10, 6);
+    console.log(gameEngine.gameWorld);
 
     gameEngine.map = new Map(gameEngine);
     gameEngine.init(ctx);
     gameEngine.map.readMap(new mapData().testMap);
     //var gameWorld = new gameWorld();
-
 
 
     //var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), walkerMap, 0, 1);
@@ -261,13 +267,13 @@ ASSET_MANAGER.downloadAll(function () {
     //gameEngine.addIndustry(brewery);
     //var hunt = new huntLodge(gameEngine, 3, 2);
     //gameEngine.addEntity(hunt);
-    var potter = new Potter(gameEngine, 14, 11);
-    gameEngine.addIndustry(potter);
+    //var potter = new Potter(gameEngine, 14, 11);
+    //gameEngine.addIndustry(potter);
 
-    //var mine = new goldMine(gameEngine, 3, 2);
-    var pit = new clayPit(gameEngine, 3, 2);
-    //gameEngine.addEntity(mine);
-    gameEngine.addEntity(pit);
+    var mine = new goldMine(gameEngine, 3, 11);
+    //var pit = new clayPit(gameEngine, 3, 2);
+    gameEngine.addEntity(mine);
+    //gameEngine.addEntity(pit);
 
     gameEngine.start();
 });
