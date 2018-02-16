@@ -100,6 +100,10 @@ GameEngine.prototype.start = function () {
         requestAnimFrame(gameLoop, that.ctx.canvas);
     })();
 }
+GameEngine.prototype.initcamera = function () {
+  this.cameraoffX = this.map.mapList.length / 2
+  this.cameraoffY = this.map.mapList[1].length / 2
+}
 GameEngine.prototype.twodtoisoX = function (x,y) {
   return (((x - y) + this.cameraoffX) * 29 );
 }

@@ -143,6 +143,7 @@ Map.prototype.readMap = function(mapData) {
             this.mapList[i][j] = tile;
         }
     }
+    this.game.initcamera();
 }
 
 //need an instance at start. we can adjust values as needed.
