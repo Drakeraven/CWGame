@@ -71,6 +71,11 @@ bubbleBuilding.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
+bubbleBuilding.prototype.toStringStats = function() {
+    str = "";
+    return str;
+}
+
 function Well (game, x, y) { 
     img = ASSET_MANAGER.getAsset("./img/smallWell.png");
     bubbleBuilding.call(this, img, game, x, y, 1, 1, 10);

@@ -1,4 +1,4 @@
-function Palace(game, x y) {
+function Palace(game, x, y) {
     this.game = game;
     this.img = null;
     this.bWidth = 2;
@@ -27,6 +27,10 @@ Palace.prototype.draw = function (ctx) {
 }
 
 
+Palace.prototype.toStringStats = function() {
+    str = "Employees: " + this.numEmployed + "Employees Needed: " + this.numEmpNeeded;//TODO
+    return str;
+}
 function Granary(game, x, y) {
     Entity.call(this, game, x, y);
 }
@@ -41,7 +45,10 @@ Granary.prototype.update = function () {
 Granary.prototype.draw = function () {
     Entity.prototype.draw.call(this);
 }
-
+Granary.prototype.toStringStats = function() {
+    str = "Employees: " + this.numEmployed + "Employees Needed: " + this.numEmpNeeded;//TODO
+    return str;
+}
 function StoreYard(game, x, y) {
     Entity.call(this);
 }
@@ -55,5 +62,9 @@ StoreYard.prototype.update = function () {
 
 StoreYard.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
+}
+StoreYard.prototype.toStringStats = function() {
+    str = "Employees: " + this.numEmployed + "Employees Needed: " + this.numEmpNeeded;//TODO
+    return str;
 }
 

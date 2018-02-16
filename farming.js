@@ -87,6 +87,10 @@ farming.prototype.pushBoi = function (canWalk) {
 
 }
 
+farming.prototype.toStringStats = function() {
+    str = "";//TODO
+    return str;
+}
 function grainFarm(game, x, y) {
     farming.call(this, game, x, y);
     this.animHarvest = new Animation(this.img, 0, 2, 178, 91, 6, growSpeed, 6, true);

@@ -89,23 +89,32 @@ GameEngine.prototype.startInput = function () {
         fixX = event.clientX - (event.clientX % 29);
         fixY = event.clientY - (event.clientY % 15);
         //converts to iso
-        fixX = isototwodX(fixX, fixY);
-        fixY = isototwodY(fixX, fixY);
+        x = isototwodX(fixX, fixY);
+        y = isototwodY(fixX, fixY);
         selection = $('.pharoh-button').hasClass("selected").attr("title");
         if (selection == "Roads") {
+            isDrawing = true;
             drawRoad();
+        } else if (selection == "Clear Land") {
+            if(walkerMap[x][y] == 1) {
+                removeRoad();
+            } else if (walkerMap[x][y] == 2) {
+                removeBuilding(x,y);
+            }
+
+        }else if (selection == "Select") {
+            displayStats(that,x,y); //TODO DEFINE IN CONTROLS.JS
+
         } else {
-            if (walkerMap[fixX][fixY] != 1) {
-                //sets selection
-                selectedBuilding = setSelected();
+            if (walkerMap[x][y] != 1) {
                 //creates object and adds to map
-                that.buildOnCanvas(selectedBuilding, fixX, fixY);
+                that.buildOnCanvas(x, y);
             }
         }
 
 
     });
-
+    //draws road on map using given x and y
     function drawRoad(x, y) {
         walkerMap[x][y] = 1;
         this.map.mapList[y][x].tiletype = 1; // or should these be seperate?
@@ -115,6 +124,12 @@ GameEngine.prototype.startInput = function () {
         walkerMap[x][y] = mapdata[x][y] ;
         this.map.mapList[y][x].tiletype = mapdata[x][y];
     }
+    //"removes" building from map
+    function removeBuilding(x, y) {
+        walkerMap[x][y] = mapdata[x][y];
+        this.map.mapList[y][x].tiletype = mapdata[x][y];
+        this.map.mapList[y][x].removeFromWorld = true;
+        }
 
     this.ctx.canvas.addEventListener("drag", function (event) {//click hold
         //Only calls buildoncanvas is selection is "Road"
@@ -122,11 +137,11 @@ GameEngine.prototype.startInput = function () {
         fixX = event.clientX - (event.clientX % 29);
         fixY = event.clientY - (event.clientY % 15);
         //converts to iso
-        fixX = isototwodX(fixX, fixY);
-        fixY = isototwodY(fixX, fixY);
+        x = isototwodX(fixX, fixY);
+        y = isototwodY(fixX, fixY);
 
         if (isDrawingRoad) {
-            drawRoad();
+            drawRoad(x, y);
         }
 
     });
@@ -136,12 +151,12 @@ GameEngine.prototype.startInput = function () {
     });
 
     this.ctx.canvas.addEventListener("contextmenu", function (event) {
-        //TODO clears selection, sets up "Select" functionality
         setButton("Select");
     });
+
     //Handles Hot Keys
     this.ctx.canvas.addEventListener("keydown", function (event) {
-        setHotKeys(event);
+        setHotKeys(event);//in controls
     });
     console.log('Input started');
 }
@@ -156,8 +171,6 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
             selection = selectedButton.attr('value');
         }
     }
-
-
     var that = this;
     let entity = null;
     switch (selection) {
@@ -185,14 +198,14 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
             break;
 
         case "Hunting Lodge":
-            entity = new HuntingLodge(that, x, y);
+            entity = new huntLodge(that, x, y);
             entities.push(entity);
         case "Well":
             entity = new Well(that, x, y);
             entities.push(entity);
             break;
 
-        case "Water Supply"://
+        case "Water Supply":
             entity = new WaterSupply(that, x, y);
             entities.push(entity);
             break;
@@ -202,12 +215,12 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
             entities.push(entity);
             break;
 
-        case "Granary"://
+        case "Granary":
             entity = new Granary(that, x, y);
             granaries.push(entity);
             break;
 
-        case "Storage Yard"://
+        case "Storage Yard":
             entity = new StorageYard(that, x, y);
             yards.push(entity);
             break;
@@ -250,7 +263,7 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
             entities.push(entity);
             break;
         case "Roads":
-            entity = new Road(that, x, y);//will be defined in main
+            entity = new Road(that, x, y);//will be defined in main, later to be placed with map stuff
 
         default:
             console.log('nuthin2seahear')
@@ -261,6 +274,7 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
     }
 }
 
+//Cynthia says should I use these functiosn in switch? is it really a good idea to be logging everything?
 GameEngine.prototype.addEntity = function (entity) {
     console.log('added entity');
     this.entities.push(entity);
