@@ -120,9 +120,11 @@ GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
     this.ctx.canvas.addEventListener("click", function(event) {
-      that.buildOnCanvas(event.clientX, event.clientY);
+      //that.buildOnCanvas(event.clientX, event.clientY);
 fixX = event.clientX - (event.clientX % 29);
 fixY = event.clientY - (event.clientY % 15);
+    var pit = new clayPit(that, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
+that.map.addThing(pit);
 console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY + '(board coord at )' + that.isototwodX(fixX, fixY) + ' ' + that.isototwodY(fixX, fixY));
     });
     //hotkey

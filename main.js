@@ -275,9 +275,7 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addIndustry(potter);
 
     //var mine = new goldMine(gameEngine, 3, 2);
-    var pit = new clayPit(gameEngine, 0, 3);
     //gameEngine.addEntity(mine);
-    gameEngine.addEntity(pit);
 
     gameEngine.start();
 
