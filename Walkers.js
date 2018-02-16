@@ -33,7 +33,7 @@ function Walker4(game, img, map, lX, lY) {
     this.loadType = "";
     this.easyStar = new EasyStar.js();
     this.easyStar.setGrid(map);
-    this.easyStar.setAcceptableTiles([1]);// TODO: Acceptable tiles are roads, serviced buildings, and storageyard
+    this.easyStar.setAcceptableTiles([1]);// TODO: Acceptable tiles are roads and grass
     this.easyStar.disableCornerCutting();
     Entity.call(this, game, lX, lY);
 }

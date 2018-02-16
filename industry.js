@@ -53,7 +53,7 @@ industry.prototype.update = function () {
     //}
 
     //if out of employees or no resources, close operation
-    console.log("Num Emp: " + this.numEmployed);
+
     if (this.numEmployed < this.numEmpNeeded || this.numResources == 0) {
         this.currAnim = this.closedAnim;
         this.numEmployed = 0;
@@ -114,7 +114,6 @@ function Weaver(game, x, y) {
     this.placeCost = 50;
     this.merchCost = 50;
     this.prodTime = 10;
-    console.log(this.buffer);
 }
 
 Weaver.prototype = new industry();
@@ -135,7 +134,6 @@ function Brewery(game, x, y) {
     this.placeCost = 60;
     this.merchCost = 45;
     this.prodTime = 15;
-    console.log(this.buffer);
 }
 
 Brewery.prototype = new industry();
@@ -156,7 +154,6 @@ function Potter(game, x, y) {
     this.placeCost = 70;
     this.merchCost = 55;
     this.prodTime = 20;
-    console.log(this.buffer);
 }
 
 Potter.prototype = new industry();

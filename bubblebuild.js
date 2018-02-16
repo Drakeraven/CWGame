@@ -40,12 +40,10 @@ bubbleBuilding.prototype.update = function () {
         if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y)) {
             console.log(this instanceof TaxHouse);
             if (this instanceof TaxHouse) { 
-                console.log("Should be?");
                 myPop += this.game.housingArr[i].numHoused;
             } else if (this instanceof Well || this instanceof WaterSupply) {
                 this.game.housingArr[i].waterLevel = true;
-            } else if (this instanceof FireHouse) {
-                console.log("FIRE") 
+            } else if (this instanceof FireHouse) { 
                 this.game.housingArr[i].fireResist == 0.01; 
             } else if (this instanceof CopHouse) { 
                 //this should probably be over the list of walkers 

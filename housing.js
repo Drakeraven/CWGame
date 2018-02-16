@@ -81,10 +81,12 @@ house.prototype.update = function () {
             this.renderX = -3;
             this.renderY = 14; 
             //change renderx and renderY 
-        } else { 
+        } else if (this.waterLevel) { 
             this.level = 1;
             this.renderX = -3;
             this.renderY = 5; 
+        } else { 
+            this.level = 0; 
         }
     }
     this.currAnim = this.animFrame[this.level];

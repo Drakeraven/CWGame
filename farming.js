@@ -1,6 +1,6 @@
 //yield being the amount of whatever resource the farm produces
 //harvestTime relates to how many gameticks occur before the farm harvests
-var growSpeed = 1; //Integers only!
+var growSpeed = 5; //Integers only!
 function farming(game, x, y) {
     this.game = game;
     this.img = ASSET_MANAGER.getAsset("./img/FarmPlots.png");
@@ -68,8 +68,8 @@ farming.prototype.draw = function (ctx) {
 
 farming.prototype.genWalker = function (destBuild) {
     found = false;
-    //for each granary building on the map, if there is one:
-    for (let i = 0; i < destBuild.length; i++) { // just a test
+
+    for (let i = 0; i < destBuild.length; i++) {
         let indie = destBuild[i];
         //WADDUP BETCH
         let canWalk = generateWalker(this.roadTiles, indie.roadTiles);
