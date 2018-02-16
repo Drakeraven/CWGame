@@ -1,0 +1,127 @@
+.button-container {
+    width: 150px;
+    height: auto;
+    float: left;
+    border: 1px solid rgb(5, 4, 4);
+}
+
+.pharoh-button {
+    width: 48px;
+    height: 48px;
+    margin: 0 0 0px 0px;
+    float: left;
+    display: block;
+    border: 1px solid rgb(5, 4, 0);
+    overflow: hidden;
+}
+
+img.title {
+    width: 150px;
+    max-height: 80px;
+}
+
+img.btn {
+    width: 48px;
+    height: 48px;
+
+}
+
+.game-container {
+    max-height: 500px;
+}
+
+.pharoh-image-display {
+    width: 150px;
+    max-height: 80px;
+
+}
+
+#gameWorld {
+    float: left;
+}
+
+.selected {
+    background-color: lightsalmon;
+}
+
+.selected img {
+    opacity: 0.5;
+}
+
+.GameUI {
+    padding: 5px;
+    height: 690px;
+    width: 150px;
+    border: 1px solid rgb(5, 4, 4);
+    background-image: url("./img/Background3.jpg");
+    float: left;
+}
+
+.button-pane img {
+    width: 150px;
+    height: 70px;
+    border: 1px solid rgb(5, 4, 4);
+    margin-bottom: 10px;
+    margin-top: 10px;
+    float: left;
+}
+
+.stats-box {
+    width: 150px;
+    height: 100px;
+    border: 1px solid rgb(5, 4, 4);
+    margin-bottom: 5px;
+    margin-top: 5px;
+    background-color: rgb(243, 172, 125);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    float: left;
+}
+
+.options {
+    width: 150px;
+    height: 40px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    background-color: rgb(243, 172, 125);
+    text-align: center;
+    font-size: 12px;
+    margin-top: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    float: left;
+    border: 1px solid rgb(5, 4, 4);
+}
+
+select option {
+    background: rgba(245, 101, 5, 0.3);
+    color: rgb(24, 20, 18);
+    text-shadow: 0 1px 0 rgba(248, 8, 8, 0.4);
+    float: left;
+}
+
+.message-box {
+    width: 150px;
+    height: 80px;
+    border: 1px solid rgb(5, 4, 4);
+    margin-bottom: 10px;
+    margin-top: 10px;
+    background-color: rgb(243, 172, 125);
+    float: left;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.menu-button-container {
+    width: 150px;
+    height: auto;
+    float: left;
+    border: 1px solid rgb(5, 4, 4);
+}
+
+label {
+    font-weight: bold
+}
