@@ -89,19 +89,43 @@ GameEngine.prototype.startInput = function () {
         copstore = new barFarm(that, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
         that.map.addThing(copstore, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
     });
+
+    this.ctx.canvas.addEventListener("drag", function(event){
+//TODO 
+    });
+    this.ctx.canvas.addEventListener("contextmenu", function(event){
+        //TODO clears selection, when clicking objects on canvas, pops up status on statusbox
+        $('.pharoh-button').removeClass('selected');
+    });
     //hotkey
     this.ctx.canvas.addEventListener("keydown", function(event) {
         if (event.code === "KeyH") {
             setButton("Housing");
         } else if (event.code === "KeyF") {
             setButton("Food and Farm");
+        } else if (event.code === "KeyU") {
+            setButton("Utilities");
+        } else if (event.code === "KeyS") {
+            setButton("Storage and Distribution");
+        } else if (event.code === "KeyI") {
+            setButton("Industrial");
+        } else if (event.code === "KeyM") {
+            setButton("Raw Materials");
+        } else if (event.code === "KeyR") {
+            setButton("Roads");
+        } else if (event.code === "KeyC") {
+            setButton("Clear Land");
+        } else if (event.code === "KeyM") {
+            setButton("Messages");
+        } else if (event.code === "KeyG") {
+            setButton("User Status and Goals");
         } else if (event.code === "ArrowRight") {
             that.cameraoffX += 1;
-        }else if (event.code === "ArrowLeft") {
+        } else if (event.code === "ArrowLeft") {
             that.cameraoffX -= 1;
-        }else if (event.code === "ArrowUp") {
+        } else if (event.code === "ArrowUp") {
             that.cameraoffY += 1;
-        }else if (event.code === "ArrowDown") {
+        } else if (event.code === "ArrowDown") {
             that.cameraoffY -= 1;
         }
         //console.log("the following key was pressed: " + event.code + "cam off x: " + that.cameraoffX + " cam off y: " + that.cameraoffY);
@@ -167,6 +191,11 @@ GameEngine.prototype.buildOnCanvas = function(x, y) {
             );
             $("title").attr('src','./img/FoodAndFarmPane.png')
             break;
+        case "Utilities":
+            //create entity
+        case "Storage and Distribution":
+        case "Industrial":
+        case "Raw Materials"
         default :
             console.log('nuthin2seahear')
             break
