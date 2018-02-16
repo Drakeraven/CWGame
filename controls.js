@@ -1,21 +1,10 @@
 //handles buttons changing UI (like categories change select)
-var selectedBuilding = "";
 $(function () {
     $('.pharoh-button').click(function () {
         //Deals with what button is shaded on UI, one at a time only
         var selectedButtonTitle = $(this).attr('title');
         setButton(selectedButtonTitle);
     });
-
-    // TODO add callback for selected option
-    $("select")
-        .change(function () {
-            var selection = "";
-            $("select option:selected").each(function () {
-                selectedBuilding = $(this).text();
-            });
-        })
-        .trigger("change");
 });
 
 function setHotKeys(event) {

@@ -80,7 +80,6 @@ GameEngine.prototype.isototwodY = function (x, y) {
     return Math.floor((((y / 15) + this.cameraoffY) - ((x / 29) - this.cameraoffX)) / 2);
 }
 
-
 //Listens to input and events
 GameEngine.prototype.startInput = function () {
     console.log('Starting input');
@@ -91,24 +90,27 @@ GameEngine.prototype.startInput = function () {
         fixY = event.clientY - (event.clientY % 15);
         //converts to iso
         fixX = isototwodX(fixX, fixY);
-        fixY = isototwodY(fixX, fixY)
+        fixY = isototwodY(fixX, fixY);
         //sets selection
         selectedBuilding = setSelected();
         //creates object and adds to map
         that.buildOnCanvas(selectedBuilding, fixX, fixY);
         console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY + '(board coord at )' + that.isototwodX(fixX, fixY) + ' ' + that.isototwodY(fixX, fixY));
     });
-
+   
     this.ctx.canvas.addEventListener("drag", function (event) {
         //Only calls buildoncanvas is selection is "Road"
-        let selection = "";
-    //Will return nothing if no buttons are selected
-    let selectedButton = $('building option:selected'.text());
-    //this is check, so we don't call .attr on null
-    if (selectedButton.length > 0) {
-        selection = selectedButton.attr('value');
-    }
-    if (selection == "Roads"){}
+        //adjusts x and y
+        fixX = event.clientX - (event.clientX % 29);
+        fixY = event.clientY - (event.clientY % 15);
+        //converts to iso
+        fixX = isototwodX(fixX, fixY);
+        fixY = isototwodY(fixX, fixY);
+        selection = $('.pharoh-button').hasClass("selected").attr("title");
+        if (selection == "Roads") {
+            that.buildOnCanvas(selection, fixX, fixY);
+
+        }
     });
     this.ctx.canvas.addEventListener("contextmenu", function (event) {
         //TODO clears selection, sets up "Select" functionality
@@ -119,19 +121,15 @@ GameEngine.prototype.startInput = function () {
     console.log('Input started');
 }
 
-GameEngine.prototype.buildOnCanvas = function (selection, x, y) {
-    //buildingSelected is there because I am still nto sure if 
-    // let selectedButton = $('building option:selected'.text());
-    // does what its supposed to
-    //still testing that 
-
-
-    let selection = "";
-    //Will return nothing if no buttons are selected
-    let selectedButton = $('building option:selected'.text());
-    //this is check, so we don't call .attr on null
-    if (selectedButton.length > 0) {
-        selection = selectedButton.attr('value');
+GameEngine.prototype.buildOnCanvas = function (x, y) {
+    let selection = $('.pharoh-button').hasClass("selected").attr("title");
+    if (selection != "Roads") {
+        //Will return nothing if no buttons are selected
+        let selectedButton = $('#selectId').val();
+        //this is check, so we don't call .attr on null
+        if (selectedButton.length > 0) {
+            selection = selectedButton.attr('value');
+        }
     }
 
 
