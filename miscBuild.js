@@ -1,4 +1,17 @@
 function Palace(game, x y) {
+    this.game = game;
+    this.img = null;
+    this.bWidth = 2;
+    this.bHeight = 2;
+    this.openAnim = null;
+    this.closedAnim = null;
+    this.currAnim = null;
+    this.renderX = 0;
+    this.renderY = 0;
+    this.numEmployed = 0;
+    this.numEmpNeeded = null;
+    this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
+    this.roadTiles = [];
     Entity.call(this, game, x, y);
 }
 
