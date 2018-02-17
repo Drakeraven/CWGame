@@ -69,7 +69,7 @@ function getNeighbors(x, y, game) {
 function GameWorld() {
     this.palace = null;
     this.prosperity = 0;
-    this.population = 1000;
+    this.population = 0;
     this.workForce = 0;
     this.taxRev = .10;
     this.funds = 1000;
