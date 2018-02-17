@@ -11,7 +11,7 @@ function displayStats(gameEngine, x, y) {
     displayStr = gameEngine.map.mapList[y][x].toStringStats();
     $('.toStringStats').text(displayStr);
 }
-function setHotKeys(event) {
+function setHotKeys(event, game) {
     if (event.code === "KeyH") {
         setButton("Housing");
     } else if (event.code === "KeyF") {
@@ -34,15 +34,28 @@ function setHotKeys(event) {
         setButton("Messages");
     } else if (event.code === "KeyG") {
         setButton("Game Information");
-    } else if (event.code === "ArrowRight") {
-        that.cameraoffX += 1;
-    } else if (event.code === "ArrowLeft") {
-        that.cameraoffX -= 1;
-    } else if (event.code === "ArrowUp") {
-        that.cameraoffY += 1;
-    } else if (event.code === "ArrowDown") {
-        that.cameraoffY -= 1;
+    } else if (event.code === "ArrowRight" && game.cameraoffX > -80) {
+      if(game.cameraoffY < 140 && game.cameraoffY > 0) {
+          game.cameraoffX -= 1;
+      }
+
+    } else if (event.code === "ArrowLeft" && game.cameraoffX < 100) {
+      if(game.cameraoffY < 140 && game.cameraoffY > 0) {
+                game.cameraoffX += 1;
+      }
+
+    } else if (event.code === "ArrowUp" && game.cameraoffY > 20) {
+      if(game.cameraoffY > -70 && game.cameraoffY < 150) {
+                game.cameraoffY -= 1;
+      }
+
+    } else if (event.code === "ArrowDown" && game.cameraoffY < 160) {
+      if(game.cameraoffY > -70 && game.cameraoffY < 150) {
+                        game.cameraoffY += 1;
+      }
+
     }
+    console.log("fuckin coords" + ' ' + game.cameraoffX + ' ' + game.cameraoffY);
 }
 
 //handles setting the button as selected based on the key listener in the game engine.

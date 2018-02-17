@@ -12,7 +12,6 @@ function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, sheetWi
     this.elapsedTime = 0;
     this.loop = loop;
 }
-var walkerMap = new mapData().testMap;
 function updateMapData(x, y, xDim, yDim, type) {
   for (i = x; i < x + xDim && x + xDim < walkerMap.length; i++) {
     for(j = y; j < y + yDim && y + yDim < walkerMap[i].length; j++) {
@@ -108,23 +107,23 @@ function Map(gameEngine) {
 Map.prototype.constructor = Map;
 
 Map.prototype.addThing = function(thing) {
-  if(this.mapList[y][x].thing == null & thing != null) {
+  var canDo = true;
+  for (i = thing.x; i < thing.x + thing.bWidth; i++) {
+    for(j = thing.y; j < thing.y + thing.bHeight; j++) {
+      if(this.mapList[j][i].tileType != null || thing.x + thing.bHeight > this.mapList.length ||thing.y + thing.bWidth > this.mapList[1].length ) {
+        canDo = false;
+      }
+    }
+  }
+  if(canDo == true && thing != null) {
     updateMapData(x, y, thing.bWidth, thing.bHeight, 2);
     this.mapList[y][x].thing = thing;
     this.mapList[y][x].tileType = 2;
     this.game.addEntity(thing);
-    if(thing.dimensionX > 1) {
-      console.log('hi');
-          for(i = x + 1; i < x + thing.dimensionX; i++) {
-            this.mapList[y][i].thing = thing;
-            console.log(this.mapList[y][i].thing)
-          }
-    }
-    if(thing.dimensionY > 1) {
-          for(i = y + 1; i < y + thing.dimensionY; i++) {
-            this.mapList[i][x].thing = thing;
-            console.log(this.mapList[y][i].thing)
-          }
+    for (i = thing.x; i < thing.x + thing.bWidth && x + thing.bWidth < walkerMap.length; i++) {
+      for(j = thing.y; j < thing.y + thing.bHeight && y + thing.bHeight < walkerMap[i].length; j++) {
+        this.mapList[j][i].tileType = type;
+      }
     }
   }
 }
@@ -173,7 +172,8 @@ GameWorld.prototype.getWorkForce = function () {
 
 
 var ASSET_MANAGER = new AssetManager();
-var walkerMap = new mapData().testMap;
+var walkerMap = new MapData().testMap;
+var mapData = new MapData().testMap;
 
 ASSET_MANAGER.queueDownload("./img/Weaver.png");
 ASSET_MANAGER.queueDownload("./img/grass.png");
@@ -227,7 +227,7 @@ ASSET_MANAGER.downloadAll(function () {
 
     gameEngine.map = new Map(gameEngine);
     gameEngine.init(ctx);
-    gameEngine.map.readMap(new mapData().testMap);
+    gameEngine.map.readMap(mapData);
     //var gameWorld = new gameWorld();
     //GUYS WE NEED TO CLEAN THESE TESTS, THIS SECTION KINDA MESSY
 
