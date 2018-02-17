@@ -40,6 +40,8 @@ industry.prototype.update = function () {
             if (this.game.walkers[i].loadType == this.resType && this.numResources < 100) {
                 this.numResources += this.game.walkers[i].loadCount;
                 this.game.walkers[i].removeFromWorld = true;
+            } else if (this.game.walkers[i].loadType == this.resType) {
+                this.game.walkers[i].removeFromWorld = true;
             }
             if (this.game.walkers[i].loadType == this.merchType) {
                 while (this.game.walkers[i].funds >= this.merchCost && this.numMerch > this.game.walkers[i].loadCount) {
