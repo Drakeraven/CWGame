@@ -37,7 +37,7 @@ industry.prototype.update = function () {
 
     for (var i = 0; i < this.game.walkers.length; i++) {//loop through walkers
         if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
-            console.log("ping!", this.game.walkers.length);
+
             if (this.game.walkers[i].loadType == this.resType && this.numResources < 100) {
                 this.numResources += this.game.walkers[i].loadCount;
                 this.game.walkers[i].removeFromWorld = true;
