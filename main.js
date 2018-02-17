@@ -99,21 +99,25 @@ var walkerMap = new MapData().testMap;
 var mapData = new MapData().testMap;//THIS IS THE ORIGINAL MAP- NOT CHANGED
 ASSET_MANAGER.assetQueueDownloads();// found in assetmanager.js
 
+$(function() {
+    $('#StartButton').click(function (){
+        $('#SplashScreen').remove();
+        $('.game-container').show();
+        ASSET_MANAGER.downloadAll(function () {
+            console.log("starting up da sheild");
+            var canvas = document.getElementById('gameWorld');
+            var ctx = canvas.getContext('2d');
+            var gameEngine = new GameEngine();
+            gameEngine.gameWorld = new GameWorld();
+            gameEngine.map = new Map(gameEngine);
+            gameEngine.init(ctx);
+            gameEngine.map.readMap(new MapData().testMap);
+            
+            gameEngine.start();
+            console.log(walkerMap);
+            updateMapData(0, 0, 1);
+        });
 
-ASSET_MANAGER.downloadAll(function () {
-    console.log("starting up da sheild");
-    var canvas = document.getElementById('gameWorld');
-    var ctx = canvas.getContext('2d');
-    var gameEngine = new GameEngine();
-    gameEngine.gameWorld = new GameWorld();
-    gameEngine.map = new Map(gameEngine);
-    gameEngine.init(ctx);
-    gameEngine.map.readMap(new MapData().testMap);
-    
-    gameEngine.start();
-    console.log(walkerMap);
-    updateMapData(0, 0, 1);
-
-
-
+    })
 });
+
