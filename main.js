@@ -13,7 +13,6 @@ function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, sheetWi
     this.elapsedTime = 0;
     this.loop = loop;
 }
-var walkerMap = new MapData().testMap;
 
 function updateMapData(x, y, xDim, yDim, type) {
   for (i = x; i < x + xDim && x + xDim < walkerMap.length; i++) {

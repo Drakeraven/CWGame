@@ -74,6 +74,3 @@ Tile.prototype.draw = function (ctx) {
         this.game.twodtoisoY(this.x, this.y)
     );
 }
-
-
-

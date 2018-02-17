@@ -75,9 +75,9 @@ farming.prototype.genWalker = function (destBuild) {
             found = true;
             if (found) {
                 this.pushBoi(canWalk, indie);
-            } 
+            }
         }
-        if (found) break; 
+        if (found) break;
     }
 }
 

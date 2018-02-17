@@ -41,11 +41,11 @@ resourceBuild.prototype.update = function () {
             } else if (this instanceof huntLodge) {
                 var huntah = new Hunter(this.game, ASSET_MANAGER.getAsset("./img/Hunter1.5.png"),
                     ASSET_MANAGER.getAsset("./img/Hunter2.png"), walkerMap, this.roadTiles[0][1], this.roadTiles[0][0], this);
-                huntah.destX = 12;//FOR TESTING, NEEDS A FOREST COORD 
+                huntah.destX = 12;//FOR TESTING, NEEDS A FOREST COORD
                 huntah.destY = 18;
                 this.game.addWalker(huntah);
 
-            } else { // instance of clay pit 
+            } else { // instance of clay pit
                 this.genWalker(this.game.yards);
 
             }
@@ -146,7 +146,7 @@ clayPit.prototype.toStringStats = function() {
     str = "";//TODO
     return str;
 }
-//Possibly Hunting Lodge? Extend the update behavior to deal with returning hunters. 
+//Possibly Hunting Lodge? Extend the update behavior to deal with returning hunters.
 function huntLodge(game, x, y) {
     resourceBuild.call(this, game, x, y);
     this.img = ASSET_MANAGER.getAsset("./img/HuntingLodge.png");
@@ -172,7 +172,7 @@ huntLodge.prototype.update = function () {
         if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) {
             if (this.game.walkers[i] instanceof Hunter && this.game.walkers[i].hunted) {
                 this.foodStore += 100;
-                this.game.walkers[i].removeFromWorld = true; 
+                this.game.walkers[i].removeFromWorld = true;
             }
         }
     }
