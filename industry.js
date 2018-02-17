@@ -36,7 +36,6 @@ industry.prototype.update = function () {
     Entity.prototype.update.call(this);
     //this.roadTiles = findRoad(this.buffer);
 
-<<<<<<< HEAD
     for (var i = 0; i < this.game.walkers.length; i++) {//loop through walkers
         if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
             console.log("ping!", this.game.walkers.length);
@@ -72,7 +71,6 @@ industry.prototype.update = function () {
             } 
         }
     }
-=======
     //this.roadTiles = findRoad(this.buffer);
     //Checks for fire/collapse. Need to make this happen, not ALOT of the time...
     //if (getRandomInt(1, 101) <= fireResist) {
@@ -92,7 +90,6 @@ industry.prototype.update = function () {
     //}
 
     //if out of employees or no resources, close operation
->>>>>>> 679fd1dbbca912b9d27cc259ec743164a3939971
 
     if (this.numEmployed < this.numEmpNeeded || this.numResources == 0) {
         this.currAnim = this.closedAnim;

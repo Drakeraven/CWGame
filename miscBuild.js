@@ -66,8 +66,8 @@ function Granary(game, x, y) {
     this.currAnim = this.closedAnim;
     this.renderX = 33;
     this.renderY = 71;
-    this.placeCost = 50; 
-    this.numEmployed = 20; // TESTING
+    this.placeCost = 50;
+    this.numEmployed = 0; 
     this.numEmpNeeded = 20;
     this.foodSupply = 0;
     this.foodMax = 1000; 
@@ -199,7 +199,6 @@ function StoreYard(game, x, y) {
     this.currAnim = this.storeAnims[0];
     this.renderX = 64;
     this.renderY = 46;
-    this.numEmployed = 12; // TESTING
     this.numEmpNeeded = 12;
     this.storage = [];
     this.storage["barley"] = 0;

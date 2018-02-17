@@ -117,8 +117,6 @@ function goldMine(game, x, y) {
     this.renderX = 37;
     this.renderY = 0;
     this.placeCost = 100;
-    //TESTING
-    this.numEmployed = 16;
 }
 
 goldMine.prototype = new resourceBuild();
@@ -140,8 +138,6 @@ function clayPit(game, x, y) {
     this.renderX = 29;
     this.renderY = 9;
     this.placeCost = 20;
-    //FOR TESTING
-    this.numEmployed = 14;
 }
 
 clayPit.prototype = new resourceBuild();
@@ -165,8 +161,6 @@ function huntLodge(game, x, y) {
     this.renderY = 53;
     this.placeCost = 35;
     this.foodStore = 0;
-
-    this.numEmployed = 18;
 }
 
 huntLodge.prototype = new resourceBuild();

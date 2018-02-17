@@ -271,7 +271,7 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
             break;
 
         case "Bazaar":
-            entity = new bazaar(that, x, y);
+            entity = new Bazaar(that, x, y);
             this.entities.push(entity);
             break;
 
