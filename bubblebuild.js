@@ -29,10 +29,12 @@ bubbleBuilding.prototype.update = function () {
     //impart reduced/improved affect onto the buildings in turn.
     myPop = 0;
     for (i = 0; i < this.game.housingArr.length; i++) { 
-        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y)) {
+        console.log(arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y, this, this));
+        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y), this, this) {
             if (this instanceof TaxHouse) { 
                 myPop += this.game.housingArr[i].numHoused;
             } else if (this instanceof Well || this instanceof WaterSupply) {
+                console.log("arrived")
                 this.game.housingArr[i].waterLevel = true;
             } else if (this instanceof FireHouse) { 
                 this.game.housingArr[i].fireResist == 0.01; 
@@ -87,7 +89,7 @@ function Well (game, x, y) {
     this.radius = { x: x - 1, y: y - 1, width: 1 + 10, height: 1 + 10};
     this.renderX = 0;
     this.renderY = -8;
-    this.currAnim = new Animation(img, 0, 0, 58, 51, 1, 0.15, 1, true);
+    this.currAnim = new Animation(img, 0, 1, 58, 51, 1, 0.15, 1, true);
 }
 
 Well.prototype = new bubbleBuilding();
@@ -98,7 +100,7 @@ function WaterSupply (game, x, y) {
     bubbleBuilding.call(this, img, game, x, y, 1, 1, 30);
     workTime = game.timer.gameTime;
     this.radius = { x: x - 1, y: y - 1, width: 1 + 30, height: 1 + 30}; 
-    this.currAnim = new Animation(img, 0, 0, 118, 77, 1, 0.15, 1, true);
+    this.currAnim = new Animation(img, 0, 1, 118, 77, 1, 0.15, 1, true);
 }
 
 WaterSupply.prototype = new bubbleBuilding();

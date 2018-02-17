@@ -91,9 +91,13 @@ Granary.prototype.update = function () {
         //NEED: take in walkers W/ food 
         for (var i = 0; i < this.game.walkers.length; i++) {
             if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
-                if (this.game.walkers[i] instanceof mCartMan) {
-                    if (this.foodLevel + this.game.walkers[i].loadCount <= this.foodMax) {
-                        this.foodSupply = this.game.walkers[i].loadCount;
+                console.log("Arrived");
+                console.log(this.game.walkers[i].loadType);
+                if (this.game.walkers[i].loadType === "meat") {
+                    console.log(this.game.walkers[i].loadCount);
+                    console.log(this.foodLevel + this.game.walkers[i].loadCount <= this.foodMax)
+                    if (this.foodSupply + this.game.walkers[i].loadCount <= this.foodMax) {
+                        this.foodSupply += this.game.walkers[i].loadCount;
                         this.game.walkers[i].removeFromWorld = true;
                         console.log("Food Amt: ", this.foodSupply)
                     } else { 
@@ -110,8 +114,8 @@ Granary.prototype.update = function () {
                                 this.game.walkers[i].bRef = this.game.yards[j];
                             }
                         }
+                        if (this.game.walkers[i].bRef == this) this.game.walkers[i].removeFromWorld = true; // remove if no other yard
                     }
-                    if (this.game.walkers[i].bRef == this) this.game.walkers[i].removeFromWorld = true; // remove if no other yard
                 }
             }
         }
@@ -121,12 +125,10 @@ Granary.prototype.update = function () {
             this.workTime = this.game.timer.gameTime;      
             for (var i = 0; i < this.game.industries.length; i++){
                 //send food to bazaar! 
-                console.log(this.game.industries[i] instanceof Bazaar);
                 if (this.game.industries[i] instanceof Bazaar) {
                     if (this.foodSupply > 100 && this.game.industries[i].foodLevel < 100) { 
                             this.genWalker(this.game.industries[i], 100, "food", this.game.industries[i]);
                             this.foodLevel -= 100; 
-                            console.log("In check: ", this.game.industries[i].foodLevel);
                     }
                 }
             }

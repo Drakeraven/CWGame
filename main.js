@@ -263,14 +263,14 @@ ASSET_MANAGER.downloadAll(function () {
 
     //var hunt = new huntLodge(gameEngine, 3, 2);
     //gameEngine.addEntity(hunt);
-    var potter = new Bazaar(gameEngine, 14, 11);
+    /*var potter = new Bazaar(gameEngine, 14, 11);
     gameEngine.addIndustry(potter);
 
-    var well = new huntLodge(gameEngine, 10, 7); 
-    gameEngine.addEntity(well);
+    var well = new Housing(gameEngine, 10, 7); 
+    gameEngine.addHouse(well);
 
-    var granary = new Granary(gameEngine, 3, 8);
-    gameEngine.addGranary(granary);
+    var granary = new WaterSupply(gameEngine, 3, 8);
+    gameEngine.addEntity(granary);*/
 
     //var mine = new goldMine(gameEngine, 3, 11);
     //var pit = new clayPit(gameEngine, 3, 2);
