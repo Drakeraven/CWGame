@@ -271,11 +271,11 @@ ASSET_MANAGER.downloadAll(function () {
     //var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, 3, 11, 2, 2);
     ////gameEngine.addIndustry(weaver);
 
-    //var brewery = new Brewery(gameEngine, 3, 2);
+    var brewery = new Brewery(gameEngine, 3, 2);
     //gameEngine.addIndustry(brewery);
     //var hunt = new huntLodge(gameEngine, 3, 2);
     //gameEngine.addEntity(hunt);
-    //var potter = new Potter(gameEngine, 14, 11);
+    var potter = new Potter(gameEngine, 14, 11);
     //gameEngine.addIndustry(potter);
 
     //var mine = new goldMine(gameEngine, 3, 2);
@@ -285,7 +285,10 @@ ASSET_MANAGER.downloadAll(function () {
 
 
     //console.log(walkerMap);
-  //  gameEngine.map.addThing(brewery, 0, 0);
+    gameEngine.map.addThing(brewery);
+    gameEngine.entities.push(brewery);
+    gameEngine.map.addThing(potter);
+    gameEngine.entities.push(potter);
     //updateMapData(0, 0, 1);
 
 

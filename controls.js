@@ -55,7 +55,6 @@ function setHotKeys(event, game) {
       }
 
     }
-    console.log("fuckin coords" + ' ' + game.cameraoffX + ' ' + game.cameraoffY);
 }
 
 //handles setting the button as selected based on the key listener in the game engine.

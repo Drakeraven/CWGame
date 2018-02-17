@@ -108,7 +108,6 @@ GameEngine.prototype.twodtoisoX = function (x, y) {
 GameEngine.prototype.initcamera = function () {
   this.cameraoffX =(this.map.mapList.length / 2);
   this.cameraoffY = (this.map.mapList[1].length / 2) * 2;
-  console.log("fuckin camera offset" + this.cameraoffX + ' ' + this.cameraoffY);
 }
 GameEngine.prototype.twodtoisoX = function (x,y) {
   return (((x - y) + this.cameraoffX) * 29 );
@@ -372,7 +371,7 @@ GameEngine.prototype.addYard = function (yard) {
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
-    this.entities = this.mergeSort(this.entities);
+    //entities = this.mergeSort(this.entities);
 
     for(var i = 0; i < this.map.mapList.length; i++) {
       for(var j = 0; j < this.map.mapList[1].length; j++) {
