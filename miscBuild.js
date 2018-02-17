@@ -67,6 +67,8 @@ Granary.prototype.draw = function () {
 
 function StoreYard(game, x, y) {
     this.game = game;
+    this.workTime = this.game.timer.gameTime
+    this.pushTime = 5; 
     this.img = ASSET_MANAGER.getAsset("./img/StoreYard.png");
     this.bWidth = 3;
     this.bHeight = 3;
@@ -86,7 +88,7 @@ function StoreYard(game, x, y) {
     this.numEmployed = 12; // TESTING
     this.numEmpNeeded = 12;
     this.storage = [];
-    this.storage["barley"] = 0;
+    this.storage["barley"] = 1000;
     this.storage["flax"] = 0;
     this.storage["clay"] = 0;
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
@@ -136,29 +138,32 @@ StoreYard.prototype.update = function () {
                 }
             }
         }
-        for (var k = 0; k < this.game.industries.length; k++) {
-            if (this.game.industries[k].numResources <= 100 && this.storage[this.game.industries[k].resType] >= 100) {
-                this.storage[this.game.industries[k].resType] = Math.floor(this.storage[this.game.industries[k].resType]) - 100; 
-                console.log(this.storage[this.game.industries[k].resType]);
-                canWalk = generateWalker(this.roadTiles, this.game.industries[k].roadTiles);
-                cartBoi = null;
-                if (canWalk != null) {
-                    switch (this.game.industries[k].resType) {
-                        case "clay":
-                            cartBoi = new cCartMan(this.game, ASSET_MANAGER.getAsset("./img/clayCartMan.png"), walkerMap, canWalk[0], canWalk[1]);
-                            break;
-                        case "barley":
-                            cartBoi = new barCartMan(this.game, ASSET_MANAGER.getAsset('./img/barleyCartMan.png'), walkerMap, canWalk[0], canWalk[1]);
-                            break;
-                        case "flax":
-                            cartBoi = new fCartMan(this.game, ASSET_MANAGER.getAsset("./img/flaxCartMan.png"), walkerMap, canWalk[0], canWalk[1]);
-                            break;
-                    }
-                    cartBoi.loadCount = 100;
-                    cartBoi.destX = canWalk[2];
-                    cartBoi.destY = canWalk[3];
-                    this.game.addWalker(cartBoi);
+        if (this.game.timer.gameTime - this.workTime >= this.pushTime) { 
+            this.workTime = this.game.timer.gameTime;
+            for (var k = 0; k < this.game.industries.length; k++) {
+                if (this.game.industries[k].numResources <= 100 && this.storage[this.game.industries[k].resType] >= 100) {
+                    this.storage[this.game.industries[k].resType] = Math.floor(this.storage[this.game.industries[k].resType]) - 100; 
+                    console.log(this.storage[this.game.industries[k].resType]);
+                    canWalk = generateWalker(this.roadTiles, this.game.industries[k].roadTiles);
+                    cartBoi = null;
+                    if (canWalk != null) {
+                        switch (this.game.industries[k].resType) {
+                            case "clay":
+                                cartBoi = new cCartMan(this.game, ASSET_MANAGER.getAsset("./img/clayCartMan.png"), walkerMap, canWalk[0], canWalk[1]);
+                                break;
+                            case "barley":
+                                cartBoi = new barCartMan(this.game, ASSET_MANAGER.getAsset('./img/barleyCartMan.png'), walkerMap, canWalk[0], canWalk[1]);
+                                break;
+                            case "flax":
+                                cartBoi = new fCartMan(this.game, ASSET_MANAGER.getAsset("./img/flaxCartMan.png"), walkerMap, canWalk[0], canWalk[1]);
+                                break;
+                        }
+                        cartBoi.loadCount = 100;
+                        cartBoi.destX = canWalk[2];
+                        cartBoi.destY = canWalk[3];
+                        this.game.addWalker(cartBoi);
 
+                    }
                 }
             }
         }
