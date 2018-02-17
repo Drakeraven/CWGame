@@ -28,6 +28,7 @@ img.btn {
 
 .game-container {
     max-height: 500px;
+    display: none;
 }
 
 .pharoh-image-display {

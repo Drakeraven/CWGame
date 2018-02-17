@@ -1,11 +1,3 @@
-function arrived(rect1, r2X, r2Y) {
-    //return (rect1.x < rect2X + 0) &&
-    //    (rect1.x + rect1.width > r2X && rect1.y < r2Y + 0) &&
-    //    (rect1.height + rect1.y > r2);
-    return (r2X < rect1.x + rect1.width && r2X > rect1.x) &&
-        (r2Y < rect1.y + rect1.height && r2Y > rect1.y);
-}
-
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -42,7 +34,7 @@ house.prototype.update = function () {
     Entity.prototype.update.call(this);
     //console.log("Inside update")
     this.foodTime = this.game.timer.gameTime;
-    if (Math.random() <= fireResist && (Math.random() <= fireResist + 0.5 && Math.random() >= fireResist - 0.5) && Math.random() <= this.fireResist) { //&& this.game.timer.gameTime - this.foodTime % 666 === 0
+    /*if (Math.random() <= fireResist && (Math.random() <= fireResist + 0.5 && Math.random() >= fireResist - 0.5) && Math.random() <= this.fireResist) { //&& this.game.timer.gameTime - this.foodTime % 666 === 0
         console.log("BURN BABY BURN");
         this.removeFromWorld = true;
     }
@@ -50,6 +42,20 @@ house.prototype.update = function () {
     if (getRandomInt() <= collapseResist) {
         //collapses
         return;
+    }*/
+
+    for (var i = 0; i < this.game.walkers.length; i++) {
+        if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
+            console.log(this.game.walkers[i].loadType);
+            if (this.game.walkers[i].loadType === "meat") {
+                if (this.foodLevel + this.game.walkers[i].loadCount <= this.foodMax) {
+                    this.foodLevel += this.game.walkers[i].loadCount;
+                    this.game.walkers[i].removeFromWorld = true;
+                    console.log("Food Amt: ", this.foodSupply)
+                }
+            }
+            if (this.game.walkers[i].bRef == this) this.game.walkers[i].removeFromWorld = true;
+        }
     }
 
     if (!this.waterLevel) { 

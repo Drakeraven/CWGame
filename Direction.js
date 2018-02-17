@@ -27,9 +27,9 @@ findRoad = function (buffer) {
     return result;
 }
 
-function arrived(rect1, r2X, r2Y) {
+function arrived(rect1, r2X, r2Y, sRef, dRef) {
     return (r2X < rect1.x + rect1.width && r2X > rect1.x) &&
-        (r2Y < rect1.y + rect1.height && r2Y > rect1.y);
+        (r2Y < rect1.y + rect1.height && r2Y > rect1.y) && sRef == dRef;
 }
 
 function getRandomInt(min, max) {
