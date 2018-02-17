@@ -103,7 +103,7 @@ Well.prototype.constructor = Well;
 
 function WaterSupply (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/bigWell.png");
-    bubbleBuilding.call(this, img, game, x, y, 1, 1, 30);
+    bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
     workTime = game.timer.gameTime;
     this.radius = { x: x - 1, y: y - 1, width: 1 + 30, height: 1 + 30};
     this.currAnim = new Animation(img, 0, 1, 118, 77, 1, 0.15, 1, true);

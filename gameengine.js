@@ -458,15 +458,9 @@ GameEngine.prototype.update = function () {
         }
 
         for (var i = this.entities.length - 1; i >= 0; --i) {
-            /*if (this.entities[i].removeFromWorld && this.entities[i] instanceof Well
-                || this.entities[i] instanceof Water || this.entities[i] instanceof Potter
-                || this.entities[i] instanceof Brewer || this.entities[i] instanceof Weaver) {
-                this.entities[i].remove();
-            }*/
-
             if (this.entities[i].removeFromWorld) {
                 if (this.entities[i] instanceof Well || this.entities[i] instanceof WaterSupply) {
-                    this.entities.remove();
+                    this.entities[i].remove();
                 }
                 this.entities.splice(i, 1);
             }
@@ -491,7 +485,7 @@ GameEngine.prototype.update = function () {
                 if (this.entities[i] instanceof Potter
                         || this.entities[i] instanceof Weaver
                         || this.entities[i] instanceof Brewery) {
-                    this.entities.remove();
+                    this.entities[i].remove();
                 }
                 this.industries.splice(i, 1);
             }
