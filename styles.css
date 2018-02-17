@@ -25,6 +25,20 @@ img.btn {
     height: 48px;
 
 }
+#SplashScreen {
+    height: 300;
+    width: 100%;
+}
+
+#SplashScreen img {
+    display: block;
+}
+#SplashScreen input{
+    display: block;
+    left: 446px;
+    top: 255px;
+    position: fixed;
+}
 
 .game-container {
     max-height: 500px;
