@@ -271,8 +271,8 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
             break;
 
         case "Bazaar":
-            entity = new bazaar(that, x, y);
-            this.entities.push(entity);
+            entity = new Bazaar(that, x, y);
+            this.industries.push(entity);
             break;
 
         case "Granary":
@@ -287,17 +287,17 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
 
         case "Weaver":
             entity = new Weaver(that, x, y);
-            this.entities.push(entity);
+            this.industries.push(entity);
             break;
 
         case "Brewery":
             entity = new Brewery(that, x, y);
-            this.entities.push(entity);
+            this.industries.push(entity);
             break;
 
         case "Potter":
             entity = new Potter(that, x, y);
-            this.entities.push(entity);
+            this.industries.push(entity);
             break;
         case "Clay Pit":
             entity = new clayPit(that, x, y);
@@ -348,7 +348,7 @@ GameEngine.prototype.addBuilding = function (entity) {
 }
 
 GameEngine.prototype.addWalker = function (walker) {
-    console.log("added walker");
+   // console.log("added walker");
     this.walkers.push(walker);
     this.entities.push(walker);
 }
@@ -409,8 +409,46 @@ GameEngine.prototype.draw = function () {
 
 GameEngine.prototype.update = function () {
     var entitiesCount = this.entities.length;
-    var working = this.gameWorld.workForce + 100;
+    var working = this.gameWorld.workForce; 
     //give industry employees here :D 
+
+    //give palace employees first >:) 
+    if (this.gameWorld.palace != null && working > this.gameWorld.palace.numEmpNeeded) {
+        this.gameWorld.palace.numEmployed = 0; 
+        this.gameWorld.palace.numEmployed = this.gameWorld.palace.numEmpNeeded;
+    }
+
+    for (var i = 0; i < this.granaries.length; i++) {
+        var granary = this.granaries[i];
+        if (working > granary.numEmpNeeded) {
+            granary.numEmployed = granary.numEmpNeeded;
+            working -= granary.numEmpNeeded;
+        }
+
+        if (!granary.removeFromWorld) {
+            granary.update();
+        }
+    }
+
+    for (var i = 0; i < this.entities.length; i++) { 
+        var farm = this.entities[i]; 
+        if ((farm instanceof clayPit || farm instanceof huntLodge 
+            || farm instanceof goldMine) &&  working > farm.numEmpNeeded) { 
+                farm.numEmployed = farm.numEmpNeeded;
+                working -= farm.numEmpNeeded;
+        }
+    }
+
+    for (var i = 0; i < this.yards.length; i++) {
+        var yard = this.yards[i];
+        if (working > yard.numEmpNeeded) {
+            yard.numEmployed = yard.numEmpNeeded;
+            working -= yard.numEmpNeeded;
+        }
+        if (!yard.removeFromWorld) {
+            yard.update();
+        }
+    }
 
     for (var i = 0; i < this.industries.length; i++) {
         var industry = this.industries[i];
@@ -438,20 +476,6 @@ GameEngine.prototype.update = function () {
         }
     }
 
-    for (var i = 0; i < this.granaries.length; i++) {
-        var granary = this.granaries[i];
-        if (!granary.removeFromWorld) {
-            granary.update();
-        }
-    }
-
-    for (var i = 0; i < this.yards.length; i++) {
-        var yard = this.yards[i];
-        if (!yard.removeFromWorld) {
-            yard.update();
-        }
-    }
-
     for (var i = 0; i < this.walkers.length; i++) {
         var walker = this.walkers[i];
 
@@ -460,8 +484,24 @@ GameEngine.prototype.update = function () {
         }
     }
 
+    for (var i = 0; i < this.walkers.length; i++) {
+        var walker = this.walkers[i];
+        if (walker.dX == 0 && walker.dY == 0) {
+            walker.removeFromWorld = true;
+        }
+    }
+
     for (var i = this.entities.length - 1; i >= 0; --i) {
+        /*if (this.entities[i].removeFromWorld && this.entities[i] instanceof Well 
+            || this.entities[i] instanceof Water || this.entities[i] instanceof Potter 
+            || this.entities[i] instanceof Brewer || this.entities[i] instanceof Weaver) { 
+            this.entities[i].remove();
+        }*/
+        
         if (this.entities[i].removeFromWorld) {
+            if (this.entities[i] instanceof Well || this.entities[i] instanceof WaterSupply) { 
+                this.entities.remove();
+            }
             this.entities.splice(i, 1);
         }
     }
@@ -482,6 +522,11 @@ GameEngine.prototype.update = function () {
 
     for (var i = this.industries.length - 1; i >= 0; --i) {
         if (this.industries[i].removeFromWorld) {
+            if (this.entities[i] instanceof Potter 
+                    || this.entities[i] instanceof Weaver
+                    || this.entities[i] instanceof Brewery) { 
+                this.entities.remove();
+            }
             this.industries.splice(i, 1);
         }
     }

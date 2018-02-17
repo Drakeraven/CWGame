@@ -1,4 +1,5 @@
 
+
 function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, sheetWidth, frameDuration, frames, loop) {
     this.spriteSheet = spriteSheet;
     this.startX = startX * frameWidth;
@@ -113,7 +114,8 @@ $(function() {
             gameEngine.map = new Map(gameEngine);
             gameEngine.init(ctx);
             gameEngine.map.readMap(new MapData().testMap);
-            
+            gameEngine.gameWorld.palace = new Palace(gameEngine, 40, 70);
+            console.log(gameEngine.gameWorld.palace);
             gameEngine.start();
             console.log(walkerMap);
             updateMapData(0, 0, 1);
@@ -121,4 +123,3 @@ $(function() {
 
     })
 });
-

@@ -3,16 +3,17 @@ Initiate the right kind of walker, give him a load count (amt he carries)
 Set his starting point on a VALID TILE
 set his destX and destY for a building of your choice.
 */
-var speed = 2.5;
-var aSpeed = .06;
-//TODO:Hunter Logic. Fix rendering of sprite
+const speed = 2.5;
+const aSpeed = .06;
+//TODO:Fix rendering of sprite
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
-function Walker4(game, img, map, lX, lY) {
+function Walker4(game, img, map, lX, lY, bRef) {
+    this.bRef = bRef;
     this.dX = 0;
     this.dY = -1;
     this.animation = [];
@@ -29,11 +30,11 @@ function Walker4(game, img, map, lX, lY) {
     this.destY = null;
     this.path = [];
     this.next = null;
-    this.loadCount = 0;
+    this.loadCount = 0; // how much of a load the walker is carrying
     this.loadType = "";
     this.easyStar = new EasyStar.js();
     this.easyStar.setGrid(map);
-    this.easyStar.setAcceptableTiles([1]);// TODO: Acceptable tiles are roads and grass
+    this.easyStar.setAcceptableTiles([1]);
     this.easyStar.disableCornerCutting();
     Entity.call(this, game, lX, lY);
 }
@@ -42,18 +43,16 @@ Walker4.prototype = Object.create(Entity.prototype);
 Walker4.prototype.constructor = Walker4;
 
 Walker4.prototype.update = function () {
-   // console.log(this.x, this.y);
     if (this.isFindingPath) return;
-    //console.log("Walker: (" + Math.floor(this.x) + ", " + Math.floor(this.y) + ")");
     if (this.isWalking) this.walkPath();
     if (this.destX != null && this.destY != null) {
         this.isFindingPath = true;
         let that = this;
         this.easyStar.findPath(Math.floor(this.x), Math.floor(this.y), this.destX, this.destY, function (path) {
             if (path === null) {
-                console.log("No path :("); //Do something for when you can't find a path to anything --  leave??
+                //console.log("No path :("); 
             } else {
-                console.log("Path! The first Point is " + path[0].x + " " + path[0].y);
+                //console.log("Path! The first Point is " + path[0].x + " " + path[0].y);
                 that.path = path;
                 that.next = that.path.shift();
                 that.isWalking = true;
@@ -64,27 +63,27 @@ Walker4.prototype.update = function () {
         this.destY = null;
         this.isFindingPath = false;
     }
-    //console.log(this.ID + " " + this.isWalking);
+
     Entity.prototype.update.call(this);
 }
 
 Walker4.prototype.walkPath = function () {
-    if (this.path.length == 0) {
-        //if (Math.floor(this.x) == this.next.x && Math.floor(this.y) == this.next.y) {
-            this.dX = 0;
-            this.dY = 0;
-        //}
-        isWalking = false;
-        return;
-    }
-    if (Math.floor(this.x) == this.next.x && Math.floor(this.y) == this.next.y) {
-        this.next = this.path.shift();
-        //console.log("current: " + Math.floor(this.x) + " " + Math.floor(this.y) +
-        //    " next: " + this.next.x + " " + this.next.y);
+    arriv = Math.floor(this.x) == this.next.x && Math.floor(this.y) == this.next.y;
+
+    if (this.path.length == 0 && !arriv) {
         this.dX = setDirection(Math.floor(this.x), this.next.x);
         this.dY = setDirection(Math.floor(this.y), this.next.y);
         this.currAnimation = this.animation[setFace(this.dX, this.dY)];
-        //console.log(this.dX + " "+ this.dY);
+    } else if (this.path.length == 0) {
+        this.dX = 0;
+        this.dY = 0;
+        this.isWalking = false;
+        return;
+    } else if (arriv) {
+        this.next = this.path.shift();
+        this.dX = setDirection(Math.floor(this.x), this.next.x);
+        this.dY = setDirection(Math.floor(this.y), this.next.y);
+        this.currAnimation = this.animation[setFace(this.dX, this.dY)];
     }
     this.x += this.dX * this.game.clockTick * speed;
     this.y += this.dY * this.game.clockTick * speed;
@@ -94,15 +93,14 @@ Walker4.prototype.draw = function (ctx) {
     pt1 = this.game.twodtoisoX(this.x, this.y) + 27 - this.currAnimation.frameWidth / 2;
     pt2 = this.game.twodtoisoY(this.x, this.y) + 10 - this.currAnimation.frameHeight / 2;
     ctx.fillRect(pt1, pt2, 5, 5);
-    //console.log(pt1, pt2);
     this.currAnimation.drawFrame(this.game.clockTick, ctx, pt1, pt2);
     Entity.prototype.draw.call(this);
 }
 
 //Cart Walkers
 
-function eCartMan(game, img, map, lX, lY)   {
-    Walker4.call(this, game, img, map, lX, lY);
+function eCartMan(game, img, map, lX, lY, bRef)   {
+    Walker4.call(this, game, img, map, lX, lY, bRef);
     this.animation["NE"] = new Animation(img, 0, 0, 60, 48, 12, aSpeed, 12, true);
     this.animation["NW"] = new Animation(img, 0, 1, 60, 48, 12, aSpeed, 12, true);
     this.animation["SE"] = new Animation(img, 0, 2, 60, 48, 12, aSpeed, 12, true);
@@ -114,22 +112,22 @@ function eCartMan(game, img, map, lX, lY)   {
 eCartMan.prototype = Object.create(Walker4.prototype);
 eCartMan.prototype.constructor = eCartMan;
 
-function barCartMan(game, img, map, lX, lY)  {
-    Walker4.call(this, game, img, map, lX, lY);
+function barCartMan(game, img, map, lX, lY, bRef)  {
+    Walker4.call(this, game, img, map, lX, lY, bRef);
     this.animation["NE"] = new Animation(img, 0, 0, 60, 60, 12, aSpeed, 12, true);
     this.animation["NW"] = new Animation(img, 0, 1, 60, 60, 12, aSpeed, 12, true);
     this.animation["SE"] = new Animation(img, 0, 2, 60, 60, 12, aSpeed, 12, true);
     this.animation["SW"] = new Animation(img, 0, 3, 60, 60, 12, aSpeed, 12, true);
     this.currAnimation = this.animation["NE"];
-    this.loadType = "barley"
+    this.loadType = "barley";
 
 }
 
 barCartMan.prototype = Object.create(Walker4.prototype);
 barCartMan.prototype.constructor = barCartMan;
 
-function beCartMan(game, img, map, lX, lY) {
-    Walker4.call(this, game, img, map, lX, lY);
+function beCartMan(game, img, map, lX, lY, bRef) {
+    Walker4.call(this, game, img, map, lX, lY, bRef);
     this.animation["NE"] = new Animation(img, 0, 0, 60, 60, 12, aSpeed, 12, true);
     this.animation["NW"] = new Animation(img, 0, 1, 60, 60, 12, aSpeed, 12, true);
     this.animation["SE"] = new Animation(img, 0, 2, 60, 60, 12, aSpeed, 12, true);
@@ -141,8 +139,8 @@ function beCartMan(game, img, map, lX, lY) {
 beCartMan.prototype = Object.create(Walker4.prototype);
 beCartMan.prototype.constructor = beCartMan;
 
-function cCartMan(game, img, map, lX, lY)  {
-    Walker4.call(this, game, img, map, lX, lY);
+function cCartMan(game, img, map, lX, lY, bRef)  {
+    Walker4.call(this, game, img, map, lX, lY, bRef);
     this.animation["NE"] = new Animation(img, 0, 0, 60, 48, 12, aSpeed, 12, true);
     this.animation["NW"] = new Animation(img, 0, 1, 60, 48, 12, aSpeed, 12, true);
     this.animation["SE"] = new Animation(img, 0, 2, 60, 48, 12, aSpeed, 12, true);
@@ -154,8 +152,8 @@ function cCartMan(game, img, map, lX, lY)  {
 cCartMan.prototype = Object.create(Walker4.prototype);
 cCartMan.prototype.constructor = cCartMan;
 
-function fCartMan(game, img, map, lX, lY)  {
-    Walker4.call(this, game, img, map, lX, lY);
+function fCartMan(game, img, map, lX, lY, bRef)  {
+    Walker4.call(this, game, img, map, lX, lY, bRef);
     this.animation["NE"] = new Animation(img, 0, 0, 60, 48, 12, aSpeed, 12, true);
     this.animation["NW"] = new Animation(img, 0, 1, 60, 48, 12, aSpeed, 12, true);
     this.animation["SE"] = new Animation(img, 0, 2, 60, 48, 12, aSpeed, 12, true);
@@ -167,8 +165,8 @@ function fCartMan(game, img, map, lX, lY)  {
 fCartMan.prototype = Object.create(Walker4.prototype);
 fCartMan.prototype.constructor = fCartMan;
 
-function glCartMan(game, img, map, lX, lY)  {
-    Walker4.call(this, game, img, map, lX, lY);
+function glCartMan(game, img, map, lX, lY, bRef)  {
+    Walker4.call(this, game, img, map, lX, lY, bRef);
     this.animation["NE"] = new Animation(img, 0, 0, 60, 48, 12, aSpeed, 12, true);
     this.animation["NW"] = new Animation(img, 0, 1, 60, 48, 12, aSpeed, 12, true);
     this.animation["SE"] = new Animation(img, 0, 2, 60, 48, 12, aSpeed, 12, true);
@@ -180,8 +178,8 @@ function glCartMan(game, img, map, lX, lY)  {
 glCartMan.prototype = Object.create(Walker4.prototype);
 glCartMan.prototype.constructor = glCartMan;
 
-function grCartMan(game, img, map, lX, lY)  {
-    Walker4.call(this, game, img, map, lX, lY);
+function grCartMan(game, img, map, lX, lY, bRef)  {
+    Walker4.call(this, game, img, map, lX, lY, bRef);
     this.animation["NE"] = new Animation(img, 0, 0, 60, 48, 12, aSpeed, 12, true);
     this.animation["NW"] = new Animation(img, 0, 1, 60, 48, 12, aSpeed, 12, true);
     this.animation["SE"] = new Animation(img, 0, 2, 60, 48, 12, aSpeed, 12, true);
@@ -193,8 +191,8 @@ function grCartMan(game, img, map, lX, lY)  {
 grCartMan.prototype = Object.create(Walker4.prototype);
 grCartMan.prototype.constructor = grCartMan;
 
-function lCartMan(game, img, map, lX, lY)  {
-    Walker4.call(this, game, img, map, lX, lY);
+function lCartMan(game, img, map, lX, lY, bRef)  {
+    Walker4.call(this, game, img, map, lX, lY, bRef);
     this.animation["NE"] = new Animation(img, 0, 0, 60, 48, 12, aSpeed, 12, true);
     this.animation["NW"] = new Animation(img, 0, 1, 60, 48, 12, aSpeed, 12, true);
     this.animation["SE"] = new Animation(img, 0, 2, 60, 48, 12, aSpeed, 12, true);
@@ -206,8 +204,8 @@ function lCartMan(game, img, map, lX, lY)  {
 lCartMan.prototype = Object.create(Walker4.prototype);
 lCartMan.prototype.constructor = lCartMan;
 
-function mCartMan(game, img, map, lX, lY)  {
-    Walker4.call(this, game, img, map, lX, lY);
+function mCartMan(game, img, map, lX, lY, bRef)  {
+    Walker4.call(this, game, img, map, lX, lY, bRef);
     this.animation["NE"] = new Animation(img, 0, 0, 60, 48, 12, aSpeed, 12, true);
     this.animation["NW"] = new Animation(img, 0, 1, 60, 48, 12, aSpeed, 12, true);
     this.animation["SE"] = new Animation(img, 0, 2, 60, 48, 12, aSpeed, 12, true);
@@ -219,8 +217,8 @@ function mCartMan(game, img, map, lX, lY)  {
 mCartMan.prototype = Object.create(Walker4.prototype);
 mCartMan.prototype.constructor = mCartMan;
 
-function pCartMan(game, img, map, lX, lY)  {
-    Walker4.call(this, game, img, map, lX, lY);
+function pCartMan(game, img, map, lX, lY, bRef)  {
+    Walker4.call(this, game, img, map, lX, lY, bRef);
     this.animation["NE"] = new Animation(img, 0, 0, 60, 48, 12, aSpeed, 12, true);
     this.animation["NW"] = new Animation(img, 0, 1, 60, 48, 12, aSpeed, 12, true);
     this.animation["SE"] = new Animation(img, 0, 2, 60, 48, 12, aSpeed, 12, true);
@@ -233,8 +231,8 @@ pCartMan.prototype = Object.create(Walker4.prototype);
 pCartMan.prototype.constructor = pCartMan;
 
 //bazaar lady's load count accounts for how much of the item she's bought
-function bazLad(game, img, map, lX, lY, funds, buying)  {
-    Walker4.call(this, game, img, map, lX, lY);
+function bazLad(game, img, map, lX, lY, funds, buying, bRef)  {
+    Walker4.call(this, game, img, map, lX, lY, bRef);
     this.animation["NE"] = new Animation(img, 0, 0, 22, 42, 12, aSpeed, 12, true);
     this.animation["NW"] = new Animation(img, 0, 2, 22, 42, 12, aSpeed, 12, true);
     this.animation["SE"] = new Animation(img, 0, 1, 22, 42, 12, aSpeed, 12, true);
@@ -254,8 +252,8 @@ bazLad.prototype.update = function () {
 
 }
 
-function Walker8(game, img, map, lX, lY) {
-    Walker4.call(this, game, img, map, lX, lY);
+function Walker8(game, img, map, lX, lY, bRef) {
+    Walker4.call(this, game, img, map, lX, lY, bRef);
     this.animation["N"] = null;
     this.animation["S"] = null;
     this.animation["E"] = null;
@@ -267,12 +265,8 @@ function Walker8(game, img, map, lX, lY) {
 Walker8.prototype = Object.create(Walker4.prototype);
 Walker8.prototype.constructor = Walker8;
 
-//Walker8.prototype.draw = function () {
-//    Walker4.prototype.draw.call(this);
-//}
-
-function FireMan(game, img1, img2, map, lX, lY) {
-    Walker8.call(this, game, img1, map, lX, lY);
+function FireMan(game, img1, img2, map, lX, lY, bRef) {
+    Walker8.call(this, game, img1, map, lX, lY, bRef);
     this.animation["N"] =  new Animation(img1, 0, 0, 54, 47, 12, aSpeed, 12, true);
     this.animation["NE"] = new Animation(img1, 0, 1, 54, 47, 12, aSpeed, 12, true);
     this.animation["E"] =  new Animation(img1, 0, 2, 54, 47, 12, aSpeed, 12, true);
@@ -299,9 +293,8 @@ FireMan.prototype.update = function () {
     }
 }
 
-//append to the hunter function, that if the hunter is returning, you use the direction array of his hunt animations
-function Hunter(game, img1, img2, map, lX, lY) {
-    Walker8.call(this, game, img1, map, lX, lY);
+function Hunter(game, img1, img2, map, lX, lY, bRef) {
+    Walker8.call(this, game, img1, map, lX, lY, bRef);
     this.animation["N"] =  new Animation(img1, 0, 0, 37, 36, 12, aSpeed, 12, true);
     this.animation["NE"] = new Animation(img1, 0, 1, 37, 36, 12, aSpeed, 12, true);
     this.animation["E"] =  new Animation(img1, 0, 2, 37, 36, 12, aSpeed, 12, true);
@@ -329,7 +322,6 @@ function Hunter(game, img1, img2, map, lX, lY) {
 Hunter.prototype = Object.create(Walker8.prototype);
 Hunter.prototype.constructor = Hunter;
 
-//hunting lodge will need to handle removing the hunter from the world when it gets back from hunting.
 Hunter.prototype.update = function () {
     Walker8.prototype.update.apply(this);
     if (this.path == 0) {
@@ -350,8 +342,8 @@ Hunter.prototype.update = function () {
 
 }
 
- function Migrant(game, img, map, lX, lY) {
-     Walker8.call(this, game, img, map, lX, lY);
+ function Migrant(game, img, map, lX, lY, bRef) {
+     Walker8.call(this, game, img, map, lX, lY, bRef);
      this.animation["N"] =  new Animation(img, 0, 0, 48.8, 48, 12, aSpeed, 12, true);
      this.animation["NE"] = new Animation(img, 0, 1, 48.8, 48, 12, aSpeed, 12, true);
      this.animation["E"] =  new Animation(img, 0, 2, 48.8, 48, 12, aSpeed, 12, true);
