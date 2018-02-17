@@ -367,144 +367,149 @@ GameEngine.prototype.draw = function () {
 }
 
 GameEngine.prototype.update = function () {
-    var entitiesCount = this.entities.length;
-    var working = this.gameWorld.workForce;
+    if (this.gameWorld.population > 500) {
+        $('.game-container').hide();
+        $('#EndGame').show();
+    } else {
+        var entitiesCount = this.entities.length;
+        var working = this.gameWorld.workForce;
 
 
-    //give palace employees first >:)
-    if (this.gameWorld.palace != null && working > this.gameWorld.palace.numEmpNeeded) {
-        this.gameWorld.palace.numEmployed = 0;
-        this.gameWorld.palace.numEmployed = this.gameWorld.palace.numEmpNeeded;
-    }
-
-    for (var i = 0; i < this.granaries.length; i++) {
-        var granary = this.granaries[i];
-        if (working > granary.numEmpNeeded) {
-            granary.numEmployed = granary.numEmpNeeded;
-            working -= granary.numEmpNeeded;
+        //give palace employees first >:)
+        if (this.gameWorld.palace != null && working > this.gameWorld.palace.numEmpNeeded) {
+            this.gameWorld.palace.numEmployed = 0;
+            this.gameWorld.palace.numEmployed = this.gameWorld.palace.numEmpNeeded;
         }
 
-        if (!granary.removeFromWorld) {
-            granary.update();
-        }
-    }
-
-    for (var i = 0; i < this.entities.length; i++) {
-        var farm = this.entities[i];
-        if ((farm instanceof clayPit || farm instanceof huntLodge
-            || farm instanceof goldMine) &&  working > farm.numEmpNeeded) {
-                farm.numEmployed = farm.numEmpNeeded;
-                working -= farm.numEmpNeeded;
-        }
-    }
-
-    for (var i = 0; i < this.yards.length; i++) {
-        var yard = this.yards[i];
-        if (working > yard.numEmpNeeded) {
-            yard.numEmployed = yard.numEmpNeeded;
-            working -= yard.numEmpNeeded;
-        }
-        if (!yard.removeFromWorld) {
-            yard.update();
-        }
-    }
-
-    for (var i = 0; i < this.industries.length; i++) {
-        var industry = this.industries[i];
-        if (working > industry.numEmpNeeded && industry.numResources > 0) {
-            industry.numEmployed = industry.numEmpNeeded;
-            working -= industry.numEmpNeeded;
-        }
-        //console.log(working);
-        //console.log()
-    }
-
-    for (var i = 0; i < entitiesCount; i++) {
-        var entity = this.entities[i];
-
-        if (!entity.removeFromWorld) {
-            entity.update();
-        }
-    }
-
-    for (var i = 0; i < this.industries.length; i++) {
-        var industry = this.industries[i];
-
-        if (!industry.removeFromWorld) {
-            industry.update();
-        }
-    }
-
-    for (var i = 0; i < this.walkers.length; i++) {
-        var walker = this.walkers[i];
-
-        if (!walker.removeFromWorld) {
-            walker.update();
-        }
-    }
-
-    for (var i = 0; i < this.walkers.length; i++) {
-        var walker = this.walkers[i];
-        if (walker.dX == 0 && walker.dY == 0) {
-            walker.removeFromWorld = true;
-        }
-    }
-
-    for (var i = this.entities.length - 1; i >= 0; --i) {
-        /*if (this.entities[i].removeFromWorld && this.entities[i] instanceof Well
-            || this.entities[i] instanceof Water || this.entities[i] instanceof Potter
-            || this.entities[i] instanceof Brewer || this.entities[i] instanceof Weaver) {
-            this.entities[i].remove();
-        }*/
-
-        if (this.entities[i].removeFromWorld) {
-            if (this.entities[i] instanceof Well || this.entities[i] instanceof WaterSupply) {
-                this.entities.remove();
+        for (var i = 0; i < this.granaries.length; i++) {
+            var granary = this.granaries[i];
+            if (working > granary.numEmpNeeded) {
+                granary.numEmployed = granary.numEmpNeeded;
+                working -= granary.numEmpNeeded;
             }
-            this.entities.splice(i, 1);
-        }
-    }
 
-    for (var i = 0; i < this.housingArr.length; i++) {
-        var myHouse = this.housingArr[i];
-        if (!myHouse.removeFromWorld) {
-            //console.log("Updating building")
-            myHouse.update();
-        }
-    }
-
-    for (var i = this.housingArr.length - 1; i >= 0; --i) {
-        if (this.housingArr[i].removeFromWorld) {
-            this.housingArr.splice(i, 1);
-        }
-    }
-
-    for (var i = this.industries.length - 1; i >= 0; --i) {
-        if (this.industries[i].removeFromWorld) {
-            if (this.entities[i] instanceof Potter
-                    || this.entities[i] instanceof Weaver
-                    || this.entities[i] instanceof Brewery) {
-                this.entities.remove();
+            if (!granary.removeFromWorld) {
+                granary.update();
             }
-            this.industries.splice(i, 1);
         }
-    }
 
-    for (var i = this.granaries.length - 1; i >= 0; --i) {
-        if (this.granaries[i].removeFromWorld) {
-            this.granaries.splice(i, 1);
+        for (var i = 0; i < this.entities.length; i++) {
+            var farm = this.entities[i];
+            if ((farm instanceof clayPit || farm instanceof huntLodge
+                || farm instanceof goldMine) &&  working > farm.numEmpNeeded) {
+                    farm.numEmployed = farm.numEmpNeeded;
+                    working -= farm.numEmpNeeded;
+            }
         }
-    }
 
-    for (var i = this.yards.length - 1; i >= 0; --i) {
-        if (this.yards[i].removeFromWorld) {
-            this.yards.splice(i, 1);
+        for (var i = 0; i < this.yards.length; i++) {
+            var yard = this.yards[i];
+            if (working > yard.numEmpNeeded) {
+                yard.numEmployed = yard.numEmpNeeded;
+                working -= yard.numEmpNeeded;
+            }
+            if (!yard.removeFromWorld) {
+                yard.update();
+            }
         }
-    }
 
-    for (var i = this.walkers.length - 1; i >= 0; --i) {
-        if (this.walkers[i].removeFromWorld) {
-            this.walkers.splice(i, 1);
+        for (var i = 0; i < this.industries.length; i++) {
+            var industry = this.industries[i];
+            if (working > industry.numEmpNeeded && industry.numResources > 0) {
+                industry.numEmployed = industry.numEmpNeeded;
+                working -= industry.numEmpNeeded;
+            }
+            //console.log(working);
+            //console.log()
+        }
+
+        for (var i = 0; i < entitiesCount; i++) {
+            var entity = this.entities[i];
+
+            if (!entity.removeFromWorld) {
+                entity.update();
+            }
+        }
+
+        for (var i = 0; i < this.industries.length; i++) {
+            var industry = this.industries[i];
+
+            if (!industry.removeFromWorld) {
+                industry.update();
+            }
+        }
+
+        for (var i = 0; i < this.walkers.length; i++) {
+            var walker = this.walkers[i];
+
+            if (!walker.removeFromWorld) {
+                walker.update();
+            }
+        }
+
+        for (var i = 0; i < this.walkers.length; i++) {
+            var walker = this.walkers[i];
+            if (walker.dX == 0 && walker.dY == 0) {
+                walker.removeFromWorld = true;
+            }
+        }
+
+        for (var i = this.entities.length - 1; i >= 0; --i) {
+            /*if (this.entities[i].removeFromWorld && this.entities[i] instanceof Well
+                || this.entities[i] instanceof Water || this.entities[i] instanceof Potter
+                || this.entities[i] instanceof Brewer || this.entities[i] instanceof Weaver) {
+                this.entities[i].remove();
+            }*/
+
+            if (this.entities[i].removeFromWorld) {
+                if (this.entities[i] instanceof Well || this.entities[i] instanceof WaterSupply) {
+                    this.entities.remove();
+                }
+                this.entities.splice(i, 1);
+            }
+        }
+
+        for (var i = 0; i < this.housingArr.length; i++) {
+            var myHouse = this.housingArr[i];
+            if (!myHouse.removeFromWorld) {
+                //console.log("Updating building")
+                myHouse.update();
+            }
+        }
+
+        for (var i = this.housingArr.length - 1; i >= 0; --i) {
+            if (this.housingArr[i].removeFromWorld) {
+                this.housingArr.splice(i, 1);
+            }
+        }
+
+        for (var i = this.industries.length - 1; i >= 0; --i) {
+            if (this.industries[i].removeFromWorld) {
+                if (this.entities[i] instanceof Potter
+                        || this.entities[i] instanceof Weaver
+                        || this.entities[i] instanceof Brewery) {
+                    this.entities.remove();
+                }
+                this.industries.splice(i, 1);
+            }
+        }
+
+        for (var i = this.granaries.length - 1; i >= 0; --i) {
+            if (this.granaries[i].removeFromWorld) {
+                this.granaries.splice(i, 1);
+            }
+        }
+
+        for (var i = this.yards.length - 1; i >= 0; --i) {
+            if (this.yards[i].removeFromWorld) {
+                this.yards.splice(i, 1);
+            }
+        }
+
+        for (var i = this.walkers.length - 1; i >= 0; --i) {
+            if (this.walkers[i].removeFromWorld) {
+                this.walkers.splice(i, 1);
+            }
         }
     }
 }
