@@ -266,7 +266,7 @@ ASSET_MANAGER.downloadAll(function () {
     var potter = new Bazaar(gameEngine, 14, 11);
     gameEngine.addIndustry(potter);
 
-    var well = new Well(gameEngine, 12, 11); 
+    var well = new huntLodge(gameEngine, 10, 7); 
     gameEngine.addEntity(well);
 
     var granary = new Granary(gameEngine, 3, 8);
@@ -276,9 +276,9 @@ ASSET_MANAGER.downloadAll(function () {
     //var pit = new clayPit(gameEngine, 3, 2);
     //gameEngine.addEntity(mine);
     //gameEngine.addEntity(pit);
-    var yard = new StoreYard(gameEngine, 10, 7);
+    //var yard = new StoreYard(gameEngine, 10, 7);
     //var yard2 = new StoreYard(gameEngine, 6, 2);
-    gameEngine.addYard(yard);
+    //gameEngine.addYard(yard);
     //gameEngine.addYard(yard2);
 
     gameEngine.start();

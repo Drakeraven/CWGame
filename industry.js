@@ -37,7 +37,7 @@ industry.prototype.update = function () {
     this.roadTiles = findRoad(this.buffer);
 
     for (var i = 0; i < this.game.walkers.length; i++) {//loop through walkers
-        if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) {
+        if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
             if (this.game.walkers[i].loadType == this.resType && this.numResources < 100) {
                 this.numResources += this.game.walkers[i].loadCount;
                 this.game.walkers[i].removeFromWorld = true;
@@ -144,8 +144,6 @@ function Brewery(game, x, y) {
     this.placeCost = 60;
     this.merchCost = 45;
     this.prodTime = 15;
-    //TESTING
-    this.numEmployed = 14;
 }
 
 Brewery.prototype = new industry();
@@ -166,6 +164,8 @@ function Potter(game, x, y) {
     this.placeCost = 70;
     this.merchCost = 55;
     this.prodTime = 20;
+    //FOR TESTING 
+    this.numEmployed = 16;
 }
 
 Potter.prototype = new industry();

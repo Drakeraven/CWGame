@@ -30,7 +30,7 @@ Palace.prototype.update = function () {
         this.currAnim = this.openAnim;
         //if a gold cart arrives, take the amount of gold he has and add it to the total funds
         for (var i = 0; i < this.game.walkers.length; i++) {
-            if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) {
+            if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
                 if (this.game.walkers[i] instanceof glCartMan) {
                     this.game.gameWorld.addFunds(this.game.walkers[i].loadCount);
                     this.game.walkers[i].removeFromWorld = true;
@@ -65,10 +65,10 @@ function Granary(game, x, y) {
     this.placeCost = 50; 
     this.numEmployed = 20; // TESTING
     this.numEmpNeeded = 20;
-    this.foodSupply = 500;
+    this.foodSupply = 0;
     this.foodMax = 1000; 
     this.workTime = this.game.timer.gameTime; 
-    this.pushTime = 5; 
+    this.pushTime = 15; 
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
     this.roadTiles = [];
     this.game.addEntity(this);
@@ -90,11 +90,12 @@ Granary.prototype.update = function () {
         //food only storage yard, any and all food gets sent here then to the bazaar 
         //NEED: take in walkers W/ food 
         for (var i = 0; i < this.game.walkers.length; i++) {
-            if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) {
+            if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
                 if (this.game.walkers[i] instanceof mCartMan) {
                     if (this.foodLevel + this.game.walkers[i].loadCount <= this.foodMax) {
                         this.foodSupply = this.game.walkers[i].loadCount;
                         this.game.walkers[i].removeFromWorld = true;
+                        console.log("Food Amt: ", this.foodSupply)
                     } else { 
                         //code to send the walker somewhere else, or kill it
                         for (var j = 0; j < this.game.granaries.length; j++  
@@ -102,27 +103,28 @@ Granary.prototype.update = function () {
                             //generate walker to the granarie 
                             walkerX = Math.floor(this.game.walkers[i].x);
                             walkerY = Math.floor(this.game.walkers[i].y);
-                            canWalk = generateWalker([[walkerX, walkerY]], this.game.granaries[j].roadTiles);
+                            canWalk = generateWalker([[walkerX, walkerY]], this.game.granaries[j].roadTiles,);
                             if (canWalk != null) {
                                 this.game.walkers[i].destX = canWalk[2];
                                 this.game.walkers[i].destY = canWalk[3];
+                                this.game.walkers[i].bRef = this.game.yards[j];
                             }
                         }
                     }
+                    if (this.game.walkers[i].bRef == this) this.game.walkers[i].removeFromWorld = true; // remove if no other yard
                 }
             }
         }
         //SEND OUT WALKERS to bazaar 
         
         if (this.game.timer.gameTime - this.workTime >= this.pushTime) {
-            this.workTime = this.game.timer.gameTime;    
-            console.log("push time for granarie")    
+            this.workTime = this.game.timer.gameTime;      
             for (var i = 0; i < this.game.industries.length; i++){
                 //send food to bazaar! 
                 console.log(this.game.industries[i] instanceof Bazaar);
                 if (this.game.industries[i] instanceof Bazaar) {
                     if (this.foodSupply > 100 && this.game.industries[i].foodLevel < 100) { 
-                            this.genWalker(this.game.industries[i], 100, "food");
+                            this.genWalker(this.game.industries[i], 100, "food", this.game.industries[i]);
                             this.foodLevel -= 100; 
                             console.log("In check: ", this.game.industries[i].foodLevel);
                     }
@@ -140,7 +142,7 @@ Granary.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-Granary.prototype.genWalker = function (destBuild, funds, type) {
+Granary.prototype.genWalker = function (destBuild, funds, type, bRef) {
     found = false;
     let indie = destBuild;
     console.log(indie);
@@ -149,17 +151,17 @@ Granary.prototype.genWalker = function (destBuild, funds, type) {
     if (canWalk != null) {
         found = true;
         console.log(canWalk);
-        this.pushBoi(canWalk, funds, type);
+        this.pushBoi(canWalk, funds, type, bRef);
 
     }
     //if (found) break;
     //console.log(found);
 }
 
-Granary.prototype.pushBoi = function (canWalk, funds, type) {
+Granary.prototype.pushBoi = function (canWalk, funds, type, bRef) {
     console.log(funds, type);
     if (type === "food") {
-        var ccm = new mCartMan(this.game, ASSET_MANAGER.getAsset("./img/meatCartMan.png"), walkerMap, canWalk[0], canWalk[1]);
+        var ccm = new mCartMan(this.game, ASSET_MANAGER.getAsset("./img/meatCartMan.png"), walkerMap, canWalk[0], canWalk[1], bRef);
         ccm.loadCount = funds; 
         ccm.destX = canWalk[2];
         ccm.destY = canWalk[3];
@@ -170,7 +172,7 @@ Granary.prototype.pushBoi = function (canWalk, funds, type) {
 function StoreYard(game, x, y) {
     this.game = game;
     this.workTime = this.game.timer.gameTime
-    this.pushTime = 5; 
+    this.pushTime = 7; 
     this.img = ASSET_MANAGER.getAsset("./img/StoreYard.png");
     this.bWidth = 3;
     this.bHeight = 3;
@@ -190,7 +192,7 @@ function StoreYard(game, x, y) {
     this.numEmployed = 12; // TESTING
     this.numEmpNeeded = 12;
     this.storage = [];
-    this.storage["barley"] = 1000;
+    this.storage["barley"] = 0;
     this.storage["flax"] = 0;
     this.storage["clay"] = 0;
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
@@ -212,7 +214,7 @@ StoreYard.prototype.update = function () {
     } else {
         this.currAnim = this.storeAnims[this.changeAnim()];
         for (var i = 0; i < this.game.walkers.length; i++) {
-            if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) {
+            if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
                 if (this.game.walkers[i] instanceof cCartMan
                     || this.game.walkers[i] instanceof barCartMan
                     || this.game.walkers[i] instanceof fCartMan) {
@@ -224,18 +226,19 @@ StoreYard.prototype.update = function () {
                         for (var j = 0; j < this.game.yards.length; j++) {
                             if (this.game.yards[j] != this &&
                                 this.game.yards[j].storage[this.game.walkers[i].loadType] + this.game.walkers[i].loadCount <= yardMax) {
-                                //set for reference as well
+
                                 walkerX = Math.floor(this.game.walkers[i].x);
                                 walkerY = Math.floor(this.game.walkers[i].y);
                                 canWalk = generateWalker([[walkerX, walkerY]], this.game.yards[j].roadTiles);
                                 if (canWalk != null) {
                                     this.game.walkers[i].destX = canWalk[2];
                                     this.game.walkers[i].destY = canWalk[3];
+                                    this.game.walkers[i].bRef = this.game.yards[j];
                                 }
 
                             }
                         }
-                        //if the reference wasn't changed after the loop, kill the walker.
+                        if (this.game.walkers[i].bRef == this) this.game.walkers[i].removeFromWorld = true; // remove if no other yard
                     }
                 }
             }
@@ -245,19 +248,18 @@ StoreYard.prototype.update = function () {
             for (var k = 0; k < this.game.industries.length; k++) {
                 if (this.game.industries[k].numResources <= 100 && this.storage[this.game.industries[k].resType] >= 100) {
                     this.storage[this.game.industries[k].resType] = Math.floor(this.storage[this.game.industries[k].resType]) - 100; 
-                    console.log(this.storage[this.game.industries[k].resType]);
                     canWalk = generateWalker(this.roadTiles, this.game.industries[k].roadTiles);
                     cartBoi = null;
                     if (canWalk != null) {
                         switch (this.game.industries[k].resType) {
                             case "clay":
-                                cartBoi = new cCartMan(this.game, ASSET_MANAGER.getAsset("./img/clayCartMan.png"), walkerMap, canWalk[0], canWalk[1]);
+                                cartBoi = new cCartMan(this.game, ASSET_MANAGER.getAsset("./img/clayCartMan.png"), walkerMap, canWalk[0], canWalk[1], this.game.industries[k]);
                                 break;
                             case "barley":
-                                cartBoi = new barCartMan(this.game, ASSET_MANAGER.getAsset('./img/barleyCartMan.png'), walkerMap, canWalk[0], canWalk[1]);
+                                cartBoi = new barCartMan(this.game, ASSET_MANAGER.getAsset('./img/barleyCartMan.png'), walkerMap, canWalk[0], canWalk[1], this.game.industries[k]);
                                 break;
                             case "flax":
-                                cartBoi = new fCartMan(this.game, ASSET_MANAGER.getAsset("./img/flaxCartMan.png"), walkerMap, canWalk[0], canWalk[1]);
+                                cartBoi = new fCartMan(this.game, ASSET_MANAGER.getAsset("./img/flaxCartMan.png"), walkerMap, canWalk[0], canWalk[1], this.game.industries[k]);
                                 break;
                         }
                         cartBoi.loadCount = 100;

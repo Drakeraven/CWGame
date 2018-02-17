@@ -1,11 +1,3 @@
-function arrived(rect1, r2X, r2Y) {
-    //return (rect1.x < rect2X + 0) &&
-    //    (rect1.x + rect1.width > r2X && rect1.y < r2Y + 0) &&
-    //    (rect1.height + rect1.y > r2);
-    return (r2X < rect1.x + rect1.width && r2X > rect1.x) &&
-        (r2Y < rect1.y + rect1.height && r2Y > rect1.y);
-}
-
 function bubbleBuilding(img, game, x, y, bWidth, bHeight, buf) {
     this.game = game;
     this.img = img;
