@@ -44,13 +44,13 @@ function setHotKeys(event, game) {
                 game.cameraoffX += 1;
       }
 
-    } else if (event.code === "ArrowUp" && game.cameraoffY > 20) {
-      if(game.cameraoffY > -70 && game.cameraoffY < 150) {
+    } else if (event.code === "ArrowUp" && game.cameraoffY > 0) {
+      if(game.cameraoffX > -70 && game.cameraoffX < 150) {
                 game.cameraoffY -= 1;
       }
 
     } else if (event.code === "ArrowDown" && game.cameraoffY < 160) {
-      if(game.cameraoffY > -70 && game.cameraoffY < 150) {
+      if(game.cameraoffX > -70 && game.cameraoffX < 150) {
                         game.cameraoffY += 1;
       }
 

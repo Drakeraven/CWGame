@@ -71,8 +71,10 @@ function Tile(game, tileType, x, y) {
   this.gfxString = '';
   if (tileType === 0) {
       this.gfxString = "./img/grass.png";
-  } else {
-      this.gfxString = "./img/Land1a_00002.png";//road img
+  } else if (tileType === 1) {
+      this.gfxString = "./img/FloodPlain_00091.png";//road img
+  } else if (tileType === 3) {
+    this.gfxString = "./img/Trees_00012.png";
   }
   this.thing;
   this.image = new Image();
