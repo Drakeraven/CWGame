@@ -234,6 +234,7 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
         //X and Y have been make ISO friendly before entering this function
         case "House":
             entity = new Housing(that, x, y);
+            this.entities.push(entity);
             this.housingArr.push(entity);
             break;
 
@@ -277,6 +278,7 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
 
         case "Storage Yard":
             entity = new StorageYard(that, x, y);
+            this.entities.push(entity);
             yards.push(entity);
             break;
 
@@ -380,26 +382,6 @@ GameEngine.prototype.draw = function () {
 
     for (var i = 0; i < this.entities.length; i++) {
         this.entities[i].draw(this.ctx);
-    }
-
-    for (var i = 0; i < this.housingArr.length; i++) {
-        this.housingArr[i].draw(this.ctx);
-    }
-
-    for (var i = 0; i < this.industries.length; i++) {
-        this.industries[i].draw(this.ctx);
-    }
-
-    for (var i = 0; i < this.granaries.length; i++) {
-        this.granaries[i].draw(this.ctx);
-    }
-
-    for (var i = 0; i < this.yards.length; i++) {
-        this.yards[i].draw(this.ctx);
-    }
-
-    for (var i = 0; i < this.walkers.length; i++) {
-        this.walkers[i].draw(this.ctx);
     }
 
     this.ctx.restore();

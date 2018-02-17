@@ -121,7 +121,6 @@ Map.prototype.addThing = function(thing) {
     updateMapData(x, y, thing.bWidth, thing.bHeight, 2);
     this.mapList[y][x].thing = thing;
     this.mapList[y][x].tileType = 2;
-    this.game.addEntity(thing);
     for (i = thing.x; i < thing.x + thing.bWidth && x + thing.bWidth < walkerMap.length; i++) {
       for(j = thing.y; j < thing.y + thing.bHeight && y + thing.bHeight < walkerMap[i].length; j++) {
         this.mapList[j][i].tileType = type;
@@ -276,8 +275,8 @@ ASSET_MANAGER.downloadAll(function () {
     //gameEngine.addIndustry(brewery);
     //var hunt = new huntLodge(gameEngine, 3, 2);
     //gameEngine.addEntity(hunt);
-    var potter = new Potter(gameEngine, 14, 11);
-    gameEngine.addIndustry(potter);
+    //var potter = new Potter(gameEngine, 14, 11);
+    //gameEngine.addIndustry(potter);
 
     //var mine = new goldMine(gameEngine, 3, 2);
     //gameEngine.addEntity(mine);
@@ -285,9 +284,9 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.start();
 
 
-    console.log(walkerMap);
+    //console.log(walkerMap);
   //  gameEngine.map.addThing(brewery, 0, 0);
-    updateMapData(0, 0, 1);
+    //updateMapData(0, 0, 1);
 
 
 
