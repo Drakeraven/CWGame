@@ -40,7 +40,7 @@ GameEngine.prototype.merge = function (left, right) {
   let indexRight = 0
 
   while (indexLeft < left.length && indexRight < right.length) {
-    if (this.twodtoisoY(left[indexLeft].x, left[indexLeft].y)  > this.twodtoisoY(right[indexRight].x, right[indexRight].y)) {
+    if (this.twodtoisoY(left[indexLeft].x, left[indexLeft].y)  < this.twodtoisoY(right[indexRight].x, right[indexRight].y)) {
       result.push(left[indexLeft])
       indexLeft++
     } else {
@@ -101,8 +101,8 @@ GameEngine.prototype.start = function () {
     })();
 }
 GameEngine.prototype.initcamera = function () {
-  this.cameraoffX = this.map.mapList.length / 2
-  this.cameraoffY = this.map.mapList[1].length / 2
+  //this.cameraoffX = this.map.mapList.length / 2
+  //this.cameraoffY = this.map.mapList[1].length / 2
 }
 GameEngine.prototype.twodtoisoX = function (x,y) {
   return (((x - y) + this.cameraoffX) * 29 );
@@ -237,7 +237,7 @@ GameEngine.prototype.addWalker = function (walker) {
 GameEngine.prototype.addIndustry = function (industry) {
     console.log("added industry");
     this.industries.push(industry);
-    this.industries.push(industry);
+    this.entities.push(industry);
 }
 
 GameEngine.prototype.addGranary = function (granary) {
