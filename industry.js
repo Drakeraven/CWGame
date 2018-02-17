@@ -33,8 +33,9 @@ industry.prototype.constructor = industry;
 
 industry.prototype.update = function () {
     Entity.prototype.update.call(this);
-    this.roadTiles = findRoad(this.buffer);
+    //this.roadTiles = findRoad(this.buffer);
 
+    //this.roadTiles = findRoad(this.buffer);
     //Checks for fire/collapse. Need to make this happen, not ALOT of the time...
     //if (getRandomInt(1, 101) <= fireResist) {
         //Catches on fire
@@ -89,7 +90,10 @@ industry.prototype.update = function () {
         }
     }
 }
-
+industry.prototype.toStringStats = function() {
+    str = "";//TODO
+    return str;
+}
 industry.prototype.draw = function (ctx) {
     pt1 = this.game.twodtoisoX(this.x, this.y) - this.renderX;
     pt2 = this.game.twodtoisoY(this.x, this.y) - this.renderY;

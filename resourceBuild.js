@@ -97,7 +97,11 @@ resourceBuild.prototype.pushBoi = function (canWalk) {
     }
 
 }
-
+resourceBuild.prototype.toStringStats = function() {
+    str = "Employeed: " + this.numEmployed + "\Employees Needed: " + this.numEmpNeeded +
+            "\n";//TODO
+    return str;
+}
 function goldMine(game, x, y) {
     resourceBuild.call(this, game, x, y);
     this.img = ASSET_MANAGER.getAsset('./img/GoldMine.png');
@@ -115,7 +119,10 @@ function goldMine(game, x, y) {
 
 goldMine.prototype = new resourceBuild();
 goldMine.prototype.constructor = goldMine;
-
+goldMine.prototype.toStringStats = function() {
+    str = "";//TODO
+    return str;
+}
 function clayPit(game, x, y) {
     resourceBuild.call(this, game, x, y);
     this.img = ASSET_MANAGER.getAsset('./img/ClayThingy.png');
@@ -133,7 +140,10 @@ function clayPit(game, x, y) {
 
 clayPit.prototype = new resourceBuild();
 clayPit.prototype.constructor = clayPit;
-
+clayPit.prototype.toStringStats = function() {
+    str = "";//TODO
+    return str;
+}
 //Possibly Hunting Lodge? Extend the update behavior to deal with returning hunters. 
 function huntLodge(game, x, y) {
     resourceBuild.call(this, game, x, y);
@@ -167,4 +177,8 @@ huntLodge.prototype.update = function () {
     }
     if (this.foodStore > 100) this.genWalker(this.game.granaries);
 
+}
+huntLodge.prototype.toStringStats = function() {
+    str = "";//TODO
+    return str;
 }

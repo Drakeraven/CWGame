@@ -71,6 +71,13 @@ bubbleBuilding.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
+bubbleBuilding.prototype.toStringStats = function() {
+   // str = "Employeed: " + this.numEmployed + "\tEmployees Needed: " + (this.maxEmployed - this.numEmployed) + 
+    //"\nRange: " + this.range + "\n";;
+    str = "Range: " + this.range + "\n";
+    return str;
+}
+
 function Well (game, x, y) { 
     img = ASSET_MANAGER.getAsset("./img/smallWell.png");
     bubbleBuilding.call(this, img, game, x, y, 1, 1, 10);

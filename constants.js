@@ -1,5 +1,5 @@
 var Constants = {
-//Buildings if object that contains and "Object" of each building, static info only
+    //Buildings if object that contains and "Object" of each building, static info only
     Buildings: {
         Housing: [
             { value: "House", text: "House" },
@@ -41,3 +41,4 @@ var Constants = {
     }
 
 }
+

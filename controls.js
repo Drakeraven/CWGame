@@ -7,7 +7,11 @@ $(function () {
     });
 });
 
-function setHotKeys(event) {
+function displayStats(gameEngine, x, y) {
+    displayStr = gameEngine.map.mapList[y][x].toStringStats();
+    $('.toStringStats').text(displayStr);
+}
+function setHotKeys(that, event) {
     if (event.code === "KeyH") {
         setButton("Housing");
     } else if (event.code === "KeyF") {
@@ -78,6 +82,7 @@ function setButton(titleOfCurrentButtonSelection) {
             break;
         case "Municipal":
             setSelectOptions(Constants.Buildings.Municipal);
+            break;
         case "Roads":
             setSelectOptions(Constants.Buildings.Roads);
             break;
