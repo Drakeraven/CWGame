@@ -136,7 +136,7 @@ Map.prototype.readMap = function(mapData) {
 
 //need an instance at start. we can adjust values as needed.
 function GameWorld() {
-    this.palace = null;
+    this.palace = null; 
     this.prosperity = 0;
     this.population = 0;
     this.workForce = 0;
@@ -203,7 +203,8 @@ ASSET_MANAGER.queueDownload("./img/Hunter2.png");
 ASSET_MANAGER.queueDownload("./img/immig.png");
 ASSET_MANAGER.queueDownload("./img/ClayThingy.png");
 ASSET_MANAGER.queueDownload("./img/smallWell.png");
-ASSET_MANAGER.queueDownload("./img/bigWell.png");
+ASSET_MANAGER.queueDownload("./img/bigWell.png"); 
+ASSET_MANAGER.queueDownload("./img/Granary.png");
 ASSET_MANAGER.queueDownload("./img/StoreYard.png");
 
 //TODO: add in imgs for fixed walkers
@@ -260,20 +261,35 @@ ASSET_MANAGER.downloadAll(function () {
     var weaver = new Weaver(gameEngine, 3, 11);
     gameEngine.addIndustry(weaver);
 
-    //var brewery = new Brewery(gameEngine, 3, 2);
-    //gameEngine.addIndustry(brewery);
     //var hunt = new huntLodge(gameEngine, 3, 2);
     //gameEngine.addEntity(hunt);
+<<<<<<< HEAD
+    /*var potter = new Bazaar(gameEngine, 14, 11);
+    gameEngine.addIndustry(potter);
+=======
     //var potter = new Potter(gameEngine, 14, 11);
     //gameEngine.addIndustry(potter);
+>>>>>>> 96ed98064c038a9184f480f92ae1885c89f94835
+
+    var well = new Housing(gameEngine, 10, 7); 
+    gameEngine.addHouse(well);
+
+    var granary = new WaterSupply(gameEngine, 3, 8);
+    gameEngine.addEntity(granary);*/
 
     //var mine = new goldMine(gameEngine, 3, 11);
     //var pit = new clayPit(gameEngine, 3, 2);
+<<<<<<< HEAD
+    //gameEngine.addEntity(mine);
+    //gameEngine.addEntity(pit);
+    //var yard = new StoreYard(gameEngine, 10, 7);
+=======
    // gameEngine.addEntity(mine);
    // gameEngine.addEntity(pit);
     var yard = new StoreYard(gameEngine, 10, 7);
+>>>>>>> 96ed98064c038a9184f480f92ae1885c89f94835
     //var yard2 = new StoreYard(gameEngine, 6, 2);
-    gameEngine.addYard(yard);
+    //gameEngine.addYard(yard);
     //gameEngine.addYard(yard2);
 
     gameEngine.start();

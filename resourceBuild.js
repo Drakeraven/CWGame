@@ -155,6 +155,8 @@ function huntLodge(game, x, y) {
     this.renderY = 53;
     this.placeCost = 35;
     this.foodStore = 0;
+
+    this.numEmployed = 18;
 }
 
 huntLodge.prototype = new resourceBuild();

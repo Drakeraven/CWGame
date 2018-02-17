@@ -1,11 +1,3 @@
-function arrived(rect1, r2X, r2Y) {
-    //return (rect1.x < rect2X + 0) &&
-    //    (rect1.x + rect1.width > r2X && rect1.y < r2Y + 0) &&
-    //    (rect1.height + rect1.y > r2);
-    return (r2X < rect1.x + rect1.width && r2X > rect1.x) &&
-        (r2Y < rect1.y + rect1.height && r2Y > rect1.y);
-}
-
 function bubbleBuilding(img, game, x, y, bWidth, bHeight, buf) {
     this.game = game;
     this.img = img;
@@ -20,8 +12,9 @@ function bubbleBuilding(img, game, x, y, bWidth, bHeight, buf) {
     //this.numEmployed = 0;
     //this.numEmpNeeded = null;
     this.placeCost = 10;
-    this.prodTime = 0;
+    this.pushTime = 5;
     this.workTime = 0;
+    this.roadTiles = [];
     this.buffer = { x: x - 1, y: y - 1, width: bWidth + 1, height: bHeight + 1};
     Entity.call(this, game, x, y);
 }
@@ -31,21 +24,18 @@ bubbleBuilding.prototype.constructor = bubbleBuilding;
 
 bubbleBuilding.prototype.update = function () {
     Entity.prototype.update.call(this);
+    this.roadTiles = findRoad(this.buffer);
     //detect who within your radius
     //impart reduced/improved affect onto the buildings in turn.
     myPop = 0;
-    that = this;  
-    console.log(this instanceof TaxHouse);
     for (i = 0; i < this.game.housingArr.length; i++) { 
-        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y)) {
-            console.log(this instanceof TaxHouse);
+        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y), this, this) {
             if (this instanceof TaxHouse) { 
-                console.log("Should be?");
                 myPop += this.game.housingArr[i].numHoused;
             } else if (this instanceof Well || this instanceof WaterSupply) {
+                //console.log("arrived")
                 this.game.housingArr[i].waterLevel = true;
-            } else if (this instanceof FireHouse) {
-                console.log("FIRE") 
+            } else if (this instanceof FireHouse) { 
                 this.game.housingArr[i].fireResist == 0.01; 
             } else if (this instanceof CopHouse) { 
                 //this should probably be over the list of walkers 
@@ -55,12 +45,32 @@ bubbleBuilding.prototype.update = function () {
 
     // for a set interval, collect taxes from myPop
     //(30mon / 10ppl)
-    myTax = (Math.ceil((Math.floor((myPop / 10)) * 30) * 0.1)); //10 percent of 30 money per 10 people 
-    console.log(myTax);
-    //send a gold cart man every 45-1min seconds w/ this fundage
-    /* go through industry list later??? nope dont need to  
-    */
+    if (this.game.timer.gameTime - this.workTime >= this.pushTime && this instanceof TaxHouse) {
+        this.workTime = this.game.timer.gameTime;
+        //var myPop = this.game.gameWorld.population;
+        var myTax = (Math.ceil((Math.floor((myPop / 10)) * 30) * 0.1)); //10 percent of 30 money per 10 people 
+        //console.log("Tax: ", myTax);
+        //console.log("Pop: ", myPop);
+        this.genWalker(this.game.gameWorld.palace, myTax, "gold");
+        //send a gold cart man every 45-1min seconds w/ this fundage
+        /* go through industry list later??? nope dont need to  
+        */
+    }
+}
 
+bubbleBuilding.prototype.remove = function () { 
+    //iterate over houses in the area of effect and disable benefits 
+    for (i = 0; i < this.game.housingArr.length; i++) { 
+        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y)) {
+            if (this instanceof Well || this instanceof WaterSupply) {
+                this.game.housingArr[i].waterLevel = false;
+            } else if (this instanceof FireHouse) { 
+                //add later
+            } else if (this instanceof CopHouse) { 
+                //this should probably be over the list of walkers 
+            } 
+        }
+    }
 }
 
 bubbleBuilding.prototype.draw = function (ctx) {
@@ -78,7 +88,7 @@ function Well (game, x, y) {
     this.radius = { x: x - 1, y: y - 1, width: 1 + 10, height: 1 + 10};
     this.renderX = 0;
     this.renderY = -8;
-    this.currAnim = new Animation(img, 0, 0, 58, 51, 1, 0.15, 1, true);
+    this.currAnim = new Animation(img, 0, 1, 58, 51, 1, 0.15, 1, true);
 }
 
 Well.prototype = new bubbleBuilding();
@@ -89,7 +99,7 @@ function WaterSupply (game, x, y) {
     bubbleBuilding.call(this, img, game, x, y, 1, 1, 30);
     workTime = game.timer.gameTime;
     this.radius = { x: x - 1, y: y - 1, width: 1 + 30, height: 1 + 30}; 
-    this.currAnim = new Animation(img, 0, 0, 118, 77, 1, 0.15, 1, true);
+    this.currAnim = new Animation(img, 0, 1, 118, 77, 1, 0.15, 1, true);
 }
 
 WaterSupply.prototype = new bubbleBuilding();
@@ -133,3 +143,28 @@ function CopHouse (game, x, y) {
 
 CopHouse.prototype = new bubbleBuilding();
 CopHouse.prototype.constructor = CopHouse;
+
+bubbleBuilding.prototype.genWalker = function (destBuild, funds) {
+    found = false;
+    let indie = destBuild;
+    console.log(indie);
+    //WADDUP BETCH
+    let canWalk = generateWalker(this.roadTiles, indie.roadTiles);
+    if (canWalk != null) {
+        found = true;
+        console.log(canWalk);
+        this.pushBoi(canWalk, funds);
+
+    }
+    //if (found) break;
+    //console.log(found);
+}
+
+bubbleBuilding.prototype.pushBoi = function (canWalk, funds) {
+    var glcm = new glCartMan(this.game, ASSET_MANAGER.getAsset("./img/goldCartMan.png"), walkerMap, canWalk[0], canWalk[1]);
+    glcm.loadCount = funds;
+    glcm.destX = canWalk[2];
+    glcm.destY = canWalk[3];
+    this.game.addWalker(glcm);
+
+}
