@@ -85,6 +85,7 @@ Granary.prototype.constructor = Granary;
 Granary.prototype.update = function () {
     Entity.prototype.update.call(this);
     this.roadTiles = findRoad(this.buffer);
+    console.log(this.roadTiles);
 
     if (this.numEmployed < this.numEmpNeeded) {
         this.currAnim = this.closedAnim;
