@@ -29,12 +29,11 @@ bubbleBuilding.prototype.update = function () {
     //impart reduced/improved affect onto the buildings in turn.
     myPop = 0;
     for (i = 0; i < this.game.housingArr.length; i++) { 
-        console.log(arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y, this, this));
         if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y), this, this) {
             if (this instanceof TaxHouse) { 
                 myPop += this.game.housingArr[i].numHoused;
             } else if (this instanceof Well || this instanceof WaterSupply) {
-                console.log("arrived")
+                //console.log("arrived")
                 this.game.housingArr[i].waterLevel = true;
             } else if (this instanceof FireHouse) { 
                 this.game.housingArr[i].fireResist == 0.01; 
