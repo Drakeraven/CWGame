@@ -35,24 +35,26 @@ industry.prototype.update = function () {
     Entity.prototype.update.call(this);
     this.roadTiles = findRoad(this.buffer);
 
-    //Checks for fire/collapse. Need to make this happen, not ALOT of the time...
-    //if (getRandomInt(1, 101) <= fireResist) {
-        //Catches on fire
-        //for (var i = 0; i < this.game.industries.length; i++) {
-        //    if (this.game.industries[i] == this) {
-        //        console.log(this);
-        //    }
-        //}
-        //this.removeFromWorld = true;
-    //    return;
-    //}
+    for (var i = 0; i < this.game.walkers.length; i++) {//loop through walkers
+        if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) {
+            if (this.game.walkers[i].loadType == this.resType && this.numResources < 100) {
+                this.numResources += this.game.walkers[i].loadCount;
+                this.game.walkers[i].removeFromWorld = true;
+            }
+            if (this.game.walkers[i].loadType == this.merchType) {
+                while (this.game.walkers[i].funds >= this.merchCost && this.numMerch > this.game.walkers[i].loadCount) {
+                    this.game.walkers[i].funds -= this.merchCost;
+                    this.numMerch -= 100; //amt bought at a time
+                    this.game.walkers[i].loadCount += 100;
+                }
+                this.game.walkers[i].x = Math.floor(this.game.walkers[i].x);
+                this.game.walkers[i].y = Math.floor(this.game.walkers[i].y);
+                this.game.walkers[i].destX = this.game.walkers[i].startX;
+                this.game.walkers[i].destY = this.game.walkers[i].startY;
+            }
+        }
 
-    //if (getRandomInt(1, 101) <= collapseResist) {
-    //    //collapses
-    //    return;
-    //}
-
-    //if out of employees or no resources, close operation
+    }
 
     if (this.numEmployed < this.numEmpNeeded || this.numResources == 0) {
         this.currAnim = this.closedAnim;
@@ -64,28 +66,6 @@ industry.prototype.update = function () {
             this.workTime = this.game.timer.gameTime;
             this.numMerch += merchStep;
             this.numResources -= merchStep;
-        }
-
-        for (var i = 0; i < this.game.walkers.length; i++) {//loop through walkers
-            if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) {
-                if (this.game.walkers[i].loadType == this.resType && this.numResources < 100) {
-                    this.numResources += this.game.walkers[i].loadCount;
-                    this.game.walkers[i].removeFromWorld = true;
-                }
-
-                if (this.game.walkers[i].loadType == this.merchType) {
-                    while (this.game.walkers[i].funds >= this.merchCost && this.numMerch > this.game.walkers[i].loadCount) {
-                        this.game.walkers[i].funds -= this.merchCost;
-                        this.numMerch -= 100; //amt bought at a time
-                        this.game.walkers[i].loadCount += 100;
-                    }
-                    this.game.walkers[i].x = Math.floor(this.game.walkers[i].x);
-                    this.game.walkers[i].y = Math.floor(this.game.walkers[i].y);
-                    this.game.walkers[i].destX = this.game.walkers[i].startX;
-                    this.game.walkers[i].destY = this.game.walkers[i].startY;
-                }
-            }
-
         }
     }
 }
@@ -134,6 +114,8 @@ function Brewery(game, x, y) {
     this.placeCost = 60;
     this.merchCost = 45;
     this.prodTime = 15;
+    //TESTING
+    this.numEmployed = 14;
 }
 
 Brewery.prototype = new industry();

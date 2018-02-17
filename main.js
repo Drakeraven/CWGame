@@ -167,7 +167,6 @@ GameWorld.prototype.addFunds = function (amt) {
 var ASSET_MANAGER = new AssetManager();
 var walkerMap = new mapData().testMap;
 
-ASSET_MANAGER.queueDownload("./img/Weaver.png");
 ASSET_MANAGER.queueDownload("./img/grass.png");
 ASSET_MANAGER.queueDownload("./img/Land1a_00002.png");
 ASSET_MANAGER.queueDownload("./img/emptyCartMan.png");
@@ -204,7 +203,8 @@ ASSET_MANAGER.queueDownload("./img/Hunter2.png");
 ASSET_MANAGER.queueDownload("./img/immig.png");
 ASSET_MANAGER.queueDownload("./img/ClayThingy.png");
 ASSET_MANAGER.queueDownload("./img/smallWell.png");
-ASSET_MANAGER.queueDownload("./img/bigWell.png"); 
+ASSET_MANAGER.queueDownload("./img/bigWell.png");
+ASSET_MANAGER.queueDownload("./img/StoreYard.png");
 
 //TODO: add in imgs for fixed walkers
 
@@ -216,14 +216,11 @@ ASSET_MANAGER.downloadAll(function () {
     var gameEngine = new GameEngine();
 
     gameEngine.gameWorld = new GameWorld();
-    gameEngine.gameWorld.palace = new Palace(gameEngine, 10, 6);
-    console.log(gameEngine.gameWorld);
+    //gameEngine.gameWorld.palace = new Palace(gameEngine, 10, 6);
 
     gameEngine.map = new Map(gameEngine);
     gameEngine.init(ctx);
     gameEngine.map.readMap(new mapData().testMap);
-    //var gameWorld = new gameWorld();
-
 
     //var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), walkerMap, 0, 1);
     //ecm.destX = 6;
@@ -263,17 +260,21 @@ ASSET_MANAGER.downloadAll(function () {
     //var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, 3, 11, 2, 2);
     ////gameEngine.addIndustry(weaver);
 
-    //var brewery = new Brewery(gameEngine, 3, 2);
-    //gameEngine.addIndustry(brewery);
+    var brewery = new Brewery(gameEngine, 3, 2);
+    gameEngine.addIndustry(brewery);
     //var hunt = new huntLodge(gameEngine, 3, 2);
     //gameEngine.addEntity(hunt);
     //var potter = new Potter(gameEngine, 14, 11);
     //gameEngine.addIndustry(potter);
 
-    var mine = new goldMine(gameEngine, 3, 11);
+    //var mine = new goldMine(gameEngine, 3, 11);
     //var pit = new clayPit(gameEngine, 3, 2);
-    gameEngine.addEntity(mine);
+   // gameEngine.addEntity(mine);
     //gameEngine.addEntity(pit);
+    var yard = new StoreYard(gameEngine, 10, 7);
+    //var yard2 = new StoreYard(gameEngine, 6, 2);
+    gameEngine.addYard(yard);
+    //gameEngine.addYard(yard2);
 
     gameEngine.start();
 });

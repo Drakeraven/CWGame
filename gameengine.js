@@ -183,7 +183,7 @@ GameEngine.prototype.addBuilding = function (entity) {
 }
 
 GameEngine.prototype.addWalker = function (walker) {
-    console.log("added walker");
+   // console.log("added walker");
     this.walkers.push(walker);
 }
 
