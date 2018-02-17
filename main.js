@@ -13,7 +13,6 @@ function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, sheetWi
     this.elapsedTime = 0;
     this.loop = loop;
 }
-var walkerMap = new MapData().testMap;
 
 function updateMapData(x, y, xDim, yDim, type) {
   for (i = x; i < x + xDim && x + xDim < walkerMap.length; i++) {
@@ -88,8 +87,9 @@ GameWorld.prototype.remPop = function (num) {
 GameWorld.prototype.getWorkForce = function () {
     return Math.floor(this.population * .40); //40% population is work force, change how I'm doing it??
 }
-GameWorld.prototype.toStringStats = function() {
-
+GameWorld.prototype.toStringGame = function() {
+    str = "Prosperity: " + this.prosperity
+    return str;
 };
 
 // the "main" code begins here
