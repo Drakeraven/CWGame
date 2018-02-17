@@ -10,18 +10,28 @@ Map.prototype.constructor = Map;
 Map.prototype.addThing = function(thing) {
   var x = thing.x;
   var y = thing.y;
-  if(this.mapList[y][x].thing == null && this.mapList[y + 1][x + 1].thing == null &&thing != null) {
+  var canDo = true;
+  for (i = thing.x; i < thing.x + thing.bWidth; i++) {
+    for(j = thing.y; j < thing.y + thing.bHeight; j++) {
+      if(this.mapList[j][i].thing != null) {
+        canDo = false;
+      }
+    }
+  }
+  if(canDo &&thing != null) {
     console.log('hi');
     updateMapData(x, y, thing.bWidth, thing.bHeight, 2);
-    this.mapList[y][x].thing = thing;
-    this.mapList[y][x].tileType = 2;
+    //this.mapList[y][x].thing = thing;
+    //this.mapList[y][x].tileType = 2;
     this.game.addEntity(thing);
-    for (i = thing.x; i < thing.x + thing.bWidth && x + thing.bWidth < walkerMap.length; i++) {
-      for(j = thing.y; j < thing.y + thing.bHeight && y + thing.bHeight < walkerMap[i].length; j++) {
+    for (i = thing.x; i < thing.x + thing.bWidth; i++) {
+      for(j = thing.y; j < thing.y + thing.bHeight; j++) {
+        console.log(thing.x+ ' ' + thing.y)
         this.mapList[j][i].thing = thing;
       }
     }
     console.log(walkerMap);
+    console.log(this.mapList);
   }
 }
 Map.prototype.readMap = function (mapData) {
@@ -53,7 +63,7 @@ function Tile(game, tileType, x, y) {
   } else if (tileType === 3) {
     this.gfxString = "./img/Trees_00012.png";
   }
-  this.thing;
+  this.thing = null;
   this.image = new Image();
   this.image.src = this.gfxString;
   this.game = game;
