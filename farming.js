@@ -31,8 +31,6 @@ farming.prototype.constructor = farming;
 
 farming.prototype.update = function () {
     this.roadTiles = findRoad(this.buffer);
-    //if (this instanceof grainFarm) console.log("grainssss");
-    //if (this instanceof barFarm) console.log("barleeyyy");
     this.growTime += this.game.clockTick;
     harvestCheck = Math.floor(this.game.timer.gameTime) % this.harvestTime;
 

@@ -139,7 +139,7 @@ StoreYard.prototype.update = function () {
         for (var k = 0; k < this.game.industries.length; k++) {
             if (this.game.industries[k].numResources <= 100 && this.storage[this.game.industries[k].resType] >= 100) {
                 this.storage[this.game.industries[k].resType] = Math.floor(this.storage[this.game.industries[k].resType]) - 100; 
-                console.log(this.storage[this.game.industries[k].resType]);
+
                 canWalk = generateWalker(this.roadTiles, this.game.industries[k].roadTiles);
                 cartBoi = null;
                 if (canWalk != null) {
