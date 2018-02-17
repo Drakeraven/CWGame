@@ -49,9 +49,9 @@ Walker4.prototype.update = function () {
         let that = this;
         this.easyStar.findPath(Math.floor(this.x), Math.floor(this.y), this.destX, this.destY, function (path) {
             if (path === null) {
-                console.log("No path :("); 
+                //console.log("No path :("); 
             } else {
-                console.log("Path! The first Point is " + path[0].x + " " + path[0].y);
+                //console.log("Path! The first Point is " + path[0].x + " " + path[0].y);
                 that.path = path;
                 that.next = that.path.shift();
                 that.isWalking = true;
@@ -118,7 +118,7 @@ function barCartMan(game, img, map, lX, lY)  {
     this.animation["SE"] = new Animation(img, 0, 2, 60, 60, 12, aSpeed, 12, true);
     this.animation["SW"] = new Animation(img, 0, 3, 60, 60, 12, aSpeed, 12, true);
     this.currAnimation = this.animation["NE"];
-    this.loadType = "barley"
+    this.loadType = "barley";
 
 }
 

@@ -33,14 +33,14 @@ farming.prototype.update = function () {
     this.roadTiles = findRoad(this.buffer);
     //if (this instanceof grainFarm) console.log("grainssss");
     //if (this instanceof barFarm) console.log("barleeyyy");
-
     this.growTime += this.game.clockTick;
     harvestCheck = Math.floor(this.game.timer.gameTime) % this.harvestTime;
 
     if (!this.harvested && harvestCheck == 0 && this.game.timer.gameTime >= growSpeed * 6) {
         this.harvested = true;
-        if ( Math.floor(this.growTime) < this.harvestTime) {
-            this.yield -= (5 - Math.floor(this.growTime)) * 50;
+        if (Math.floor(this.growTime) < this.harvestTime) {
+            this.yield = this.maxYield - ((this.harvestTime - this.growTime) * 50);
+
         }
         if (this instanceof grainFarm) {
             this.genWalker(this.game.granaries);
@@ -100,6 +100,7 @@ grainFarm.prototype.constructor = grainFarm;
 
 grainFarm.prototype.pushBoi = function (canWalk) {
     var gcm = new grCartMan(this.game, ASSET_MANAGER.getAsset('./img/grainCartMan.png'), walkerMap, canWalk[0], canWalk[1]);
+    gcm.loadCount = this.yield;
     gcm.destX = canWalk[2];
     gcm.destY = canWalk[3];
     this.game.addWalker(gcm);
@@ -118,6 +119,7 @@ barFarm.prototype.constructor = barFarm;
 
 barFarm.prototype.pushBoi = function (canWalk) {
     var bcm = new barCartMan(this.game, ASSET_MANAGER.getAsset('./img/barleyCartMan.png'), walkerMap, canWalk[0], canWalk[1]);
+    bcm.loadCount = this.yield;
     bcm.destX = canWalk[2];
     bcm.destY = canWalk[3];
     bcm.game.addWalker(bcm);
@@ -136,6 +138,7 @@ flaxFarm.prototype.constructor = flaxFarm;
 
 flaxFarm.prototype.pushBoi = function (canWalk) {
     var fcm = new fCartMan(this.game, ASSET_MANAGER.getAsset('./img/flaxCartMan.png'), walkerMap, canWalk[0], canWalk[1]);
+    fcm.loadCount = this.yield;
     fcm.destX = canWalk[2];
     fcm.destY = canWalk[3];
     this.game.addWalker(fcm);

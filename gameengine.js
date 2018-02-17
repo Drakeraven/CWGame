@@ -183,7 +183,7 @@ GameEngine.prototype.addBuilding = function (entity) {
 }
 
 GameEngine.prototype.addWalker = function (walker) {
-    console.log("added walker");
+   // console.log("added walker");
     this.walkers.push(walker);
 }
 
@@ -243,8 +243,8 @@ GameEngine.prototype.update = function () {
     //give industry employees here :D 
 
     //give palace employees first >:) 
-    this.gameWorld.palace.numEmployed = 0; 
-    if (working > this.gameWorld.palace.numEmpNeeded) {
+    if (this.gameWorld.palace != null && working > this.gameWorld.palace.numEmpNeeded) {
+        this.gameWorld.palace.numEmployed = 0; 
         this.gameWorld.palace.numEmployed = this.gameWorld.palace.numEmpNeeded;
     }
 
