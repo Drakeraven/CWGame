@@ -61,7 +61,7 @@ bubbleBuilding.prototype.update = function () {
 bubbleBuilding.prototype.remove = function () {
     //iterate over houses in the area of effect and disable benefits
     for (i = 0; i < this.game.housingArr.length; i++) {
-        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y)) {
+        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y), this, this.game.housingArr[i]) {
             if (this instanceof Well || this instanceof WaterSupply) {
                 this.game.housingArr[i].waterLevel = false;
             } else if (this instanceof FireHouse) {

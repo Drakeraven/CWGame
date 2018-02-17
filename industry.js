@@ -61,7 +61,7 @@ industry.prototype.update = function () {
     }
 
     for (i = 0; i < this.game.housingArr.length; i++) {
-        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y)) {
+        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y), this, this) {
             if (this instanceof Potter) {
                 this.game.housingArr[i].potterLevel = true;
             } else if (this instanceof Weaver) {
@@ -119,7 +119,7 @@ industry.prototype.draw = function (ctx) {
 industry.prototype.remove = function () {
     //iterate over houses in the area of effect and disable benefits
     for (i = 0; i < this.game.housingArr.length; i++) {
-        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y)) {
+        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y), this, this) {
             if (this instanceof Potter) {
                 this.game.housingArr[i].potterLevel = false;
             } else if (this instanceof Weaver) {
