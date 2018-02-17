@@ -102,6 +102,7 @@ grainFarm.prototype.constructor = grainFarm;
 
 grainFarm.prototype.pushBoi = function (canWalk, bRef) {
     var gcm = new grCartMan(this.game, ASSET_MANAGER.getAsset('./img/grainCartMan.png'), walkerMap, canWalk[0], canWalk[1], bRef);
+    gcm.bRef = bRef;
     gcm.loadCount = this.yield;
     gcm.destX = canWalk[2];
     gcm.destY = canWalk[3];
@@ -121,6 +122,7 @@ barFarm.prototype.constructor = barFarm;
 
 barFarm.prototype.pushBoi = function (canWalk, bRef) {
     var bcm = new barCartMan(this.game, ASSET_MANAGER.getAsset('./img/barleyCartMan.png'), walkerMap, canWalk[0], canWalk[1], bRef);
+    bcm.bRef = bRef;
     bcm.loadCount = this.yield;
     bcm.destX = canWalk[2];
     bcm.destY = canWalk[3];
@@ -140,6 +142,7 @@ flaxFarm.prototype.constructor = flaxFarm;
 
 flaxFarm.prototype.pushBoi = function (canWalk, bRef) {
     var fcm = new fCartMan(this.game, ASSET_MANAGER.getAsset('./img/flaxCartMan.png'), walkerMap, canWalk[0], canWalk[1], bRef);
+    fcm.bRef = bRef;
     fcm.loadCount = this.yield;
     fcm.destX = canWalk[2];
     fcm.destY = canWalk[3];

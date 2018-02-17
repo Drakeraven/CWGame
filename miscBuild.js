@@ -85,7 +85,6 @@ Granary.prototype.constructor = Granary;
 Granary.prototype.update = function () {
     Entity.prototype.update.call(this);
     this.roadTiles = findRoad(this.buffer);
-    console.log(this.roadTiles);
 
     if (this.numEmployed < this.numEmpNeeded) {
         this.currAnim = this.closedAnim;
@@ -200,6 +199,7 @@ function StoreYard(game, x, y) {
     this.currAnim = this.storeAnims[0];
     this.renderX = 64;
     this.renderY = 46;
+    this.numEmployed = 0;
     this.numEmpNeeded = 12;
     this.storage = [];
     this.storage["barley"] = 0;
@@ -217,6 +217,7 @@ StoreYard.prototype.constructor = StoreYard;
 
 StoreYard.prototype.update = function () {
     this.roadTiles = findRoad(this.buffer);
+    //console.log(this.roadTiles);
     //check if a cart has arrived for u
     if (this.numEmployed < this.numEmpNeeded) {
         this.currAnim = this.storeAnims[0];
@@ -224,7 +225,8 @@ StoreYard.prototype.update = function () {
     } else {
         this.currAnim = this.storeAnims[this.changeAnim()];
         for (var i = 0; i < this.game.walkers.length; i++) {
-            if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
+            //console.log(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y);
+            if (arrived(this.buffer, Math.floor(this.game.walkers[i].x), Math.floor(this.game.walkers[i].y), this, this.game.walkers[i].bRef)) {
                 if (this.game.walkers[i] instanceof cCartMan
                     || this.game.walkers[i] instanceof barCartMan
                     || this.game.walkers[i] instanceof fCartMan) {

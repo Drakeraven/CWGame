@@ -74,7 +74,7 @@ Walker4.prototype.walkPath = function () {
         this.dX = setDirection(Math.floor(this.x), this.next.x);
         this.dY = setDirection(Math.floor(this.y), this.next.y);
         this.currAnimation = this.animation[setFace(this.dX, this.dY)];
-    } else if (this.path.length == 0) {
+    } else if (this.path.length == 0 && arriv) {
         this.dX = 0;
         this.dY = 0;
         this.isWalking = false;
