@@ -38,6 +38,7 @@ industry.prototype.update = function () {
 
     for (var i = 0; i < this.game.walkers.length; i++) {//loop through walkers
         if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
+            console.log("ping!", this.game.walkers.length);
             if (this.game.walkers[i].loadType == this.resType && this.numResources < 100) {
                 this.numResources += this.game.walkers[i].loadCount;
                 this.game.walkers[i].removeFromWorld = true;
@@ -124,6 +125,7 @@ function Weaver(game, x, y) {
     this.placeCost = 50;
     this.merchCost = 50;
     this.prodTime = 10;
+    this.numEmployed = 12;
 }
 
 Weaver.prototype = new industry();
@@ -164,8 +166,6 @@ function Potter(game, x, y) {
     this.placeCost = 70;
     this.merchCost = 55;
     this.prodTime = 20;
-    //FOR TESTING 
-    this.numEmployed = 16;
 }
 
 Potter.prototype = new industry();

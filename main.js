@@ -258,13 +258,18 @@ ASSET_MANAGER.downloadAll(function () {
     //var gF = new grainFarm(gameEngine, 10, 7);
     //gameEngine.addEntity(gF);
 
-    //var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, 3, 11, 2, 2);
-    ////gameEngine.addIndustry(weaver);
+    var weaver = new Weaver(gameEngine, 3, 11);
+    gameEngine.addIndustry(weaver);
 
     //var hunt = new huntLodge(gameEngine, 3, 2);
     //gameEngine.addEntity(hunt);
+<<<<<<< HEAD
     /*var potter = new Bazaar(gameEngine, 14, 11);
     gameEngine.addIndustry(potter);
+=======
+    //var potter = new Potter(gameEngine, 14, 11);
+    //gameEngine.addIndustry(potter);
+>>>>>>> 96ed98064c038a9184f480f92ae1885c89f94835
 
     var well = new Housing(gameEngine, 10, 7); 
     gameEngine.addHouse(well);
@@ -274,9 +279,15 @@ ASSET_MANAGER.downloadAll(function () {
 
     //var mine = new goldMine(gameEngine, 3, 11);
     //var pit = new clayPit(gameEngine, 3, 2);
+<<<<<<< HEAD
     //gameEngine.addEntity(mine);
     //gameEngine.addEntity(pit);
     //var yard = new StoreYard(gameEngine, 10, 7);
+=======
+   // gameEngine.addEntity(mine);
+   // gameEngine.addEntity(pit);
+    var yard = new StoreYard(gameEngine, 10, 7);
+>>>>>>> 96ed98064c038a9184f480f92ae1885c89f94835
     //var yard2 = new StoreYard(gameEngine, 6, 2);
     //gameEngine.addYard(yard);
     //gameEngine.addYard(yard2);

@@ -86,7 +86,7 @@ GameEngine.prototype.startInput = function () {
         fixY = event.clientY - (event.clientY % 15);
         console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY + '(board coord at )' + that.isototwodX(fixX, fixY) + ' ' + that.isototwodY(fixX, fixY));
         //copstore = new Weaver(ASSET_MANAGER.getAsset('./img/Weaver.png'), that, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY), 2, 2);
-        copstore = new barFarm(that, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
+        copstore = new flaxFarm(that, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
         that.map.addThing(copstore, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
     });
     //hotkey
@@ -302,6 +302,13 @@ GameEngine.prototype.update = function () {
 
         if (!walker.removeFromWorld) {
             walker.update();
+        }
+    }
+
+    for (var i = 0; i < this.walkers.length; i++) {
+        var walker = this.walkers[i];
+        if (walker.dX == 0 && walker.dY == 0) {
+            walker.removeFromWorld = true;
         }
     }
 
