@@ -88,8 +88,9 @@ GameWorld.prototype.remPop = function (num) {
 GameWorld.prototype.getWorkForce = function () {
     return Math.floor(this.population * .40); //40% population is work force, change how I'm doing it??
 }
-GameWorld.prototype.toStringStats = function() {
-
+GameWorld.prototype.toStringGame = function() {
+    str = "Prosperity: " + this.prosperity
+    return str;
 };
 
 // the "main" code begins here

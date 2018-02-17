@@ -71,7 +71,6 @@ AssetManager.prototype.assetQueueDownloads = function() {
     ASSET_MANAGER.queueDownload("./img/Potter.png");
     ASSET_MANAGER.queueDownload("./img/farm1.png");
     ASSET_MANAGER.queueDownload("./img/taxHouse.png");
-    ASSET_MANAGER.queueDownload("./img/palace.png");
     ASSET_MANAGER.queueDownload("./img/FarmPlots.png");
     ASSET_MANAGER.queueDownload("./img/bazaarLady 22x42.png");
     ASSET_MANAGER.queueDownload("./img/FireDude1.png")
