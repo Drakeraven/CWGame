@@ -151,3 +151,7 @@ function Housing(game, x, y) {
 
 Housing.prototype = new house();
 Housing.prototype.constructor = Housing;
+Housing.prototype.toStringStats = function() {
+    str = "";//TODO
+    return str;
+}

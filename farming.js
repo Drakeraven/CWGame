@@ -85,6 +85,10 @@ farming.prototype.pushBoi = function (canWalk, bRef) {
 
 }
 
+farming.prototype.toStringStats = function() {
+    str = "";//TODO
+    return str;
+}
 function grainFarm(game, x, y) {
     farming.call(this, game, x, y);
     this.animHarvest = new Animation(this.img, 0, 2, 178, 91, 6, growSpeed, 6, true);
@@ -112,7 +116,7 @@ function barFarm(game, x, y) {
     this.maxYield = 400;
 }
 
-barFarm.prototype = new farming();
+barFarm.prototype = Object.create(farming.prototype);
 barFarm.prototype.constructor = barFarm;
 
 barFarm.prototype.pushBoi = function (canWalk, bRef) {
@@ -131,7 +135,7 @@ function flaxFarm(game, x, y) {
     this.maxYield = 400;
 }
 
-flaxFarm.prototype = new farming();
+flaxFarm.prototype = Object.create(farming.prototype);
 flaxFarm.prototype.constructor = flaxFarm;
 
 flaxFarm.prototype.pushBoi = function (canWalk, bRef) {
