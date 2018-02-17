@@ -46,9 +46,10 @@ GameEngine.prototype.merge = function (left, right) {
       result.push(right[indexRight])
       indexRight++
     }
-    return result.concat(left.slice(indexLeft)).concat(right.slice(indexRight))
+    return result.concat(left.slice(indexLeft)).concat(right.slice(indexRight));
 }
 
+}
 Timer.prototype.tick = function () {
     var wallCurrent = Date.now();
     var wallDelta = (wallCurrent - this.wallLastTimestamp) / 1000;
@@ -105,7 +106,7 @@ GameEngine.prototype.twodtoisoX = function (x, y) {
 GameEngine.prototype.initcamera = function () {
   this.cameraoffX =(this.map.mapList.length / 2);
   this.cameraoffY = (this.map.mapList[1].length / 2) * 2;
-
+}
 
 GameEngine.prototype.twodtoisoX = function (x, y) {
     return (((x - y) + this.cameraoffX) * 29);
@@ -387,10 +388,10 @@ GameEngine.prototype.update = function () {
         }
     }
 
-    for (var i = 0; i < this.entities.length; i++) { 
-        var farm = this.entities[i]; 
-        if ((farm instanceof clayPit || farm instanceof huntLodge 
-            || farm instanceof goldMine) &&  working > farm.numEmpNeeded) { 
+    for (var i = 0; i < this.entities.length; i++) {
+        var farm = this.entities[i];
+        if ((farm instanceof clayPit || farm instanceof huntLodge
+            || farm instanceof goldMine) &&  working > farm.numEmpNeeded) {
                 farm.numEmployed = farm.numEmpNeeded;
                 working -= farm.numEmpNeeded;
         }
