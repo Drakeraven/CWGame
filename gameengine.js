@@ -151,12 +151,18 @@ function removeRoad(gameEngine, x, y) {
 function removeBuilding(gameEngine, x, y) {
                   console.log('hi?');
     if (gameEngine.map.mapList[y][x].thing != null) {
-
+        var thing = gameEngine.map.mapList[y][x].thing;
         walkerMap[x][y] = mapData[x][y];
         gameEngine.map.mapList[y][x].tileType = mapData[x][y];
         gameEngine.map.mapList[y][x].thing.removeFromWorld = true;
-        gameEngine.map.mapList[y][x].thing == null
+        for (i = thing.x; i < thing.x + thing.bWidth; i++) {
+          for(j = thing.y; j < thing.y + thing.bHeight; j++) {
+            if(gameEngine.map.mapList[j][i].thing != null) {
+              gameEngine.map.mapList[j][i].thing = null;
+            }
+          }
     }
+}
 }
 var isClearing = false;
 var isDrawing = false;
