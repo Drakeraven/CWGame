@@ -237,7 +237,9 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
 
         case "Hunting Lodge":
             entity = new huntLodge(that, x, y);
-            this.entities.push(entity);
+            this.addEntity(entity);
+            break; 
+            
         case "Well":
             entity = new Well(that, x, y);
             this.entities.push(entity);
@@ -311,6 +313,7 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
 
 //Cynthia says should I use these functiosn in switch? is it really a good idea to be logging everything?
 GameEngine.prototype.addEntity = function (entity) {
+    console.log(entity);
     console.log('added entity');
     this.entities.push(entity);
 }
