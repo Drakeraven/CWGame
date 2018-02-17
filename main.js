@@ -229,6 +229,9 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.init(ctx);
     gameEngine.map.readMap(new mapData().testMap);
     //var gameWorld = new gameWorld();
+    //GUYS WE NEED TO CLEAN THESE TESTS, THIS SECTION KINDA MESSY
+
+
     //var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), walkerMap, 0, 1);
     //ecm.destX = 6;
     //ecm.destY = 18;

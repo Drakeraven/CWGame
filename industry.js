@@ -90,7 +90,10 @@ industry.prototype.update = function () {
         }
     }
 }
-
+farming.prototype.toStringStats = function() {
+    str = "";//TODO
+    return str;
+}
 industry.prototype.draw = function (ctx) {
     pt1 = this.game.twodtoisoX(this.x, this.y) - this.renderX;
     pt2 = this.game.twodtoisoY(this.x, this.y) - this.renderY;

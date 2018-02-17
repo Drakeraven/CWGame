@@ -95,3 +95,9 @@ bazaar.prototype.draw = function (ctx) {
     ctx.fillRect(pt1, pt2, 5, 5);
     this.currAnim.drawFrame(this.game.clockTick, ctx, pt1, pt2);
 }
+
+bazaar.prototype.toStringStats = function () {
+    str = "Employeed: " + this.numEmployed + "\tEmployees Needed: " + (this.maxEmployed - this.numEmployed) + 
+            "\nRange: " + this.range + "\tFunds: " + this.funds + "\n";
+    return str;
+}
