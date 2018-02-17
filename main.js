@@ -1,4 +1,5 @@
 
+
 function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, sheetWidth, frameDuration, frames, loop) {
     this.spriteSheet = spriteSheet;
     this.startX = startX * frameWidth;
@@ -120,4 +121,3 @@ $(function() {
 
     })
 });
-
