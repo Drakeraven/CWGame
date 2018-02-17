@@ -49,32 +49,31 @@ Map.prototype.readMap = function (mapData) {
 // tiling going down
 function Tile(game, tileType, x, y) {
     //this.animation = new Animation(ASSET_MANAGER.getAsset("./img/grass.png"), 0, 0, 58, 30, 1, .15, 1, true);
-    this.gfxString = '';
-    if (tileType === 0) {
-        this.gfxString = "./img/grass.png";
-    } else {
-        this.gfxString = "./img/Land1a_00002.png";//road img
-    }
     this.thing;
-    this.image = new Image();
-    this.image.src = this.gfxString;
+    this.grassImage = new Image();
+    this.grassImage.src = "./img/grass.png";
+    this.roadImage = new Image();
+    this.roadImage.src = "./img/Land1a_00002.png";
     this.game = game;
     this.x = x;
     this.y = y;
     this.tileType = tileType;
 }
 
+Tile.prototype = Object.create(Entity.prototype);
+Tile.prototype.constructor = Tile;
+
 Tile.prototype.getThing = function () {
     return this.thing;
 }
 Tile.prototype.draw = function (ctx) {
+    let image = this.tileType == 1 ? this.roadImage : this.grassImage;
     ctx.drawImage(
-        this.image,
+        image,
         this.game.twodtoisoX(this.x, this.y),
         this.game.twodtoisoY(this.x, this.y)
     );
 }
 
-Tile.prototype = new Entity();
-Tile.prototype.constructor = Tile;
+
 

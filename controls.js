@@ -11,7 +11,7 @@ function displayStats(gameEngine, x, y) {
     displayStr = gameEngine.map.mapList[y][x].toStringStats();
     $('.toStringStats').text(displayStr);
 }
-function setHotKeys(event) {
+function setHotKeys(that, event) {
     if (event.code === "KeyH") {
         setButton("Housing");
     } else if (event.code === "KeyF") {

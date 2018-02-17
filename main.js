@@ -12,7 +12,7 @@ function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, sheetWi
     this.elapsedTime = 0;
     this.loop = loop;
 }
-var walkerMap = new mapData().testMap;
+var walkerMap = new MapData().testMap;
 
 function updateMapData(x, y, xDim, yDim, type) {
   for (i = x; i < x + xDim && x + xDim < walkerMap.length; i++) {
@@ -95,7 +95,8 @@ GameWorld.prototype.toStringStats = function() {
 // the "main" code begins here
 
 var ASSET_MANAGER = new AssetManager();
-var walkerMap = new mapData().testMap;
+var walkerMap = new MapData().testMap;
+var mapData = new MapData().testMap;//THIS IS THE ORIGINAL MAP- NOT CHANGED
 ASSET_MANAGER.assetQueueDownloads();// found in assetmanager.js
 
 
@@ -107,7 +108,7 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.gameWorld = new GameWorld();
     gameEngine.map = new Map(gameEngine);
     gameEngine.init(ctx);
-    gameEngine.map.readMap(new mapData().testMap);
+    gameEngine.map.readMap(new MapData().testMap);
     
     gameEngine.start();
     console.log(walkerMap);

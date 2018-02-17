@@ -124,28 +124,49 @@ GameEngine.prototype.isototwodX = function (x, y) {
 GameEngine.prototype.isototwodY = function (x, y) {
     return Math.floor((((y / 15) + this.cameraoffY) - ((x / 29) - this.cameraoffX)) / 2);
 }
+//draws road on map using given x and y
+function drawRoad(gameEngine, x, y) {
+    walkerMap[x][y] = 1;
+    gameEngine.map.mapList[y][x].tileType = 1; // or should these be seperate?
+}
 
+//sets tiles to original.
+function removeRoad(gameEngine, x, y) {
+    walkerMap[x][y] = mapData[x][y];
+    gameEngine.map.mapList[y][x].tileType = mapData[x][y];
+}
+
+//"removes" building from map
+function removeBuilding(gameEngine, x, y) {
+    if (gameEngine.map.mapList[y][x].tileType == 2) {
+        walkerMap[x][y] = mapData[x][y];
+        gameEngine.map.mapList[y][x].tileType = mapData[x][y];
+        gameEngine.map.mapList[y][x].thing.removeFromWorld = true;
+    }
+}
+var isClearing = false;
 var isDrawing = false;
 //Listens to input and events
 GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
-    this.ctx.canvas.addEventListener("mouseDown", function (event) {//click down
+    this.ctx.canvas.addEventListener("mousedown", function (event) {//click down
         //adjusts x and y
         fixX = event.clientX - (event.clientX % 29);
         fixY = event.clientY - (event.clientY % 15);
         //converts to iso
-        x = isototwodX(fixX, fixY);
-        y = isototwodY(fixX, fixY);
-        selection = $('.pharoh-button').hasClass("selected").attr("title");
+        x = that.isototwodX(fixX, fixY);
+        y = that.isototwodY(fixX, fixY);
+        selection = $('.pharoh-button.selected').attr("title");
         if (selection == "Roads") {
             isDrawing = true;
-            drawRoad();
+            drawRoad(that, x, y);
         } else if (selection == "Clear Land") {
+            isClearing = true;
             if (walkerMap[x][y] == 1) {
-                removeRoad();
+                removeRoad(that, x, y);
             } else if (walkerMap[x][y] == 2) {
-                removeBuilding(x, y);
+                removeBuilding(that, x, y);
             }
 
         } else if (selection == "Select") {
@@ -160,42 +181,33 @@ GameEngine.prototype.startInput = function () {
 
 
     });
-    //draws road on map using given x and y
-    function drawRoad(x, y) {
-        walkerMap[x][y] = 1;
-        this.map.mapList[y][x].tiletype = 1; // or should these be seperate?
-    }
 
-    //sets tiles to original.
-    function removeRoad(x, y) {
-        walkerMap[x][y] = mapdata[x][y];
-        this.map.mapList[y][x].tiletype = mapdata[x][y];
-    }
 
-    //"removes" building from map
-    function removeBuilding(x, y) {
-        walkerMap[x][y] = mapdata[x][y];
-        this.map.mapList[y][x].tiletype = mapdata[x][y];
-        this.map.mapList[y][x].removeFromWorld = true;
-    }
-
-    this.ctx.canvas.addEventListener("drag", function (event) {//click hold
+    this.ctx.canvas.addEventListener("mousemove", function (event) {//click hold
         //Only calls buildoncanvas is selection is "Road"
         //adjusts x and y
+
         fixX = event.clientX - (event.clientX % 29);
         fixY = event.clientY - (event.clientY % 15);
         //converts to iso
-        x = isototwodX(fixX, fixY);
-        y = isototwodY(fixX, fixY);
-
-        if (isDrawingRoad) {
-            drawRoad(x, y);
+        x = that.isototwodX(fixX, fixY);
+        y = that.isototwodY(fixX, fixY);
+        if (isClearing) {
+            if (walkerMap[x][y] == 1) {
+                removeRoad(that, x, y);
+            } else if (walkerMap[x][y] == 2) {
+                removeBuilding(that, x, y);
+            }
+        }
+        if (isDrawing) {
+            drawRoad(that, x, y);
         }
 
     });
 
-    this.ctx.canvas.addEventListener("mouseUp", function (event) {//click release
+    this.ctx.canvas.addEventListener("mouseup", function (event) {//click release
         isDrawing = false;
+        isClearing = false;
     });
 
     this.ctx.canvas.addEventListener("contextmenu", function (event) {
@@ -204,19 +216,19 @@ GameEngine.prototype.startInput = function () {
 
     //Handles Hot Keys
     this.ctx.canvas.addEventListener("keydown", function (event) {
-        setHotKeys(event);//in controls
+        setHotKeys(that, event);//in controls
     });
     console.log('Input started');
 }
 
 GameEngine.prototype.buildOnCanvas = function (x, y) {
-    let selection = $('.pharoh-button').hasClass("selected").attr("title");
+    let selection = $('.pharoh-button.selected').attr("title");
     if (selection != "Roads") {
         //Will return nothing if no buttons are selected
-        let selectedButton = $('#selectId').val();
+        let selectedButton = $('#selectId');
         //this is check, so we don't call .attr on null
         if (selectedButton.length > 0) {
-            selection = selectedButton.attr('value');
+            selection = selectedButton.val();
         }
     }
     var that = this;
@@ -232,87 +244,84 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
 
         case "Grain Farm":
             entity = new grainFarm(that, x, y);
-            entities.push(entity);
+            this.entities.push(entity);
             break;
 
         case "Barley Farm":
             entity = new barFarm(that, x, y);
-            entities.push(entity);
+            this.entities.push(entity);
             break;
 
         case "Flax Farm":
             entity = new flaxFarm(that, x, y);
-            entities.push(entity);
+            this.entities.push(entity);
             break;
 
         case "Hunting Lodge":
             entity = new huntLodge(that, x, y);
-            entities.push(entity);
+            this.entities.push(entity);
         case "Well":
             entity = new Well(that, x, y);
-            entities.push(entity);
+            this.entities.push(entity);
             break;
 
         case "Water Supply":
             entity = new WaterSupply(that, x, y);
-            entities.push(entity);
+            this.entities.push(entity);
             break;
 
         case "Bazaar":
             entity = new bazaar(that, x, y);
-            entities.push(entity);
+            this.entities.push(entity);
             break;
 
         case "Granary":
             entity = new Granary(that, x, y);
-            granaries.push(entity);
+            this.granaries.push(entity);
             break;
 
         case "Storage Yard":
-            entity = new StorageYard(that, x, y);
-            yards.push(entity);
+            entity = new StoreYard(that, x, y);
+            this.yards.push(entity);
             break;
 
         case "Weaver":
             entity = new Weaver(that, x, y);
-            entities.push(entity);
+            this.entities.push(entity);
             break;
 
         case "Brewery":
             entity = new Brewery(that, x, y);
-            entities.push(entity);
+            this.entities.push(entity);
             break;
 
         case "Potter":
             entity = new Potter(that, x, y);
-            entities.push(entity);
+            this.entities.push(entity);
             break;
         case "Clay Pit":
             entity = new clayPit(that, x, y);
-            entities.push(entity);
+            this.entities.push(entity);
             break;
         case "Gold Mine":
             entity = new goldMine(that, x, y);
-            entities.push(entity);
+            this.entities.push(entity);
 
             break;
         case "Fire House":
             entity = new FireHouse(that, x, y);
-            entities.push(entity);
+            this.entities.push(entity);
 
             break;
         case "Police Station":
             entity = new CopHouse(that, x, y);
-            entities.push(entity);
+            this.entities.push(entity);
 
             break;
         case "Tax House":
             entity = new TaxHouse(that, x, y);
-            entities.push(entity);
+            this.entities.push(entity);
             break;
-        case "Roads":
-            entity = new Road(that, x, y);//will be defined in main, later to be placed with map stuff
-
         default:
             console.log('nuthin2seahear')
             break
