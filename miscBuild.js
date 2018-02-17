@@ -50,7 +50,7 @@ Palace.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-const maxFood = 1000; 
+const maxFood = 1000;
 
 Palace.prototype.toStringStats = function() {
     str = "Employees: " + this.numEmployed + "Employees Needed: " + this.numEmpNeeded;//TODO
@@ -67,12 +67,12 @@ function Granary(game, x, y) {
     this.renderX = 33;
     this.renderY = 71;
     this.placeCost = 50;
-    this.numEmployed = 0; 
+    this.numEmployed = 0;
     this.numEmpNeeded = 20;
     this.foodSupply = 0;
-    this.foodMax = 1000; 
-    this.workTime = this.game.timer.gameTime; 
-    this.pushTime = 15; 
+    this.foodMax = 1000;
+    this.workTime = this.game.timer.gameTime;
+    this.pushTime = 15;
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
     this.roadTiles = [];
     this.game.addEntity(this);
@@ -85,14 +85,15 @@ Granary.prototype.constructor = Granary;
 Granary.prototype.update = function () {
     Entity.prototype.update.call(this);
     this.roadTiles = findRoad(this.buffer);
+    console.log(this.roadTiles);
 
     if (this.numEmployed < this.numEmpNeeded) {
         this.currAnim = this.closedAnim;
         this.numEmployed = 0;
     } else {
         this.currAnim = this.openAnim;
-        //food only storage yard, any and all food gets sent here then to the bazaar 
-        //NEED: take in walkers W/ food 
+        //food only storage yard, any and all food gets sent here then to the bazaar
+        //NEED: take in walkers W/ food
         for (var i = 0; i < this.game.walkers.length; i++) {
             if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
                 console.log("Arrived");
@@ -104,11 +105,11 @@ Granary.prototype.update = function () {
                         this.foodSupply += this.game.walkers[i].loadCount;
                         this.game.walkers[i].removeFromWorld = true;
                         console.log("Food Amt: ", this.foodSupply)
-                    } else { 
+                    } else {
                         //code to send the walker somewhere else, or kill it
-                        for (var j = 0; j < this.game.granaries.length; j++  
-                                && this.game.granaries[i] != this && this.game.granaries[i].foodLevel + this.game.walkers[i].loadCount <= this.foodMax) { 
-                            //generate walker to the granarie 
+                        for (var j = 0; j < this.game.granaries.length; j++
+                                && this.game.granaries[i] != this && this.game.granaries[i].foodLevel + this.game.walkers[i].loadCount <= this.foodMax) {
+                            //generate walker to the granarie
                             walkerX = Math.floor(this.game.walkers[i].x);
                             walkerY = Math.floor(this.game.walkers[i].y);
                             canWalk = generateWalker([[walkerX, walkerY]], this.game.granaries[j].roadTiles,);
@@ -123,16 +124,16 @@ Granary.prototype.update = function () {
                 }
             }
         }
-        //SEND OUT WALKERS to bazaar 
-        
+        //SEND OUT WALKERS to bazaar
+
         if (this.game.timer.gameTime - this.workTime >= this.pushTime) {
-            this.workTime = this.game.timer.gameTime;      
+            this.workTime = this.game.timer.gameTime;
             for (var i = 0; i < this.game.industries.length; i++){
-                //send food to bazaar! 
+                //send food to bazaar!
                 if (this.game.industries[i] instanceof Bazaar) {
-                    if (this.foodSupply > 100 && this.game.industries[i].foodLevel < 100) { 
+                    if (this.foodSupply > 100 && this.game.industries[i].foodLevel < 100) {
                             this.genWalker(this.game.industries[i], 100, "food", this.game.industries[i]);
-                            this.foodLevel -= 100; 
+                            this.foodLevel -= 100;
                     }
                 }
             }
@@ -168,7 +169,7 @@ Granary.prototype.pushBoi = function (canWalk, funds, type, bRef) {
     console.log(funds, type);
     if (type === "food") {
         var ccm = new mCartMan(this.game, ASSET_MANAGER.getAsset("./img/meatCartMan.png"), walkerMap, canWalk[0], canWalk[1], bRef);
-        ccm.loadCount = funds; 
+        ccm.loadCount = funds;
         ccm.destX = canWalk[2];
         ccm.destY = canWalk[3];
         this.game.addWalker(ccm);
@@ -182,7 +183,7 @@ Granary.prototype.toStringStats = function() {
 function StoreYard(game, x, y) {
     this.game = game;
     this.workTime = this.game.timer.gameTime
-    this.pushTime = 7; 
+    this.pushTime = 7;
     this.img = ASSET_MANAGER.getAsset("./img/StoreYard.png");
     this.bWidth = 3;
     this.bHeight = 3;
@@ -212,7 +213,7 @@ function StoreYard(game, x, y) {
 StoreYard.prototype = new Entity();
 StoreYard.prototype.constructor = StoreYard;
 //TODO: For farms/Hunting Lodge, check if a yard can take it before sending
-//TODO: take reference to destination for walkers, prevent accidental eating 
+//TODO: take reference to destination for walkers, prevent accidental eating
 
 StoreYard.prototype.update = function () {
     this.roadTiles = findRoad(this.buffer);
@@ -252,11 +253,11 @@ StoreYard.prototype.update = function () {
                 }
             }
         }
-        if (this.game.timer.gameTime - this.workTime >= this.pushTime) { 
+        if (this.game.timer.gameTime - this.workTime >= this.pushTime) {
             this.workTime = this.game.timer.gameTime;
             for (var k = 0; k < this.game.industries.length; k++) {
                 if (this.game.industries[k].numResources <= 100 && this.storage[this.game.industries[k].resType] >= 100) {
-                    this.storage[this.game.industries[k].resType] = Math.floor(this.storage[this.game.industries[k].resType]) - 100; 
+                    this.storage[this.game.industries[k].resType] = Math.floor(this.storage[this.game.industries[k].resType]) - 100;
                     canWalk = generateWalker(this.roadTiles, this.game.industries[k].roadTiles);
                     cartBoi = null;
                     if (canWalk != null) {
@@ -281,7 +282,7 @@ StoreYard.prototype.update = function () {
             }
         }
 
-    } 
+    }
     //if it has, and you have space, update your count and kill the walker
     //if you don't have space, try to send it off to another yard
     //if you can't send it off, kill the walker.
@@ -322,4 +323,3 @@ StoreYard.prototype.changeAnim = function () {
         return 4;
     }
 }
-

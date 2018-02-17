@@ -1,6 +1,6 @@
 findRoad = function (buffer) {
     result = [];
-    
+    //console.log(walkerMap);
     //gathers tiles on top/bottom
     for (var i = buffer.x; i <= buffer.x + buffer.width; i++) {
         temp = [buffer.y, i];
