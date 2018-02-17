@@ -7,26 +7,22 @@ function Map(gameEngine) {
 }
 Map.prototype.constructor = Map;
 
-Map.prototype.addThing = function (thing) {
-    if (this.mapList[y][x].thing == null & thing != null) {
-        updateMapData(x, y, thing.bWidth, thing.bHeight, 2);
-        this.mapList[y][x].thing = thing;
-        this.mapList[y][x].tileType = 2;
-        this.game.addEntity(thing);
-        if (thing.dimensionX > 1) {
-            console.log('hi');
-            for (i = x + 1; i < x + thing.dimensionX; i++) {
-                this.mapList[y][i].thing = thing;
-                console.log(this.mapList[y][i].thing)
-            }
-        }
-        if (thing.dimensionY > 1) {
-            for (i = y + 1; i < y + thing.dimensionY; i++) {
-                this.mapList[i][x].thing = thing;
-                console.log(this.mapList[y][i].thing)
-            }
-        }
+Map.prototype.addThing = function(thing) {
+  var x = thing.x;
+  var y = thing.y;
+  if(this.mapList[y][x].thing == null && this.mapList[y + 1][x + 1].thing == null &&thing != null) {
+    console.log('hi');
+    updateMapData(x, y, thing.bWidth, thing.bHeight, 2);
+    this.mapList[y][x].thing = thing;
+    this.mapList[y][x].tileType = 2;
+    this.game.addEntity(thing);
+    for (i = thing.x; i < thing.x + thing.bWidth && x + thing.bWidth < walkerMap.length; i++) {
+      for(j = thing.y; j < thing.y + thing.bHeight && y + thing.bHeight < walkerMap[i].length; j++) {
+        this.mapList[j][i].thing = thing;
+      }
     }
+    console.log(walkerMap);
+  }
 }
 Map.prototype.readMap = function (mapData) {
 
@@ -48,18 +44,23 @@ Map.prototype.readMap = function (mapData) {
 
 // tiling going down
 function Tile(game, tileType, x, y) {
-    //this.animation = new Animation(ASSET_MANAGER.getAsset("./img/grass.png"), 0, 0, 58, 30, 1, .15, 1, true);
-    this.thing;
-    this.grassImage = new Image();
-    this.grassImage.src = "./img/grass.png";
-    this.roadImage = new Image();
-    this.roadImage.src = "./img/Land1a_00002.png";
-    this.game = game;
-    this.x = x;
-    this.y = y;
-    this.tileType = tileType;
+  //this.animation = new Animation(ASSET_MANAGER.getAsset("./img/grass.png"), 0, 0, 58, 30, 1, .15, 1, true);
+  this.gfxString = '';
+  if (tileType === 0) {
+      this.gfxString = "./img/grass.png";
+  } else if (tileType === 1) {
+      this.gfxString = "./img/FloodPlain_00091.png";//road img
+  } else if (tileType === 3) {
+    this.gfxString = "./img/Trees_00012.png";
+  }
+  this.thing;
+  this.image = new Image();
+  this.image.src = this.gfxString;
+  this.game = game;
+  this.x = x;
+  this.y = y;
+this.tileType = tileType;
 }
-
 Tile.prototype = Object.create(Entity.prototype);
 Tile.prototype.constructor = Tile;
 
@@ -69,7 +70,7 @@ Tile.prototype.getThing = function () {
 Tile.prototype.draw = function (ctx) {
     let image = this.tileType == 1 ? this.roadImage : this.grassImage;
     ctx.drawImage(
-        image,
+        this.image,
         this.game.twodtoisoX(this.x, this.y),
         this.game.twodtoisoY(this.x, this.y)
     );
