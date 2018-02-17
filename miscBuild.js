@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 const yardMax = 500;
 
-=======
->>>>>>> 679fd1dbbca912b9d27cc259ec743164a3939971
 function Palace(game, x, y) {
     this.game = game;
     this.img = ASSET_MANAGER.getAsset("./img/DONUTSTEAL.png");
@@ -150,7 +147,6 @@ Granary.prototype.draw = function (ctx) {
     this.currAnim.drawFrame(this.game.clockTick, ctx, pt1, pt2);
     Entity.prototype.draw.call(this);
 }
-<<<<<<< HEAD
 
 Granary.prototype.genWalker = function (destBuild, funds, type, bRef) {
     found = false;
@@ -179,12 +175,10 @@ Granary.prototype.pushBoi = function (canWalk, funds, type, bRef) {
     }
 }
 
-=======
 Granary.prototype.toStringStats = function() {
     str = "Employees: " + this.numEmployed + "Employees Needed: " + this.numEmpNeeded;//TODO
     return str;
 }
->>>>>>> 679fd1dbbca912b9d27cc259ec743164a3939971
 function StoreYard(game, x, y) {
     this.game = game;
     this.workTime = this.game.timer.gameTime

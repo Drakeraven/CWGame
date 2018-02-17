@@ -154,12 +154,6 @@ GameEngine.prototype.startInput = function () {
         //adjusts x and y
         fixX = event.clientX - (event.clientX % 29);
         fixY = event.clientY - (event.clientY % 15);
-<<<<<<< HEAD
-        console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY + '(board coord at )' + that.isototwodX(fixX, fixY) + ' ' + that.isototwodY(fixX, fixY));
-        //copstore = new Weaver(ASSET_MANAGER.getAsset('./img/Weaver.png'), that, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY), 2, 2);
-        copstore = new flaxFarm(that, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
-        that.map.addThing(copstore, that.isototwodX(fixX, fixY), that.isototwodY(fixX, fixY));
-=======
         //converts to iso
         x = that.isototwodX(fixX, fixY);
         y = that.isototwodY(fixX, fixY);
@@ -186,7 +180,6 @@ GameEngine.prototype.startInput = function () {
         }
 
 
->>>>>>> 679fd1dbbca912b9d27cc259ec743164a3939971
     });
 
 
@@ -416,11 +409,7 @@ GameEngine.prototype.draw = function () {
 
 GameEngine.prototype.update = function () {
     var entitiesCount = this.entities.length;
-<<<<<<< HEAD
     var working = this.gameWorld.workForce; 
-=======
-    var working = this.gameWorld.workForce + 100;
->>>>>>> 679fd1dbbca912b9d27cc259ec743164a3939971
     //give industry employees here :D 
 
     //give palace employees first >:) 

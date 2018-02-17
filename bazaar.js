@@ -163,7 +163,6 @@ Bazaar.prototype.draw = function (ctx) {
     this.currAnim.drawFrame(this.game.clockTick, ctx, pt1, pt2);
 }
 
-<<<<<<< HEAD
 Bazaar.prototype.genWalker = function (destBuild, funds, type, bRef) {
     found = false;
     let indie = destBuild;
@@ -210,11 +209,10 @@ Bazaar.prototype.pushBoi = function (canWalk, funds, type, bRef) {
         fcm.destY = canWalk[3];
         this.game.addWalker(fcm);
     }
+}
 
-=======
 bazaar.prototype.toStringStats = function () {
     str = "Employeed: " + this.numEmployed + "\tEmployees Needed: " + (this.maxEmployed - this.numEmployed) + 
             "\nRange: " + this.range + "\tFunds: " + this.funds + "\n";
     return str;
->>>>>>> 679fd1dbbca912b9d27cc259ec743164a3939971
 }
