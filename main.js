@@ -18,7 +18,6 @@ function updateMapData(x, y, xDim, yDim, type) {
   for (i = x; i < x + xDim && x + xDim < walkerMap.length; i++) {
     for(j = y; j < y + yDim && y + yDim < walkerMap[i].length; j++) {
       walkerMap[i][j] = type;
-      console.log(walkerMap);
     }
   }
 }
