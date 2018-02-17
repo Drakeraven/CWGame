@@ -56,12 +56,16 @@ Map.prototype.readMap = function (mapData) {
 function Tile(game, tileType, x, y) {
   //this.animation = new Animation(ASSET_MANAGER.getAsset("./img/grass.png"), 0, 0, 58, 30, 1, .15, 1, true);
   this.gfxString = '';
+  this.grassImage = "./img/grass.png";
+  this.roadImage ="./img/FloodPlain_00091.png";
+  this.treeImage = "./img/Trees_00012.png";
+
   if (tileType === 0) {
-      this.gfxString = "./img/grass.png";
+      this.gfxString = this.grassImage;
   } else if (tileType === 1) {
-      this.gfxString = "./img/FloodPlain_00091.png";//road img
+      this.gfxString = this.roadImage;//road img
   } else if (tileType === 3) {
-    this.gfxString = "./img/Trees_00012.png";
+    this.gfxString = this.treeImage;
   }
   this.thing = null;
   this.image = new Image();
@@ -78,7 +82,6 @@ Tile.prototype.getThing = function () {
     return this.thing;
 }
 Tile.prototype.draw = function (ctx) {
-    let image = this.tileType == 1 ? this.roadImage : this.grassImage;
     ctx.drawImage(
         this.image,
         this.game.twodtoisoX(this.x, this.y),
