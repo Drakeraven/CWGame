@@ -126,10 +126,10 @@ GameEngine.prototype.startInput = function () {
         fixX = event.clientX - (event.clientX % 29);
         fixY = event.clientY - (event.clientY % 15);
         //converts to iso
-        fixX = isototwodX(fixX, fixY);
-        fixY = isototwodY(fixX, fixY);
+        fixX = that.isototwodX(fixX, fixY);
+        fixY = that.isototwodY(fixX, fixY);
         //sets selection
-        selectedBuilding = setSelected();
+        //selectedBuilding = setSelected();
         //creates object and adds to map
         that.buildOnCanvas(selectedBuilding, fixX, fixY);
         console.log("canvas has been left-clicked at " + event.clientX + ", " + event.clientY + '(board coord at )' + that.isototwodX(fixX, fixY) + ' ' + that.isototwodY(fixX, fixY));
