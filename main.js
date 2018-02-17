@@ -266,8 +266,8 @@ ASSET_MANAGER.downloadAll(function () {
 
     //var hunt = new huntLodge(gameEngine, 3, 2);
     //gameEngine.addEntity(hunt);
-    var potter = new Housing(gameEngine, 14, 11);
-    gameEngine.addHouse(potter);
+    var potter = new Bazaar(gameEngine, 14, 11);
+    gameEngine.addIndustry(potter);
 
     var well = new Well(gameEngine, 12, 11); 
     gameEngine.addEntity(well);

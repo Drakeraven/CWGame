@@ -52,7 +52,7 @@ bubbleBuilding.prototype.update = function () {
 
     // for a set interval, collect taxes from myPop
     //(30mon / 10ppl)
-    if (this.game.timer.gameTime - this.workTime >= this.pushTime) {
+    if (this.game.timer.gameTime - this.workTime >= this.pushTime && this instanceof TaxHouse) {
         this.workTime = this.game.timer.gameTime;
         //var myPop = this.game.gameWorld.population;
         var myTax = (Math.ceil((Math.floor((myPop / 10)) * 30) * 0.1)); //10 percent of 30 money per 10 people 
