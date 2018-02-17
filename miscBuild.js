@@ -30,7 +30,7 @@ Palace.prototype.update = function () {
         this.currAnim = this.openAnim;
         //if a gold cart arrives, take the amount of gold he has and add it to the total funds
         for (var i = 0; i < this.game.walkers.length; i++) {
-            if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) {
+            if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
                 if (this.game.walkers[i] instanceof glCartMan) {
                     this.game.gameWorld.addFunds(this.game.walkers[i].loadCount);
                     this.game.walkers[i].removeFromWorld = true;
@@ -67,6 +67,8 @@ Granary.prototype.draw = function () {
 
 function StoreYard(game, x, y) {
     this.game = game;
+    this.workTime = this.game.timer.gameTime
+    this.pushTime = 7; 
     this.img = ASSET_MANAGER.getAsset("./img/StoreYard.png");
     this.bWidth = 3;
     this.bHeight = 3;
@@ -108,7 +110,7 @@ StoreYard.prototype.update = function () {
     } else {
         this.currAnim = this.storeAnims[this.changeAnim()];
         for (var i = 0; i < this.game.walkers.length; i++) {
-            if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) {
+            if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
                 if (this.game.walkers[i] instanceof cCartMan
                     || this.game.walkers[i] instanceof barCartMan
                     || this.game.walkers[i] instanceof fCartMan) {
@@ -120,45 +122,48 @@ StoreYard.prototype.update = function () {
                         for (var j = 0; j < this.game.yards.length; j++) {
                             if (this.game.yards[j] != this &&
                                 this.game.yards[j].storage[this.game.walkers[i].loadType] + this.game.walkers[i].loadCount <= yardMax) {
-                                //set for reference as well
+
                                 walkerX = Math.floor(this.game.walkers[i].x);
                                 walkerY = Math.floor(this.game.walkers[i].y);
                                 canWalk = generateWalker([[walkerX, walkerY]], this.game.yards[j].roadTiles);
                                 if (canWalk != null) {
                                     this.game.walkers[i].destX = canWalk[2];
                                     this.game.walkers[i].destY = canWalk[3];
+                                    this.game.walkers[i].bRef = this.game.yards[j];
                                 }
 
                             }
                         }
-                        //if the reference wasn't changed after the loop, kill the walker.
+                        if (this.game.walkers[i].bRef == this) this.game.walkers[i].removeFromWorld = true; // remove if no other yard
                     }
                 }
             }
         }
-        for (var k = 0; k < this.game.industries.length; k++) {
-            if (this.game.industries[k].numResources <= 100 && this.storage[this.game.industries[k].resType] >= 100) {
-                this.storage[this.game.industries[k].resType] = Math.floor(this.storage[this.game.industries[k].resType]) - 100; 
+        if (this.game.timer.gameTime - this.workTime >= this.pushTime) { 
+            this.workTime = this.game.timer.gameTime;
+            for (var k = 0; k < this.game.industries.length; k++) {
+                if (this.game.industries[k].numResources <= 100 && this.storage[this.game.industries[k].resType] >= 100) {
+                    this.storage[this.game.industries[k].resType] = Math.floor(this.storage[this.game.industries[k].resType]) - 100; 
+                    canWalk = generateWalker(this.roadTiles, this.game.industries[k].roadTiles);
+                    cartBoi = null;
+                    if (canWalk != null) {
+                        switch (this.game.industries[k].resType) {
+                            case "clay":
+                                cartBoi = new cCartMan(this.game, ASSET_MANAGER.getAsset("./img/clayCartMan.png"), walkerMap, canWalk[0], canWalk[1], this.game.industries[k]);
+                                break;
+                            case "barley":
+                                cartBoi = new barCartMan(this.game, ASSET_MANAGER.getAsset('./img/barleyCartMan.png'), walkerMap, canWalk[0], canWalk[1], this.game.industries[k]);
+                                break;
+                            case "flax":
+                                cartBoi = new fCartMan(this.game, ASSET_MANAGER.getAsset("./img/flaxCartMan.png"), walkerMap, canWalk[0], canWalk[1], this.game.industries[k]);
+                                break;
+                        }
+                        cartBoi.loadCount = 100;
+                        cartBoi.destX = canWalk[2];
+                        cartBoi.destY = canWalk[3];
+                        this.game.addWalker(cartBoi);
 
-                canWalk = generateWalker(this.roadTiles, this.game.industries[k].roadTiles);
-                cartBoi = null;
-                if (canWalk != null) {
-                    switch (this.game.industries[k].resType) {
-                        case "clay":
-                            cartBoi = new cCartMan(this.game, ASSET_MANAGER.getAsset("./img/clayCartMan.png"), walkerMap, canWalk[0], canWalk[1]);
-                            break;
-                        case "barley":
-                            cartBoi = new barCartMan(this.game, ASSET_MANAGER.getAsset('./img/barleyCartMan.png'), walkerMap, canWalk[0], canWalk[1]);
-                            break;
-                        case "flax":
-                            cartBoi = new fCartMan(this.game, ASSET_MANAGER.getAsset("./img/flaxCartMan.png"), walkerMap, canWalk[0], canWalk[1]);
-                            break;
                     }
-                    cartBoi.loadCount = 100;
-                    cartBoi.destX = canWalk[2];
-                    cartBoi.destY = canWalk[3];
-                    this.game.addWalker(cartBoi);
-
                 }
             }
         }
