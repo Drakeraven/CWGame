@@ -125,7 +125,6 @@ function Weaver(game, x, y) {
     this.placeCost = 50;
     this.merchCost = 50;
     this.prodTime = 10;
-    this.numEmployed = 12;
 }
 
 Weaver.prototype = new industry();
