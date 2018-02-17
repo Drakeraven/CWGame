@@ -272,7 +272,7 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
 
         case "Bazaar":
             entity = new Bazaar(that, x, y);
-            this.entities.push(entity);
+            this.industries.push(entity);
             break;
 
         case "Granary":
@@ -287,17 +287,17 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
 
         case "Weaver":
             entity = new Weaver(that, x, y);
-            this.entities.push(entity);
+            this.industries.push(entity);
             break;
 
         case "Brewery":
             entity = new Brewery(that, x, y);
-            this.entities.push(entity);
+            this.industries.push(entity);
             break;
 
         case "Potter":
             entity = new Potter(that, x, y);
-            this.entities.push(entity);
+            this.industries.push(entity);
             break;
         case "Clay Pit":
             entity = new clayPit(that, x, y);
