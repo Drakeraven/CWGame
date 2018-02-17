@@ -7,26 +7,32 @@ function Map(gameEngine) {
 }
 Map.prototype.constructor = Map;
 
-Map.prototype.addThing = function (thing) {
-    if (this.mapList[y][x].thing == null & thing != null) {
-        updateMapData(x, y, thing.bWidth, thing.bHeight, 2);
-        this.mapList[y][x].thing = thing;
-        this.mapList[y][x].tileType = 2;
-        this.game.addEntity(thing);
-        if (thing.dimensionX > 1) {
-            console.log('hi');
-            for (i = x + 1; i < x + thing.dimensionX; i++) {
-                this.mapList[y][i].thing = thing;
-                console.log(this.mapList[y][i].thing)
-            }
-        }
-        if (thing.dimensionY > 1) {
-            for (i = y + 1; i < y + thing.dimensionY; i++) {
-                this.mapList[i][x].thing = thing;
-                console.log(this.mapList[y][i].thing)
-            }
-        }
+Map.prototype.addThing = function(thing) {
+  var x = thing.x;
+  var y = thing.y;
+  var canDo = true;
+  for (i = thing.x; i < thing.x + thing.bWidth; i++) {
+    for(j = thing.y; j < thing.y + thing.bHeight; j++) {
+      if(this.mapList[j][i].thing != null) {
+        canDo = false;
+      }
     }
+  }
+  if(canDo &&thing != null) {
+    console.log('hi');
+    updateMapData(x, y, thing.bWidth, thing.bHeight, 2);
+    //this.mapList[y][x].thing = thing;
+    //this.mapList[y][x].tileType = 2;
+    this.game.addEntity(thing);
+    for (i = thing.x; i < thing.x + thing.bWidth; i++) {
+      for(j = thing.y; j < thing.y + thing.bHeight; j++) {
+        console.log(thing.x+ ' ' + thing.y)
+        this.mapList[j][i].thing = thing;
+      }
+    }
+    console.log(walkerMap);
+    console.log(this.mapList);
+  }
 }
 Map.prototype.readMap = function (mapData) {
 
@@ -36,7 +42,7 @@ Map.prototype.readMap = function (mapData) {
             x = j;
             y = i;
             tileType = mapData[i][j];
-            //console.log(mapData[i][j]);
+            console.log(mapData[i][j]);
             //console.log(twodtoisoX(x, y) + ' '+ twodtoisoY(x, y));
             var tile = new Tile(this.game, tileType, x, y);
             //this.game.addEntity(tile);
@@ -48,18 +54,27 @@ Map.prototype.readMap = function (mapData) {
 
 // tiling going down
 function Tile(game, tileType, x, y) {
-    //this.animation = new Animation(ASSET_MANAGER.getAsset("./img/grass.png"), 0, 0, 58, 30, 1, .15, 1, true);
-    this.thing;
-    this.grassImage = new Image();
-    this.grassImage.src = "./img/grass.png";
-    this.roadImage = new Image();
-    this.roadImage.src = "./img/Land1a_00002.png";
-    this.game = game;
-    this.x = x;
-    this.y = y;
-    this.tileType = tileType;
-}
+  //this.animation = new Animation(ASSET_MANAGER.getAsset("./img/grass.png"), 0, 0, 58, 30, 1, .15, 1, true);
+  this.gfxString = '';
+  this.grassImage = "./img/grass.png";
+  this.roadImage ="./img/FloodPlain_00091.png";
+  this.treeImage = "./img/Trees_00012.png";
 
+  if (tileType === 0) {
+      this.gfxString = this.grassImage;
+  } else if (tileType === 1) {
+      this.gfxString = this.roadImage;//road img
+  } else if (tileType === 3) {
+    this.gfxString = this.treeImage;
+  }
+  this.thing = null;
+  this.image = new Image();
+  this.image.src = this.gfxString;
+  this.game = game;
+  this.x = x;
+  this.y = y;
+this.tileType = tileType;
+}
 Tile.prototype = Object.create(Entity.prototype);
 Tile.prototype.constructor = Tile;
 
@@ -67,13 +82,9 @@ Tile.prototype.getThing = function () {
     return this.thing;
 }
 Tile.prototype.draw = function (ctx) {
-    let image = this.tileType == 1 ? this.roadImage : this.grassImage;
     ctx.drawImage(
-        image,
+        this.image,
         this.game.twodtoisoX(this.x, this.y),
         this.game.twodtoisoY(this.x, this.y)
     );
 }
-
-
-
