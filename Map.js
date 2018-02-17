@@ -42,7 +42,7 @@ Map.prototype.readMap = function (mapData) {
             x = j;
             y = i;
             tileType = mapData[i][j];
-            //console.log(mapData[i][j]);
+            console.log(mapData[i][j]);
             //console.log(twodtoisoX(x, y) + ' '+ twodtoisoY(x, y));
             var tile = new Tile(this.game, tileType, x, y);
             //this.game.addEntity(tile);

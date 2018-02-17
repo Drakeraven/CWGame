@@ -238,8 +238,8 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
         case "Hunting Lodge":
             entity = new huntLodge(that, x, y);
             this.addEntity(entity);
-            break; 
-            
+            break;
+
         case "Well":
             entity = new Well(that, x, y);
             this.entities.push(entity);
@@ -354,7 +354,7 @@ GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
 
-    this.entities = this.mergeSort(this.entities);
+    var ents = this.mergeSort(this.entities);
 
     for (var i = 0; i < this.map.mapList.length; i++) {
         for (var j = 0; j < this.map.mapList[1].length; j++) {
@@ -363,7 +363,7 @@ GameEngine.prototype.draw = function () {
     }
 
     for (var i = 0; i < this.entities.length; i++) {
-        this.entities[i].draw(this.ctx);
+        ents[i].draw(this.ctx);
     }
 
     this.ctx.restore();
