@@ -126,7 +126,9 @@ GameEngine.prototype.isototwodY = function (x, y) {
 //draws road on map using given x and y
 function drawRoad(gameEngine, x, y) {
     walkerMap[y][x] = 1;
-    gameEngine.map.mapList[y][x].tileType = 1; // or should these be seperate?
+    gameEngine.map.mapList[y][x].tileType = 1;
+        gameEngine.map.mapList[y][x].image.src = gameEngine.map.mapList[y][x].roadImage;  // or should these be seperate?
+  //  console.log('hi');
     //console.log(walkerMap);
 }
 
@@ -134,14 +136,26 @@ function drawRoad(gameEngine, x, y) {
 function removeRoad(gameEngine, x, y) {
     walkerMap[x][y] = mapData[x][y];
     gameEngine.map.mapList[y][x].tileType = mapData[x][y];
+    var str = "";
+          console.log('hi?');
+    if(mapData[x][y] === 0) {
+
+      str = gameEngine.map.mapList[y][x].grassImage;
+    } else if(mapData[x][y] === 3) {
+      str = gameEngine.map.maplist[y][x].treeImage;
+    }
+    gameEngine.map.mapList[y][x].image.src = str;
 }
 
 //"removes" building from map
 function removeBuilding(gameEngine, x, y) {
-    if (gameEngine.map.mapList[y][x].tileType == 2) {
+                  console.log('hi?');
+    if (gameEngine.map.mapList[y][x].thing != null) {
+
         walkerMap[x][y] = mapData[x][y];
         gameEngine.map.mapList[y][x].tileType = mapData[x][y];
         gameEngine.map.mapList[y][x].thing.removeFromWorld = true;
+        gameEngine.map.mapList[y][x].thing == null
     }
 }
 var isClearing = false;
@@ -164,7 +178,7 @@ GameEngine.prototype.startInput = function () {
             drawRoad(that, x, y);
         } else if (selection == "Clear Land") {
             isClearing = true;
-            if (walkerMap[x][y] == 1) {
+            if (walkerMap[y][x] == 1) {
                 removeRoad(that, x, y);
             } else if (walkerMap[x][y] == 2) {
                 removeBuilding(that, x, y);
@@ -238,8 +252,8 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
         case "Hunting Lodge":
             entity = new huntLodge(that, x, y);
             this.addEntity(entity);
-            break; 
-            
+            break;
+
         case "Well":
             entity = new Well(that, x, y);
             this.entities.push(entity);
@@ -354,7 +368,7 @@ GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
 
-    this.entities = this.mergeSort(this.entities);
+    var ents = this.mergeSort(this.entities);
 
     for (var i = 0; i < this.map.mapList.length; i++) {
         for (var j = 0; j < this.map.mapList[1].length; j++) {
@@ -363,7 +377,7 @@ GameEngine.prototype.draw = function () {
     }
 
     for (var i = 0; i < this.entities.length; i++) {
-        this.entities[i].draw(this.ctx);
+        ents[i].draw(this.ctx);
     }
 
     this.ctx.restore();
