@@ -63,7 +63,8 @@ function Granary(game, x, y) {
     this.placeCost = 50; 
     this.numEmployed = 0; // TESTING
     this.numEmpNeeded = 20;
-    this.foodSupply = 0; 
+    this.foodSupply = 1000; 
+    this.pushTime = 5; 
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
     this.roadTiles = [];
     this.game.addEntity(this);
@@ -98,6 +99,7 @@ Granary.prototype.update = function () {
             //send food to bazaar! 
             if (this.game.industries[i] instanceof Bazaar) {
                 if (this.foodLevel > 50 && this.numEmployed === this.maxEmployed) { 
+                        console.log("Granary Walker");
                         this.genWalker(this.game.industries[i], 50, "food");
                         this.foodLevel -= 50; 
                 }

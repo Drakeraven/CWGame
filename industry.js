@@ -111,6 +111,21 @@ industry.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
+industry.prototype.remove = function () { 
+    //iterate over houses in the area of effect and disable benefits 
+    for (i = 0; i < this.game.housingArr.length; i++) { 
+        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y)) {
+            if (this instanceof Potter) {
+                this.game.housingArr[i].potterLevel = false;
+            } else if (this instanceof Weaver) { 
+                this.game.housingArr[i].weaverLevel = false;
+            } else if (this instanceof Brewery) { 
+                this.game.housingArr[i].brewerLevel = false; 
+            } 
+        }
+    }
+}
+
 //For each industry, define a resource type as a string.
 function Weaver(game, x, y) {
     industry.call(this, game, x, y);

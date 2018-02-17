@@ -78,7 +78,6 @@ bubbleBuilding.prototype.remove = function () {
             } 
         }
     }
-
 }
 
 bubbleBuilding.prototype.draw = function (ctx) {

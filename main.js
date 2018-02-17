@@ -264,8 +264,6 @@ ASSET_MANAGER.downloadAll(function () {
     //var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, 3, 11, 2, 2);
     ////gameEngine.addIndustry(weaver);
 
-    var brewery = new Brewery(gameEngine, 3, 2);
-    gameEngine.addIndustry(brewery);
     //var hunt = new huntLodge(gameEngine, 3, 2);
     //gameEngine.addEntity(hunt);
     var potter = new Housing(gameEngine, 14, 11);
@@ -274,8 +272,8 @@ ASSET_MANAGER.downloadAll(function () {
     var well = new Well(gameEngine, 12, 11); 
     gameEngine.addEntity(well);
 
-    var granary = new Granary(gameEngine, 3, 11);
-    gameEngine.addEntity(granary);
+    var granary = new Granary(gameEngine, 3, 8);
+    gameEngine.addGranary(granary);
 
     //var mine = new goldMine(gameEngine, 3, 11);
     //var pit = new clayPit(gameEngine, 3, 2);
