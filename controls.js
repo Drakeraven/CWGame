@@ -6,11 +6,11 @@ $(function () {
         setButton(selectedButtonTitle);
     });
 });
-
+/** 
 function displayStats(gameEngine, x, y) {
-    displayStr = gameEngine.map.mapList[y][x].toStringStats();
+    displayStr = gameEngine.map.mapList[y][x].thing.toStringStats();
     $('.toStringStats').text(displayStr);
-}
+}*/
 function setHotKeys(that, event) {
     if (event.code === "KeyH") {
         setButton("Housing");
