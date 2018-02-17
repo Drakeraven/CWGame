@@ -222,30 +222,30 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
 
         case "Grain Farm":
             entity = new grainFarm(that, x, y);
-            //this.entities.push(entity);
+            this.entities.push(entity);
             break;
 
         case "Barley Farm":
             entity = new barFarm(that, x, y);
-            //this.entities.push(entity);
+            this.entities.push(entity);
             break;
 
         case "Flax Farm":
             entity = new flaxFarm(that, x, y);
-            //this.entities.push(entity);
+            this.entities.push(entity);
             break;
 
         case "Hunting Lodge":
             entity = new huntLodge(that, x, y);
-            //this.entities.push(entity);
+            this.entities.push(entity);
         case "Well":
             entity = new Well(that, x, y);
-            //this.entities.push(entity);
+            this.entities.push(entity);
             break;
 
         case "Water Supply":
             entity = new WaterSupply(that, x, y);
-            //this.entities.push(entity);
+            this.entities.push(entity);
             break;
 
         case "Bazaar":
@@ -279,26 +279,26 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
             break;
         case "Clay Pit":
             entity = new clayPit(that, x, y);
-            //this.entities.push(entity);
+            this.entities.push(entity);
             break;
         case "Gold Mine":
             entity = new goldMine(that, x, y);
-            //this.entities.push(entity);
+            this.entities.push(entity);
 
             break;
         case "Fire House":
             entity = new FireHouse(that, x, y);
-            //this.entities.push(entity);
+            this.entities.push(entity);
 
             break;
         case "Police Station":
             entity = new CopHouse(that, x, y);
-            //this.entities.push(entity);
+            this.entities.push(entity);
 
             break;
         case "Tax House":
             entity = new TaxHouse(that, x, y);
-            //this.entities.push(entity);
+            this.entities.push(entity);
             break;
         default:
             console.log('nuthin2seahear')
