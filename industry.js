@@ -34,7 +34,7 @@ industry.prototype.constructor = industry;
 
 industry.prototype.update = function () {
     Entity.prototype.update.call(this);
-    //this.roadTiles = findRoad(this.buffer);
+    this.roadTiles = findRoad(this.buffer);
 
     for (var i = 0; i < this.game.walkers.length; i++) {//loop through walkers
         if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
@@ -60,9 +60,9 @@ industry.prototype.update = function () {
 
     }
 
-    for (i = 0; i < this.game.housingArr.length; i++) {
-        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y), this, this) {
-            if (this instanceof Potter) {
+    for (i = 0; i < this.game.housingArr.length; i++) { 
+        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y, this, this)) {
+            if (this instanceof Potter) { 
                 this.game.housingArr[i].potterLevel = true;
             } else if (this instanceof Weaver) {
                 this.game.housingArr[i].weaverLevel = true;
@@ -116,10 +116,10 @@ industry.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-industry.prototype.remove = function () {
-    //iterate over houses in the area of effect and disable benefits
-    for (i = 0; i < this.game.housingArr.length; i++) {
-        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y), this, this) {
+industry.prototype.remove = function () { 
+    //iterate over houses in the area of effect and disable benefits 
+    for (i = 0; i < this.game.housingArr.length; i++) { 
+        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y, this, this)) {
             if (this instanceof Potter) {
                 this.game.housingArr[i].potterLevel = false;
             } else if (this instanceof Weaver) {
