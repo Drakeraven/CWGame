@@ -23,16 +23,16 @@ function Bazaar(game, x, y) {
     this.destroyedAnim = null;
     this.currAnim = new Animation(this.img, 0, 0, 118, 82, 1, .15, 1, true);
     this.animFrame = [];        
-    this.numEmployed = 0;
+    this.numEmployed = 20;
     this.maxEmployed = 20;
     this.placeCost = 400;
     this.range = 30;
     this.foodLevel = 0;
-    this.weaverLevel = 100;
+    this.weaverLevel =0;
     this.weaverSell = 40;  
-    this.potterLevel = 100;
+    this.potterLevel = 0;
     this.potterSell = 35; 
-    this.brewerLevel = 100;
+    this.brewerLevel = 0;
     this.brewerSell = 45; 
     this.funds = 320; 
     this.workTime = 0;
@@ -58,11 +58,6 @@ Bazaar.prototype.update = function () {
         //collapses
         return;
     }
-    if (this.numEmployed === this.maxEmployed) { 
-        this.currAnim = this.openAnim;
-    } else { 
-        this.currAnim = this.closedAnim;
-    }
 
     if (this.numEmployed < this.numEmpNeeded) {
         this.currAnim = this.closedAnim;
@@ -73,6 +68,7 @@ Bazaar.prototype.update = function () {
 
         //see if any walkers show up, not dependant on time
         for (var i = 0; i < this.game.walkers.length; i++) {//loop through walkers
+            console.log("Load count: ", this.game.walkers[i].loadCount);
             if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) {
                 if (this.game.walkers[i].loadType === "beer") {  //put item in right var 
                     this.brewerLevel += this.game.walkers[i].loadCount;
@@ -143,7 +139,7 @@ Bazaar.prototype.update = function () {
             }
             //send gold guy to palace 
             var toSend = 0; 
-            if (this.game.gameWorld.funds > 0) {
+            if (this.game.gameWorld.funds > 0 && this.brewerLevel > 0 || this.potterLevel > 0 || this.weaverLevel > 0) {
                 //It just happens 
                 //grab the excess for sold amount then send it in a gold card to the palace 
                 //item amount x100 * itemSellprice 

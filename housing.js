@@ -24,15 +24,13 @@ function house(img, game, x, y, bWidth, bHeight) {
     this.numHoused = 30;
     this.placeCost = null;
     this.waterLevel = false;
-    this.foodLevel = 1;
+    this.foodLevel = 0;
     this.weaverLevel = false; 
     this.potterLevel = false; 
     this.brewerLevel = false;
     this.renderX = 0;
-    this.renderY = 0;
-    this.roadTiles = []; 
+    this.renderY = 0; 
     this.fireResist = 0.9; //percent chance of fire
-    this.radius = { x: x - 1, y: y - 1, width: bWidth + 10, height: bHeight + 10};
     this.buffer = { x: x - 1, y: y - 1, width: bWidth + 1, height: bHeight + 1};
     Entity.call(this, game, x, y);
 }
@@ -42,7 +40,6 @@ house.prototype.constructor = house;
 
 house.prototype.update = function () {
     Entity.prototype.update.call(this);
-    this.roadTiles = findRoad(this.buffer);
     //console.log("Inside update")
     this.foodTime = this.game.timer.gameTime;
     if (Math.random() <= fireResist && (Math.random() <= fireResist + 0.5 && Math.random() >= fireResist - 0.5) && Math.random() <= this.fireResist) { //&& this.game.timer.gameTime - this.foodTime % 666 === 0
@@ -55,50 +52,39 @@ house.prototype.update = function () {
         return;
     }
 
-    for (var i = 0; i < this.game.walkers.length; i++) {//loop through walkers
-        if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) { //&& desination is here
-            if (this.game.walkers[i].loadType === "food") {  //put item in right var 
-                this.foodLevel += this.game.walkers[i].loadCount; 
-                this.game.walkers[i].removeFromWorld = true;
-            } else if (this.game.walkers[i].loadType === "immig") { 
-                this.game.walkers[i].removeFromWorld = true;
-            }
-        }
-    }
-
     if (!this.waterLevel) { 
         this.level = 0;
-        this.renderX = 30;
-        this.renderY = 24;
+        this.renderX = 10;
+        this.renderY = 5;
     } else { 
         if (this.waterLevel && this.foodLevel && this.potterLevel && this.weaverLevel && this.brewerLevel) { 
             this.level = 5;
-            this.renderX = 28;
-            this.renderY = 32;
+            this.renderX = 0;
+            this.renderY = 17;
             //change render x y 
         } else if (this.waterLevel && this.foodLevel 
             && ((this.potterLevel && this.weaverLevel) 
                 || (this.potterLevel && this.brewerLevel)
                 || (this.weaverLevel && this.brewerLevel))) {
             this.level = 4;     
-            this.renderX = 28;
-            this.renderY = 38;
+            this.renderX = 0;
+            this.renderY = 23;
             //change renderx and renderY 
         } else if(this.waterLevel && this.foodLevel 
             && (this.potterLevel || this.weaverLevel || this.brewerLevel)) {
             this.level = 3; 
-            this.renderX = 28;
-            this.renderY = 38;
+            this.renderX = 0;
+            this.renderY = 24;
             //change renderx and renderY 
         } else if(this.waterLevel && this.foodLevel) { 
             this.level = 2;
-            this.renderX = 30;
-            this.renderY = 32; 
+            this.renderX = -3;
+            this.renderY = 14; 
             //change renderx and renderY 
-        } else if (this.waterLevel) { 
+        } else { 
             this.level = 1;
-            this.renderX = 30;
-            this.renderY = 24; 
+            this.renderX = -3;
+            this.renderY = 5; 
         }
     }
     this.currAnim = this.animFrame[this.level];
@@ -120,7 +106,7 @@ house.prototype.update = function () {
     if (currentPop > this.game.gameWorld.population) { 
         this.game.gameWorld.addPop(currentPop - this.game.gameWorld.population);
         this.game.gameWorld.workForce = this.game.gameWorld.getWorkForce();
-        //console.log(this.game.gameWorld.workForce);
+        console.log(this.game.gameWorld.workForce);
     } else { 
         this.game.gameWorld.remPop(this.game.gameWorld.population - currentPop);
         this.game.gameWorld.workForce = this.game.gameWorld.getWorkForce();
@@ -144,8 +130,8 @@ function Housing(game, x, y) {
     this.foodTime = game.timer.gameTime;
     this.level = 0;
     this.placeCost = 25;
-    this.renderX = 30;
-    this.renderY = 25;
+    this.renderX = 10;
+    this.renderY = 5;
     this.animFrame[0] = new Animation(img, 0, 0, 118, 97, 1, 0.15, 1, true);
     this.animFrame[1] = new Animation(img, 3, 0, 118, 97, 1, 0.15, 1, true);
     this.animFrame[2] = new Animation(img, 5, 0, 118, 97, 1, 0.15, 1, true);
@@ -154,7 +140,7 @@ function Housing(game, x, y) {
     this.animFrame[5] = new Animation(img, 5, 1, 118, 97, 1, 0.15, 1, true);
     this.currAnim = this.animFrame[0];
     this.numHoused = 30;
-    //console.log(this.buffer);    
+    console.log(this.buffer);    
 }
 
 Housing.prototype = new house();

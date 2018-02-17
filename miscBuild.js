@@ -63,9 +63,10 @@ function Granary(game, x, y) {
     this.renderX = 33;
     this.renderY = 71;
     this.placeCost = 50; 
-    this.numEmployed = 0; // TESTING
+    this.numEmployed = 20; // TESTING
     this.numEmpNeeded = 20;
-    this.foodSupply = 1000;
+    this.foodSupply = 500;
+    this.foodMax = 1000; 
     this.workTime = this.game.timer.gameTime; 
     this.pushTime = 5; 
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
@@ -81,31 +82,50 @@ Granary.prototype.update = function () {
     Entity.prototype.update.call(this);
     this.roadTiles = findRoad(this.buffer);
 
-    //food only storage yard, any and all food gets sent here then to the bazaar 
-    //NEED: take in walkers W/ food 
-    for (var i = 0; i < this.game.walkers.length; i++) {
-        if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) {
-            if (this.game.walkers[i] instanceof mCartMan) {
-                this.foodSupply = this.game.walkers[i].loadCount;
-                this.game.walkers[i].removeFromWorld = true;
+    if (this.numEmployed < this.numEmpNeeded) {
+        this.currAnim = this.closedAnim;
+        this.numEmployed = 0;
+    } else {
+        this.currAnim = this.openAnim;
+        //food only storage yard, any and all food gets sent here then to the bazaar 
+        //NEED: take in walkers W/ food 
+        for (var i = 0; i < this.game.walkers.length; i++) {
+            if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) {
+                if (this.game.walkers[i] instanceof mCartMan) {
+                    if (this.foodLevel + this.game.walkers[i].loadCount <= this.foodMax) {
+                        this.foodSupply = this.game.walkers[i].loadCount;
+                        this.game.walkers[i].removeFromWorld = true;
+                    } else { 
+                        //code to send the walker somewhere else, or kill it
+                        for (var j = 0; j < this.game.granaries.length; j++  
+                                && this.game.granaries[i] != this && this.game.granaries[i].foodLevel + this.game.walkers[i].loadCount <= this.foodMax) { 
+                            //generate walker to the granarie 
+                            walkerX = Math.floor(this.game.walkers[i].x);
+                            walkerY = Math.floor(this.game.walkers[i].y);
+                            canWalk = generateWalker([[walkerX, walkerY]], this.game.granaries[j].roadTiles);
+                            if (canWalk != null) {
+                                this.game.walkers[i].destX = canWalk[2];
+                                this.game.walkers[i].destY = canWalk[3];
+                            }
+                        }
+                    }
+                }
             }
         }
-    }
-
-
-    //SEND OUT WALKERS to bazaar 
-    
-    if (this.game.timer.gameTime - this.workTime >= this.pushTime) {
-        this.workTime = this.game.timer.gameTime;
-        console.log("Granary");        
-        for (var i = 0; i < this.game.industries.length; i++){
-            //send food to bazaar! 
-            console.log(this.game.industries[i] instanceof Bazaar);
-            if (this.game.industries[i] instanceof Bazaar) {
-                if (this.foodSupply > 50) { 
-                        console.log("Granary Walker");
-                        this.genWalker(this.game.industries[i], 50, "food");
-                        this.foodLevel -= 50; 
+        //SEND OUT WALKERS to bazaar 
+        
+        if (this.game.timer.gameTime - this.workTime >= this.pushTime) {
+            this.workTime = this.game.timer.gameTime;    
+            console.log("push time for granarie")    
+            for (var i = 0; i < this.game.industries.length; i++){
+                //send food to bazaar! 
+                console.log(this.game.industries[i] instanceof Bazaar);
+                if (this.game.industries[i] instanceof Bazaar) {
+                    if (this.foodSupply > 100 && this.game.industries[i].foodLevel < 100) { 
+                            this.genWalker(this.game.industries[i], 100, "food");
+                            this.foodLevel -= 100; 
+                            console.log("In check: ", this.game.industries[i].foodLevel);
+                    }
                 }
             }
         }
@@ -140,7 +160,7 @@ Granary.prototype.pushBoi = function (canWalk, funds, type) {
     console.log(funds, type);
     if (type === "food") {
         var ccm = new mCartMan(this.game, ASSET_MANAGER.getAsset("./img/meatCartMan.png"), walkerMap, canWalk[0], canWalk[1]);
-        this.loadCount = funds; 
+        ccm.loadCount = funds; 
         ccm.destX = canWalk[2];
         ccm.destY = canWalk[3];
         this.game.addWalker(ccm);
