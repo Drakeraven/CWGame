@@ -98,7 +98,7 @@ Granary.prototype.update = function () {
             if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
                 console.log("Arrived");
                 console.log(this.game.walkers[i].loadType);
-                if (this.game.walkers[i].loadType === "meat") {
+                if (this.game.walkers[i].loadType === "meat" || this.game.walkers[i].loadType === "grain") {
                     console.log(this.game.walkers[i].loadCount);
                     console.log(this.foodLevel + this.game.walkers[i].loadCount <= this.foodMax)
                     if (this.foodSupply + this.game.walkers[i].loadCount <= this.foodMax) {
