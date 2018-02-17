@@ -23,6 +23,7 @@ function industry(game, x, y) {
     this.numMerch = 0;
     this.merchCost = 0;
     this.prodTime = 0;
+    this.radius = { x: x - 1, y: y - 1, width: this.bWidth + 30, height: this.bHeight + 30 };
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
     this.roadTiles = [];
     Entity.call(this, game, x, y);
@@ -53,6 +54,18 @@ industry.prototype.update = function () {
     //}
 
     //if out of employees or no resources, close operation
+
+    for (i = 0; i < this.game.housingArr.length; i++) { 
+        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y)) {
+            if (this instanceof Potter) { 
+                this.game.housingArr[i].potterLevel = true;
+            } else if (this instanceof Weaver) {
+                this.game.housingArr[i].weaverLevel = true;
+            } else if (this instanceof Brewery) { 
+                this.game.housingArr[i].brewerLevel = true;
+            } 
+        }
+    }
 
     if (this.numEmployed < this.numEmpNeeded || this.numResources == 0) {
         this.currAnim = this.closedAnim;

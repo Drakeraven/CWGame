@@ -136,6 +136,7 @@ Map.prototype.readMap = function(mapData) {
 
 //need an instance at start. we can adjust values as needed.
 function GameWorld() {
+    this.palace = null; 
     this.prosperity = 0;
     this.population = 0;
     this.workForce = 0;
@@ -154,6 +155,11 @@ GameWorld.prototype.remPop = function (num) {
 
 GameWorld.prototype.getWorkForce = function () {
     return Math.floor(this.population * .40); //40% population is work force, change how I'm doing it??
+}
+
+GameWorld.prototype.addFunds = function (amt) {
+    this.funds += amt;
+    console.log("Added " + amt + " to the treasury. Funds: " + this.funds);
 }
 
 // the "main" code begins here
@@ -188,7 +194,7 @@ ASSET_MANAGER.queueDownload("./img/mansion.png");
 ASSET_MANAGER.queueDownload("./img/Potter.png");
 ASSET_MANAGER.queueDownload("./img/farm1.png");
 ASSET_MANAGER.queueDownload("./img/taxHouse.png");
-ASSET_MANAGER.queueDownload("./img/palace.png");
+ASSET_MANAGER.queueDownload("./img/DONUTSTEAL.png");
 ASSET_MANAGER.queueDownload("./img/FarmPlots.png");
 ASSET_MANAGER.queueDownload("./img/bazaarLady 22x42.png");
 ASSET_MANAGER.queueDownload("./img/FireDude1.png")
@@ -199,6 +205,7 @@ ASSET_MANAGER.queueDownload("./img/immig.png");
 ASSET_MANAGER.queueDownload("./img/ClayThingy.png");
 ASSET_MANAGER.queueDownload("./img/smallWell.png");
 ASSET_MANAGER.queueDownload("./img/bigWell.png"); 
+ASSET_MANAGER.queueDownload("./img/Granary.png");
 
 //TODO: add in imgs for fixed walkers
 
@@ -209,13 +216,14 @@ ASSET_MANAGER.downloadAll(function () {
 
     var gameEngine = new GameEngine();
 
-    gameEngine.gameWorld = new GameWorld(); 
+    gameEngine.gameWorld = new GameWorld();
+    gameEngine.gameWorld.palace = new Palace(gameEngine, 10, 6);
+    console.log(gameEngine.gameWorld);
 
     gameEngine.map = new Map(gameEngine);
     gameEngine.init(ctx);
     gameEngine.map.readMap(new mapData().testMap);
     //var gameWorld = new gameWorld();
-
 
 
     //var ecm = new eCartMan(gameEngine, ASSET_MANAGER.getAsset("./img/emptyCartMan.png"), walkerMap, 0, 1);
@@ -250,22 +258,26 @@ ASSET_MANAGER.downloadAll(function () {
     //peeps.destY = 18;
     //gameEngine.addWalker(peeps);
 
-    var gF = new grainFarm(gameEngine, 10, 7);
-    gameEngine.addEntity(gF);
+    //var gF = new grainFarm(gameEngine, 10, 7);
+    //gameEngine.addEntity(gF);
 
     //var weaver = new Weaver(ASSET_MANAGER.getAsset("./img/Weaver.png"), gameEngine, 3, 11, 2, 2);
     ////gameEngine.addIndustry(weaver);
 
     var brewery = new Brewery(gameEngine, 3, 2);
     gameEngine.addIndustry(brewery);
+    //var hunt = new huntLodge(gameEngine, 3, 2);
+    //gameEngine.addEntity(hunt);
+    var potter = new Housing(gameEngine, 14, 11);
+    gameEngine.addHouse(potter);
 
-    var bazaar = new Bazaar(gameEngine, 14, 11);
-    gameEngine.addIndustry(bazaar);
+    var well = new Well(gameEngine, 12, 11); 
+    gameEngine.addEntity(well);
 
-    //var potter = new Potter(gameEngine, 14, 11);
-    //gameEngine.addIndustry(potter);
+    var granary = new Granary(gameEngine, 3, 11);
+    gameEngine.addEntity(granary);
 
-    //var mine = new goldMine(gameEngine, 3, 2);
+    //var mine = new goldMine(gameEngine, 3, 11);
     //var pit = new clayPit(gameEngine, 3, 2);
     //gameEngine.addEntity(mine);
     //gameEngine.addEntity(pit);

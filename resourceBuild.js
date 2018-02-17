@@ -1,4 +1,4 @@
-//const resSpeed = .10;
+const resSpeed = .10;
 
 function resourceBuild(game, x, y) {
     this.game = game;
@@ -36,7 +36,7 @@ resourceBuild.prototype.update = function () {
             this.workTime = this.game.timer.gameTime;
             if (this instanceof goldMine) {
                 //skip genWalker-- generateWalker with goldmine road tiles and palace road tiles, if it works just make the walker
-                var canWalk = this.generateWalker(this.game.gameWorld.Palace.roadTiles);
+                var canWalk = generateWalker(this.roadTiles, this.game.gameWorld.palace.roadTiles);
                 if (canWalk != null) this.pushBoi(canWalk);
             } else if (this instanceof huntLodge) {
                 var huntah = new Hunter(this.game, ASSET_MANAGER.getAsset("./img/Hunter1.5.png"),
@@ -81,16 +81,19 @@ resourceBuild.prototype.genWalker = function (destBuild) {
 resourceBuild.prototype.pushBoi = function (canWalk) {
     if (this instanceof clayPit) {
         var ccm = new cCartMan(this.game, ASSET_MANAGER.getAsset("./img/clayCartMan.png"), walkerMap, canWalk[0], canWalk[1]);
+        ccm.loadCount = 100;
         ccm.destX = canWalk[2];
         ccm.destY = canWalk[3];
         this.game.addWalker(ccm);
     } else if (this instanceof huntLodge) {
         var mcm = new mCartMan(this.game, ASSET_MANAGER.getAsset("./img/meatCartMan.png"), walkerMap, canWalk[0], canWalk[1]);
+        mcm.loadCount = 100;
         mcm.destX = canWalk[2];
         mcm.destY = canWalk[3];
         this.game.addWalker(mcm);
     } else if (this instanceof goldMine) {
         var glcm = new glCartMan(this.game, ASSET_MANAGER.getAsset("./img/goldCartMan.png"), walkerMap, canWalk[0], canWalk[1]);
+        glcm.loadCount = 100;
         glcm.destX = canWalk[2];
         glcm.destY = canWalk[3];
         this.game.addWalker(glcm);
@@ -108,9 +111,11 @@ function goldMine(game, x, y) {
     this.resType = "gold";
     this.prodTime = 30;
     this.numEmpNeeded = 16;
-    this.renderX = 25;
-    this.renderY = 5;
+    this.renderX = 37;
+    this.renderY = 0;
     this.placeCost = 100;
+    //TESTING
+    this.numEmployed = 16;
 }
 
 goldMine.prototype = new resourceBuild();
@@ -160,11 +165,14 @@ huntLodge.prototype.update = function () {
         if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) {
             if (this.game.walkers[i] instanceof Hunter && this.game.walkers[i].hunted) {
                 this.foodStore += 100;
-                this.game.walkers[i].removeFromWorld = true;
-               
+                this.game.walkers[i].removeFromWorld = true; 
             }
         }
     }
-    if (this.foodStore > 100) this.genWalker(this.game.granaries);
+    if (this.foodStore > 100) {
+        this.foodStore -= 100;
+        this.genWalker(this.game.granaries);
+    }
+
 
 }

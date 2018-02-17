@@ -28,11 +28,11 @@ function Bazaar(game, x, y) {
     this.placeCost = 400;
     this.range = 30;
     this.foodLevel = 0;
-    this.weaverLevel = 0;
+    this.weaverLevel = 100;
     this.weaverSell = 40;  
-    this.potterLevel = 0;
+    this.potterLevel = 100;
     this.potterSell = 35; 
-    this.brewerLevel = 0;
+    this.brewerLevel = 100;
     this.brewerSell = 45; 
     this.funds = 320; 
     this.workTime = 0;
@@ -64,7 +64,7 @@ Bazaar.prototype.update = function () {
         this.currAnim = this.closedAnim;
     }
 
-    if (this.numEmployed < this.numEmpNeeded || this.numResources == 0) {
+    if (this.numEmployed < this.numEmpNeeded) {
         this.currAnim = this.closedAnim;
         this.numEmployed = 0;
 
@@ -93,60 +93,74 @@ Bazaar.prototype.update = function () {
                 }
             }
         }
-    }
-    //only send walkers out on a set schedule - atm every 30 seconds
-    if (this.game.timer.gameTime - this.workTime >= this.pushTime) {
-        this.workTime = this.game.timer.gameTime;
-        if (this.funds >= 200) {
-            //send walker our w/ enough to buy up to 1 sets of each item to start with i
-            //send bazaar lady to the industries:
-            console.log("Push Time!"); 
+
+        if (this.game.timer.gameTime - this.workTime >= this.pushTime) {
+            this.workTime = this.game.timer.gameTime;
             for (var i = 0; i < this.game.industries.length; i++) {
-                if (!(this.game.industries[i] instanceof Bazaar)) { 
-                    //generate walker(s) to send
-                    if (this.game.industries[i] instanceof Brewery) { 
-                        //genwaker beer
-                        console.log("Generating beer walker");
-                        this.genWalker(this.game.industries[i], 45, "beer");
-                    }
-                    if (this.game.industries[i] instanceof Weaver) {
-                        //genwalker linen
-                        this.genWalker(this.game.industries[i], 50, "linen");
-                    }
-                    if (this.game.industries[i] instanceof Potter) { 
-                        //genwalker pottery
-                        this.genWalker(this.game.industries[i], 55, "pottery");
+                //send walker our w/ enough to buy up to 1 sets of each item to start with i
+                //send bazaar lady to the industries:
+                console.log("Push Time!"); 
+                if (!(this.game.industries[i] instanceof Bazaar)) {
+                    if (this.funds >= 45 && this.numEmployed === this.maxEmployed) { 
+                        //generate walker(s) to send
+                        if (this.game.industries[i] instanceof Brewery && this.funds > 45) { 
+                            //genwaker beer
+                            this.genWalker(this.game.industries[i], 45, "beer");
+                            this.funds -= 45; 
+                        }
+                        if (this.game.industries[i] instanceof Weaver && this.funds > 50) {
+                            //genwalker linen
+                            this.genWalker(this.game.industries[i], 50, "linen");
+                            this.funds -= 50; 
+                        }
+                        if (this.game.industries[i] instanceof Potter && this.funds > 55) { 
+                            //genwalker pottery
+                            this.genWalker(this.game.industries[i], 55, "pottery");
+                            this.funds -= 55; 
+                        }
                     }
                 }
             }
-        }
-
-
-
-        //do this at a set time, 
-        rangePop = 0; 
-        for (i = 0; i < this.game.housingArr.length; i++) { 
-            thisHouse = this.game.housingArr[i];
-            rangePop += thisHouse.numHoused;
-            if (arrived(this.radius, thisHouse.x, thisHouse.y)) { 
-                
-                if (this.foodLevel > 0) { 
-                    //insert a walker here - give the walker food, have it go to the house
-                    //if done, make sure the house has code to kill walker!!!
-                    thisHouse.foodLevel += thisHouse.level * 5;
-                    this.foodLevel -= thisHouse.level * 5; 
-                    console.log(this.game.housingArr[i].foodLevel);
+    
+            // send food to house 
+            rangePop = 0; 
+            for (i = 0; i < this.game.housingArr.length; i++) { 
+                thisHouse = this.game.housingArr[i];
+                rangePop += thisHouse.numHoused;
+                if (arrived(this.radius, thisHouse.x, thisHouse.y)) { 
+                    for (var i = 0; i < this.game.housingArr.length ; i++) { 
+                        if (this.foodLevel > 0) { 
+                            //insert a walker here - give the walker food, have it go to the house
+                            //if done, make sure the house has code to kill walker!!!
+                            //Currently, the walker is generated but the arrival doesn't actually 
+                            //carry any food with him :3c 
+                            this.genWalker(this.game.housingArr[i], 0, "food");
+                            thisHouse.foodLevel += thisHouse.level * 20;
+                            this.foodLevel -= thisHouse.level * 5; 
+                        } 
+                    }
                 } 
-            } 
+            }
+            //send gold guy to palace 
+            var toSend = 0; 
+            if (this.game.gameWorld.funds > 0) {
+                //It just happens 
+                //grab the excess for sold amount then send it in a gold card to the palace 
+                //item amount x100 * itemSellprice 
+                toSend += (this.brewerLevel / 100 * 75) + (this.weaverLevel / 100 * 80) + (this.potterLevel / 100 * 85);
+                this.funds += toSend * 0.75; 
+                //.25 goes to Palace
+                brewerLevel = 0; 
+                weaverLevel = 0; 
+                potterLevel = 0; 
+                //console.log("GOLD: ", toSend * .25);
+                this.genWalker(this.game.gameWorld.palace, (toSend * .25), "gold");
+            }
+    
         }
-    }
 
-
-    if (this.game.gameWorld.funds > 0) {
-        //It just happens 
-        //grab the excess for sold amount then send it in a gold card to the palace 
-        //item amount x100 * itemSellprice 
     }
+    //only send walkers out on a set schedule - atm every 30 seconds
 
 
 }
@@ -190,6 +204,7 @@ Bazaar.prototype.pushBoi = function (canWalk, funds, type) {
         this.game.addWalker(mcm);
     } else if (type === "gold") {
         var glcm = new glCartMan(this.game, ASSET_MANAGER.getAsset("./img/goldCartMan.png"), walkerMap, canWalk[0], canWalk[1]);
+        glcm.loadCount = funds;
         glcm.destX = canWalk[2];
         glcm.destY = canWalk[3];
         this.game.addWalker(glcm);
@@ -198,6 +213,11 @@ Bazaar.prototype.pushBoi = function (canWalk, funds, type) {
         pcm.destX = canWalk[2];
         pcm.destY = canWalk[3];
         this.game.addWalker(pcm);
+    } else if (type === "food") {
+        var fcm = new bazLad(this.game, ASSET_MANAGER.getAsset("./img/bazaarLady 22x42.png"), walkerMap, canWalk[0], canWalk[1], funds, type);
+        fcm.destX = canWalk[2];
+        fcm.destY = canWalk[3];
+        this.game.addWalker(fcm);
     }
 
 }
