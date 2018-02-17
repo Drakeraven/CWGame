@@ -119,7 +119,7 @@ function goldMine(game, x, y) {
 
 goldMine.prototype = new resourceBuild();
 goldMine.prototype.constructor = goldMine;
-GoldMine.prototype.toStringStats = function() {
+goldMine.prototype.toStringStats = function() {
     str = "";//TODO
     return str;
 }

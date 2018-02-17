@@ -94,7 +94,6 @@ GameWorld.prototype.toStringStats = function() {
 
 // the "main" code begins here
 
-
 var ASSET_MANAGER = new AssetManager();
 var walkerMap = new mapData().testMap;
 ASSET_MANAGER.assetQueueDownloads();// found in assetmanager.js
@@ -109,8 +108,7 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.map = new Map(gameEngine);
     gameEngine.init(ctx);
     gameEngine.map.readMap(new mapData().testMap);
-    var gameWorld = new gameWorld();
-
+    
     gameEngine.start();
     console.log(walkerMap);
     updateMapData(0, 0, 1);

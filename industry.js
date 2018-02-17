@@ -90,7 +90,7 @@ industry.prototype.update = function () {
         }
     }
 }
-farming.prototype.toStringStats = function() {
+industry.prototype.toStringStats = function() {
     str = "";//TODO
     return str;
 }

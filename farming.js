@@ -117,7 +117,7 @@ function barFarm(game, x, y) {
     this.maxYield = 400;
 }
 
-barFarm.prototype = new farming();
+barFarm.prototype = Object.create(farming.prototype);
 barFarm.prototype.constructor = barFarm;
 
 barFarm.prototype.pushBoi = function (canWalk) {
@@ -135,7 +135,7 @@ function flaxFarm(game, x, y) {
     this.maxYield = 400;
 }
 
-flaxFarm.prototype = new farming();
+flaxFarm.prototype = Object.create(farming.prototype);
 flaxFarm.prototype.constructor = flaxFarm;
 
 flaxFarm.prototype.pushBoi = function (canWalk) {
