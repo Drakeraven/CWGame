@@ -387,6 +387,15 @@ GameEngine.prototype.update = function () {
         }
     }
 
+    for (var i = 0; i < this.entities.length; i++) { 
+        var farm = this.entities[i]; 
+        if ((farm instanceof clayPit || farm instanceof huntLodge 
+            || farm instanceof goldMine) &&  working > farm.numEmpNeeded) { 
+                farm.numEmployed = farm.numEmpNeeded;
+                working -= farm.numEmpNeeded;
+        }
+    }
+
     for (var i = 0; i < this.yards.length; i++) {
         var yard = this.yards[i];
         if (working > yard.numEmpNeeded) {
