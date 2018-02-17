@@ -1,3 +1,4 @@
+
 function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, sheetWidth, frameDuration, frames, loop) {
     this.spriteSheet = spriteSheet;
     this.startX = startX * frameWidth;
@@ -10,6 +11,15 @@ function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, sheetWi
     this.totalTime = frameDuration * frames;
     this.elapsedTime = 0;
     this.loop = loop;
+}
+var walkerMap = new mapData().testMap;
+function updateMapData(x, y, xDim, yDim, type) {
+  for (i = x; i < x + xDim && x + xDim < walkerMap.length; i++) {
+    for(j = y; j < y + yDim && y + yDim < walkerMap[i].length; j++) {
+      walkerMap[i][j] = type;
+      console.log(walkerMap);
+    }
+  }
 }
 
 Animation.prototype.drawFrame = function (tick, ctx, x, y) {
@@ -73,7 +83,7 @@ function Tile(game, tileType, x, y) {
   this.y = y;
   this.tileType = tileType;
 }
-
+Tile.prototype
 Tile.prototype = new Entity();
 Tile.prototype.constructor = Tile;
 
@@ -90,21 +100,21 @@ Tile.prototype.draw = function(ctx) {
 
 function Map(gameEngine) {
     this.game = gameEngine;
+    this.simpleMapData = [];
     this.mapList = [];
     // Note: not needed when you give mapData.
-    this.mapArray = Array(30).fill(Array(30).fill(0));
+
 }
 Map.prototype.constructor = Map;
 
-Map.prototype.addThing = function(thing, x, y) {
-  if(this.mapList[y][x].thing == null) {
+Map.prototype.addThing = function(thing) {
+  if(this.mapList[y][x].thing == null & thing != null) {
+    updateMapData(x, y, thing.bWidth, thing.bHeight, 2);
     this.mapList[y][x].thing = thing;
-    thing.x = x;
-    thing.y = y;
+    this.mapList[y][x].tileType = 2;
     this.game.addEntity(thing);
-
     if(thing.dimensionX > 1) {
-      console.log('hi')
+      console.log('hi');
           for(i = x + 1; i < x + thing.dimensionX; i++) {
             this.mapList[y][i].thing = thing;
             console.log(this.mapList[y][i].thing)
@@ -113,6 +123,7 @@ Map.prototype.addThing = function(thing, x, y) {
     if(thing.dimensionY > 1) {
           for(i = y + 1; i < y + thing.dimensionY; i++) {
             this.mapList[i][x].thing = thing;
+            console.log(this.mapList[y][i].thing)
           }
     }
   }
@@ -132,6 +143,7 @@ Map.prototype.readMap = function(mapData) {
             this.mapList[i][j] = tile;
         }
     }
+    this.game.initcamera();
 }
 
 //need an instance at start. we can adjust values as needed.
@@ -158,6 +170,7 @@ GameWorld.prototype.getWorkForce = function () {
 }
 
 // the "main" code begins here
+
 
 var ASSET_MANAGER = new AssetManager();
 var walkerMap = new mapData().testMap;
@@ -199,7 +212,7 @@ ASSET_MANAGER.queueDownload("./img/Hunter2.png");
 ASSET_MANAGER.queueDownload("./img/immig.png");
 ASSET_MANAGER.queueDownload("./img/ClayThingy.png");
 ASSET_MANAGER.queueDownload("./img/smallWell.png");
-ASSET_MANAGER.queueDownload("./img/bigWell.png"); 
+ASSET_MANAGER.queueDownload("./img/bigWell.png");
 
 //TODO: add in imgs for fixed walkers
 
@@ -210,7 +223,7 @@ ASSET_MANAGER.downloadAll(function () {
 
     var gameEngine = new GameEngine();
 
-    gameEngine.gameWorld = new GameWorld(); 
+    gameEngine.gameWorld = new GameWorld();
 
     gameEngine.map = new Map(gameEngine);
     gameEngine.init(ctx);
@@ -265,10 +278,15 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addIndustry(potter);
 
     //var mine = new goldMine(gameEngine, 3, 2);
-    var pit = new clayPit(gameEngine, 3, 2);
     //gameEngine.addEntity(mine);
-    gameEngine.addEntity(pit);
 
     gameEngine.start();
-    
+
+
+    console.log(walkerMap);
+  //  gameEngine.map.addThing(brewery, 0, 0);
+    updateMapData(0, 0, 1);
+
+
+
 });

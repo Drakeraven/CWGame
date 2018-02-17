@@ -17,6 +17,41 @@ function Timer() {
     this.wallLastTimestamp = 0;
 }
 
+GameEngine.prototype.mergeSort  = function (arr) {
+  if (arr.length === 1) {
+    // return once we hit an array with a single item
+    return arr
+  }
+
+  const middle = Math.floor(arr.length / 2) // get the middle item of the array rounded down
+  const left = arr.slice(0, middle) // items on the left side
+  const right = arr.slice(middle) // items on the right side
+
+  return this.merge(
+    this.mergeSort(left),
+    this.mergeSort(right)
+  )
+}
+
+// compare the arrays item by item and return the concatenated result
+GameEngine.prototype.merge = function (left, right) {
+  let result = []
+  let indexLeft = 0
+  let indexRight = 0
+
+  while (indexLeft < left.length && indexRight < right.length) {
+    if (this.twodtoisoY(left[indexLeft].x, left[indexLeft].y)  > this.twodtoisoY(right[indexRight].x, right[indexRight].y)) {
+      result.push(left[indexLeft])
+      indexLeft++
+    } else {
+      result.push(right[indexRight])
+      indexRight++
+    }
+  }
+
+  return result.concat(left.slice(indexLeft)).concat(right.slice(indexRight))
+}
+
 Timer.prototype.tick = function () {
     var wallCurrent = Date.now();
     var wallDelta = (wallCurrent - this.wallLastTimestamp) / 1000;
@@ -69,6 +104,12 @@ GameEngine.prototype.start = function () {
 //2D to ISO functiosn to manipulate X and Y
 GameEngine.prototype.twodtoisoX = function (x, y) {
     return (((x - y) + this.cameraoffX) * 29);
+GameEngine.prototype.initcamera = function () {
+  this.cameraoffX = this.map.mapList.length / 2
+  this.cameraoffY = this.map.mapList[1].length / 2
+}
+GameEngine.prototype.twodtoisoX = function (x,y) {
+  return (((x - y) + this.cameraoffX) * 29 );
 }
 GameEngine.prototype.twodtoisoY = function (x, y) {
     return (((x + y) - this.cameraoffY)) * 15;
@@ -293,10 +334,12 @@ GameEngine.prototype.addBuilding = function (entity) {
 GameEngine.prototype.addWalker = function (walker) {
     console.log("added walker");
     this.walkers.push(walker);
+    this.entities.push(walker);
 }
 
 GameEngine.prototype.addIndustry = function (industry) {
     console.log("added industry");
+    this.industries.push(industry);
     this.industries.push(industry);
 }
 
@@ -313,11 +356,14 @@ GameEngine.prototype.addYard = function (yard) {
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
-    for (var i = 0; i < this.map.mapList.length; i++) {
-        for (var j = 0; j < this.map.mapList[1].length; j++) {
-            this.map.mapList[i][j].draw(this.ctx);
-        }
+    this.entities = this.mergeSort(this.entities);
+
+    for(var i = 0; i < this.map.mapList.length; i++) {
+      for(var j = 0; j < this.map.mapList[1].length; j++) {
+        this.map.mapList[j][i].draw(this.ctx);
+      }
     }
+
     for (var i = 0; i < this.entities.length; i++) {
         this.entities[i].draw(this.ctx);
     }
@@ -486,4 +532,3 @@ Entity.prototype.rotateAndCache = function (image, angle) {
     //offscreenCtx.strokeRect(0,0,size,size);
     return offscreenCanvas;
 }
-
