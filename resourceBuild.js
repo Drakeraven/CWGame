@@ -98,7 +98,8 @@ resourceBuild.prototype.pushBoi = function (canWalk) {
 
 }
 resourceBuild.prototype.toStringStats = function() {
-    str = "";//TODO
+    str = "Employeed: " + this.numEmployed + "\Employees Needed: " + this.numEmpNeeded +
+            "\n";//TODO
     return str;
 }
 function goldMine(game, x, y) {

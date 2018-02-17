@@ -97,6 +97,7 @@ bazaar.prototype.draw = function (ctx) {
 }
 
 bazaar.prototype.toStringStats = function () {
-    str = "";
+    str = "Employeed: " + this.numEmployed + "\tEmployees Needed: " + (this.maxEmployed - this.numEmployed) + 
+            "\nRange: " + this.range + "\tFunds: " + this.funds + "\n";
     return str;
 }
