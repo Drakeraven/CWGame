@@ -113,6 +113,7 @@ $(function() {
             gameEngine.init(ctx);
             gameEngine.map.readMap(new MapData().testMap);
             gameEngine.gameWorld.palace = new Palace(gameEngine, 40, 70);
+            gameEngine.map.addThing(gameEngine.gameWorld.palace);
             console.log(gameEngine.gameWorld.palace);
             gameEngine.start();
             console.log(walkerMap);
