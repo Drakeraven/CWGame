@@ -20,7 +20,7 @@ function resourceBuild(game, x, y) {
     Entity.call(this, game, x, y);
 }
 
-resourceBuild.prototype = new Entity();
+resourceBuild.prototype = Object.create(Entity.prototype);
 resourceBuild.prototype.constructor = resourceBuild;
 
 resourceBuild.prototype.update = function () {
@@ -119,12 +119,9 @@ function goldMine(game, x, y) {
     this.placeCost = 100;
 }
 
-goldMine.prototype = new resourceBuild();
+goldMine.prototype = Object.create(resourceBuild.prototype);
 goldMine.prototype.constructor = goldMine;
-goldMine.prototype.toStringStats = function() {
-    str = "";//TODO
-    return str;
-}
+
 function clayPit(game, x, y) {
     resourceBuild.call(this, game, x, y);
     this.img = ASSET_MANAGER.getAsset('./img/ClayThingy.png');
@@ -140,12 +137,9 @@ function clayPit(game, x, y) {
     this.placeCost = 20;
 }
 
-clayPit.prototype = new resourceBuild();
+clayPit.prototype = Object.create(resourceBuild.prototype);
 clayPit.prototype.constructor = clayPit;
-clayPit.prototype.toStringStats = function() {
-    str = "";//TODO
-    return str;
-}
+
 //Possibly Hunting Lodge? Extend the update behavior to deal with returning hunters.
 function huntLodge(game, x, y) {
     resourceBuild.call(this, game, x, y);
@@ -163,7 +157,7 @@ function huntLodge(game, x, y) {
     this.foodStore = 0;
 }
 
-huntLodge.prototype = new resourceBuild();
+huntLodge.prototype = Object.create(resourceBuild.prototype);
 huntLodge.prototype.constructor = huntLodge;
 
 huntLodge.prototype.update = function () {
@@ -183,7 +177,4 @@ huntLodge.prototype.update = function () {
 
 
 }
-huntLodge.prototype.toStringStats = function() {
-    str = "";//TODO
-    return str;
-}
+
