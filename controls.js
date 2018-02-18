@@ -8,8 +8,12 @@ $(function () {
 });
 
 function displayStats(gameEngine, x, y) {
-    displayStr = gameEngine.map.mapList[y][x].thing.toStringStats();
-    $('.toStringStats').text(displayStr);
+    if (gameEngine.map.mapList[y][x].thing) {
+        console.log("hi");
+        displayStr = gameEngine.map.mapList[y][x].thing.toStringStats();
+        $('#toStringStats').empty();
+        $('#toStringStats').text(displayStr);
+    }
 }
 function setHotKeys(event, game) {
     if (event.code === "KeyH") {
@@ -35,24 +39,24 @@ function setHotKeys(event, game) {
     } else if (event.code === "KeyG") {
         setButton("Game Information");
     } else if (event.code === "ArrowRight" && game.cameraoffX > -80) {
-      if(game.cameraoffY < 140 && game.cameraoffY > 0) {
-          game.cameraoffX -= 1;
-      }
+        if (game.cameraoffY < 140 && game.cameraoffY > 0) {
+            game.cameraoffX -= 1;
+        }
 
     } else if (event.code === "ArrowLeft" && game.cameraoffX < 100) {
-      if(game.cameraoffY < 140 && game.cameraoffY > 0) {
-                game.cameraoffX += 1;
-      }
+        if (game.cameraoffY < 140 && game.cameraoffY > 0) {
+            game.cameraoffX += 1;
+        }
 
     } else if (event.code === "ArrowUp" && game.cameraoffY > 0) {
-      if(game.cameraoffX > -70 && game.cameraoffX < 150) {
-                game.cameraoffY -= 1;
-      }
+        if (game.cameraoffX > -70 && game.cameraoffX < 150) {
+            game.cameraoffY -= 1;
+        }
 
     } else if (event.code === "ArrowDown" && game.cameraoffY < 160) {
-      if(game.cameraoffX > -70 && game.cameraoffX < 150) {
-                        game.cameraoffY += 1;
-      }
+        if (game.cameraoffX > -70 && game.cameraoffX < 150) {
+            game.cameraoffY += 1;
+        }
 
     }
 }

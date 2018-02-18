@@ -212,7 +212,7 @@ Bazaar.prototype.pushBoi = function (canWalk, funds, type, bRef) {
 }
 
 Bazaar.prototype.toStringStats = function () {
-    str = "Employeed: " + this.numEmployed + "\tEmployees Needed: " + (this.maxEmployed - this.numEmployed) + 
-            "\nRange: " + this.range + "\tFunds: " + this.funds + "\n";
+    str = "Employeed: " + this.numEmployed + "\nEmployees Needed: " + (this.maxEmployed - this.numEmployed) + 
+            "\nRange: " + this.range + "\nFunds: " + this.funds + "\n";
     return str;
 }

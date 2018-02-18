@@ -301,7 +301,7 @@ StoreYard.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 StoreYard.prototype.toStringStats = function() {
-    str = "Employees: " + this.numEmployed + "Employees Needed: " + this.numEmpNeeded;//TODO
+    str = "Employees: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded;
     return str;
 }
 

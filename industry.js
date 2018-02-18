@@ -105,7 +105,7 @@ industry.prototype.update = function () {
     }
 }
 industry.prototype.toStringStats = function() {
-    str = "";//TODO
+    str = "Employeed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded;
     return str;
 }
 industry.prototype.draw = function (ctx) {

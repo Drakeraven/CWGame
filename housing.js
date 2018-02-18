@@ -153,7 +153,7 @@ Housing.prototype = Object.create(house.prototype);
 Housing.prototype.constructor = Housing;
 
 house.prototype.toStringStats = function() {
-    str = "Housed: " + this.numHoused + "\tHas water: " + this.waterLevel + 
+    str = "Housed: " + this.numHoused + "\nHas water: " + this.waterLevel + 
             "\nFood access: " + this.foodLevel + "\n";
     return str;
 }
