@@ -325,7 +325,7 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
             console.log('nuthin2seahear')
             break
 }
-    if (selection) {//checks that selection is not null/ not default
+    if (selection && entity) {//checks that selection is not null/ not default
         that.map.addThing(entity);
     }
 }
