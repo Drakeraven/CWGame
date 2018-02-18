@@ -18,6 +18,9 @@ function Timer() {
 }
 
 GameEngine.prototype.mergeSort = function (arr) {
+    if(arr.length === 0) {
+      return [];
+    }
     if (arr.length === 1) {
         // return once we hit an array with a single item
         return arr
