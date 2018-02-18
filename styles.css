@@ -25,6 +25,16 @@ img.btn {
     height: 48px;
 
 }
+#goals-box {
+    width:144px;
+    height:70px;
+    background-color:rgb(206, 235, 164);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid rgb(5, 4, 4);
+    padding: 3px;
+}
 #SplashScreen {
     height: 300;
     width: 100%;
@@ -38,6 +48,16 @@ img.btn {
     left: 446px;
     top: 255px;
     position: fixed;
+}
+#Game-Information {
+    width:px;
+    height:70px;
+    background-color:rgb(206, 235, 164);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid rgb(5, 4, 4);
+    
 }
 
 .game-container {
@@ -76,22 +96,22 @@ img.btn {
     width: 150px;
     height: 70px;
     border: 1px solid rgb(5, 4, 4);
-    margin-bottom: 10px;
-    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
     float: left;
 }
 
 .stats-box {
-    width: 150px;
-    height: 100px;
+    width: 144px;
+    height: 80px;
     border: 1px solid rgb(5, 4, 4);
-    margin-bottom: 5px;
     margin-top: 5px;
     background-color: rgb(243, 172, 125);
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
     float: left;
+    padding: 2px;
 }
 
 .options {
@@ -102,7 +122,7 @@ img.btn {
     background-color: rgb(243, 172, 125);
     text-align: center;
     font-size: 12px;
-    margin-top: 10px;
+    margin-top: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -118,16 +138,20 @@ select option {
 }
 
 .message-box {
-    width: 150px;
+    width: 144px;
     height: 80px;
     border: 1px solid rgb(5, 4, 4);
-    margin-bottom: 10px;
-    margin-top: 10px;
+ 
+    margin-top: 5px;
     background-color: rgb(243, 172, 125);
     float: left;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+    
+}
+#current-msg{
+    padding: 2px;
 }
 
 .menu-button-container {
