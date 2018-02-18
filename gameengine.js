@@ -149,7 +149,6 @@ function removeRoad(gameEngine, x, y) {
 
 //"removes" building from map
 function removeBuilding(gameEngine, x, y) {
-                  console.log('hi?');
     if (gameEngine.map.mapList[y][x].thing != null) {
         var thing = gameEngine.map.mapList[y][x].thing;
         walkerMap[x][y] = mapData[x][y];
