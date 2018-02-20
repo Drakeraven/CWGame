@@ -234,103 +234,90 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
     }
     var that = this;
     let entity = null;
+    let list = null;
     switch (selection) {
         //addmap function called at the very end, so its not repeated in each case
         //NOTICE: Some are added to special arrays defined above this gameengine, some are pushed to entities[]
         //X and Y have been make ISO friendly before entering this function
         case "House":
             entity = new Housing(that, x, y);
-            this.housingArr.push(entity);
+            list = that.housingArr;
             break;
 
         case "Grain Farm":
             entity = new grainFarm(that, x, y);
-            this.entities.push(entity);
             break;
 
         case "Barley Farm":
             entity = new barFarm(that, x, y);
-            this.entities.push(entity);
             break;
 
         case "Flax Farm":
             entity = new flaxFarm(that, x, y);
-            this.entities.push(entity);
             break;
 
         case "Hunting Lodge":
             entity = new huntLodge(that, x, y);
-            this.addEntity(entity);
             break;
 
         case "Well":
             entity = new Well(that, x, y);
-            this.entities.push(entity);
             break;
 
         case "Water Supply":
             entity = new WaterSupply(that, x, y);
-            this.entities.push(entity);
             break;
 
         case "Bazaar":
             entity = new Bazaar(that, x, y);
-            this.industries.push(entity);
+            list = that.industries;
             break;
 
         case "Granary":
             entity = new Granary(that, x, y);
-            this.granaries.push(entity);
+            list = that.granaries;
             break;
 
         case "Storage Yard":
             entity = new StoreYard(that, x, y);
-            this.yards.push(entity);
+            list = that.yards;
             break;
 
         case "Weaver":
             entity = new Weaver(that, x, y);
-            this.industries.push(entity);
+            list = that.industries;
             break;
 
         case "Brewery":
             entity = new Brewery(that, x, y);
-            this.industries.push(entity);
+            list = that.industries;
             break;
 
         case "Potter":
             entity = new Potter(that, x, y);
-            this.industries.push(entity);
+            list = that.industries;
             break;
         case "Clay Pit":
             entity = new clayPit(that, x, y);
-            this.entities.push(entity);
             break;
         case "Gold Mine":
             entity = new goldMine(that, x, y);
-            this.entities.push(entity);
-
             break;
         case "Fire House":
             entity = new FireHouse(that, x, y);
-            this.entities.push(entity);
-
             break;
         case "Police Station":
             entity = new CopHouse(that, x, y);
-            this.entities.push(entity);
-
             break;
         case "Tax House":
             entity = new TaxHouse(that, x, y);
-            this.entities.push(entity);
             break;
         default:
             console.log('nuthin2seahear')
             break
 }
     if (selection) {//checks that selection is not null/ not default
-        that.map.addThing(entity);
+        that.map.addThing(entity, list);
     }
 }
 

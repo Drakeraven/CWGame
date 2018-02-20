@@ -7,7 +7,7 @@ function Map(gameEngine) {
 }
 Map.prototype.constructor = Map;
 
-Map.prototype.addThing = function(thing) {
+Map.prototype.addThing = function(thing, list) {
   var x = thing.x;
   var y = thing.y;
   var canDo = true;
@@ -18,12 +18,18 @@ Map.prototype.addThing = function(thing) {
       }
     }
   }
-  if(canDo &&thing != null) {
+  if(canDo && thing) {
     console.log('hi');
     updateMapData(x, y, thing.bWidth, thing.bHeight, 2);
     //this.mapList[y][x].thing = thing;
     //this.mapList[y][x].tileType = 2;
-    this.game.addEntity(thing);
+    if(list) {
+        list.push(thing);
+        this.game.entities.push(thing);
+    } else {
+        this.game.entities.push(thing);
+    }
+
     for (i = thing.x; i < thing.x + thing.bWidth; i++) {
       for(j = thing.y; j < thing.y + thing.bHeight; j++) {
         console.log(thing.x+ ' ' + thing.y)
@@ -42,7 +48,6 @@ Map.prototype.readMap = function (mapData) {
             x = j;
             y = i;
             tileType = mapData[i][j];
-            console.log(mapData[i][j]);
             //console.log(twodtoisoX(x, y) + ' '+ twodtoisoY(x, y));
             var tile = new Tile(this.game, tileType, x, y);
             //this.game.addEntity(tile);
