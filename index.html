@@ -11,7 +11,7 @@
 <body>
     <div id="SplashScreen" style="font-size: 20px; font-weight: bold;">
         <img src="./img/Title.PNG" id="titleScreen" style="width: 660px;" />
-        <input id="StartButton" type="button" value="Play Game" style="width:140px; height: 50px; font-size: 18px; font-weight:bold;"
+        <input id="StartButton" type="button" disabled="disabled" value="Play Game" style="width:140px; height: 50px; font-size: 18px; font-weight:bold;"
         />
     </div>
 
@@ -31,9 +31,7 @@
             <div class="stats-box">
                 <div class="stats" style="text-align:center; font-size:12px;">
                     <label>Building Status Box</label>
-                    <pre id="toStringStats" style="text-align:left; font-size:11px; ">
-                            Select a building to view status using the "Select" button!
-                    </pre>
+                    <pre id="toStringStats" style="text-align:left; font-size:11px; ">Select a building to view status using the "Select" button!</pre>
                 </div>
             </div>
             <div class="button-pane">
@@ -100,37 +98,56 @@
                     <div class="pharoh-button" title="Game Information">
                         <img class="btn" src="./img/StatsAndGoals.png" />
                     </div>
-                    <div class="pharoh-button" title="Messages">
+                    <div class="pharoh-button" title="Controls">
                         <img class="btn" src="./img/Messages.png" />
                     </div>
 
                 </div>
             </div>
 
-            <div class="message-box" style="text-align:center; font-size:12px;">
-                <label>Messages</label>
+            <div class="gameinfo-box" style="text-align:center; font-size:12px;">
+                <label>Game Information</label>
                 <br/>
-                <div id="current-msg">
-                    Welcome to Pharoah's Spiritual Younger Brother III!
-                </div>
+                <pre id="current-msg">
+                </pre>
             </div>
 
         </div>
         <div id="info-bar">
             <div id="ingame">
-                <div id="funds"></div>
-                <div id="cost-of-selected"style="width:100px; height:16; background: rgb(240, 207, 163);"></div>
+                <span id="part1">
+                    <label class="vertical" style="display:inline-block;">Current Funds:</label>
+                    <div id="current-funds"></div>
+                </span>
+
+                <span id="part2">
+                    <label class="vertical">Item Cost: </label>
+                    <div id="cost-of-selected"></div>
+                </span>
+
+                <span id="part3">
+                    <label class="vertical">Messages: </label>
+                    <div id="current-msg">
+                        Welcome to Pharoah's Spiritual Younger Brother III!
+                    </div>
+                </span>
+                <span id="part4">
+                    <label class="vertical">Drag:</label>
+                    <input type="checkbox" id="drag" name="" onclick="setDraggable();" />
+                </span>
+
+
 
             </div>
         </div>
     </div>
-    
-    
 
-    <div id="Game-Information" style="display:none; font-size:20px;">
+
+
+    <div id="Game-Information" style="display:none; font-size:20px; text-align:center; ">
         <label>Game Information</label>
-        <div id="currentGameInfo" style="text-align:center; font-size:16px;"></div>
-        <input id="Close-Button" type="button" value="Close" style="width:10px; height: 40px; font-size: 16px; font-weight:bold;"
+        <pre id="popup-text" style="text-align:center; font-size:16px;"></pre>
+        <input id="Close-Button" type="button" value="Close" style="width:60px; height: 30px; font-size: 16px; font-weight:bold; justify-content: center;"
         />
     </div>
     <div id="EndGame" style="display:none;">
