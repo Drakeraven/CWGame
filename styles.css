@@ -144,7 +144,7 @@ select option {
 
 .gameinfo-box {
     width: 150px;
-    height: 80px;
+    height: 90px;
     border: 1px solid rgb(5, 4, 4);
  
     margin-top: 5px;
@@ -198,7 +198,8 @@ label {
 }
 
 #part1 {
-    padding-top: 1px;
+    padding-top: 2px;
+    padding-left: 2px;
     display: inline-block;
     width:150px;
     height:18px; 
@@ -209,12 +210,11 @@ label {
     border-radius: 5px;
     border: 1px solid rgb(5, 4, 4);
     margin-left: 5px;
-    text-align:center;
-
 }
 
 #part2 {
-    padding-top: 1px;
+    padding-top: 2px;
+    padding-left: 2px;
     display: inline-block;
     width:100px;
     height:18px; 
@@ -225,11 +225,11 @@ label {
     border-radius: 5px;
     border: 1px solid rgb(5, 4, 4);
     margin-left: 5px;
-    text-align:center;
 }
 
 #part3 {
-    padding-top: 1px;
+    padding-top: 2px;
+    padding-left: 2px;
     display: inline-block;
     width:350px;
     height:18px; 
@@ -240,11 +240,11 @@ label {
     border-radius: 5px;
     border: 1px solid rgb(5, 4, 4);
     margin-left: 5px;
-    text-align:center;
 }
 
 #part4 {
-    padding-top: 1px;
+    padding-top: 2px;
+    padding-left: 2px;
     display: inline-block;
     width:60px; 
     overflow: hidden;
@@ -255,7 +255,6 @@ label {
     border: 1px solid rgb(5, 4, 4);
     margin-left: 5px;
     height: 18px;
-    text-align:center;
 }
 
 #StartButton {
