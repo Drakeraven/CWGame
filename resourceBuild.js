@@ -41,8 +41,8 @@ resourceBuild.prototype.update = function () {
             } else if (this instanceof huntLodge) {
                 var huntah = new Hunter(this.game, ASSET_MANAGER.getAsset("./img/Hunter1.5.png"),
                     ASSET_MANAGER.getAsset("./img/Hunter2.png"), walkerMap, this.x, this.y, this);
-                huntah.destX = 12;//FOR TESTING, NEEDS A FOREST COORD
-                huntah.destY = 18;
+                huntah.destX = 45;//FOR TESTING, NEEDS A FOREST COORD
+                huntah.destY = 66;
                 this.game.addWalker(huntah);
 
             } else { // instance of clay pit
@@ -167,6 +167,7 @@ huntLodge.prototype.update = function () {
             if (this.game.walkers[i] instanceof Hunter && this.game.walkers[i].hunted) {
                 this.foodStore += 100;
                 this.game.walkers[i].removeFromWorld = true;
+                console.log(this.foodStore);
             }
         }
     }

@@ -324,7 +324,7 @@ Hunter.prototype.constructor = Hunter;
 
 Hunter.prototype.update = function () {
     Walker8.prototype.update.apply(this);
-    if (this.path == 0) {
+    if (this.dX == 0 && this.dY == 0 && !this.hunted) {
         this.currAnimation.loop = false;
         this.huntTime++;
     }
