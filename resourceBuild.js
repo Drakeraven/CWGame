@@ -41,11 +41,11 @@ resourceBuild.prototype.update = function () {
             } else if (this instanceof huntLodge) {
                 var huntah = new Hunter(this.game, ASSET_MANAGER.getAsset("./img/Hunter1.5.png"),
                     ASSET_MANAGER.getAsset("./img/Hunter2.png"), walkerMap, this.roadTiles[0][1], this.roadTiles[0][0], this);
-                huntah.destX = 12;//FOR TESTING, NEEDS A FOREST COORD 
+                huntah.destX = 12;//FOR TESTING, NEEDS A FOREST COORD
                 huntah.destY = 18;
                 this.game.addWalker(huntah);
 
-            } else { // instance of clay pit 
+            } else { // instance of clay pit
                 this.genWalker(this.game.yards);
 
             }
@@ -99,7 +99,11 @@ resourceBuild.prototype.pushBoi = function (canWalk, bRef) {
     }
 
 }
-
+resourceBuild.prototype.toStringStats = function() {
+    str = "Employeed: " + this.numEmployed + "\Employees Needed: " + this.numEmpNeeded +
+            "\n";//TODO
+    return str;
+}
 function goldMine(game, x, y) {
     resourceBuild.call(this, game, x, y);
     this.img = ASSET_MANAGER.getAsset('./img/GoldMine.png');
@@ -113,13 +117,14 @@ function goldMine(game, x, y) {
     this.renderX = 37;
     this.renderY = 0;
     this.placeCost = 100;
-    //TESTING
-    this.numEmployed = 16;
 }
 
 goldMine.prototype = new resourceBuild();
 goldMine.prototype.constructor = goldMine;
-
+goldMine.prototype.toStringStats = function() {
+    str = "";//TODO
+    return str;
+}
 function clayPit(game, x, y) {
     resourceBuild.call(this, game, x, y);
     this.img = ASSET_MANAGER.getAsset('./img/ClayThingy.png');
@@ -133,14 +138,15 @@ function clayPit(game, x, y) {
     this.renderX = 29;
     this.renderY = 9;
     this.placeCost = 20;
-    //FOR TESTING
-    this.numEmployed = 14;
 }
 
 clayPit.prototype = new resourceBuild();
 clayPit.prototype.constructor = clayPit;
-
-//Possibly Hunting Lodge? Extend the update behavior to deal with returning hunters. 
+clayPit.prototype.toStringStats = function() {
+    str = "";//TODO
+    return str;
+}
+//Possibly Hunting Lodge? Extend the update behavior to deal with returning hunters.
 function huntLodge(game, x, y) {
     resourceBuild.call(this, game, x, y);
     this.img = ASSET_MANAGER.getAsset("./img/HuntingLodge.png");
@@ -155,8 +161,6 @@ function huntLodge(game, x, y) {
     this.renderY = 53;
     this.placeCost = 35;
     this.foodStore = 0;
-
-    this.numEmployed = 18;
 }
 
 huntLodge.prototype = new resourceBuild();
@@ -168,7 +172,7 @@ huntLodge.prototype.update = function () {
         if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y)) {
             if (this.game.walkers[i] instanceof Hunter && this.game.walkers[i].hunted) {
                 this.foodStore += 100;
-                this.game.walkers[i].removeFromWorld = true; 
+                this.game.walkers[i].removeFromWorld = true;
             }
         }
     }
@@ -178,4 +182,8 @@ huntLodge.prototype.update = function () {
     }
 
 
+}
+huntLodge.prototype.toStringStats = function() {
+    str = "";//TODO
+    return str;
 }

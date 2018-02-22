@@ -28,18 +28,18 @@ bubbleBuilding.prototype.update = function () {
     //detect who within your radius
     //impart reduced/improved affect onto the buildings in turn.
     myPop = 0;
-    for (i = 0; i < this.game.housingArr.length; i++) { 
+    for (i = 0; i < this.game.housingArr.length; i++) {
         if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y), this, this) {
-            if (this instanceof TaxHouse) { 
+            if (this instanceof TaxHouse) {
                 myPop += this.game.housingArr[i].numHoused;
             } else if (this instanceof Well || this instanceof WaterSupply) {
                 //console.log("arrived")
                 this.game.housingArr[i].waterLevel = true;
-            } else if (this instanceof FireHouse) { 
-                this.game.housingArr[i].fireResist == 0.01; 
-            } else if (this instanceof CopHouse) { 
-                //this should probably be over the list of walkers 
-            } 
+            } else if (this instanceof FireHouse) {
+                this.game.housingArr[i].fireResist == 0.01;
+            } else if (this instanceof CopHouse) {
+                //this should probably be over the list of walkers
+            }
         }
     }
 
@@ -48,12 +48,12 @@ bubbleBuilding.prototype.update = function () {
     if (this.game.timer.gameTime - this.workTime >= this.pushTime && this instanceof TaxHouse) {
         this.workTime = this.game.timer.gameTime;
         //var myPop = this.game.gameWorld.population;
-        var myTax = (Math.ceil((Math.floor((myPop / 10)) * 30) * 0.1)); //10 percent of 30 money per 10 people 
+        var myTax = (Math.ceil((Math.floor((myPop / 10)) * 30) * 0.1)); //10 percent of 30 money per 10 people
         //console.log("Tax: ", myTax);
         //console.log("Pop: ", myPop);
         this.genWalker(this.game.gameWorld.palace, myTax, "gold");
         //send a gold cart man every 45-1min seconds w/ this fundage
-        /* go through industry list later??? nope dont need to  
+        /* go through industry list later??? nope dont need to
         */
     }
 }
@@ -61,14 +61,14 @@ bubbleBuilding.prototype.update = function () {
 bubbleBuilding.prototype.remove = function () { 
     //iterate over houses in the area of effect and disable benefits 
     for (i = 0; i < this.game.housingArr.length; i++) { 
-        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y)) {
+        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y, this, this)) {
             if (this instanceof Well || this instanceof WaterSupply) {
                 this.game.housingArr[i].waterLevel = false;
-            } else if (this instanceof FireHouse) { 
+            } else if (this instanceof FireHouse) {
                 //add later
-            } else if (this instanceof CopHouse) { 
-                //this should probably be over the list of walkers 
-            } 
+            } else if (this instanceof CopHouse) {
+                //this should probably be over the list of walkers
+            }
         }
     }
 }
@@ -81,7 +81,14 @@ bubbleBuilding.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Well (game, x, y) { 
+bubbleBuilding.prototype.toStringStats = function() {
+   // str = "Employeed: " + this.numEmployed + "\tEmployees Needed: " + (this.maxEmployed - this.numEmployed) +
+    //"\nRange: " + this.range + "\n";;
+    str = "Range: " + this.range + "\n";
+    return str;
+}
+
+function Well (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/smallWell.png");
     bubbleBuilding.call(this, img, game, x, y, 1, 1, 10);
     workTime = game.timer.gameTime;
@@ -94,22 +101,22 @@ function Well (game, x, y) {
 Well.prototype = new bubbleBuilding();
 Well.prototype.constructor = Well;
 
-function WaterSupply (game, x, y) { 
+function WaterSupply (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/bigWell.png");
-    bubbleBuilding.call(this, img, game, x, y, 1, 1, 30);
+    bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
     workTime = game.timer.gameTime;
-    this.radius = { x: x - 1, y: y - 1, width: 1 + 30, height: 1 + 30}; 
+    this.radius = { x: x - 1, y: y - 1, width: 1 + 30, height: 1 + 30};
     this.currAnim = new Animation(img, 0, 1, 118, 77, 1, 0.15, 1, true);
 }
 
 WaterSupply.prototype = new bubbleBuilding();
 WaterSupply.prototype.constructor = WaterSupply;
 
-function TaxHouse (game, x, y) { 
+function TaxHouse (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/taxHouse.png");
     bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
     this.workTime = game.timer.gameTime;
-    this.radius = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30}; 
+    this.radius = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30};
     this.renderX = 28;
     this.renderY = 35;
     this.currAnim = new Animation(img, 0, 1, 118, 96, 8, 0.15, 8, true);
@@ -118,11 +125,11 @@ function TaxHouse (game, x, y) {
 TaxHouse.prototype = new bubbleBuilding();
 TaxHouse.prototype.constructor = TaxHouse;
 
-function FireHouse (game, x, y) { 
+function FireHouse (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/Firehouse-1.png");
     bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
     this.workTime = game.timer.gameTime;
-    this.radius = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30}; 
+    this.radius = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30};
     this.renderX = 0;
     this.renderY = 40;
     this.currAnim = new Animation(img, 0, 1, 58, 100, 6, .15, 12, true);
@@ -131,12 +138,12 @@ function FireHouse (game, x, y) {
 FireHouse.prototype = new bubbleBuilding();
 FireHouse.prototype.constructor = FireHouse;
 
-function CopHouse (game, x, y) { 
+function CopHouse (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/COPS-1.png");
     bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
     this.workTime = game.timer.gameTime;
-    this.radius = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30}; 
-    this.renderX = 0; 
+    this.radius = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30};
+    this.renderX = 0;
     this.renderY = 40;
     this.currAnim = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
 }

@@ -15,7 +15,7 @@ function Bazaar(game, x, y) {
     this.destroyedAnim = null;
     this.currAnim = new Animation(this.img, 0, 0, 118, 82, 1, .15, 1, true);
     this.animFrame = [];        
-    this.numEmployed = 20;
+    this.numEmployed = 0;
     this.maxEmployed = 20;
     this.placeCost = 400;
     this.range = 30;
@@ -43,7 +43,7 @@ Bazaar.prototype.update = function () {
     Entity.prototype.update.call(this);
     this.roadTiles = findRoad(this.buffer);
     //console.log("Inside update")
-    if (getRandomInt(1, 101) <= fireResist) {
+    /*if (getRandomInt(1, 101) <= fireResist) {
         //Catches on fire
         return;
     }
@@ -51,7 +51,7 @@ Bazaar.prototype.update = function () {
     if (getRandomInt(1, 101) <= collapseResist) {
         //collapses
         return;
-    }
+    }*/
 
     if (this.numEmployed < this.numEmpNeeded) {
         this.currAnim = this.closedAnim;
@@ -209,5 +209,10 @@ Bazaar.prototype.pushBoi = function (canWalk, funds, type, bRef) {
         fcm.destY = canWalk[3];
         this.game.addWalker(fcm);
     }
+}
 
+Bazaar.prototype.toStringStats = function () {
+    str = "Employeed: " + this.numEmployed + "\tEmployees Needed: " + (this.maxEmployed - this.numEmployed) + 
+            "\nRange: " + this.range + "\tFunds: " + this.funds + "\n";
+    return str;
 }

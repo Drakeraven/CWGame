@@ -75,9 +75,9 @@ farming.prototype.genWalker = function (destBuild) {
             found = true;
             if (found) {
                 this.pushBoi(canWalk, indie);
-            } 
+            }
         }
-        if (found) break; 
+        if (found) break;
     }
 }
 
@@ -85,6 +85,10 @@ farming.prototype.pushBoi = function (canWalk, bRef) {
 
 }
 
+farming.prototype.toStringStats = function() {
+    str = "";//TODO
+    return str;
+}
 function grainFarm(game, x, y) {
     farming.call(this, game, x, y);
     this.animHarvest = new Animation(this.img, 0, 2, 178, 91, 6, growSpeed, 6, true);
@@ -98,6 +102,7 @@ grainFarm.prototype.constructor = grainFarm;
 
 grainFarm.prototype.pushBoi = function (canWalk, bRef) {
     var gcm = new grCartMan(this.game, ASSET_MANAGER.getAsset('./img/grainCartMan.png'), walkerMap, canWalk[0], canWalk[1], bRef);
+    gcm.bRef = bRef;
     gcm.loadCount = this.yield;
     gcm.destX = canWalk[2];
     gcm.destY = canWalk[3];
@@ -112,11 +117,12 @@ function barFarm(game, x, y) {
     this.maxYield = 400;
 }
 
-barFarm.prototype = new farming();
+barFarm.prototype = Object.create(farming.prototype);
 barFarm.prototype.constructor = barFarm;
 
 barFarm.prototype.pushBoi = function (canWalk, bRef) {
     var bcm = new barCartMan(this.game, ASSET_MANAGER.getAsset('./img/barleyCartMan.png'), walkerMap, canWalk[0], canWalk[1], bRef);
+    bcm.bRef = bRef;
     bcm.loadCount = this.yield;
     bcm.destX = canWalk[2];
     bcm.destY = canWalk[3];
@@ -131,11 +137,12 @@ function flaxFarm(game, x, y) {
     this.maxYield = 400;
 }
 
-flaxFarm.prototype = new farming();
+flaxFarm.prototype = Object.create(farming.prototype);
 flaxFarm.prototype.constructor = flaxFarm;
 
 flaxFarm.prototype.pushBoi = function (canWalk, bRef) {
     var fcm = new fCartMan(this.game, ASSET_MANAGER.getAsset('./img/flaxCartMan.png'), walkerMap, canWalk[0], canWalk[1], bRef);
+    fcm.bRef = bRef;
     fcm.loadCount = this.yield;
     fcm.destX = canWalk[2];
     fcm.destY = canWalk[3];

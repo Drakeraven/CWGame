@@ -61,16 +61,35 @@ industry.prototype.update = function () {
     }
 
     for (i = 0; i < this.game.housingArr.length; i++) { 
-        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y)) {
+        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y, this, this)) {
             if (this instanceof Potter) { 
                 this.game.housingArr[i].potterLevel = true;
             } else if (this instanceof Weaver) {
                 this.game.housingArr[i].weaverLevel = true;
-            } else if (this instanceof Brewery) { 
+            } else if (this instanceof Brewery) {
                 this.game.housingArr[i].brewerLevel = true;
-            } 
+            }
         }
     }
+    //this.roadTiles = findRoad(this.buffer);
+    //Checks for fire/collapse. Need to make this happen, not ALOT of the time...
+    //if (getRandomInt(1, 101) <= fireResist) {
+        //Catches on fire
+        //for (var i = 0; i < this.game.industries.length; i++) {
+        //    if (this.game.industries[i] == this) {
+        //        console.log(this);
+        //    }
+        //}
+        //this.removeFromWorld = true;
+    //    return;
+    //}
+
+    //if (getRandomInt(1, 101) <= collapseResist) {
+    //    //collapses
+    //    return;
+    //}
+
+    //if out of employees or no resources, close operation
 
     if (this.numEmployed < this.numEmpNeeded || this.numResources == 0) {
         this.currAnim = this.closedAnim;
@@ -85,7 +104,10 @@ industry.prototype.update = function () {
         }
     }
 }
-
+industry.prototype.toStringStats = function() {
+    str = "";//TODO
+    return str;
+}
 industry.prototype.draw = function (ctx) {
     pt1 = this.game.twodtoisoX(this.x, this.y) - this.renderX;
     pt2 = this.game.twodtoisoY(this.x, this.y) - this.renderY;
@@ -97,14 +119,14 @@ industry.prototype.draw = function (ctx) {
 industry.prototype.remove = function () { 
     //iterate over houses in the area of effect and disable benefits 
     for (i = 0; i < this.game.housingArr.length; i++) { 
-        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y)) {
+        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y, this, this)) {
             if (this instanceof Potter) {
                 this.game.housingArr[i].potterLevel = false;
-            } else if (this instanceof Weaver) { 
+            } else if (this instanceof Weaver) {
                 this.game.housingArr[i].weaverLevel = false;
-            } else if (this instanceof Brewery) { 
-                this.game.housingArr[i].brewerLevel = false; 
-            } 
+            } else if (this instanceof Brewery) {
+                this.game.housingArr[i].brewerLevel = false;
+            }
         }
     }
 }

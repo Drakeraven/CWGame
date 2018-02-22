@@ -1,6 +1,6 @@
 findRoad = function (buffer) {
     result = [];
-    
+    //console.log(walkerMap);
     //gathers tiles on top/bottom
     for (var i = buffer.x; i <= buffer.x + buffer.width; i++) {
         temp = [buffer.y, i];
@@ -28,8 +28,8 @@ findRoad = function (buffer) {
 }
 
 function arrived(rect1, r2X, r2Y, sRef, dRef) {
-    return (r2X < rect1.x + rect1.width && r2X > rect1.x) &&
-        (r2Y < rect1.y + rect1.height && r2Y > rect1.y) && sRef == dRef;
+    return (r2X <= rect1.x + rect1.width && r2X >= rect1.x) &&
+        (r2Y <= rect1.y + rect1.height && r2Y >= rect1.y) && sRef == dRef;
 }
 
 function getRandomInt(min, max) {
