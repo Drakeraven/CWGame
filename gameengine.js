@@ -37,20 +37,20 @@ GameEngine.prototype.mergeSort = function (arr) {
 
 // compare the arrays item by item and return the concatenated result
 GameEngine.prototype.merge = function (left, right) {
-  let result = []
-  let indexLeft = 0
-  let indexRight = 0
+    let result = []
+    let indexLeft = 0
+    let indexRight = 0
 
-  while (indexLeft < left.length && indexRight < right.length) {
-    if (this.twodtoisoY(left[indexLeft].x, left[indexLeft].y)  < this.twodtoisoY(right[indexRight].x, right[indexRight].y)) {
-      result.push(left[indexLeft])
-      indexLeft++
-    } else {
-      result.push(right[indexRight])
-      indexRight++
+    while (indexLeft < left.length && indexRight < right.length) {
+        if (this.twodtoisoY(left[indexLeft].x, left[indexLeft].y) < this.twodtoisoY(right[indexRight].x, right[indexRight].y)) {
+            result.push(left[indexLeft])
+            indexLeft++
+        } else {
+            result.push(right[indexRight])
+            indexRight++
+        }
+        return result.concat(left.slice(indexLeft)).concat(right.slice(indexRight));
     }
-    return result.concat(left.slice(indexLeft)).concat(right.slice(indexRight));
-}
 
 }
 Timer.prototype.tick = function () {
@@ -105,10 +105,10 @@ GameEngine.prototype.start = function () {
 //2D to ISO functiosn to manipulate X and Y
 GameEngine.prototype.twodtoisoX = function (x, y) {
     return (((x - y) + this.cameraoffX) * 29);
-  }
+}
 GameEngine.prototype.initcamera = function () {
-  this.cameraoffX =(this.map.mapList.length / 2);
-  this.cameraoffY = (this.map.mapList[1].length / 2) * 2;
+    this.cameraoffX = (this.map.mapList.length / 2);
+    this.cameraoffY = (this.map.mapList[1].length / 2) * 2;
 }
 
 GameEngine.prototype.twodtoisoX = function (x, y) {
@@ -130,8 +130,8 @@ GameEngine.prototype.isototwodY = function (x, y) {
 function drawRoad(gameEngine, x, y) {
     walkerMap[y][x] = 1;
     gameEngine.map.mapList[y][x].tileType = 1;
-        gameEngine.map.mapList[y][x].image.src = gameEngine.map.mapList[y][x].roadImage;  // or should these be seperate?
-  //  console.log('hi');
+    gameEngine.map.mapList[y][x].image.src = gameEngine.map.mapList[y][x].roadImage;  // or should these be seperate?
+    //  console.log('hi');
     //console.log(walkerMap);
 }
 
@@ -140,35 +140,37 @@ function removeRoad(gameEngine, x, y) {
     walkerMap[x][y] = mapData[x][y];
     gameEngine.map.mapList[y][x].tileType = mapData[x][y];
     var str = "";
-          console.log('hi?');
-    if(mapData[x][y] === 0) {
+    console.log('hi?');
+    if (mapData[x][y] === 0) {
 
-      str = gameEngine.map.mapList[y][x].grassImage;
-    } else if(mapData[x][y] === 3) {
-      str = gameEngine.map.maplist[y][x].treeImage;
+        str = gameEngine.map.mapList[y][x].grassImage;
+    } else if (mapData[x][y] === 3) {
+        str = gameEngine.map.maplist[y][x].treeImage;
     }
     gameEngine.map.mapList[y][x].image.src = str;
 }
 
 //"removes" building from map
 function removeBuilding(gameEngine, x, y) {
-                  console.log('hi?');
     if (gameEngine.map.mapList[y][x].thing != null) {
         var thing = gameEngine.map.mapList[y][x].thing;
         walkerMap[x][y] = mapData[x][y];
         gameEngine.map.mapList[y][x].tileType = mapData[x][y];
         gameEngine.map.mapList[y][x].thing.removeFromWorld = true;
         for (i = thing.x; i < thing.x + thing.bWidth; i++) {
-          for(j = thing.y; j < thing.y + thing.bHeight; j++) {
-            if(gameEngine.map.mapList[j][i].thing != null) {
-              gameEngine.map.mapList[j][i].thing = null;
+            for (j = thing.y; j < thing.y + thing.bHeight; j++) {
+                if (gameEngine.map.mapList[j][i].thing != null) {
+                    gameEngine.map.mapList[j][i].thing = null;
+                }
             }
-          }
+        }
     }
 }
-}
+var isDraggable = true;
 var isClearing = false;
 var isDrawing = false;
+var selectedBuildingCost = 0;
+var currentMessage = "";
 //Listens to input and events
 GameEngine.prototype.startInput = function () {
     console.log('Starting input');
@@ -196,6 +198,8 @@ GameEngine.prototype.startInput = function () {
         } else if (selection == "Select") {
             displayStats(that, x, y); //TODO DEFINE IN CONTROLS.JS
 
+        }  else if (selection == "Controls") {
+
         } else {
             if (walkerMap[x][y] != 1) {
                 //creates object and adds to map
@@ -204,7 +208,21 @@ GameEngine.prototype.startInput = function () {
         }
 
     });
+    this.ctx.canvas.addEventListener("mousemove", function (event) {//click drag
+        if (isDraggable) {
+            if (isDrawing) {
+                drawRoad(that, x, y);
+            }
+            if (isClearing) {
+                if (walkerMap[y][x] == 1) {
+                    removeRoad(that, x, y);
+                } else if (walkerMap[x][y] == 2) {
+                    removeBuilding(that, x, y);
+                }
+            }
+        }
 
+    });
     this.ctx.canvas.addEventListener("mouseup", function (event) {//click release
         isDrawing = false;
         isClearing = false;
@@ -216,10 +234,10 @@ GameEngine.prototype.startInput = function () {
 
     //Handles Hot Keys
     this.ctx.canvas.addEventListener("keydown", function (event) {
-            setHotKeys(event, that);//in controls
-        });
-        console.log('Input started');
-    }
+        setHotKeys(event, that);//in controls
+    });
+    console.log('Input started');
+}
 
 
 GameEngine.prototype.buildOnCanvas = function (x, y) {
@@ -315,9 +333,17 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
         default:
             console.log('nuthin2seahear')
             break
-}
-    if (selection) {//checks that selection is not null/ not default
-        that.map.addThing(entity, list);
+    }
+    if (selection  && entity) {//checks that selection is not null/ not default
+        let updatedFunds = gameEngine.gameWorld.funds - selectedBuildingCost;
+        if(updatedFunds >= 0) {
+            that.map.addThing(entity, list);
+            gameEngine.gameWorld.funds = updatedFunds;
+            currentMessage = "Building Added!"
+        } else {
+            currentMessage = "Insufficient funds!"
+        }
+        updateCurrentMessage();//uses global var currentMessage to set message
     }
 }
 
@@ -339,7 +365,7 @@ GameEngine.prototype.addBuilding = function (entity) {
 }
 
 GameEngine.prototype.addWalker = function (walker) {
-   // console.log("added walker");
+    // console.log("added walker");
     this.walkers.push(walker);
     this.entities.push(walker);
 }
@@ -378,12 +404,23 @@ GameEngine.prototype.draw = function () {
 
     this.ctx.restore();
 }
-
+goalCounter = 1; //used to display messages
 GameEngine.prototype.update = function () {
+    //checks if goals were met
     if (this.gameWorld.population > 500) {
+        goalCounter++;
+        //TODO instead of ending game, just pop up a small window
+        //that notifies user they met the goal, green goal box
+        //will display new goal, 
+        //goal message list will be defined in constants.js
         $('.game-container').hide();
         $('#EndGame').show();
     } else {
+        //Updates live info about game on UI
+        setGameInfoBox();
+        updateFunds();
+        updateSelectedItemCost();
+
         var entitiesCount = this.entities.length;
         var working = this.gameWorld.workForce;
 
@@ -409,9 +446,9 @@ GameEngine.prototype.update = function () {
         for (var i = 0; i < this.entities.length; i++) {
             var farm = this.entities[i];
             if ((farm instanceof clayPit || farm instanceof huntLodge
-                || farm instanceof goldMine) &&  working > farm.numEmpNeeded) {
-                    farm.numEmployed = farm.numEmpNeeded;
-                    working -= farm.numEmpNeeded;
+                || farm instanceof goldMine) && working > farm.numEmpNeeded) {
+                farm.numEmployed = farm.numEmpNeeded;
+                working -= farm.numEmpNeeded;
             }
         }
 
@@ -494,8 +531,8 @@ GameEngine.prototype.update = function () {
         for (var i = this.industries.length - 1; i >= 0; --i) {
             if (this.industries[i].removeFromWorld) {
                 if (this.industries[i] instanceof Potter
-                        || this.industries[i] instanceof Weaver
-                        || this.industries[i] instanceof Brewery) {
+                    || this.industries[i] instanceof Weaver
+                    || this.industries[i] instanceof Brewery) {
                     this.industries[i].remove();
                 }
                 this.industries.splice(i, 1);

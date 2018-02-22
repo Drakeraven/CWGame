@@ -27,7 +27,7 @@ function house(img, game, x, y, bWidth, bHeight) {
     Entity.call(this, game, x, y);
 }
 
-house.prototype = new Entity();
+house.prototype = Object.create(Entity.prototype);
 house.prototype.constructor = house;
 
 house.prototype.update = function () {
@@ -149,9 +149,11 @@ function Housing(game, x, y) {
     console.log(this.buffer);    
 }
 
-Housing.prototype = new house();
+Housing.prototype = Object.create(house.prototype);
 Housing.prototype.constructor = Housing;
-Housing.prototype.toStringStats = function() {
-    str = "";//TODO
+
+house.prototype.toStringStats = function() {
+    str = "Housed: " + this.numHoused + "\nHas water: " + this.waterLevel + 
+            "\nFood access: " + this.foodLevel + "\n";
     return str;
 }

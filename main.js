@@ -15,11 +15,11 @@ function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, sheetWi
 }
 
 function updateMapData(x, y, xDim, yDim, type) {
-  for (i = x; i < x + xDim && x + xDim < walkerMap.length; i++) {
-    for(j = y; j < y + yDim && y + yDim < walkerMap[i].length; j++) {
-      walkerMap[i][j] = type;
+    for (i = x; i < x + xDim && x + xDim < walkerMap.length; i++) {
+        for (j = y; j < y + yDim && y + yDim < walkerMap[i].length; j++) {
+            walkerMap[i][j] = type;
+        }
     }
-  }
 }
 
 Animation.prototype.drawFrame = function (tick, ctx, x, y) {
@@ -87,8 +87,11 @@ GameWorld.prototype.remPop = function (num) {
 GameWorld.prototype.getWorkForce = function () {
     return Math.floor(this.population * .40); //40% population is work force, change how I'm doing it??
 }
-GameWorld.prototype.toStringGame = function() {
-    str = "Prosperity: " + this.prosperity
+GameWorld.prototype.toStringGame = function () {
+    str = "Prosperity: " + this.prosperity +
+        "\nPopulation: " + this.population +
+        "\nWork Force: " + this.workForce +
+        "\nTax Revenue:" + this.taxRev;
     return str;
 };
 
@@ -98,27 +101,38 @@ var ASSET_MANAGER = new AssetManager();
 var walkerMap = new MapData().testMap;
 var mapData = new MapData().testMap;//THIS IS THE ORIGINAL MAP- NOT CHANGED
 ASSET_MANAGER.assetQueueDownloads();// found in assetmanager.js
+var gameEngine = null;//made gameengine null to easily access gameWorld info
+$(function () {//shorthand for window.ready
+    ASSET_MANAGER.downloadAll(function () {
+        // Initialize state
+        console.log("starting up da sheild");
+        var canvas = document.getElementById('gameWorld');
+        var ctx = canvas.getContext('2d');
+        gameEngine = new GameEngine();
+        gameEngine.gameWorld = new GameWorld();
+        gameEngine.map = new Map(gameEngine);
+        gameEngine.init(ctx);
+        gameEngine.map.readMap(new MapData().testMap);
+        gameEngine.gameWorld.palace = new Palace(gameEngine, 40, 70);
+        gameEngine.map.addThing(gameEngine.gameWorld.palace);
+        console.log(gameEngine.gameWorld.palace);
 
-$(function() {
-    $('#StartButton').click(function (){
-        $('#SplashScreen').remove();
-        $('.game-container').show();
-        ASSET_MANAGER.downloadAll(function () {
-            console.log("starting up da sheild");
-            var canvas = document.getElementById('gameWorld');
-            var ctx = canvas.getContext('2d');
-            var gameEngine = new GameEngine();
-            gameEngine.gameWorld = new GameWorld();
-            gameEngine.map = new Map(gameEngine);
-            gameEngine.init(ctx);
-            gameEngine.map.readMap(new MapData().testMap);
-            gameEngine.gameWorld.palace = new Palace(gameEngine, 40, 70);
-            gameEngine.map.addThing(gameEngine.gameWorld.palace);
-            console.log(gameEngine.gameWorld.palace);
+        // Enable Start button
+        $('#StartButton').removeAttr("disabled");
+        $('#StartButton').click(function () {
+            $('#SplashScreen').remove();
+            $('.game-container').show();
+
+            // Start the game
             gameEngine.start();
             console.log(walkerMap);
             updateMapData(0, 0, 1);
         });
 
-    })
+    });
+    $('#Close-Button').click(function () {
+        $("#Game-Information").hide();
+        setButton("Select");
+    });
 });
+
