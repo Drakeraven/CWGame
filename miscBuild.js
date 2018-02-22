@@ -18,7 +18,7 @@ function Palace(game, x, y) {
     Entity.call(this, game, x, y);
 }
 
-Palace.prototype = Object.create(Entity.prototype);
+Palace.prototype = new Entity();
 Palace.prototype.constructor = Palace;
 
 Palace.prototype.update = function () {
@@ -53,7 +53,7 @@ Palace.prototype.draw = function (ctx) {
 const maxFood = 1000;
 
 Palace.prototype.toStringStats = function() {
-    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded;
+    str = "Employees: " + this.numEmployed + "Employees Needed: " + this.numEmpNeeded;//TODO
     return str;
 }
 function Granary(game, x, y) {
@@ -64,8 +64,8 @@ function Granary(game, x, y) {
     this.openAnim = new Animation(this.img, 0, 1, 238, 161, 8, .17, 24, true);
     this.closedAnim = new Animation(this.img, 0, 0, 238, 161, 1, .17, 1, true);
     this.currAnim = this.closedAnim;
-    this.renderX = 33;
-    this.renderY = 71;
+    this.renderX = 70;
+    this.renderY = 35;
     this.placeCost = 50;
     this.numEmployed = 0;
     this.numEmpNeeded = 20;
@@ -75,15 +75,10 @@ function Granary(game, x, y) {
     this.pushTime = 15;
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
     this.roadTiles = [];
-    this.game.addEntity(this);
     Entity.call(this, game, x, y);
 }
-Granary.prototype.toStringStats = function() {
-    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded
-    + "\nFood supply: " + this.foodSupply + "\n";
-    return str;
-}
-Granary.prototype = Object.create(Entity.prototype);
+
+Granary.prototype = new Entity();
 Granary.prototype.constructor = Granary;
 
 Granary.prototype.update = function () {
@@ -179,6 +174,10 @@ Granary.prototype.pushBoi = function (canWalk, funds, type, bRef) {
     }
 }
 
+Granary.prototype.toStringStats = function() {
+    str = "Employees: " + this.numEmployed + "Employees Needed: " + this.numEmpNeeded;//TODO
+    return str;
+}
 function StoreYard(game, x, y) {
     this.game = game;
     this.workTime = this.game.timer.gameTime
@@ -210,7 +209,7 @@ function StoreYard(game, x, y) {
     Entity.call(this, game, x, y);
 }
 
-StoreYard.prototype = Object.create(Entity.prototype);
+StoreYard.prototype = new Entity();
 StoreYard.prototype.constructor = StoreYard;
 //TODO: For farms/Hunting Lodge, check if a yard can take it before sending
 //TODO: take reference to destination for walkers, prevent accidental eating
@@ -301,7 +300,7 @@ StoreYard.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 StoreYard.prototype.toStringStats = function() {
-    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded;
+    str = "Employees: " + this.numEmployed + "Employees Needed: " + this.numEmpNeeded;//TODO
     return str;
 }
 

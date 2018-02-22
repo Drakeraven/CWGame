@@ -130,7 +130,6 @@ $(function () {//shorthand for window.ready
             // Start the game
             gameEngine.start();
             console.log(walkerMap);
-            updateMapData(0, 0, 1);
         });
 
     });
@@ -144,4 +143,3 @@ $(function () {//shorthand for window.ready
         setButton("Select");
     });
 });
-

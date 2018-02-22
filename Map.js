@@ -7,22 +7,26 @@ function Map(gameEngine) {
 }
 Map.prototype.constructor = Map;
 
-Map.prototype.addThing = function (thing, list) {
-    var x = thing.x;
-    var y = thing.y;
-    var canDo = true;
-    for (i = thing.x; i < thing.x + thing.bWidth; i++) {
-        for (j = thing.y; j < thing.y + thing.bHeight; j++) {
-            if (this.mapList[j][i].thing != null) {
-                canDo = false;
-            }
-        }
+Map.prototype.addThing = function(thing, list) {
+  if(thing == null) {
+    return false;
+  }
+  var x = thing.x;
+  var y = thing.y;
+  if(x < 0 || y < 0 || x > this.mapList.length || y > this.mapList.length) {
+    return false;
+  }
+  var canDo = true;
+  for (i = thing.x; i < thing.x + thing.bWidth; i++) {
+    for(j = thing.y; j < thing.y + thing.bHeight; j++) {
+      if(this.mapList[j][i].thing != null || walkerMap[i][j] != 0) {
+        canDo = false;
+      }
     }
+  }
     if (canDo && thing) {
         console.log('hi');
         updateMapData(x, y, thing.bWidth, thing.bHeight, 2);
-        //this.mapList[y][x].thing = thing;
-        //this.mapList[y][x].tileType = 2;
         if (list) {
             list.push(thing);
             this.game.entities.push(thing);

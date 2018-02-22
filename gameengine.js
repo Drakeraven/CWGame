@@ -128,7 +128,7 @@ GameEngine.prototype.isototwodY = function (x, y) {
 }
 //draws road on map using given x and y
 function drawRoad(gameEngine, x, y) {
-    walkerMap[y][x] = 1;
+    walkerMap[x][y] = 1;
     gameEngine.map.mapList[y][x].tileType = 1;
     gameEngine.map.mapList[y][x].image.src = gameEngine.map.mapList[y][x].roadImage;
     //  console.log('hi');
@@ -159,6 +159,7 @@ function removeBuilding(gameEngine, x, y) {
             for (j = thing.y; j < thing.y + thing.bHeight; j++) {
                 if (gameEngine.map.mapList[j][i].thing != null) {
                     gameEngine.map.mapList[j][i].thing = null;
+                    walkerMap[i][j] = mapData[i][j];
                 }
             }
         }
@@ -183,13 +184,15 @@ GameEngine.prototype.startInput = function () {
         y = that.isototwodY(fixX, fixY);
         selection = $('.pharoh-button.selected').attr("title");
         if (selection == "Roads") {
+          if(walkerMap[x][y] != 2) {
             isDrawing = true;
             drawRoad(that, x, y);
+          }
         } else if (selection == "Clear Land") {
             isClearing = true;
-            if (walkerMap[y][x] == 1) {
+            if (walkerMap[x][y] == 1) {
                 removeRoad(that, x, y);
-            } else if (walkerMap[x][y] == 2) {
+            } else if (walkerMap[x][y] == 2 ) {
                 removeBuilding(that, x, y);
             }
 
@@ -204,7 +207,7 @@ GameEngine.prototype.startInput = function () {
 
     });
     this.ctx.canvas.addEventListener("mousemove", function (event) {//click drag
-        
+
         if (isDraggable) {
             //adjusts x and y
             let fixX = event.clientX - (event.clientX % 29);
@@ -216,7 +219,7 @@ GameEngine.prototype.startInput = function () {
                 drawRoad(that, x, y);
             }
             if (isClearing) {
-                if (walkerMap[y][x] == 1) {
+                if (walkerMap[x][y] == 1) {
                     removeRoad(that, x, y);
                 } else if (walkerMap[x][y] == 2) {
                     removeBuilding(that, x, y);
@@ -412,7 +415,7 @@ GameEngine.prototype.update = function () {
         goalCounter++;
         //TODO instead of ending game, just pop up a small window
         //that notifies user they met the goal, green goal box
-        //will display new goal, 
+        //will display new goal,
         //goal message list will be defined in constants.js
         $('.game-container').hide();
         $('#EndGame').show();
@@ -440,7 +443,7 @@ GameEngine.prototype.update = function () {
                 farm.numEmployed = farm.numEmpNeeded;
                 working -= farm.numEmpNeeded;
             }
-        } 
+        }
 
         for (var i = 0; i < this.granaries.length; i++) {
             var granary = this.granaries[i];
@@ -457,7 +460,7 @@ GameEngine.prototype.update = function () {
         for (var i = 0; i < this.industries.length; i++) {
             var industry = this.industries[i];
             //console.log(industry instanceof Bazaar);
-            //console.log(industry.numEmployed);            
+            //console.log(industry.numEmployed);
             if (working > industry.numEmpNeeded && (industry.numResources > 0 || industry instanceof Bazaar)) {
                 industry.numEmployed = industry.numEmpNeeded;
                 working -= industry.numEmpNeeded;

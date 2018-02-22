@@ -5,23 +5,23 @@ function getRandomInt(min, max) {
 }
 
 function house(img, game, x, y, bWidth, bHeight) {
-    this.game = game; 
+    this.game = game;
     this.img = img;
     this.bWidth = bWidth;
     this.bHeight = bHeight;
     this.level = 0;
     this.destroyedAnim = null;
     this.currAnim = null;
-    this.animFrame = [];        
+    this.animFrame = [];
     this.numHoused = 30;
     this.placeCost = null;
     this.waterLevel = false;
     this.foodLevel = 0;
-    this.weaverLevel = false; 
-    this.potterLevel = false; 
+    this.weaverLevel = false;
+    this.potterLevel = false;
     this.brewerLevel = false;
-    this.renderX = 0;
-    this.renderY = 0; 
+    this.renderX = 58;
+    this.renderY = 30;
     this.fireResist = 0.9; //percent chance of fire
     this.buffer = { x: x - 1, y: y - 1, width: bWidth + 1, height: bHeight + 1};
     Entity.call(this, game, x, y);
@@ -58,67 +58,67 @@ house.prototype.update = function () {
         }
     }
 
-    if (!this.waterLevel) { 
+    if (!this.waterLevel) {
         this.level = 0;
-        this.renderX = 10;
-        this.renderY = 5;
-    } else { 
-        if (this.waterLevel && this.foodLevel && this.potterLevel && this.weaverLevel && this.brewerLevel) { 
+        this.renderX = 33;
+        this.renderY = 21;
+    } else {
+        if (this.waterLevel && this.foodLevel && this.potterLevel && this.weaverLevel && this.brewerLevel) {
             this.level = 5;
             this.renderX = 0;
             this.renderY = 17;
-            //change render x y 
-        } else if (this.waterLevel && this.foodLevel 
-            && ((this.potterLevel && this.weaverLevel) 
+            //change render x y
+        } else if (this.waterLevel && this.foodLevel
+            && ((this.potterLevel && this.weaverLevel)
                 || (this.potterLevel && this.brewerLevel)
                 || (this.weaverLevel && this.brewerLevel))) {
-            this.level = 4;     
+            this.level = 4;
             this.renderX = 0;
             this.renderY = 23;
-            //change renderx and renderY 
-        } else if(this.waterLevel && this.foodLevel 
+            //change renderx and renderY
+        } else if(this.waterLevel && this.foodLevel
             && (this.potterLevel || this.weaverLevel || this.brewerLevel)) {
-            this.level = 3; 
+            this.level = 3;
             this.renderX = 0;
             this.renderY = 24;
-            //change renderx and renderY 
-        } else if(this.waterLevel && this.foodLevel) { 
+            //change renderx and renderY
+        } else if(this.waterLevel && this.foodLevel) {
             this.level = 2;
             this.renderX = -3;
-            this.renderY = 14; 
-            //change renderx and renderY 
-        } else { 
+            this.renderY = 14;
+            //change renderx and renderY
+        } else {
             this.level = 1;
-            this.renderX = -3;
-            this.renderY = 5; 
+            this.renderX = 33;
+            this.renderY = 21;
         }
     }
     this.currAnim = this.animFrame[this.level];
-    this.numHoused = (this.level + 1) * 30; 
+    this.numHoused = (this.level + 1) * 30;
     //add later: if prosperity over certain %, upgrade?
-    
+
     //detect who within your radius
-    
-    //get food from others >> after set amount of time, eat X amount of food 
-    // if gametime = 1 month 
+
+    //get food from others >> after set amount of time, eat X amount of food
+    // if gametime = 1 month
         //this.foodLevel -= numHoused;
 
     //UPDATE Pop:
     currentPop = 0;
     for (i = 0; i < this.game.housingArr.length; i++) {
-        currentPop += this.numHoused;    
-    } 
+        currentPop += this.numHoused;
+    }
 
-    if (currentPop > this.game.gameWorld.population) { 
+    if (currentPop > this.game.gameWorld.population) {
         this.game.gameWorld.addPop(currentPop - this.game.gameWorld.population);
         this.game.gameWorld.workForce = this.game.gameWorld.getWorkForce();
         console.log(this.game.gameWorld.workForce);
-    } else { 
+    } else {
         this.game.gameWorld.remPop(this.game.gameWorld.population - currentPop);
         this.game.gameWorld.workForce = this.game.gameWorld.getWorkForce();
-    }    
+    }
     //Iterate over all buildings in array, add/subtract difference between gameWorld pop and array pop
-    //PUSH POP TO INDUSTRY LIST > check gameWorld for population stat > 40%? > only give each industry building what they need 
+    //PUSH POP TO INDUSTRY LIST > check gameWorld for population stat > 40%? > only give each industry building what they need
 }
 
 house.prototype.draw = function (ctx) {
@@ -136,8 +136,8 @@ function Housing(game, x, y) {
     this.foodTime = game.timer.gameTime;
     this.level = 0;
     this.placeCost = 25;
-    this.renderX = 10;
-    this.renderY = 5;
+    this.renderX = 58;
+    this.renderY = 30;
     this.animFrame[0] = new Animation(img, 0, 0, 118, 97, 1, 0.15, 1, true);
     this.animFrame[1] = new Animation(img, 3, 0, 118, 97, 1, 0.15, 1, true);
     this.animFrame[2] = new Animation(img, 5, 0, 118, 97, 1, 0.15, 1, true);
@@ -146,14 +146,14 @@ function Housing(game, x, y) {
     this.animFrame[5] = new Animation(img, 5, 1, 118, 97, 1, 0.15, 1, true);
     this.currAnim = this.animFrame[0];
     this.numHoused = 30;
-    console.log(this.buffer);    
+    console.log(this.buffer);
 }
 
 Housing.prototype = Object.create(house.prototype);
 Housing.prototype.constructor = Housing;
 
 house.prototype.toStringStats = function() {
-    str = "Housed: " + this.numHoused + "\nHas water: " + this.waterLevel + 
+    str = "Housed: " + this.numHoused + "\nHas water: " + this.waterLevel +
             "\nFood access: " + this.foodLevel + "\n";
     return str;
 }
