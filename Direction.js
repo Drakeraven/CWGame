@@ -28,6 +28,8 @@ findRoad = function (buffer) {
 }
 
 function arrived(rect1, r2X, r2Y, sRef, dRef) {
+    r2X = Math.floor(r2X);
+    r2Y = Math.floor(r2Y);
     return (r2X <= rect1.x + rect1.width && r2X >= rect1.x) &&
         (r2Y <= rect1.y + rect1.height && r2Y >= rect1.y) && sRef == dRef;
 }

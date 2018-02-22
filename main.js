@@ -88,6 +88,11 @@ GameWorld.prototype.withdrawFunds = function (num) {
     this.funds -= num;
 }
 
+GameWorld.prototype.addFunds = function (num) {
+    this.funds += num;
+    
+}
+
 GameWorld.prototype.getWorkForce = function () {
     return Math.floor(this.population * .40); //40% population is work force, change how I'm doing it??
 }
