@@ -13,10 +13,10 @@ function Bazaar(game, x, y) {
     this.openAnim = new Animation(this.img, 0, 1, 118, 82, 4, .15, 12, true);
     this.closedAnim = new Animation(this.img, 0, 0, 118, 82, 1, .15, 1, true);
     this.destroyedAnim = null;
-    this.currAnim = new Animation(this.img, 0, 0, 118, 82, 1, .15, 1, true);
+    this.currAnim = this.closedAnim;
     this.animFrame = [];        
     this.numEmployed = 0;
-    this.maxEmployed = 20;
+    this.numEmpNeeded = 20;
     this.placeCost = 400;
     this.range = 30;
     this.foodLevel = 100;
@@ -87,12 +87,16 @@ Bazaar.prototype.update = function () {
 
         if (this.game.timer.gameTime - this.workTime >= this.pushTime) {
             this.workTime = this.game.timer.gameTime;
+            //console.log("Push time");
             for (var i = 0; i < this.game.industries.length; i++) {
                 //send walker our w/ enough to buy up to 1 sets of each item to start with i
                 //send bazaar lady to the industries:
+                console.log(this.game.industries[i]);
                 if (!(this.game.industries[i] instanceof Bazaar)) {
-                    if (this.funds >= 45 && this.numEmployed === this.maxEmployed) { 
+                    //console.log("Boi");
+                    if (this.funds >= 45) { 
                         //generate walker(s) to send
+                        //console.log("send walker from bazaar");
                         if (this.game.industries[i] instanceof Brewery && this.funds > 45) { 
                             //genwaker beer
                             this.genWalker(this.game.industries[i], 45, "beer", this.game.industries[i]);

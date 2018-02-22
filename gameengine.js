@@ -290,6 +290,7 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
 
         case "Bazaar":
             entity = new Bazaar(that, x, y);
+            console.log("new bazaar");
             list = that.industries;
             break;
 
@@ -364,11 +365,6 @@ GameEngine.prototype.addHouse = function (entity) {
     this.housingArr.push(entity);
 }
 
-GameEngine.prototype.addBuilding = function (entity) {
-    console.log('added building');
-    this.buildings.push(entity);
-}
-
 GameEngine.prototype.addWalker = function (walker) {
     // console.log("added walker");
     this.walkers.push(walker);
@@ -436,6 +432,16 @@ GameEngine.prototype.update = function () {
             this.gameWorld.palace.numEmployed = this.gameWorld.palace.numEmpNeeded;
         }
 
+
+        for (var i = 0; i < this.entities.length; i++) {
+            var farm = this.entities[i];
+            if ((farm instanceof clayPit || farm instanceof huntLodge
+                || farm instanceof goldMine) && working > farm.numEmpNeeded) {
+                farm.numEmployed = farm.numEmpNeeded;
+                working -= farm.numEmpNeeded;
+            }
+        } 
+
         for (var i = 0; i < this.granaries.length; i++) {
             var granary = this.granaries[i];
             if (working > granary.numEmpNeeded) {
@@ -448,13 +454,16 @@ GameEngine.prototype.update = function () {
             }
         }
 
-        for (var i = 0; i < this.entities.length; i++) {
-            var farm = this.entities[i];
-            if ((farm instanceof clayPit || farm instanceof huntLodge
-                || farm instanceof goldMine) && working > farm.numEmpNeeded) {
-                farm.numEmployed = farm.numEmpNeeded;
-                working -= farm.numEmpNeeded;
+        for (var i = 0; i < this.industries.length; i++) {
+            var industry = this.industries[i];
+            //console.log(industry instanceof Bazaar);
+            //console.log(industry.numEmployed);            
+            if (working > industry.numEmpNeeded && (industry.numResources > 0 || industry instanceof Bazaar)) {
+                industry.numEmployed = industry.numEmpNeeded;
+                working -= industry.numEmpNeeded;
             }
+            //console.log(working);
+            //console.log()
         }
 
         for (var i = 0; i < this.yards.length; i++) {
@@ -468,15 +477,6 @@ GameEngine.prototype.update = function () {
             }
         }
 
-        for (var i = 0; i < this.industries.length; i++) {
-            var industry = this.industries[i];
-            if (working > industry.numEmpNeeded && industry.numResources > 0) {
-                industry.numEmployed = industry.numEmpNeeded;
-                working -= industry.numEmpNeeded;
-            }
-            //console.log(working);
-            //console.log()
-        }
 
         for (var i = 0; i < entitiesCount; i++) {
             var entity = this.entities[i];
