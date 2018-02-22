@@ -14,13 +14,7 @@ function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, sheetWi
     this.loop = loop;
 }
 
-function updateMapData(x, y, xDim, yDim, type) {
-    for (i = x; i < x + xDim && x + xDim < walkerMap.length; i++) {
-        for (j = y; j < y + yDim && y + yDim < walkerMap[i].length; j++) {
-            walkerMap[i][j] = type;
-        }
-    }
-}
+
 
 Animation.prototype.drawFrame = function (tick, ctx, x, y) {
     this.elapsedTime += tick;
@@ -90,7 +84,7 @@ GameWorld.prototype.withdrawFunds = function (num) {
 
 GameWorld.prototype.addFunds = function (num) {
     this.funds += num;
-    
+
 }
 
 GameWorld.prototype.getWorkForce = function () {

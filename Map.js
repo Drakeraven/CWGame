@@ -19,24 +19,22 @@ Map.prototype.addThing = function(thing, list) {
   var canDo = true;
   for (i = thing.x; i < thing.x + thing.bWidth; i++) {
     for(j = thing.y; j < thing.y + thing.bHeight; j++) {
-      if(this.mapList[j][i].thing != null || walkerMap[i][j] != 0) {
+      if(this.mapList[j][i].thing != null || walkerMap[j][i] != 0) {
         canDo = false;
       }
     }
   }
     if (canDo && thing) {
         console.log('hi');
-        updateMapData(x, y, thing.bWidth, thing.bHeight, 2);
         if (list) {
             list.push(thing);
             this.game.entities.push(thing);
         } else {
             this.game.entities.push(thing);
         }
-
         for (i = thing.x; i < thing.x + thing.bWidth; i++) {
             for (j = thing.y; j < thing.y + thing.bHeight; j++) {
-                console.log(thing.x + ' ' + thing.y)
+                walkerMap[j][i] = 2;
                 this.mapList[j][i].thing = thing;
             }
         }
