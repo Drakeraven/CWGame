@@ -27,6 +27,7 @@ bubbleBuilding.prototype.update = function () {
     this.roadTiles = findRoad(this.buffer);
     //detect who within your radius
     //impart reduced/improved affect onto the buildings in turn.
+   
     myPop = 0;
     for (i = 0; i < this.game.housingArr.length; i++) {
         if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y), this, this) {
