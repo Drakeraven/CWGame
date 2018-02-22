@@ -58,9 +58,9 @@ bubbleBuilding.prototype.update = function () {
     }
 }
 
-bubbleBuilding.prototype.remove = function () { 
-    //iterate over houses in the area of effect and disable benefits 
-    for (i = 0; i < this.game.housingArr.length; i++) { 
+bubbleBuilding.prototype.remove = function () {
+    //iterate over houses in the area of effect and disable benefits
+    for (i = 0; i < this.game.housingArr.length; i++) {
         if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y, this, this)) {
             if (this instanceof Well || this instanceof WaterSupply) {
                 this.game.housingArr[i].waterLevel = false;
@@ -127,7 +127,7 @@ TaxHouse.prototype.constructor = TaxHouse;
 
 function FireHouse (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/Firehouse-1.png");
-    bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
+    bubbleBuilding.call(this, img, game, x, y, 1, 1, 30);
     this.workTime = game.timer.gameTime;
     this.radius = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30};
     this.renderX = 0;
@@ -143,8 +143,8 @@ function CopHouse (game, x, y) {
     bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
     this.workTime = game.timer.gameTime;
     this.radius = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30};
-    this.renderX = 0;
-    this.renderY = 40;
+    this.renderX = 58;
+    this.renderY = 60;
     this.currAnim = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
 }
 

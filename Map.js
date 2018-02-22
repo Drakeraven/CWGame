@@ -13,7 +13,9 @@ Map.prototype.addThing = function(thing, list) {
   var canDo = true;
   for (i = thing.x; i < thing.x + thing.bWidth; i++) {
     for(j = thing.y; j < thing.y + thing.bHeight; j++) {
-      if(this.mapList[j][i].thing != null) {
+      console.log(walkerMap[j][i]);
+      console.log(walkerMap[i][j])
+      if(this.mapList[j][i].thing != null || walkerMap[j][i] == 1) {
         canDo = false;
       }
     }
