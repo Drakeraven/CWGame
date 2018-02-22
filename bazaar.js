@@ -128,8 +128,8 @@ Bazaar.prototype.update = function () {
                             //if done, make sure the house has code to kill walker!!!
                             //Currently, the walker is generated but the arrival doesn't actually 
                             //carry any food with him :3c 
-                            this.genWalker(this.game.housingArr[i], thisHouse.level * 20, "food", this.game.housingArr[i]);
-                            //thisHouse.foodLevel += thisHouse.level * 20;
+                            //this.genWalker(this.game.housingArr[i], thisHouse.level * 20, "food", this.game.housingArr[i]);
+                            thisHouse.foodLevel += thisHouse.level * 20;
                             this.foodLevel -= thisHouse.level * 5; 
                         } 
                     }
