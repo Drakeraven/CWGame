@@ -33,8 +33,9 @@ var Constants = {
             { value: "Police Station", text: "Police Station" },
             { value: "Tax House", text: "Tax House" },
         ],
+        //Following classes do not affect select menu
         Roads: [],
-        Messages: [],
+        Controls: [],
         GameInformation: [],
         ClearLand: [],
         Select: [],
@@ -42,3 +43,23 @@ var Constants = {
 
 }
 
+//note, these are static costs that also need to be updated in individual constructors if changed
+var costsArray = [{name: "Bazaar", value:400},{name:"Well", value:10},{name: "Water Supply", value : 10},
+{name: "Tax House", value : 10}, {name: "Fire House", value : 10}, {name: "Police Station", value : 10}, {name: "Grain Farm", value : 30},
+{name: "Barley Farm", value : 30}, {name: "Flax Farm", value :30}, {name: "House", value :25}, {name: "Granary", value: 50}, {name: "Weaver", value :50}, {name: "Brewery", value: 60},
+{name: "Potter", value :70}, {name: "Storage Yard", value :0}, {name: "Gold Mine", value :100}, {name: "Clay Pit", value :20}, {name: "Hunting Lodge", value: 35}];
+
+var controlString =  
+                    "Housing: H\tFood and Farm: F\n" +
+                    "Utilities: U\tStorage and Distribution: S\n" +
+                    "Industrial: I\tRaw Materials: M\n" +
+                    "Municipal: L\tRoads: R\tClear Land: C\n" +
+                    "Arrows move map camera.\n\nGame Hints:\n\n" +
+                    "Objective of the game is to build a city and\n" +
+                    "meet each goal displayed in the Current Goal Box\n " +
+                    "Lookout for the message box, which will update you " +
+                    "on whether some of theft has occured of whether your buildings caught on fire.\n\n"
+                    + "Pay attention to the game information, your current funds, and building costs as you continue to build your city!";
+
+//add elemented as needed, counter in gameengine will help index the correct goal
+var goalsArray = ["Achieve 500 people living in your city!","Achieve"];
