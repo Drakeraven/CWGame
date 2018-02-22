@@ -8,8 +8,14 @@ function Map(gameEngine) {
 Map.prototype.constructor = Map;
 
 Map.prototype.addThing = function(thing, list) {
+  if(thing == null) {
+    return false;
+  }
   var x = thing.x;
   var y = thing.y;
+  if(x < 0 || y < 0 || x > this.mapList.length || y > this.mapList.length) {
+    return false;
+  }
   var canDo = true;
   for (i = thing.x; i < thing.x + thing.bWidth; i++) {
     for(j = thing.y; j < thing.y + thing.bHeight; j++) {

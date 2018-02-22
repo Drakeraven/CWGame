@@ -159,6 +159,7 @@ function removeBuilding(gameEngine, x, y) {
             for (j = thing.y; j < thing.y + thing.bHeight; j++) {
                 if (gameEngine.map.mapList[j][i].thing != null) {
                     gameEngine.map.mapList[j][i].thing = null;
+                    walkerMap[i][j] = mapData[i][j];
                 }
             }
         }
@@ -183,8 +184,10 @@ GameEngine.prototype.startInput = function () {
         y = that.isototwodY(fixX, fixY);
         selection = $('.pharoh-button.selected').attr("title");
         if (selection == "Roads") {
+          if(walkerMap[x][y] != 2) {
             isDrawing = true;
             drawRoad(that, x, y);
+          }
         } else if (selection == "Clear Land") {
             isClearing = true;
             if (walkerMap[x][y] == 1) {
