@@ -29,7 +29,7 @@ function industry(game, x, y) {
     Entity.call(this, game, x, y);
 }
 
-industry.prototype = new Entity();
+industry.prototype = Object.create(Entity.prototype);
 industry.prototype.constructor = industry;
 
 industry.prototype.update = function () {
@@ -105,7 +105,7 @@ industry.prototype.update = function () {
     }
 }
 industry.prototype.toStringStats = function() {
-    str = "";//TODO
+    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded;
     return str;
 }
 industry.prototype.draw = function (ctx) {
@@ -150,7 +150,7 @@ function Weaver(game, x, y) {
     this.numEmployed = 12;
 }
 
-Weaver.prototype = new industry();
+Weaver.prototype = Object.create(industry.prototype);
 Weaver.prototype.constructor = Weaver;
 
 function Brewery(game, x, y) {
@@ -170,7 +170,7 @@ function Brewery(game, x, y) {
     this.prodTime = 15;
 }
 
-Brewery.prototype = new industry();
+Brewery.prototype = Object.create(industry.prototype);
 Brewery.prototype.constructor = Brewery;
 
 function Potter(game, x, y) {
@@ -190,5 +190,5 @@ function Potter(game, x, y) {
     this.prodTime = 20;
 }
 
-Potter.prototype = new industry();
+Potter.prototype = Object.create(industry.prototype);
 Potter.prototype.constructor = Potter;

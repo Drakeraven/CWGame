@@ -64,8 +64,8 @@ function Granary(game, x, y) {
     this.openAnim = new Animation(this.img, 0, 1, 238, 161, 8, .17, 24, true);
     this.closedAnim = new Animation(this.img, 0, 0, 238, 161, 1, .17, 1, true);
     this.currAnim = this.closedAnim;
-    this.renderX = 33;
-    this.renderY = 71;
+    this.renderX = 70;
+    this.renderY = 35;
     this.placeCost = 50;
     this.numEmployed = 0;
     this.numEmpNeeded = 20;
@@ -75,7 +75,6 @@ function Granary(game, x, y) {
     this.pushTime = 15;
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
     this.roadTiles = [];
-    this.game.addEntity(this);
     Entity.call(this, game, x, y);
 }
 

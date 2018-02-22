@@ -18,6 +18,9 @@ function Timer() {
 }
 
 GameEngine.prototype.mergeSort = function (arr) {
+    if (arr.length === 0) {
+        return [];
+    }
     if (arr.length === 1) {
         // return once we hit an array with a single item
         return arr
@@ -39,17 +42,17 @@ GameEngine.prototype.merge = function (left, right) {
     let indexRight = 0
 
     while (indexLeft < left.length && indexRight < right.length) {
-        if (this.twodtoisoY(left[indexLeft].x, left[indexLeft].y) > this.twodtoisoY(right[indexRight].x, right[indexRight].y)) {
+        if (this.twodtoisoY(left[indexLeft].x, left[indexLeft].y) < this.twodtoisoY(right[indexRight].x, right[indexRight].y)) {
             result.push(left[indexLeft])
             indexLeft++
         } else {
             result.push(right[indexRight])
             indexRight++
         }
+        return result.concat(left.slice(indexLeft)).concat(right.slice(indexRight));
     }
-    return result.concat(left.slice(indexLeft)).concat(right.slice(indexRight))
-}
 
+}
 Timer.prototype.tick = function () {
     var wallCurrent = Date.now();
     var wallDelta = (wallCurrent - this.wallLastTimestamp) / 1000;
@@ -103,10 +106,9 @@ GameEngine.prototype.start = function () {
 GameEngine.prototype.twodtoisoX = function (x, y) {
     return (((x - y) + this.cameraoffX) * 29);
 }
-
 GameEngine.prototype.initcamera = function () {
-    this.cameraoffX = this.map.mapList.length / 2
-    this.cameraoffY = this.map.mapList[1].length / 2
+    this.cameraoffX = (this.map.mapList.length / 2);
+    this.cameraoffY = (this.map.mapList[1].length / 2) * 2;
 }
 
 GameEngine.prototype.twodtoisoX = function (x, y) {
@@ -127,7 +129,9 @@ GameEngine.prototype.isototwodY = function (x, y) {
 //draws road on map using given x and y
 function drawRoad(gameEngine, x, y) {
     walkerMap[y][x] = 1;
-    gameEngine.map.mapList[y][x].tileType = 1; // or should these be seperate?
+    gameEngine.map.mapList[y][x].tileType = 1;
+    gameEngine.map.mapList[y][x].image.src = gameEngine.map.mapList[y][x].roadImage;
+    //  console.log('hi');
     //console.log(walkerMap);
 }
 
@@ -135,22 +139,42 @@ function drawRoad(gameEngine, x, y) {
 function removeRoad(gameEngine, x, y) {
     walkerMap[x][y] = mapData[x][y];
     gameEngine.map.mapList[y][x].tileType = mapData[x][y];
+    var str = "";
+    if (mapData[x][y] === 0) {
+        str = gameEngine.map.mapList[y][x].grassImage;
+    } else if (mapData[x][y] === 3) {
+        str = gameEngine.map.maplist[y][x].treeImage;
+    }
+    gameEngine.map.mapList[y][x].image.src = str;
 }
 
 //"removes" building from map
 function removeBuilding(gameEngine, x, y) {
-    if (gameEngine.map.mapList[y][x].tileType == 2) {
+    if (gameEngine.map.mapList[y][x].thing != null) {
+        var thing = gameEngine.map.mapList[y][x].thing;
         walkerMap[x][y] = mapData[x][y];
         gameEngine.map.mapList[y][x].tileType = mapData[x][y];
         gameEngine.map.mapList[y][x].thing.removeFromWorld = true;
+        for (i = thing.x; i < thing.x + thing.bWidth; i++) {
+            for (j = thing.y; j < thing.y + thing.bHeight; j++) {
+                if (gameEngine.map.mapList[j][i].thing != null) {
+                    gameEngine.map.mapList[j][i].thing = null;
+                    walkerMap[i][j] = mapData[i][j];
+                }
+            }
+        }
     }
 }
+var isDraggable = true;
 var isClearing = false;
 var isDrawing = false;
+var selectedBuildingCost = 0;
+var currentMessage = "";
 //Listens to input and events
 GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
+
     this.ctx.canvas.addEventListener("mousedown", function (event) {//click down
         //adjusts x and y
         fixX = event.clientX - (event.clientX % 29);
@@ -160,19 +184,20 @@ GameEngine.prototype.startInput = function () {
         y = that.isototwodY(fixX, fixY);
         selection = $('.pharoh-button.selected').attr("title");
         if (selection == "Roads") {
+          if(walkerMap[x][y] != 2) {
             isDrawing = true;
             drawRoad(that, x, y);
+          }
         } else if (selection == "Clear Land") {
             isClearing = true;
             if (walkerMap[x][y] == 1) {
                 removeRoad(that, x, y);
-            } else if (walkerMap[x][y] == 2) {
+            } else if (walkerMap[x][y] == 2 ) {
                 removeBuilding(that, x, y);
             }
 
         } else if (selection == "Select") {
             displayStats(that, x, y); //TODO DEFINE IN CONTROLS.JS
-
         } else {
             if (walkerMap[x][y] != 1) {
                 //creates object and adds to map
@@ -180,32 +205,29 @@ GameEngine.prototype.startInput = function () {
             }
         }
 
-
     });
+    this.ctx.canvas.addEventListener("mousemove", function (event) {//click drag
 
-
-    this.ctx.canvas.addEventListener("mousemove", function (event) {//click hold
-        //Only calls buildoncanvas is selection is "Road"
-        //adjusts x and y
-
-        fixX = event.clientX - (event.clientX % 29);
-        fixY = event.clientY - (event.clientY % 15);
-        //converts to iso
-        x = that.isototwodX(fixX, fixY);
-        y = that.isototwodY(fixX, fixY);
-        if (isClearing) {
-            if (walkerMap[x][y] == 1) {
-                removeRoad(that, x, y);
-            } else if (walkerMap[x][y] == 2) {
-                removeBuilding(that, x, y);
+        if (isDraggable) {
+            //adjusts x and y
+            let fixX = event.clientX - (event.clientX % 29);
+            let fixY = event.clientY - (event.clientY % 15);
+            //converts to iso
+            let x = that.isototwodX(fixX, fixY);
+            let y = that.isototwodY(fixX, fixY);
+            if (isDrawing) {
+                drawRoad(that, x, y);
+            }
+            if (isClearing) {
+                if (walkerMap[x][y] == 1) {
+                    removeRoad(that, x, y);
+                } else if (walkerMap[x][y] == 2) {
+                    removeBuilding(that, x, y);
+                }
             }
         }
-        if (isDrawing) {
-            drawRoad(that, x, y);
-        }
 
     });
-
     this.ctx.canvas.addEventListener("mouseup", function (event) {//click release
         isDrawing = false;
         isClearing = false;
@@ -217,10 +239,11 @@ GameEngine.prototype.startInput = function () {
 
     //Handles Hot Keys
     this.ctx.canvas.addEventListener("keydown", function (event) {
-        setHotKeys(that, event);//in controls
+        setHotKeys(event, that);//in controls
     });
     console.log('Input started');
 }
+
 
 GameEngine.prototype.buildOnCanvas = function (x, y) {
     let selection = $('.pharoh-button.selected').attr("title");
@@ -234,106 +257,108 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
     }
     var that = this;
     let entity = null;
+    let list = null;
     switch (selection) {
         //addmap function called at the very end, so its not repeated in each case
         //NOTICE: Some are added to special arrays defined above this gameengine, some are pushed to entities[]
         //X and Y have been make ISO friendly before entering this function
         case "House":
             entity = new Housing(that, x, y);
-            this.housingArr.push(entity);
+            list = that.housingArr;
             break;
 
         case "Grain Farm":
             entity = new grainFarm(that, x, y);
-            this.entities.push(entity);
             break;
 
         case "Barley Farm":
             entity = new barFarm(that, x, y);
-            this.entities.push(entity);
             break;
 
         case "Flax Farm":
             entity = new flaxFarm(that, x, y);
-            this.entities.push(entity);
             break;
 
         case "Hunting Lodge":
             entity = new huntLodge(that, x, y);
-            this.entities.push(entity);
+            break;
+
         case "Well":
             entity = new Well(that, x, y);
-            this.entities.push(entity);
             break;
 
         case "Water Supply":
             entity = new WaterSupply(that, x, y);
-            this.entities.push(entity);
             break;
 
         case "Bazaar":
             entity = new Bazaar(that, x, y);
-            this.industries.push(entity);
+            console.log("new bazaar");
+            list = that.industries;
             break;
 
         case "Granary":
             entity = new Granary(that, x, y);
-            this.granaries.push(entity);
+            list = that.granaries;
             break;
 
         case "Storage Yard":
             entity = new StoreYard(that, x, y);
-            this.yards.push(entity);
+            list = that.yards;
             break;
 
         case "Weaver":
             entity = new Weaver(that, x, y);
-            this.industries.push(entity);
+            list = that.industries;
             break;
 
         case "Brewery":
             entity = new Brewery(that, x, y);
-            this.industries.push(entity);
+            list = that.industries;
             break;
 
         case "Potter":
             entity = new Potter(that, x, y);
-            this.industries.push(entity);
+            list = that.industries;
             break;
         case "Clay Pit":
             entity = new clayPit(that, x, y);
-            this.entities.push(entity);
             break;
         case "Gold Mine":
             entity = new goldMine(that, x, y);
-            this.entities.push(entity);
-
             break;
         case "Fire House":
             entity = new FireHouse(that, x, y);
-            this.entities.push(entity);
-
             break;
         case "Police Station":
             entity = new CopHouse(that, x, y);
-            this.entities.push(entity);
-
             break;
         case "Tax House":
             entity = new TaxHouse(that, x, y);
-            this.entities.push(entity);
             break;
         default:
             console.log('nuthin2seahear')
             break
     }
-    if (selection) {//checks that selection is not null/ not default
-        that.map.addThing(entity);
+    if (selection && entity) {//checks that selection is not null/ not default
+        let updatedFunds = that.gameWorld.funds - selectedBuildingCost;//peeks if purchaseable
+        if (updatedFunds >= 0) {
+            if (that.map.addThing(entity, list)) {
+                that.gameWorld.withdrawFunds(selectedBuildingCost);
+                currentMessage = "Building Added!";
+            } else {
+                currentMessage = "Can't place building here.";
+            }
+        } else {
+            currentMessage = "Insufficient funds!";
+        }
+        updateCurrentMessage();//uses global var currentMessage to set message
     }
 }
 
 //Cynthia says should I use these functiosn in switch? is it really a good idea to be logging everything?
 GameEngine.prototype.addEntity = function (entity) {
+    console.log(entity);
     console.log('added entity');
     this.entities.push(entity);
 }
@@ -343,13 +368,8 @@ GameEngine.prototype.addHouse = function (entity) {
     this.housingArr.push(entity);
 }
 
-GameEngine.prototype.addBuilding = function (entity) {
-    console.log('added building');
-    this.buildings.push(entity);
-}
-
 GameEngine.prototype.addWalker = function (walker) {
-   // console.log("added walker");
+    // console.log("added walker");
     this.walkers.push(walker);
     this.entities.push(walker);
 }
@@ -357,7 +377,7 @@ GameEngine.prototype.addWalker = function (walker) {
 GameEngine.prototype.addIndustry = function (industry) {
     console.log("added industry");
     this.industries.push(industry);
-    this.industries.push(industry);
+    this.entities.push(industry);
 }
 
 GameEngine.prototype.addGranary = function (granary) {
@@ -373,7 +393,8 @@ GameEngine.prototype.addYard = function (yard) {
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
-    //this.entities = this.mergeSort(this.entities);
+
+    var ents = this.mergeSort(this.entities);
 
     for (var i = 0; i < this.map.mapList.length; i++) {
         for (var j = 0; j < this.map.mapList[1].length; j++) {
@@ -382,171 +403,166 @@ GameEngine.prototype.draw = function () {
     }
 
     for (var i = 0; i < this.entities.length; i++) {
-        this.entities[i].draw(this.ctx);
-    }
-
-    for (var i = 0; i < this.housingArr.length; i++) {
-        this.housingArr[i].draw(this.ctx);
-    }
-
-    for (var i = 0; i < this.industries.length; i++) {
-        this.industries[i].draw(this.ctx);
-    }
-
-    for (var i = 0; i < this.granaries.length; i++) {
-        this.granaries[i].draw(this.ctx);
-    }
-
-    for (var i = 0; i < this.yards.length; i++) {
-        this.yards[i].draw(this.ctx);
-    }
-
-    for (var i = 0; i < this.walkers.length; i++) {
-        this.walkers[i].draw(this.ctx);
+        ents[i].draw(this.ctx);
     }
 
     this.ctx.restore();
 }
-
+goalCounter = 1; //used to display messages
 GameEngine.prototype.update = function () {
-    var entitiesCount = this.entities.length;
-    var working = this.gameWorld.workForce; 
-    //give industry employees here :D 
+    //checks if goals were met
+    if (this.gameWorld.population > 500) {
+        goalCounter++;
+        //TODO instead of ending game, just pop up a small window
+        //that notifies user they met the goal, green goal box
+        //will display new goal,
+        //goal message list will be defined in constants.js
+        $('.game-container').hide();
+        $('#EndGame').show();
+    } else {
+        //Updates live info about game on UI
+        setGameInfoBox();
+        updateFunds();
+        updateSelectedItemCost();
 
-    //give palace employees first >:) 
-    if (this.gameWorld.palace != null && working > this.gameWorld.palace.numEmpNeeded) {
-        this.gameWorld.palace.numEmployed = 0; 
-        this.gameWorld.palace.numEmployed = this.gameWorld.palace.numEmpNeeded;
-    }
+        var entitiesCount = this.entities.length;
+        var working = this.gameWorld.workForce;
 
-    for (var i = 0; i < this.granaries.length; i++) {
-        var granary = this.granaries[i];
-        if (working > granary.numEmpNeeded) {
-            granary.numEmployed = granary.numEmpNeeded;
-            working -= granary.numEmpNeeded;
+
+        //give palace employees first >:)
+        if (this.gameWorld.palace != null && working > this.gameWorld.palace.numEmpNeeded) {
+            this.gameWorld.palace.numEmployed = 0;
+            this.gameWorld.palace.numEmployed = this.gameWorld.palace.numEmpNeeded;
         }
 
-        if (!granary.removeFromWorld) {
-            granary.update();
-        }
-    }
 
-    for (var i = 0; i < this.entities.length; i++) { 
-        var farm = this.entities[i]; 
-        if ((farm instanceof clayPit || farm instanceof huntLodge 
-            || farm instanceof goldMine) &&  working > farm.numEmpNeeded) { 
+        for (var i = 0; i < this.entities.length; i++) {
+            var farm = this.entities[i];
+            if ((farm instanceof clayPit || farm instanceof huntLodge
+                || farm instanceof goldMine) && working > farm.numEmpNeeded) {
                 farm.numEmployed = farm.numEmpNeeded;
                 working -= farm.numEmpNeeded;
-        }
-    }
-
-    for (var i = 0; i < this.yards.length; i++) {
-        var yard = this.yards[i];
-        if (working > yard.numEmpNeeded) {
-            yard.numEmployed = yard.numEmpNeeded;
-            working -= yard.numEmpNeeded;
-        }
-        if (!yard.removeFromWorld) {
-            yard.update();
-        }
-    }
-
-    for (var i = 0; i < this.industries.length; i++) {
-        var industry = this.industries[i];
-        if (working > industry.numEmpNeeded && industry.numResources > 0) {
-            industry.numEmployed = industry.numEmpNeeded;
-            working -= industry.numEmpNeeded;
-        }
-        //console.log(working);
-        //console.log()
-    }
-
-    for (var i = 0; i < entitiesCount; i++) {
-        var entity = this.entities[i];
-
-        if (!entity.removeFromWorld) {
-            entity.update();
-        }
-    }
-
-    for (var i = 0; i < this.industries.length; i++) {
-        var industry = this.industries[i];
-
-        if (!industry.removeFromWorld) {
-            industry.update();
-        }
-    }
-
-    for (var i = 0; i < this.walkers.length; i++) {
-        var walker = this.walkers[i];
-
-        if (!walker.removeFromWorld) {
-            walker.update();
-        }
-    }
-
-    for (var i = 0; i < this.walkers.length; i++) {
-        var walker = this.walkers[i];
-        if (walker.dX == 0 && walker.dY == 0) {
-            walker.removeFromWorld = true;
-        }
-    }
-
-    for (var i = this.entities.length - 1; i >= 0; --i) {
-        /*if (this.entities[i].removeFromWorld && this.entities[i] instanceof Well 
-            || this.entities[i] instanceof Water || this.entities[i] instanceof Potter 
-            || this.entities[i] instanceof Brewer || this.entities[i] instanceof Weaver) { 
-            this.entities[i].remove();
-        }*/
-        
-        if (this.entities[i].removeFromWorld) {
-            if (this.entities[i] instanceof Well || this.entities[i] instanceof WaterSupply) { 
-                this.entities[i].remove();
             }
-            this.entities.splice(i, 1);
         }
-    }
 
-    for (var i = 0; i < this.housingArr.length; i++) {
-        var myHouse = this.housingArr[i];
-        if (!myHouse.removeFromWorld) {
-            //console.log("Updating building")
-            myHouse.update();
-        }
-    }
-
-    for (var i = this.housingArr.length - 1; i >= 0; --i) {
-        if (this.housingArr[i].removeFromWorld) {
-            this.housingArr.splice(i, 1);
-        }
-    }
-
-    for (var i = this.industries.length - 1; i >= 0; --i) {
-        if (this.industries[i].removeFromWorld) {
-            if (this.entities[i] instanceof Potter 
-                    || this.entities[i] instanceof Weaver
-                    || this.entities[i] instanceof Brewery) { 
-                this.industries[i].remove();
+        for (var i = 0; i < this.granaries.length; i++) {
+            var granary = this.granaries[i];
+            if (working > granary.numEmpNeeded) {
+                granary.numEmployed = granary.numEmpNeeded;
+                working -= granary.numEmpNeeded;
             }
-            this.industries.splice(i, 1);
-        }
-    }
 
-    for (var i = this.granaries.length - 1; i >= 0; --i) {
-        if (this.granaries[i].removeFromWorld) {
-            this.granaries.splice(i, 1);
+            if (!granary.removeFromWorld) {
+                granary.update();
+            }
         }
-    }
 
-    for (var i = this.yards.length - 1; i >= 0; --i) {
-        if (this.yards[i].removeFromWorld) {
-            this.yards.splice(i, 1);
+        for (var i = 0; i < this.industries.length; i++) {
+            var industry = this.industries[i];
+            //console.log(industry instanceof Bazaar);
+            //console.log(industry.numEmployed);
+            if (working > industry.numEmpNeeded && (industry.numResources > 0 || industry instanceof Bazaar)) {
+                industry.numEmployed = industry.numEmpNeeded;
+                working -= industry.numEmpNeeded;
+            }
+            //console.log(working);
+            //console.log()
         }
-    }
 
-    for (var i = this.walkers.length - 1; i >= 0; --i) {
-        if (this.walkers[i].removeFromWorld) {
-            this.walkers.splice(i, 1);
+        for (var i = 0; i < this.yards.length; i++) {
+            var yard = this.yards[i];
+            if (working > yard.numEmpNeeded) {
+                yard.numEmployed = yard.numEmpNeeded;
+                working -= yard.numEmpNeeded;
+            }
+            if (!yard.removeFromWorld) {
+                yard.update();
+            }
+        }
+
+
+        for (var i = 0; i < entitiesCount; i++) {
+            var entity = this.entities[i];
+
+            if (!entity.removeFromWorld) {
+                entity.update();
+            }
+        }
+
+        for (var i = 0; i < this.industries.length; i++) {
+            var industry = this.industries[i];
+
+            if (!industry.removeFromWorld) {
+                industry.update();
+            }
+        }
+
+        for (var i = 0; i < this.walkers.length; i++) {
+            var walker = this.walkers[i];
+
+            if (!walker.removeFromWorld) {
+                walker.update();
+            }
+        }
+
+        for (var i = 0; i < this.walkers.length; i++) {
+            var walker = this.walkers[i];
+            if (walker.dX == 0 && walker.dY == 0) {
+                walker.removeFromWorld = true;
+            }
+        }
+
+        for (var i = this.entities.length - 1; i >= 0; --i) {
+            if (this.entities[i].removeFromWorld) {
+                if (this.entities[i] instanceof Well || this.entities[i] instanceof WaterSupply) {
+                    this.entities[i].remove();
+                    console.log("removing");
+                }
+                this.entities.splice(i, 1);
+            }
+        }
+
+        for (var i = 0; i < this.housingArr.length; i++) {
+            var myHouse = this.housingArr[i];
+            if (!myHouse.removeFromWorld) {
+                //console.log("Updating building")
+                myHouse.update();
+            }
+        }
+
+        for (var i = this.housingArr.length - 1; i >= 0; --i) {
+            if (this.housingArr[i].removeFromWorld) {
+                this.housingArr.splice(i, 1);
+            }
+        }
+
+        for (var i = this.industries.length - 1; i >= 0; --i) {
+            if (this.industries[i].removeFromWorld) {
+                if (this.industries[i] instanceof Potter
+                    || this.industries[i] instanceof Weaver
+                    || this.industries[i] instanceof Brewery) {
+                    this.industries[i].remove();
+                }
+                this.industries.splice(i, 1);
+            }
+        }
+
+        for (var i = this.granaries.length - 1; i >= 0; --i) {
+            if (this.granaries[i].removeFromWorld) {
+                this.granaries.splice(i, 1);
+            }
+        }
+
+        for (var i = this.yards.length - 1; i >= 0; --i) {
+            if (this.yards[i].removeFromWorld) {
+                this.yards.splice(i, 1);
+            }
+        }
+
+        for (var i = this.walkers.length - 1; i >= 0; --i) {
+            if (this.walkers[i].removeFromWorld) {
+                this.walkers.splice(i, 1);
+            }
         }
     }
 }
