@@ -84,6 +84,10 @@ GameWorld.prototype.remPop = function (num) {
     this.population -= num;
 }
 
+GameWorld.prototype.withdrawFunds = function (num) {
+    this.funds -= num;
+}
+
 GameWorld.prototype.getWorkForce = function () {
     return Math.floor(this.population * .40); //40% population is work force, change how I'm doing it??
 }
@@ -130,8 +134,13 @@ $(function () {//shorthand for window.ready
         });
 
     });
+
     $('#Close-Button').click(function () {
         $("#Game-Information").hide();
+        setButton("Select");
+    });
+    $('#Close-Button-Controls').click(function () {
+        $("#Controls-Box").hide();
         setButton("Select");
     });
 });

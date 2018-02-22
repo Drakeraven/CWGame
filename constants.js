@@ -49,11 +49,17 @@ var costsArray = [{name: "Bazaar", value:400},{name:"Well", value:10},{name: "Wa
 {name: "Barley Farm", value : 30}, {name: "Flax Farm", value :30}, {name: "House", value :25}, {name: "Granary", value: 50}, {name: "Weaver", value :50}, {name: "Brewery", value: 60},
 {name: "Potter", value :70}, {name: "Storage Yard", value :0}, {name: "Gold Mine", value :100}, {name: "Clay Pit", value :20}, {name: "Hunting Lodge", value: 35}];
 
-var controlString = "Controls and Game Hints\n" +
-                    "Housing: H\tFood and Farm: F\tMunicipal: L\n" +
-                    "Utilities: U\tStorage and Distribution: S\tRoads: R\n" +
-                    "Industrial: I\tRaw Materials: M\tClear Land: C\n" +
-                    "Arrows move map camera.\n\nGame Hints:\n";
+var controlString =  
+                    "Housing: H\tFood and Farm: F\n" +
+                    "Utilities: U\tStorage and Distribution: S\n" +
+                    "Industrial: I\tRaw Materials: M\n" +
+                    "Municipal: L\tRoads: R\tClear Land: C\n" +
+                    "Arrows move map camera.\n\nGame Hints:\n\n" +
+                    "Objective of the game is to build a city and\n" +
+                    "meet each goal displayed in the Current Goal Box\n " +
+                    "Lookout for the message box, which will update you " +
+                    "on whether some of theft has occured of whether your buildings caught on fire.\n\n"
+                    + "Pay attention to the game information, your current funds, and building costs as you continue to build your city!";
 
 //add elemented as needed, counter in gameengine will help index the correct goal
 var goalsArray = ["Achieve 500 people living in your city!","Achieve"];

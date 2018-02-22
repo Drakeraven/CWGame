@@ -83,9 +83,9 @@ bubbleBuilding.prototype.draw = function (ctx) {
 }
 
 bubbleBuilding.prototype.toStringStats = function() {
-   // str = "Employeed: " + this.numEmployed + "\tEmployees Needed: " + (this.maxEmployed - this.numEmployed) +
+   // str = "Employed: " + this.numEmployed + "\tEmployees Needed: " + (this.maxEmployed - this.numEmployed) +
     //"\nRange: " + this.range + "\n";;
-    str = "Range: " + this.range + "\n";
+    str = "Range: " + this.radius + "\n";
     return str;
 }
 

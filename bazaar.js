@@ -179,8 +179,6 @@ Bazaar.prototype.genWalker = function (destBuild, funds, type, bRef) {
         this.pushBoi(canWalk, funds, type, bRef);
 
     }
-    //if (found) break;
-    //console.log(found);
 }
 
 Bazaar.prototype.pushBoi = function (canWalk, funds, type, bRef) {
@@ -216,7 +214,7 @@ Bazaar.prototype.pushBoi = function (canWalk, funds, type, bRef) {
 }
 
 Bazaar.prototype.toStringStats = function () {
-    str = "Employeed: " + this.numEmployed + "\nEmployees Needed: " + (this.numEmpNeeded - this.numEmployed) + 
+    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded +
             "\nRange: " + this.range + "\nFunds: " + this.funds + "\n";
     return str;
 }
