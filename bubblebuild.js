@@ -19,7 +19,7 @@ function bubbleBuilding(img, game, x, y, bWidth, bHeight, buf) {
     Entity.call(this, game, x, y);
 }
 
-bubbleBuilding.prototype = new Entity();
+bubbleBuilding.prototype = Object.create(Entity.prototype);
 bubbleBuilding.prototype.constructor = bubbleBuilding;
 
 bubbleBuilding.prototype.update = function () {
@@ -27,6 +27,7 @@ bubbleBuilding.prototype.update = function () {
     this.roadTiles = findRoad(this.buffer);
     //detect who within your radius
     //impart reduced/improved affect onto the buildings in turn.
+   
     myPop = 0;
     for (i = 0; i < this.game.housingArr.length; i++) {
         if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y), this, this) {
@@ -82,9 +83,9 @@ bubbleBuilding.prototype.draw = function (ctx) {
 }
 
 bubbleBuilding.prototype.toStringStats = function() {
-   // str = "Employeed: " + this.numEmployed + "\tEmployees Needed: " + (this.maxEmployed - this.numEmployed) +
+   // str = "Employed: " + this.numEmployed + "\tEmployees Needed: " + (this.maxEmployed - this.numEmployed) +
     //"\nRange: " + this.range + "\n";;
-    str = "Range: " + this.range + "\n";
+    str = "Range: " + this.radius + "\n";
     return str;
 }
 
@@ -98,7 +99,7 @@ function Well (game, x, y) {
     this.currAnim = new Animation(img, 0, 1, 58, 51, 1, 0.15, 1, true);
 }
 
-Well.prototype = new bubbleBuilding();
+Well.prototype = Object.create(bubbleBuilding.prototype);
 Well.prototype.constructor = Well;
 
 function WaterSupply (game, x, y) {
@@ -122,7 +123,7 @@ function TaxHouse (game, x, y) {
     this.currAnim = new Animation(img, 0, 1, 118, 96, 8, 0.15, 8, true);
 }
 
-TaxHouse.prototype = new bubbleBuilding();
+TaxHouse.prototype = Object.create(bubbleBuilding.prototype);
 TaxHouse.prototype.constructor = TaxHouse;
 
 function FireHouse (game, x, y) {
@@ -135,7 +136,7 @@ function FireHouse (game, x, y) {
     this.currAnim = new Animation(img, 0, 1, 58, 100, 6, .15, 12, true);
 }
 
-FireHouse.prototype = new bubbleBuilding();
+FireHouse.prototype = Object.create(bubbleBuilding.prototype);
 FireHouse.prototype.constructor = FireHouse;
 
 function CopHouse (game, x, y) {
@@ -148,7 +149,7 @@ function CopHouse (game, x, y) {
     this.currAnim = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
 }
 
-CopHouse.prototype = new bubbleBuilding();
+CopHouse.prototype = Object.create(bubbleBuilding.prototype);
 CopHouse.prototype.constructor = CopHouse;
 
 bubbleBuilding.prototype.genWalker = function (destBuild, funds) {

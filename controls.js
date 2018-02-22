@@ -8,8 +8,12 @@ $(function () {
 });
 
 function displayStats(gameEngine, x, y) {
-    displayStr = gameEngine.map.mapList[y][x].thing.toStringStats();
-    $('.toStringStats').text(displayStr);
+    if (gameEngine.map.mapList[y][x].thing) {
+        console.log("hi");
+        displayStr = gameEngine.map.mapList[y][x].thing.toStringStats();
+        $('#toStringStats').empty();
+        $('#toStringStats').text(displayStr);
+    }
 }
 function setHotKeys(event, game) {
     if (event.code === "KeyH") {
@@ -31,32 +35,67 @@ function setHotKeys(event, game) {
     } else if (event.code === "KeyC") {
         setButton("Clear Land");
     } else if (event.code === "KeyM") {
-        setButton("Messages");
+        setButton("Controls");
     } else if (event.code === "KeyG") {
         setButton("Game Information");
     } else if (event.code === "ArrowRight" && game.cameraoffX > -80) {
-      if(game.cameraoffY < 140 && game.cameraoffY > 0) {
-          game.cameraoffX -= 1;
-      }
+        if (game.cameraoffY < 140 && game.cameraoffY > 0) {
+            game.cameraoffX -= 1;
+        }
 
     } else if (event.code === "ArrowLeft" && game.cameraoffX < 100) {
-      if(game.cameraoffY < 140 && game.cameraoffY > 0) {
-                game.cameraoffX += 1;
-      }
+        if (game.cameraoffY < 140 && game.cameraoffY > 0) {
+            game.cameraoffX += 1;
+        }
 
     } else if (event.code === "ArrowUp" && game.cameraoffY > 0) {
-      if(game.cameraoffX > -70 && game.cameraoffX < 150) {
-                game.cameraoffY -= 1;
-      }
+        if (game.cameraoffX > -70 && game.cameraoffX < 150) {
+            game.cameraoffY -= 1;
+        }
 
     } else if (event.code === "ArrowDown" && game.cameraoffY < 160) {
-      if(game.cameraoffX > -70 && game.cameraoffX < 150) {
-                        game.cameraoffY += 1;
-      }
+        if (game.cameraoffX > -70 && game.cameraoffX < 150) {
+            game.cameraoffY += 1;
+        }
 
     }
 }
 
+function showPopUpText(displayStr) {
+    $("#popup-text").empty();
+    $("#popup-text").text(displayStr);
+    $("#Game-Information").show();
+};
+
+function updateFunds() {
+    //LAMDA EXPRESSION
+    $("#current-funds").empty();
+    $("#current-funds").text(gameEngine.gameWorld.funds);
+
+};
+
+
+function updateSelectedItemCost() {
+    $("#cost-of-selected").empty();
+    let selectedBuilding = $('#selectId').val();
+    let itemCost = costsArray.find(function (element) {//see filter, map, find for JS
+        return element.name == selectedBuilding;
+    });
+    if (itemCost) {
+        selectedBuildingCost = itemCost.value;
+        //notes - shorthand x => x.name == selectedBuilding (single statement rtn ln)
+        //see find, map, filter in JS 
+        $("#cost-of-selected").text(itemCost.value);
+    }
+};
+
+
+
+function updateCurrentMessage() {
+    $("#current-msg").empty();
+    $("#current-msg").text(currentMessage);
+    
+};
 //handles setting the button as selected based on the key listener in the game engine.
 function setButton(titleOfCurrentButtonSelection) {
     $('.pharoh-button').removeClass('selected');
@@ -64,7 +103,7 @@ function setButton(titleOfCurrentButtonSelection) {
     var buttonPaneTitle = titleOfCurrentButtonSelection;
 
     //General use buttons don't need to change selectmenu
-    if (buttonPaneTitle == 'Messages') buttonPaneTitle = 'Default';
+    if (buttonPaneTitle == 'Controls') buttonPaneTitle = 'Default';
     if (buttonPaneTitle == 'Game Information') buttonPaneTitle = 'Default';
     if (buttonPaneTitle == 'Select') buttonPaneTitle = 'Default';
 
@@ -98,8 +137,9 @@ function setButton(titleOfCurrentButtonSelection) {
         case "Roads":
             setSelectOptions(Constants.Buildings.Roads);
             break;
-        case "Messages":
-            setSelectOptions(Constants.Buildings.Messages);
+        case "Controls":
+            setSelectOptions(Constants.Buildings.Controls);
+            setControlsInfoBox();
             break;
         case "Game Information":
             setSelectOptions(Constants.Buildings.GameInformation);
@@ -108,14 +148,22 @@ function setButton(titleOfCurrentButtonSelection) {
             setSelectOptions(Constants.Buildings.ClearLand);
             break;
         case "Select":
-            setSelectOptions(Constants.Buildings.ClearLand);
+            setSelectOptions(Constants.Buildings.Select);
             break;
         default:
             console.log('nuthin2seahear');
             break
-    }
-}
+    };
+};
 
+//enables or disables dragability for roads and clear
+function setDrag() {
+    if ($('#drag').is(":checked")) {
+        isDraggable = true;
+    } else {
+        isDraggable = false;
+    }
+};
 //sets new select options based on button selected
 function setSelectOptions(options) {
     let $selectMenu = $('select#selectId');
@@ -128,4 +176,16 @@ function setSelectOptions(options) {
     } else {
         $selectMenu.attr("disabled", "disabled");
     }
+};
+
+function setGameInfoBox() {
+    displayStr = gameEngine.gameWorld.toStringGame();
+    $("#msg").empty();
+    $("#msg").text(displayStr);
 }
+
+function setControlsInfoBox() {
+    $('#controls-text').empty();
+    $('#controls-text').text(controlString);
+    $('#Controls-Box').show();
+};

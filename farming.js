@@ -86,7 +86,7 @@ farming.prototype.pushBoi = function (canWalk, bRef) {
 }
 
 farming.prototype.toStringStats = function() {
-    str = "";//TODO
+    str = "Yield: " + this.yield + "\n";
     return str;
 }
 function grainFarm(game, x, y) {
