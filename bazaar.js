@@ -214,7 +214,7 @@ Bazaar.prototype.pushBoi = function (canWalk, funds, type, bRef) {
 }
 
 Bazaar.prototype.toStringStats = function () {
-    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + (this.maxEmployed - this.numEmployed) + 
+    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded +
             "\nRange: " + this.range + "\nFunds: " + this.funds + "\n";
     return str;
 }
