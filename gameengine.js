@@ -128,7 +128,7 @@ GameEngine.prototype.isototwodY = function (x, y) {
 }
 //draws road on map using given x and y
 function drawRoad(gameEngine, x, y) {
-    walkerMap[x][y] = 1;
+    walkerMap[y][x] = 1;
     gameEngine.map.mapList[y][x].tileType = 1;
     gameEngine.map.mapList[y][x].image.src = gameEngine.map.mapList[y][x].roadImage;
     //  console.log('hi');

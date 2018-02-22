@@ -40,7 +40,7 @@ resourceBuild.prototype.update = function () {
                 if (canWalk != null) this.pushBoi(canWalk, this.game.gameWorld.palace);
             } else if (this instanceof huntLodge) {
                 var huntah = new Hunter(this.game, ASSET_MANAGER.getAsset("./img/Hunter1.5.png"),
-                    ASSET_MANAGER.getAsset("./img/Hunter2.png"), walkerMap, this.roadTiles[0][1], this.roadTiles[0][0], this);
+                    ASSET_MANAGER.getAsset("./img/Hunter2.png"), walkerMap, this.x, this.y, this);
                 huntah.destX = 12;//FOR TESTING, NEEDS A FOREST COORD
                 huntah.destY = 18;
                 this.game.addWalker(huntah);
