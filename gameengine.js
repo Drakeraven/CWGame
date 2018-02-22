@@ -18,8 +18,8 @@ function Timer() {
 }
 
 GameEngine.prototype.mergeSort = function (arr) {
-    if(arr.length === 0) {
-      return [];
+    if (arr.length === 0) {
+        return [];
     }
     if (arr.length === 1) {
         // return once we hit an array with a single item
@@ -130,7 +130,7 @@ GameEngine.prototype.isototwodY = function (x, y) {
 function drawRoad(gameEngine, x, y) {
     walkerMap[y][x] = 1;
     gameEngine.map.mapList[y][x].tileType = 1;
-    gameEngine.map.mapList[y][x].image.src = gameEngine.map.mapList[y][x].roadImage;  // or should these be seperate?
+    gameEngine.map.mapList[y][x].image.src = gameEngine.map.mapList[y][x].roadImage;
     //  console.log('hi');
     //console.log(walkerMap);
 }
@@ -140,9 +140,7 @@ function removeRoad(gameEngine, x, y) {
     walkerMap[x][y] = mapData[x][y];
     gameEngine.map.mapList[y][x].tileType = mapData[x][y];
     var str = "";
-    console.log('hi?');
     if (mapData[x][y] === 0) {
-
         str = gameEngine.map.mapList[y][x].grassImage;
     } else if (mapData[x][y] === 3) {
         str = gameEngine.map.maplist[y][x].treeImage;
@@ -197,9 +195,6 @@ GameEngine.prototype.startInput = function () {
 
         } else if (selection == "Select") {
             displayStats(that, x, y); //TODO DEFINE IN CONTROLS.JS
-
-        }  else if (selection == "Controls") {
-
         } else {
             if (walkerMap[x][y] != 1) {
                 //creates object and adds to map
@@ -209,7 +204,14 @@ GameEngine.prototype.startInput = function () {
 
     });
     this.ctx.canvas.addEventListener("mousemove", function (event) {//click drag
+        
         if (isDraggable) {
+            //adjusts x and y
+            let fixX = event.clientX - (event.clientX % 29);
+            let fixY = event.clientY - (event.clientY % 15);
+            //converts to iso
+            let x = that.isototwodX(fixX, fixY);
+            let y = that.isototwodY(fixX, fixY);
             if (isDrawing) {
                 drawRoad(that, x, y);
             }
@@ -334,14 +336,17 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
             console.log('nuthin2seahear')
             break
     }
-    if (selection  && entity) {//checks that selection is not null/ not default
-        let updatedFunds = gameEngine.gameWorld.funds - selectedBuildingCost;
-        if(updatedFunds >= 0) {
-            that.map.addThing(entity, list);
-            gameEngine.gameWorld.funds = updatedFunds;
-            currentMessage = "Building Added!"
+    if (selection && entity) {//checks that selection is not null/ not default
+        let updatedFunds = that.gameWorld.funds - selectedBuildingCost;//peeks if purchaseable
+        if (updatedFunds >= 0) {
+            if (that.map.addThing(entity, list)) {
+                that.gameWorld.withdrawFunds(selectedBuildingCost);
+                currentMessage = "Building Added!";
+            } else {
+                currentMessage = "Can't place building here.";
+            }
         } else {
-            currentMessage = "Insufficient funds!"
+            currentMessage = "Insufficient funds!";
         }
         updateCurrentMessage();//uses global var currentMessage to set message
     }

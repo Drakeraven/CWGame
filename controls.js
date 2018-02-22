@@ -82,6 +82,7 @@ function updateSelectedItemCost() {
         return element.name == selectedBuilding;
     });
     if (itemCost) {
+        selectedBuildingCost = itemCost.value;
         //notes - shorthand x => x.name == selectedBuilding (single statement rtn ln)
         //see find, map, filter in JS 
         $("#cost-of-selected").text(itemCost.value);
@@ -138,6 +139,7 @@ function setButton(titleOfCurrentButtonSelection) {
             break;
         case "Controls":
             setSelectOptions(Constants.Buildings.Controls);
+            setControlsInfoBox();
             break;
         case "Game Information":
             setSelectOptions(Constants.Buildings.GameInformation);
@@ -178,6 +180,12 @@ function setSelectOptions(options) {
 
 function setGameInfoBox() {
     displayStr = gameEngine.gameWorld.toStringGame();
-    $("#current-msg").empty();
-    $("#current-msg").text(displayStr);
+    $("#msg").empty();
+    $("#msg").text(displayStr);
 }
+
+function setControlsInfoBox() {
+    $('#controls-text').empty();
+    $('#controls-text').text(controlString);
+    $('#Controls-Box').show();
+};

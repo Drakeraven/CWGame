@@ -7,38 +7,40 @@ function Map(gameEngine) {
 }
 Map.prototype.constructor = Map;
 
-Map.prototype.addThing = function(thing, list) {
-  var x = thing.x;
-  var y = thing.y;
-  var canDo = true;
-  for (i = thing.x; i < thing.x + thing.bWidth; i++) {
-    for(j = thing.y; j < thing.y + thing.bHeight; j++) {
-      if(this.mapList[j][i].thing != null) {
-        canDo = false;
-      }
-    }
-  }
-  if(canDo && thing) {
-    console.log('hi');
-    updateMapData(x, y, thing.bWidth, thing.bHeight, 2);
-    //this.mapList[y][x].thing = thing;
-    //this.mapList[y][x].tileType = 2;
-    if(list) {
-        list.push(thing);
-        this.game.entities.push(thing);
-    } else {
-        this.game.entities.push(thing);
-    }
-
+Map.prototype.addThing = function (thing, list) {
+    var x = thing.x;
+    var y = thing.y;
+    var canDo = true;
     for (i = thing.x; i < thing.x + thing.bWidth; i++) {
-      for(j = thing.y; j < thing.y + thing.bHeight; j++) {
-        console.log(thing.x+ ' ' + thing.y)
-        this.mapList[j][i].thing = thing;
-      }
+        for (j = thing.y; j < thing.y + thing.bHeight; j++) {
+            if (this.mapList[j][i].thing != null) {
+                canDo = false;
+            }
+        }
     }
-    console.log(walkerMap);
-    console.log(this.mapList);
-  }
+    if (canDo && thing) {
+        console.log('hi');
+        updateMapData(x, y, thing.bWidth, thing.bHeight, 2);
+        //this.mapList[y][x].thing = thing;
+        //this.mapList[y][x].tileType = 2;
+        if (list) {
+            list.push(thing);
+            this.game.entities.push(thing);
+        } else {
+            this.game.entities.push(thing);
+        }
+
+        for (i = thing.x; i < thing.x + thing.bWidth; i++) {
+            for (j = thing.y; j < thing.y + thing.bHeight; j++) {
+                console.log(thing.x + ' ' + thing.y)
+                this.mapList[j][i].thing = thing;
+            }
+        }
+        console.log(walkerMap);
+        console.log(this.mapList);
+        return true;//if adding was successful return 1
+    }
+    return false;
 }
 Map.prototype.readMap = function (mapData) {
 
@@ -59,26 +61,26 @@ Map.prototype.readMap = function (mapData) {
 
 // tiling going down
 function Tile(game, tileType, x, y) {
-  //this.animation = new Animation(ASSET_MANAGER.getAsset("./img/grass.png"), 0, 0, 58, 30, 1, .15, 1, true);
-  this.gfxString = '';
-  this.grassImage = "./img/grass.png";
-  this.roadImage ="./img/FloodPlain_00091.png";
-  this.treeImage = "./img/Trees_00012.png";
+    //this.animation = new Animation(ASSET_MANAGER.getAsset("./img/grass.png"), 0, 0, 58, 30, 1, .15, 1, true);
+    this.gfxString = '';
+    this.grassImage = "./img/grass.png";
+    this.roadImage = "./img/FloodPlain_00091.png";
+    this.treeImage = "./img/Trees_00012.png";
 
-  if (tileType === 0) {
-      this.gfxString = this.grassImage;
-  } else if (tileType === 1) {
-      this.gfxString = this.roadImage;//road img
-  } else if (tileType === 3) {
-    this.gfxString = this.treeImage;
-  }
-  this.thing = null;
-  this.image = new Image();
-  this.image.src = this.gfxString;
-  this.game = game;
-  this.x = x;
-  this.y = y;
-this.tileType = tileType;
+    if (tileType === 0) {
+        this.gfxString = this.grassImage;
+    } else if (tileType === 1) {
+        this.gfxString = this.roadImage;//road img
+    } else if (tileType === 3) {
+        this.gfxString = this.treeImage;
+    }
+    this.thing = null;
+    this.image = new Image();
+    this.image.src = this.gfxString;
+    this.game = game;
+    this.x = x;
+    this.y = y;
+    this.tileType = tileType;
 }
 Tile.prototype = Object.create(Entity.prototype);
 Tile.prototype.constructor = Tile;

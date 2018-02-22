@@ -100,7 +100,7 @@ resourceBuild.prototype.pushBoi = function (canWalk, bRef) {
 
 }
 resourceBuild.prototype.toStringStats = function() {
-    str = "Employeed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded +
+    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded +
             "\n";
     return str;
 }
