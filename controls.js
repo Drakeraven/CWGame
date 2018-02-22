@@ -91,7 +91,9 @@ function updateSelectedItemCost() {
 
 
 function updateCurrentMessage() {
-
+    $("#current-msg").empty();
+    $("#current-msg").text(currentMessage);
+    
 };
 //handles setting the button as selected based on the key listener in the game engine.
 function setButton(titleOfCurrentButtonSelection) {
@@ -153,7 +155,7 @@ function setButton(titleOfCurrentButtonSelection) {
 };
 
 //enables or disables dragability for roads and clear
-function setDraggable() {
+function setDrag() {
     if ($('#drag').is(":checked")) {
         isDraggable = true;
     } else {

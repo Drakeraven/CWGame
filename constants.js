@@ -49,7 +49,11 @@ var costsArray = [{name: "Bazaar", value:400},{name:"Well", value:10},{name: "Wa
 {name: "Barley Farm", value : 30}, {name: "Flax Farm", value :30}, {name: "House", value :25}, {name: "Granary", value: 50}, {name: "Weaver", value :50}, {name: "Brewery", value: 60},
 {name: "Potter", value :70}, {name: "Storage Yard", value :0}, {name: "Gold Mine", value :100}, {name: "Clay Pit", value :20}, {name: "Hunting Lodge", value: 35}];
 
-var controlString = "HotKey Info Goes Here\n";
+var controlString = "Controls and Game Hints\n" +
+                    "Housing: H\tFood and Farm: F\tMunicipal: L\n" +
+                    "Utilities: U\tStorage and Distribution: S\tRoads: R\n" +
+                    "Industrial: I\tRaw Materials: M\tClear Land: C\n" +
+                    "Arrows move map camera.\n\nGame Hints:\n";
 
 //add elemented as needed, counter in gameengine will help index the correct goal
 var goalsArray = ["Achieve 500 people living in your city!","Achieve"];

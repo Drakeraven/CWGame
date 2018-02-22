@@ -170,6 +170,7 @@ var isDraggable = false;
 var isClearing = false;
 var isDrawing = false;
 var selectedBuildingCost = 0;
+var currentMessage = "";
 //Listens to input and events
 GameEngine.prototype.startInput = function () {
     console.log('Starting input');
@@ -334,7 +335,15 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
             break
     }
     if (selection  && entity) {//checks that selection is not null/ not default
-        that.map.addThing(entity, list);
+        let updatedFunds = gameEngine.gameWorld.funds - selectedBuildingCost;
+        if(updatedFunds >= 0) {
+            that.map.addThing(entity, list);
+            gameEngine.gameWorld.funds = updatedFunds;
+            currentMessage = "Building Added!"
+        } else {
+            currentMessage = "Insufficient funds!"
+        }
+        updateCurrentMessage();//uses global var currentMessage to set message
     }
 }
 
