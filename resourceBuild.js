@@ -39,11 +39,14 @@ resourceBuild.prototype.update = function () {
                 var canWalk = generateWalker(this.roadTiles, this.game.gameWorld.palace.roadTiles);
                 if (canWalk != null) this.pushBoi(canWalk, this.game.gameWorld.palace);
             } else if (this instanceof huntLodge) {
-                var huntah = new Hunter(this.game, ASSET_MANAGER.getAsset("./img/Hunter1.5.png"),
-                    ASSET_MANAGER.getAsset("./img/Hunter2.png"), walkerMap, this.x, this.y, this);
-                huntah.destX = 45;//FOR TESTING, NEEDS A FOREST COORD
-                huntah.destY = 66;
-                this.game.addWalker(huntah);
+                if (this.roadTiles.length > 0) {
+                    console.log(walkerMap);
+                    let huntah = new Hunter(this.game, ASSET_MANAGER.getAsset("./img/Hunter1.5.png"),
+                        ASSET_MANAGER.getAsset("./img/Hunter2.png"), walkerMap, this.x, this.y, this);
+                    huntah.destX = 45;//FOR TESTING, NEEDS A FOREST COORD
+                    huntah.destY = 66;
+                    this.game.addWalker(huntah);
+                }
 
             } else { // instance of clay pit
                 this.genWalker(this.game.yards);

@@ -331,8 +331,10 @@ Hunter.prototype.update = function () {
     if (this.huntTime > 300) {
         this.hunted = true;
         this.currAnimation.loop = true;
-        this.destX = this.startX;
-        this.destY = this.startY;
+        //this.destX = this.startX;
+        //this.destY = this.startY;
+        this.destX = this.bRef.roadTiles[0][1];
+        this.destY = this.bRef.roadTiles[0][0];
         this.huntTime = 0;
     }
 
