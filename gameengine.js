@@ -390,6 +390,7 @@ GameEngine.prototype.addYard = function (yard) {
     this.yards.push(yard);
 }
 
+
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
@@ -408,6 +409,30 @@ GameEngine.prototype.draw = function () {
 
     this.ctx.restore();
 }
+
+GameEngine.prototype.updateItems = function (items, callback) {
+    for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        if (typeof callback === "function") {
+            callback(item);
+        }
+        if (!item.removeFromWorld) {
+            item.update();
+        }
+    }
+}
+
+GameEngine.prototype.removeFlagged = function (items, callback) {
+    for (let i = items.length - 1; i >= 0; --i) {
+        if (items[i].removeFromWorld) {
+            if (typeof callback === "function") {
+                callback(item);
+            }
+            items.splice(i, 1);
+        }
+    }
+}
+
 goalCounter = 1; //used to display messages
 GameEngine.prototype.update = function () {
     //checks if goals were met
@@ -419,152 +444,77 @@ GameEngine.prototype.update = function () {
         //goal message list will be defined in constants.js
         $('.game-container').hide();
         $('#EndGame').show();
-    } else {
-        //Updates live info about game on UI
-        setGameInfoBox();
-        updateFunds();
-        updateSelectedItemCost();
+        return;
+    }
 
-        var entitiesCount = this.entities.length;
-        var working = this.gameWorld.workForce;
+    //Updates live info about game on UI
+    setGameInfoBox();
+    updateFunds();
+    updateSelectedItemCost();
+
+    var entitiesCount = this.entities.length;
+    var working = this.gameWorld.workForce;
 
 
-        //give palace employees first >:)
-        if (this.gameWorld.palace != null && working > this.gameWorld.palace.numEmpNeeded) {
-            this.gameWorld.palace.numEmployed = 0;
-            this.gameWorld.palace.numEmployed = this.gameWorld.palace.numEmpNeeded;
+    //give palace employees first >:)
+    if (this.gameWorld.palace != null && working > this.gameWorld.palace.numEmpNeeded) {
+        this.gameWorld.palace.numEmployed = 0;
+        this.gameWorld.palace.numEmployed = this.gameWorld.palace.numEmpNeeded;
+    }
+
+    this.updateItems(this.granaries, function(granary) {
+        if (working > granary.numEmpNeeded) {
+            granary.numEmployed = granary.numEmpNeeded;
+            working -= granary.numEmpNeeded;
         }
-
-
-        for (var i = 0; i < this.entities.length; i++) {
-            var farm = this.entities[i];
-            if ((farm instanceof clayPit || farm instanceof huntLodge
-                || farm instanceof goldMine) && working > farm.numEmpNeeded) {
-                farm.numEmployed = farm.numEmpNeeded;
-                working -= farm.numEmpNeeded;
-            }
+    })
+    this.updateItems(this.yards, function(yard) {
+        if (working > yard.numEmpNeeded) {
+            yard.numEmployed = yard.numEmpNeeded;
+            working -= yard.numEmpNeeded;
         }
-
-        for (var i = 0; i < this.granaries.length; i++) {
-            var granary = this.granaries[i];
-            if (working > granary.numEmpNeeded) {
-                granary.numEmployed = granary.numEmpNeeded;
-                working -= granary.numEmpNeeded;
-            }
-
-            if (!granary.removeFromWorld) {
-                granary.update();
-            }
+    });
+    this.updateItems(this.entities, function(farm) {
+        if ((farm instanceof clayPit || farm instanceof huntLodge
+            || farm instanceof goldMine) && working > farm.numEmpNeeded) {
+            farm.numEmployed = farm.numEmpNeeded;
+            working -= farm.numEmpNeeded;
         }
-
-        for (var i = 0; i < this.industries.length; i++) {
-            var industry = this.industries[i];
-            //console.log(industry instanceof Bazaar);
-            //console.log(industry.numEmployed);
-            if (working > industry.numEmpNeeded && (industry.numResources > 0 || industry instanceof Bazaar)) {
-                industry.numEmployed = industry.numEmpNeeded;
-                working -= industry.numEmpNeeded;
-            }
-            //console.log(working);
-            //console.log()
+    });
+    this.updateItems(this.housingArr);    
+    this.updateItems(this.industries, function(industry) {
+        if (working > industry.numEmpNeeded && (industry.numResources > 0 || industry instanceof Bazaar)) {
+            industry.numEmployed = industry.numEmpNeeded;
+            working -= industry.numEmpNeeded;
         }
+    });
+    this.updateItems(this.walkers);
 
-        for (var i = 0; i < this.yards.length; i++) {
-            var yard = this.yards[i];
-            if (working > yard.numEmpNeeded) {
-                yard.numEmployed = yard.numEmpNeeded;
-                working -= yard.numEmpNeeded;
-            }
-            if (!yard.removeFromWorld) {
-                yard.update();
-            }
-        }
-
-
-        for (var i = 0; i < entitiesCount; i++) {
-            var entity = this.entities[i];
-
-            if (!entity.removeFromWorld) {
-                entity.update();
-            }
-        }
-
-        for (var i = 0; i < this.industries.length; i++) {
-            var industry = this.industries[i];
-
-            if (!industry.removeFromWorld) {
-                industry.update();
-            }
-        }
-
-        for (var i = 0; i < this.walkers.length; i++) {
-            var walker = this.walkers[i];
-
-            if (!walker.removeFromWorld) {
-                walker.update();
-            }
-        }
-
-        for (var i = 0; i < this.walkers.length; i++) {
-            var walker = this.walkers[i];
-            if (walker.dX == 0 && walker.dY == 0) {
-                walker.removeFromWorld = true;
-            }
-        }
-
-        for (var i = this.entities.length - 1; i >= 0; --i) {
-            if (this.entities[i].removeFromWorld) {
-                if (this.entities[i] instanceof Well || this.entities[i] instanceof WaterSupply) {
-                    this.entities[i].remove();
-                    console.log("removing");
-                }
-                this.entities.splice(i, 1);
-            }
-        }
-
-        for (var i = 0; i < this.housingArr.length; i++) {
-            var myHouse = this.housingArr[i];
-            if (!myHouse.removeFromWorld) {
-                //console.log("Updating building")
-                myHouse.update();
-            }
-        }
-
-        for (var i = this.housingArr.length - 1; i >= 0; --i) {
-            if (this.housingArr[i].removeFromWorld) {
-                this.housingArr.splice(i, 1);
-            }
-        }
-
-        for (var i = this.industries.length - 1; i >= 0; --i) {
-            if (this.industries[i].removeFromWorld) {
-                if (this.industries[i] instanceof Potter
-                    || this.industries[i] instanceof Weaver
-                    || this.industries[i] instanceof Brewery) {
-                    this.industries[i].remove();
-                }
-                this.industries.splice(i, 1);
-            }
-        }
-
-        for (var i = this.granaries.length - 1; i >= 0; --i) {
-            if (this.granaries[i].removeFromWorld) {
-                this.granaries.splice(i, 1);
-            }
-        }
-
-        for (var i = this.yards.length - 1; i >= 0; --i) {
-            if (this.yards[i].removeFromWorld) {
-                this.yards.splice(i, 1);
-            }
-        }
-
-        for (var i = this.walkers.length - 1; i >= 0; --i) {
-            if (this.walkers[i].removeFromWorld) {
-                this.walkers.splice(i, 1);
-            }
+    for (var i = 0; i < this.walkers.length; i++) {
+        var walker = this.walkers[i];
+        if (walker.dX == 0 && walker.dY == 0) {
+            walker.removeFromWorld = true;
         }
     }
+
+    this.removeFlagged(this.entities, function(entity) {
+        if (this.entity instanceof Well ||
+            this.entity instanceof WaterSupply) {
+            this.entity.remove();
+            console.log("removing");
+        }
+    })
+    this.removeFlagged(this.housingArr);
+    this.removeFlagged(this.industries, function(industry) {
+        if (industry instanceof Potter ||
+            industry instanceof Weaver ||
+            industry instanceof Brewery) {
+            industry.remove();
+        }
+    });
+    this.removeFlagged(this.granaries);
+    this.removeFlagged(this.yards);
+    this.removeFlagged(this.walkers);
 }
 
 GameEngine.prototype.loop = function () {
@@ -573,7 +523,6 @@ GameEngine.prototype.loop = function () {
     this.draw();
     this.space = null;
 }
-
 
 //Entity is defined.
 function Entity(game, x, y) {
