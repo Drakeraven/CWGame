@@ -324,15 +324,17 @@ Hunter.prototype.constructor = Hunter;
 
 Hunter.prototype.update = function () {
     Walker8.prototype.update.apply(this);
-    if (this.path == 0) {
+    if (this.dX == 0 && this.dY == 0 && !this.hunted) {
         this.currAnimation.loop = false;
         this.huntTime++;
     }
     if (this.huntTime > 300) {
         this.hunted = true;
         this.currAnimation.loop = true;
-        this.destX = this.startX;
-        this.destY = this.startY;
+        //this.destX = this.startX;
+        //this.destY = this.startY;
+        this.destX = this.bRef.roadTiles[0][1];
+        this.destY = this.bRef.roadTiles[0][0];
         this.huntTime = 0;
     }
 

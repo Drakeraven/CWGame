@@ -31,8 +31,9 @@ Palace.prototype.update = function () {
         //if a gold cart arrives, take the amount of gold he has and add it to the total funds
         for (var i = 0; i < this.game.walkers.length; i++) {
             if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
-                if (this.game.walkers[i] instanceof glCartMan) {
+                if (this.game.walkers[i] instanceof glCartMan && this.game.walkers[i].loadCount != 0) {
                     this.game.gameWorld.addFunds(this.game.walkers[i].loadCount);
+                    this.game.walkers[i].loadCount -= this.game.walkers[i].loadCount;
                     this.game.walkers[i].removeFromWorld = true;
                     console.log(this.game.gameWorld.funds);
                 }

@@ -137,10 +137,10 @@ function drawRoad(gameEngine, x, y) {
 
 //sets tiles to original.
 function removeRoad(gameEngine, x, y) {
-    walkerMap[x][y] = mapData[x][y];
+    walkerMap[y][x] = mapData[x][y];
     gameEngine.map.mapList[y][x].tileType = mapData[x][y];
     var str = "";
-    if (mapData[x][y] === 0) {
+    if (mapData[y][x] === 0) {
         str = gameEngine.map.mapList[y][x].grassImage;
     } else if (mapData[x][y] === 3) {
         str = gameEngine.map.maplist[y][x].treeImage;
@@ -152,14 +152,14 @@ function removeRoad(gameEngine, x, y) {
 function removeBuilding(gameEngine, x, y) {
     if (gameEngine.map.mapList[y][x].thing != null) {
         var thing = gameEngine.map.mapList[y][x].thing;
-        walkerMap[x][y] = mapData[x][y];
+        walkerMap[y][x] = mapData[x][y];
         gameEngine.map.mapList[y][x].tileType = mapData[x][y];
         gameEngine.map.mapList[y][x].thing.removeFromWorld = true;
         for (i = thing.x; i < thing.x + thing.bWidth; i++) {
             for (j = thing.y; j < thing.y + thing.bHeight; j++) {
                 if (gameEngine.map.mapList[j][i].thing != null) {
                     gameEngine.map.mapList[j][i].thing = null;
-                    walkerMap[i][j] = mapData[i][j];
+                    walkerMap[j][i] = mapData[i][j];
                 }
             }
         }
@@ -184,22 +184,20 @@ GameEngine.prototype.startInput = function () {
         y = that.isototwodY(fixX, fixY);
         selection = $('.pharoh-button.selected').attr("title");
         if (selection == "Roads") {
-          if(walkerMap[x][y] != 2) {
             isDrawing = true;
             drawRoad(that, x, y);
-          }
         } else if (selection == "Clear Land") {
             isClearing = true;
-            if (walkerMap[x][y] == 1) {
+            if (walkerMap[y][x] == 1) {
                 removeRoad(that, x, y);
-            } else if (walkerMap[x][y] == 2 ) {
+            } else if (walkerMap[y][x] == 2) {
                 removeBuilding(that, x, y);
             }
 
         } else if (selection == "Select") {
             displayStats(that, x, y); //TODO DEFINE IN CONTROLS.JS
         } else {
-            if (walkerMap[x][y] != 1) {
+            if (walkerMap[y][x] != 1) {
                 //creates object and adds to map
                 that.buildOnCanvas(x, y);
             }
@@ -219,9 +217,9 @@ GameEngine.prototype.startInput = function () {
                 drawRoad(that, x, y);
             }
             if (isClearing) {
-                if (walkerMap[x][y] == 1) {
+                if (walkerMap[y][x] == 1) {
                     removeRoad(that, x, y);
-                } else if (walkerMap[x][y] == 2) {
+                } else if (walkerMap[y][x] == 2) {
                     removeBuilding(that, x, y);
                 }
             }
@@ -507,7 +505,7 @@ GameEngine.prototype.update = function () {
 
         for (var i = 0; i < this.walkers.length; i++) {
             var walker = this.walkers[i];
-            if (walker.dX == 0 && walker.dY == 0) {
+            if (walker.dX == 0 && walker.dY == 0 && !(walker instanceof Hunter)) {
                 walker.removeFromWorld = true;
             }
         }
