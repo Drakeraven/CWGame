@@ -231,7 +231,7 @@ pCartMan.prototype = Object.create(Walker4.prototype);
 pCartMan.prototype.constructor = pCartMan;
 
 //bazaar lady's load count accounts for how much of the item she's bought
-function bazLad(game, img, map, lX, lY, funds, buying, bRef)  {
+function bazLad(game, img, map, lX, lY, funds, buying, bRef, hRef)  {
     Walker4.call(this, game, img, map, lX, lY, bRef);
     this.animation["NE"] = new Animation(img, 0, 0, 22, 42, 12, aSpeed, 12, true);
     this.animation["NW"] = new Animation(img, 0, 2, 22, 42, 12, aSpeed, 12, true);
@@ -240,6 +240,7 @@ function bazLad(game, img, map, lX, lY, funds, buying, bRef)  {
     this.currAnimation = this.animation["NE"];
     this.funds = funds;
     this.loadType = buying;
+    this.hRef = hRef;
     this.startX = lX;
     this.startY = lY;
 }

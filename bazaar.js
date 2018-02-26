@@ -30,9 +30,10 @@ function Bazaar(game, x, y) {
     this.maxRes = 500;
     this.funds = 320; 
     this.workTime = 0;
-    this.pushTime = 30;
+    this.pushTime = 5;
     this.radius = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30};
     this.buffer = { x: x - 1, y: y - 1, width: 2 + 1, height: 2 + 1}; 
+    this.roadTiles = [];
     Entity.call(this, game, x, y);
 }
 
@@ -99,17 +100,17 @@ Bazaar.prototype.update = function () {
                         //console.log("send walker from bazaar");
                         if (this.game.industries[i] instanceof Brewery && this.funds > 45) { 
                             //genwaker beer
-                            this.genWalker(this.game.industries[i], 45, "beer", this.game.industries[i]);
+                            this.genWalker(this.game.industries[i], 45, "beer", this.game.industries[i], this);
                             this.funds -= 45; 
                         }
                         if (this.game.industries[i] instanceof Weaver && this.funds > 50) {
                             //genwalker linen
-                            this.genWalker(this.game.industries[i], 50, "linen", this.game.industries[i]);
+                            this.genWalker(this.game.industries[i], 50, "linen", this.game.industries[i], this);
                             this.funds -= 50; 
                         }
                         if (this.game.industries[i] instanceof Potter && this.funds > 55) { 
                             //genwalker pottery
-                            this.genWalker(this.game.industries[i], 55, "pottery", this.game.industries[i]);
+                            this.genWalker(this.game.industries[i], 55, "pottery", this.game.industries[i], this);
                             this.funds -= 55; 
                         }
                     }
@@ -163,11 +164,11 @@ Bazaar.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
     pt1 = this.game.twodtoisoX(this.x, this.y) - this.renderX;
     pt2 = this.game.twodtoisoY(this.x, this.y) - this.renderY;
-    ctx.fillRect(pt1, pt2, 5, 5);
+    //ctx.fillRect(pt1, pt2, 5, 5);
     this.currAnim.drawFrame(this.game.clockTick, ctx, pt1, pt2);
 }
 
-Bazaar.prototype.genWalker = function (destBuild, funds, type, bRef) {
+Bazaar.prototype.genWalker = function (destBuild, funds, type, bRef, hRef) {
     found = false;
     let indie = destBuild;
     console.log(indie);
@@ -176,21 +177,21 @@ Bazaar.prototype.genWalker = function (destBuild, funds, type, bRef) {
     if (canWalk != null) {
         found = true;
         console.log(canWalk);
-        this.pushBoi(canWalk, funds, type, bRef);
+        this.pushBoi(canWalk, funds, type, bRef, hRef);
 
     }
 }
 
-Bazaar.prototype.pushBoi = function (canWalk, funds, type, bRef) {
+Bazaar.prototype.pushBoi = function (canWalk, funds, type, bRef, hRef) {
     console.log(funds, type);
     if (type === "beer") {
         console.log("Pushboi");
-        var ccm = new bazLad(this.game, ASSET_MANAGER.getAsset("./img/bazaarLady 22x42.png"), walkerMap, canWalk[0], canWalk[1], funds, type, bRef);
+        var ccm = new bazLad(this.game, ASSET_MANAGER.getAsset("./img/bazaarLady 22x42.png"), walkerMap, canWalk[0], canWalk[1], funds, type, bRef, hRef);
         ccm.destX = canWalk[2];
         ccm.destY = canWalk[3];
         this.game.addWalker(ccm);
     } else if (type === "linen") {
-        var mcm = new bazLad(this.game, ASSET_MANAGER.getAsset("./img/bazaarLady 22x42.png"), walkerMap, canWalk[0], canWalk[1], funds, type, bRef);
+        var mcm = new bazLad(this.game, ASSET_MANAGER.getAsset("./img/bazaarLady 22x42.png"), walkerMap, canWalk[0], canWalk[1], funds, type, bRef, hRef);
         mcm.destX = canWalk[2];
         mcm.destY = canWalk[3];
         this.game.addWalker(mcm);
@@ -201,12 +202,12 @@ Bazaar.prototype.pushBoi = function (canWalk, funds, type, bRef) {
         glcm.destY = canWalk[3];
         this.game.addWalker(glcm);
     } else if (type === "pottery") {
-        var pcm = new bazLad(this.game, ASSET_MANAGER.getAsset("./img/bazaarLady 22x42.png"), walkerMap, canWalk[0], canWalk[1], funds, type, bRef);
+        var pcm = new bazLad(this.game, ASSET_MANAGER.getAsset("./img/bazaarLady 22x42.png"), walkerMap, canWalk[0], canWalk[1], funds, type, bRef, hRef);
         pcm.destX = canWalk[2];
         pcm.destY = canWalk[3];
         this.game.addWalker(pcm);
     } else if (type === "food") {
-        var fcm = new bazLad(this.game, ASSET_MANAGER.getAsset("./img/bazaarLady 22x42.png"), walkerMap, canWalk[0], canWalk[1], funds, type, bRef);
+        var fcm = new bazLad(this.game, ASSET_MANAGER.getAsset("./img/bazaarLady 22x42.png"), walkerMap, canWalk[0], canWalk[1], funds, type, bRef, hRef);
         fcm.destX = canWalk[2];
         fcm.destY = canWalk[3];
         this.game.addWalker(fcm);

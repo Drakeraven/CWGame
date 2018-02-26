@@ -17,7 +17,7 @@ function industry(game, x, y) {
     this.numEmployed = 0;
     this.numEmpNeeded = 0;
     this.placeCost = null;
-    this.numResources = 0;
+    this.numResources = 10000;
     this.resType = "";
     this.merchType = null;
     this.numMerch = 0;
@@ -51,10 +51,23 @@ industry.prototype.update = function () {
                     this.numMerch -= 100; //amt bought at a time
                     this.game.walkers[i].loadCount += 100;
                 }
-                this.game.walkers[i].x = Math.floor(this.game.walkers[i].x);
+                /*this.game.walkers[i].x = Math.floor(this.game.walkers[i].x);
                 this.game.walkers[i].y = Math.floor(this.game.walkers[i].y);
                 this.game.walkers[i].destX = this.game.walkers[i].startX;
-                this.game.walkers[i].destY = this.game.walkers[i].startY;
+                this.game.walkers[i].destY = this.game.walkers[i].startY;*/
+
+                walkerX = Math.floor(this.game.walkers[i].x);
+                walkerY = Math.floor(this.game.walkers[i].y);
+                canWalk = generateWalker([[walkerX, walkerY]], this.game.walkers[i].hRef.roadTiles);
+                if (canWalk != null) { 
+                    this.game.walkers[i].x = walkerX; 
+                    this.game.walkers[i].y = walkerY; 
+                    this.game.walkers[i].destX = canWalk[2];
+                    this.game.walkers[i].destX = canWalk[3];
+                    console.log(canWalk[2], " | ", canWalk[3]);
+                    this.game.walkers[i].bRef = this.game.walkers[i].hRef;
+                    this.game.walkers[i].hRef = this;
+                }
             }
         }
 
