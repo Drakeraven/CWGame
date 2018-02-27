@@ -92,7 +92,7 @@ Walker4.prototype.walkPath = function () {
 Walker4.prototype.draw = function (ctx) {
     pt1 = this.game.twodtoisoX(this.x, this.y) + 27 - this.currAnimation.frameWidth / 2;
     pt2 = this.game.twodtoisoY(this.x, this.y) + 10 - this.currAnimation.frameHeight / 2;
-    ctx.fillRect(pt1, pt2, 5, 5);
+    //ctx.fillRect(pt1, pt2, 5, 5);
     this.currAnimation.drawFrame(this.game.clockTick, ctx, pt1, pt2);
     Entity.prototype.draw.call(this);
 }

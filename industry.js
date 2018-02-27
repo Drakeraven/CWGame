@@ -66,9 +66,9 @@ industry.prototype.update = function () {
                 this.game.housingArr[i].potterLevel = true;
             } else if (this instanceof Weaver) {
                 this.game.housingArr[i].weaverLevel = true;
-            } else if (this instanceof Brewery) {
+            } else if (this instanceof Brewery) { 
                 this.game.housingArr[i].brewerLevel = true;
-            }
+            } 
         }
     }
     //this.roadTiles = findRoad(this.buffer);
@@ -111,7 +111,6 @@ industry.prototype.toStringStats = function() {
 industry.prototype.draw = function (ctx) {
     pt1 = this.game.twodtoisoX(this.x, this.y) - this.renderX;
     pt2 = this.game.twodtoisoY(this.x, this.y) - this.renderY;
-    ctx.fillRect(pt1, pt2, 5, 5);
     this.currAnim.drawFrame(this.game.clockTick, ctx, pt1, pt2);
     Entity.prototype.draw.call(this);
 }
@@ -122,11 +121,11 @@ industry.prototype.remove = function () {
         if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y, this, this)) {
             if (this instanceof Potter) {
                 this.game.housingArr[i].potterLevel = false;
-            } else if (this instanceof Weaver) {
+            } else if (this instanceof Weaver) { 
                 this.game.housingArr[i].weaverLevel = false;
-            } else if (this instanceof Brewery) {
-                this.game.housingArr[i].brewerLevel = false;
-            }
+            } else if (this instanceof Brewery) { 
+                this.game.housingArr[i].brewerLevel = false; 
+            } 
         }
     }
 }
