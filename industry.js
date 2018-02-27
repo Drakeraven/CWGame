@@ -23,7 +23,7 @@ function industry(game, x, y) {
     this.numMerch = 0;
     this.merchCost = 0;
     this.prodTime = 0;
-    this.radius = { x: x - 1, y: y - 1, width: this.bWidth + 30, height: this.bHeight + 30 };
+    this.radius = { x: x - 15, y: y - 15, width: this.bWidth + 30, height: this.bHeight + 30 };
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
     this.roadTiles = [];
     Entity.call(this, game, x, y);
@@ -55,6 +55,8 @@ industry.prototype.update = function () {
                 this.game.walkers[i].y = Math.floor(this.game.walkers[i].y);
                 this.game.walkers[i].destX = this.game.walkers[i].startX;
                 this.game.walkers[i].destY = this.game.walkers[i].startY;
+                this.game.walkers[i].bRef = this.game.walkers[i].hRef;
+                this.game.walkers[i].hRef = this;
             }
         }
 

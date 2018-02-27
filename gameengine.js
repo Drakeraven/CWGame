@@ -505,7 +505,7 @@ GameEngine.prototype.update = function () {
 
         for (var i = 0; i < this.walkers.length; i++) {
             var walker = this.walkers[i];
-            if (walker.dX == 0 && walker.dY == 0 && !(walker instanceof Hunter)) {
+            if (walker.dX == 0 && walker.dY == 0 && !(walker instanceof Hunter) && !(walker instanceof bazLad)) {
                 walker.removeFromWorld = true;
             }
         }
