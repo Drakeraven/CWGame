@@ -30,7 +30,7 @@ function Bazaar(game, x, y) {
     this.maxRes = 500;
     this.funds = 320; 
     this.workTime = 0;
-    this.pushTime = 5;
+    this.pushTime = 30;
     this.radius = {x: x - 15, y: y - 15, width: 2 + 30, height: 2 + 30};
     this.buffer = { x: x - 1, y: y - 1, width: 2 + 1, height: 2 + 1}; 
     this.roadTiles = [];

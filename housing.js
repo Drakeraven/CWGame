@@ -16,14 +16,14 @@ function house(img, game, x, y, bWidth, bHeight) {
     this.numHoused = 30;
     this.placeCost = null;
     this.waterLevel = false;
-    this.foodLevel = 10;
+    this.foodLevel = 0;
     this.weaverLevel = false;
     this.potterLevel = false;
     this.brewerLevel = false;
     this.renderX = 58;
     this.renderY = 30;
     this.foodTime = 0; 
-    this.pushTime = 5; 
+    this.pushTime = 20; 
     this.fireResist = 0.9; //percent chance of fire
     this.buffer = { x: x - 1, y: y - 1, width: bWidth + 1, height: bHeight + 1};
     Entity.call(this, game, x, y);
