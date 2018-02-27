@@ -8,7 +8,7 @@ function bubbleBuilding(img, game, x, y, bWidth, bHeight, buf) {
     this.currAnim = null;
     this.renderX = 0;
     this.renderY = 0;
-    this.radius = { x: x - 1, y: y - 1, width: bWidth + buf, height: bHeight + buf};
+    this.radius = null; 
     //this.numEmployed = 0;
     //this.numEmpNeeded = null;
     this.placeCost = 10;
@@ -30,7 +30,9 @@ bubbleBuilding.prototype.update = function () {
    
     myPop = 0;
     for (i = 0; i < this.game.housingArr.length; i++) {
-        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y), this, this) {
+        //console.log("this, ", this.x, " | ", this.y)
+        //console.log("that, ", this.game.housingArr[i].x, " | ", this.game.housingArr[i].y);
+        if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y, this, this)) {
             if (this instanceof TaxHouse) {
                 myPop += this.game.housingArr[i].numHoused;
             } else if (this instanceof Well || this instanceof WaterSupply) {
@@ -77,7 +79,7 @@ bubbleBuilding.prototype.remove = function () {
 bubbleBuilding.prototype.draw = function (ctx) {
     pt1 = this.game.twodtoisoX(this.x, this.y) - this.renderX;
     pt2 = this.game.twodtoisoY(this.x, this.y) - this.renderY;
-    ctx.fillRect(pt1, pt2, 5, 5);
+    //ctx.fillRect(pt1, pt2, 5, 5);
     this.currAnim.drawFrame(this.game.clockTick, ctx, pt1, pt2);
     Entity.prototype.draw.call(this);
 }
@@ -93,7 +95,7 @@ function Well (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/smallWell.png");
     bubbleBuilding.call(this, img, game, x, y, 1, 1, 10);
     workTime = game.timer.gameTime;
-    this.radius = { x: x - 1, y: y - 1, width: 1 + 10, height: 1 + 10};
+    this.radius = { x: x - 5, y: y - 5, width: 15, height: 15};
     this.renderX = 0;
     this.renderY = -8;
     this.currAnim = new Animation(img, 0, 1, 58, 51, 1, 0.15, 1, true);
@@ -106,7 +108,7 @@ function WaterSupply (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/bigWell.png");
     bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
     workTime = game.timer.gameTime;
-    this.radius = { x: x - 1, y: y - 1, width: 1 + 30, height: 1 + 30};
+    this.radius = { x: x - 10, y: y - 10, width: 1 + 25, height: 1 + 25};
     this.currAnim = new Animation(img, 0, 1, 118, 77, 1, 0.15, 1, true);
 }
 
@@ -117,7 +119,7 @@ function TaxHouse (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/taxHouse.png");
     bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
     this.workTime = game.timer.gameTime;
-    this.radius = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30};
+    this.radius = { x: x - 15, y: y - 15, width: 2 + 30, height: 2 + 30};
     this.renderX = 28;
     this.renderY = 35;
     this.currAnim = new Animation(img, 0, 1, 118, 96, 8, 0.15, 8, true);
@@ -130,7 +132,7 @@ function FireHouse (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/Firehouse-1.png");
     bubbleBuilding.call(this, img, game, x, y, 1, 1, 30);
     this.workTime = game.timer.gameTime;
-    this.radius = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30};
+    this.radius = {x: x - 15, y: y - 15, width: 2 + 30, height: 2 + 30};
     this.renderX = 0;
     this.renderY = 40;
     this.currAnim = new Animation(img, 0, 1, 58, 100, 6, .15, 12, true);
@@ -143,7 +145,7 @@ function CopHouse (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/COPS-1.png");
     bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
     this.workTime = game.timer.gameTime;
-    this.radius = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30};
+    this.radius = {x: x - 15, y: y - 15, width: 2 + 30, height: 2 + 30};
     this.renderX = 58;
     this.renderY = 60;
     this.currAnim = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);

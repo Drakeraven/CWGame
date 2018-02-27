@@ -16,12 +16,14 @@ function house(img, game, x, y, bWidth, bHeight) {
     this.numHoused = 30;
     this.placeCost = null;
     this.waterLevel = false;
-    this.foodLevel = 0;
+    this.foodLevel = 10;
     this.weaverLevel = false;
     this.potterLevel = false;
     this.brewerLevel = false;
     this.renderX = 58;
     this.renderY = 30;
+    this.foodTime = 0; 
+    this.pushTime = 5; 
     this.fireResist = 0.9; //percent chance of fire
     this.buffer = { x: x - 1, y: y - 1, width: bWidth + 1, height: bHeight + 1};
     Entity.call(this, game, x, y);
@@ -32,8 +34,7 @@ house.prototype.constructor = house;
 
 house.prototype.update = function () {
     Entity.prototype.update.call(this);
-    //console.log("Inside update")
-    this.foodTime = this.game.timer.gameTime;
+    //console.log("Inside update"
     /*if (Math.random() <= fireResist && (Math.random() <= fireResist + 0.5 && Math.random() >= fireResist - 0.5) && Math.random() <= this.fireResist) { //&& this.game.timer.gameTime - this.foodTime % 666 === 0
         console.log("BURN BABY BURN");
         this.removeFromWorld = true;
@@ -103,6 +104,15 @@ house.prototype.update = function () {
     // if gametime = 1 month
         //this.foodLevel -= numHoused;
 
+    if (this.game.timer.gameTime - this.foodTime >= this.pushTime) {
+        this.foodTime = this.game.timer.gameTime;
+        this.foodLevel -= Math.ceil( this.numHoused * 0.5 );
+        if (this.foodLevel < 0) { 
+            this.foodLevel = 0; 
+        }
+
+    }
+
     //UPDATE Pop:
     currentPop = 0;
     for (i = 0; i < this.game.housingArr.length; i++) {
@@ -112,7 +122,7 @@ house.prototype.update = function () {
     if (currentPop > this.game.gameWorld.population) {
         this.game.gameWorld.addPop(currentPop - this.game.gameWorld.population);
         this.game.gameWorld.workForce = this.game.gameWorld.getWorkForce();
-        console.log(this.game.gameWorld.workForce);
+        //console.log(this.game.gameWorld.workForce);
     } else {
         this.game.gameWorld.remPop(this.game.gameWorld.population - currentPop);
         this.game.gameWorld.workForce = this.game.gameWorld.getWorkForce();

@@ -19,9 +19,9 @@ function Bazaar(game, x, y) {
     this.numEmpNeeded = 20;
     this.placeCost = 400;
     this.range = 30;
-    this.foodLevel = 100;
+    this.foodLevel = 0;
     this.foodMax = 500; 
-    this.weaverLevel =0;
+    this.weaverLevel = 0;
     this.weaverSell = 40;  
     this.potterLevel = 0;
     this.potterSell = 35; 
@@ -31,7 +31,7 @@ function Bazaar(game, x, y) {
     this.funds = 320; 
     this.workTime = 0;
     this.pushTime = 5;
-    this.radius = { x: x - 1, y: y - 1, width: 2 + 30, height: 2 + 30};
+    this.radius = {x: x - 15, y: y - 15, width: 2 + 30, height: 2 + 30};
     this.buffer = { x: x - 1, y: y - 1, width: 2 + 1, height: 2 + 1}; 
     this.roadTiles = [];
     Entity.call(this, game, x, y);
@@ -92,7 +92,7 @@ Bazaar.prototype.update = function () {
             for (var i = 0; i < this.game.industries.length; i++) {
                 //send walker our w/ enough to buy up to 1 sets of each item to start with i
                 //send bazaar lady to the industries:
-                console.log(this.game.industries[i]);
+                //console.log(this.game.industries[i]);
                 if (!(this.game.industries[i] instanceof Bazaar)) {
                     //console.log("Boi");
                     if (this.funds >= 45) { 
@@ -122,18 +122,12 @@ Bazaar.prototype.update = function () {
             for (i = 0; i < this.game.housingArr.length; i++) { 
                 thisHouse = this.game.housingArr[i];
                 rangePop += thisHouse.numHoused;
-                if (arrived(this.radius, thisHouse.x, thisHouse.y)) { 
-                    for (var i = 0; i < this.game.housingArr.length ; i++) { 
-                        if (this.foodLevel > 0) { 
-                            //insert a walker here - give the walker food, have it go to the house
-                            //if done, make sure the house has code to kill walker!!!
-                            //Currently, the walker is generated but the arrival doesn't actually 
-                            //carry any food with him :3c 
-                            //this.genWalker(this.game.housingArr[i], thisHouse.level * 20, "food", this.game.housingArr[i]);
-                            thisHouse.foodLevel += thisHouse.level * 20;
-                            this.foodLevel -= thisHouse.level * 5; 
-                        } 
-                    }
+                if (arrived(this.radius, thisHouse.x, thisHouse.y, this, this)) { 
+                    if (this.foodLevel > 0) { 
+                        //this.genWalker(this.game.housingArr[i], thisHouse.level * 20, "food", this.game.housingArr[i]);
+                        thisHouse.foodLevel += thisHouse.level * 20;
+                        this.foodLevel -= thisHouse.level * 20; 
+                    } 
                 } 
             }
             //send gold guy to palace 
@@ -149,7 +143,7 @@ Bazaar.prototype.update = function () {
                 weaverLevel = 0; 
                 potterLevel = 0; 
                 //console.log("GOLD: ", toSend * .25);
-                this.genWalker(this.game.gameWorld.palace, (toSend * .25), "gold", this.game.gameWorld.palace);
+                this.genWalker(this.game.gameWorld.palace, (toSend * .25), "gold", this.game.gameWorld.palace, this);
             }
     
         }
@@ -184,34 +178,18 @@ Bazaar.prototype.genWalker = function (destBuild, funds, type, bRef, hRef) {
 
 Bazaar.prototype.pushBoi = function (canWalk, funds, type, bRef, hRef) {
     console.log(funds, type);
-    if (type === "beer") {
-        console.log("Pushboi");
-        var ccm = new bazLad(this.game, ASSET_MANAGER.getAsset("./img/bazaarLady 22x42.png"), walkerMap, canWalk[0], canWalk[1], funds, type, bRef, hRef);
-        ccm.destX = canWalk[2];
-        ccm.destY = canWalk[3];
-        this.game.addWalker(ccm);
-    } else if (type === "linen") {
-        var mcm = new bazLad(this.game, ASSET_MANAGER.getAsset("./img/bazaarLady 22x42.png"), walkerMap, canWalk[0], canWalk[1], funds, type, bRef, hRef);
-        mcm.destX = canWalk[2];
-        mcm.destY = canWalk[3];
-        this.game.addWalker(mcm);
-    } else if (type === "gold") {
+    if (type === "gold") {
         var glcm = new glCartMan(this.game, ASSET_MANAGER.getAsset("./img/goldCartMan.png"), walkerMap, canWalk[0], canWalk[1], bRef);
         glcm.loadCount = funds;
         glcm.destX = canWalk[2];
         glcm.destY = canWalk[3];
         this.game.addWalker(glcm);
-    } else if (type === "pottery") {
+    } else {
         var pcm = new bazLad(this.game, ASSET_MANAGER.getAsset("./img/bazaarLady 22x42.png"), walkerMap, canWalk[0], canWalk[1], funds, type, bRef, hRef);
         pcm.destX = canWalk[2];
         pcm.destY = canWalk[3];
         this.game.addWalker(pcm);
-    } else if (type === "food") {
-        var fcm = new bazLad(this.game, ASSET_MANAGER.getAsset("./img/bazaarLady 22x42.png"), walkerMap, canWalk[0], canWalk[1], funds, type, bRef, hRef);
-        fcm.destX = canWalk[2];
-        fcm.destY = canWalk[3];
-        this.game.addWalker(fcm);
-    }
+    } 
 }
 
 Bazaar.prototype.toStringStats = function () {
