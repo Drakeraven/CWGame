@@ -196,8 +196,9 @@ function StoreYard(game, x, y) {
     this.storeAnims[7] = new Animation(this.img, 0, 7, 176, 132, 16, .17, 16, true); // bar flax
     this.storeAnims[8] = new Animation(this.img, 0, 8, 176, 132, 16, .17, 16, true);// open all
     this.currAnim = this.storeAnims[0];
-    this.renderX = 64;
-    this.renderY = 46;
+    this.placeCost = 60;
+    this.renderX = 59;
+    this.renderY = 39;
     this.numEmployed = 0;
     this.numEmpNeeded = 12;
     this.storage = [];
@@ -211,8 +212,6 @@ function StoreYard(game, x, y) {
 
 StoreYard.prototype = new Entity();
 StoreYard.prototype.constructor = StoreYard;
-//TODO: For farms/Hunting Lodge, check if a yard can take it before sending
-//TODO: take reference to destination for walkers, prevent accidental eating
 
 StoreYard.prototype.update = function () {
     this.roadTiles = findRoad(this.buffer);

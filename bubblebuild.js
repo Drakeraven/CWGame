@@ -170,7 +170,7 @@ bubbleBuilding.prototype.genWalker = function (destBuild, funds) {
 }
 
 bubbleBuilding.prototype.pushBoi = function (canWalk, funds) {
-    var glcm = new glCartMan(this.game, ASSET_MANAGER.getAsset("./img/goldCartMan.png"), walkerMap, canWalk[0], canWalk[1]);
+    var glcm = new glCartMan(this.game, ASSET_MANAGER.getAsset("./img/goldCartMan.png"), walkerMap, canWalk[0], canWalk[1], this.game.gameWorld.palace);
     glcm.loadCount = funds;
     glcm.destX = canWalk[2];
     glcm.destY = canWalk[3];
