@@ -110,7 +110,7 @@ Granary.prototype.update = function () {
                             //generate walker to the granarie
                             walkerX = Math.floor(this.game.walkers[i].x);
                             walkerY = Math.floor(this.game.walkers[i].y);
-                            canWalk = generateWalker([[walkerX, walkerY]], this.game.granaries[j].roadTiles,);
+                            canWalk = generateWalker([[walkerY, walkerX]], this.game.granaries[j].roadTiles,);
                             if (canWalk != null) {
                                 this.game.walkers[i].destX = canWalk[2];
                                 this.game.walkers[i].destY = canWalk[3];
@@ -240,8 +240,11 @@ StoreYard.prototype.update = function () {
 
                                 walkerX = Math.floor(this.game.walkers[i].x);
                                 walkerY = Math.floor(this.game.walkers[i].y);
-                                canWalk = generateWalker([[walkerX, walkerY]], this.game.yards[j].roadTiles);
+                                canWalk = generateWalker([[walkerY, walkerX]], this.game.yards[j].roadTiles);
                                 if (canWalk != null) {
+
+                                    walkerX = Math.floor(this.game.walkers[i].x);
+                                    walkerY = Math.floor(this.game.walkers[i].y);
                                     this.game.walkers[i].destX = canWalk[2];
                                     this.game.walkers[i].destY = canWalk[3];
                                     this.game.walkers[i].bRef = this.game.yards[j];
