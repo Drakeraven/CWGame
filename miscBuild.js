@@ -223,15 +223,16 @@ StoreYard.prototype.update = function () {
     } else {
         this.currAnim = this.storeAnims[this.changeAnim()];
         for (var i = 0; i < this.game.walkers.length; i++) {
-            //console.log(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y);
-            if (arrived(this.buffer, Math.floor(this.game.walkers[i].x), Math.floor(this.game.walkers[i].y), this, this.game.walkers[i].bRef)) {
+            if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
                 if (this.game.walkers[i] instanceof cCartMan
                     || this.game.walkers[i] instanceof barCartMan
                     || this.game.walkers[i] instanceof fCartMan) {
 
-                    if (this.storage[this.game.walkers[i].loadType] + this.game.walkers[i].loadCount <= yardMax) {
+                    if (this.storage[this.game.walkers[i].loadType] + this.game.walkers[i].loadCount <= yardMax && this.game.walkers[i].loadCount != 0) {
                         this.storage[this.game.walkers[i].loadType] += this.game.walkers[i].loadCount;
+                        this.game.walkers[i].loadCount -= this.game.walkers[i].loadCount;
                         this.game.walkers[i].removeFromWorld = true;
+
                     } else {
                         for (var j = 0; j < this.game.yards.length; j++) {
                             if (this.game.yards[j] != this &&
@@ -256,7 +257,7 @@ StoreYard.prototype.update = function () {
         if (this.game.timer.gameTime - this.workTime >= this.pushTime) {
             this.workTime = this.game.timer.gameTime;
             for (var k = 0; k < this.game.industries.length; k++) {
-                if (this.game.industries[k].numResources <= 100 && this.storage[this.game.industries[k].resType] >= 100) {
+                if (this.game.industries[k].numResources <= 100 && this.game.industries[k].numResources < 300 && this.storage[this.game.industries[k].resType] >= 100) {
                     this.storage[this.game.industries[k].resType] = Math.floor(this.storage[this.game.industries[k].resType]) - 100;
                     canWalk = generateWalker(this.roadTiles, this.game.industries[k].roadTiles);
                     cartBoi = null;
