@@ -165,7 +165,7 @@ function removeBuilding(gameEngine, x, y) {
         }
     }
 }
-var isDraggable = true;
+var isDraggable = false;
 var isClearing = false;
 var isDrawing = false;
 var selectedBuildingCost = 0;
