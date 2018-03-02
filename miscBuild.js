@@ -105,7 +105,7 @@ Granary.prototype.update = function () {
                         console.log("Food Amt: ", this.foodSupply)
                     } else {
                         //code to send the walker somewhere else, or kill it
-                        for (var j = 0; j < this.game.granaries.length; j++
+                        for (var j = 0; j < this.game.granaries.length; j++)
                                 && this.game.granaries[i] != this && this.game.granaries[i].foodLevel + this.game.walkers[i].loadCount <= this.foodMax) {
                             //generate walker to the granarie
                             walkerX = Math.floor(this.game.walkers[i].x);
