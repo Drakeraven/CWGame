@@ -126,14 +126,6 @@ GameEngine.prototype.isototwodX = function (x, y) {
 GameEngine.prototype.isototwodY = function (x, y) {
     return Math.floor((((y / 15) + this.cameraoffY) - ((x / 29) - this.cameraoffX)) / 2);
 }
-//draws road on map using given x and y
-function drawRoad(gameEngine, x, y) {
-    walkerMap[y][x] = 1;
-    gameEngine.map.mapList[y][x].tileType = 1;
-    gameEngine.map.mapList[y][x].image.src = gameEngine.map.mapList[y][x].roadImage;
-    //  console.log('hi');
-    //console.log(walkerMap);
-}
 
 //sets tiles to original.
 function removeRoad(gameEngine, x, y) {
@@ -168,6 +160,8 @@ function removeBuilding(gameEngine, x, y) {
 var isDraggable = false;
 var isClearing = false;
 var isDrawing = false;
+var isHovering = false;
+var hoverX
 var selectedBuildingCost = 0;
 var currentMessage = "";
 //Listens to input and events
@@ -185,17 +179,12 @@ GameEngine.prototype.startInput = function () {
         selection = $('.pharoh-button.selected').attr("title");
         if (selection == "Roads") {
             isDrawing = true;
-            drawRoad(that, x, y);
+            that.drawRoad(x, y);
         } else if (selection == "Clear Land") {
             isClearing = true;
-            if (walkerMap[y][x] == 1) {
-                removeRoad(that, x, y);
-            } else if (walkerMap[y][x] == 2) {
-                removeBuilding(that, x, y);
-            }
-
+            that.clearItems(x,y);
         } else if (selection == "Select") {
-            displayStats(that, x, y); //TODO DEFINE IN CONTROLS.JS
+            displayStats(that, x, y);
         } else {
             if (walkerMap[y][x] != 1) {
                 //creates object and adds to map
@@ -205,24 +194,24 @@ GameEngine.prototype.startInput = function () {
 
     });
     this.ctx.canvas.addEventListener("mousemove", function (event) {//click drag
+        //adjusts x and y
+        let fixX = event.clientX - (event.clientX % 29);
+        let fixY = event.clientY - (event.clientY % 15);
+        //converts to iso
+        let x = that.isototwodX(fixX, fixY);
+        let y = that.isototwodY(fixX, fixY);
+        if(isHovering) {
+        that.hoverItems(that, x, y);
+        }
+        //TODO
+        //MAKE GLOBAL HOVER ENTITY
+        //MAKE GETENTITY FUNC FORM BUILID IN CANVAS
+        //CALL SPECIAL MAP FUNCTS TO CHECK
+        //CALL ENTITY.DRAW
 
         if (isDraggable) {
-            //adjusts x and y
-            let fixX = event.clientX - (event.clientX % 29);
-            let fixY = event.clientY - (event.clientY % 15);
-            //converts to iso
-            let x = that.isototwodX(fixX, fixY);
-            let y = that.isototwodY(fixX, fixY);
-            if (isDrawing) {
-                drawRoad(that, x, y);
-            }
-            if (isClearing) {
-                if (walkerMap[y][x] == 1) {
-                    removeRoad(that, x, y);
-                } else if (walkerMap[y][x] == 2) {
-                    removeBuilding(that, x, y);
-                }
-            }
+            that.clearItems(x, y);
+            that.draw(x, y);
         }
 
     });
@@ -241,7 +230,25 @@ GameEngine.prototype.startInput = function () {
     });
     console.log('Input started');
 }
-
+GameEngine.prototype.hoverItems = function (x, y) {
+    that.buildOnCanvas(x, y);
+}
+GameEngine.prototype.drawRoad = function (x, y) {
+    if (isDrawing) {
+        walkerMap[y][x] = 1;
+        gameEngine.map.mapList[y][x].tileType = 1;
+        gameEngine.map.mapList[y][x].image.src = gameEngine.map.mapList[y][x].roadImage;
+    }
+}
+GameEngine.prototype.clearItems = function (x, y) {
+    if (isClearing) {
+        if (walkerMap[y][x] == 1) {
+            removeRoad(that, x, y);
+        } else if (walkerMap[y][x] == 2) {
+            removeBuilding(that, x, y);
+        }
+    }
+}
 
 GameEngine.prototype.buildOnCanvas = function (x, y) {
     let selection = $('.pharoh-button.selected').attr("title");

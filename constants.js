@@ -36,7 +36,7 @@ var Constants = {
         //Following classes do not affect select menu
         Roads: [],
         Controls: [],
-        GameInformation: [],
+        Manual: [],
         ClearLand: [],
         Select: [],
     }
@@ -61,5 +61,5 @@ var controlString =
                     "on whether some of theft has occured of whether your buildings caught on fire.\n\n"
                     + "Pay attention to the game information, your current funds, and building costs as you continue to build your city!";
 
-//add elemented as needed, counter in gameengine will help index the correct goal
+                    //add elemented as needed, counter in gameengine will help index the correct goal
 var goalsArray = ["Achieve 500 people living in your city!","Achieve"];

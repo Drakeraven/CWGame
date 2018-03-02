@@ -137,12 +137,13 @@ $(function () {//shorthand for window.ready
 
     });
 
-    $('#Close-Button').click(function () {
-        $("#Game-Information").hide();
+    $('#Close-Button-Manual').click(function () {
+        $("#Manual-Box").hide();
         setButton("Select");
     });
     $('#Close-Button-Controls').click(function () {
         $("#Controls-Box").hide();
         setButton("Select");
     });
+    
 });

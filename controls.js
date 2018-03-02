@@ -37,7 +37,7 @@ function setHotKeys(event, game) {
     } else if (event.code === "KeyM") {
         setButton("Controls");
     } else if (event.code === "KeyG") {
-        setButton("Game Information");
+        setButton("Manual");
     } else if (event.code === "ArrowRight" && game.cameraoffX > -80) {
         if (game.cameraoffY < 140 && game.cameraoffY > 0) {
             game.cameraoffX -= 1;
@@ -104,7 +104,7 @@ function setButton(titleOfCurrentButtonSelection) {
 
     //General use buttons don't need to change selectmenu
     if (buttonPaneTitle == 'Controls') buttonPaneTitle = 'Default';
-    if (buttonPaneTitle == 'Game Information') buttonPaneTitle = 'Default';
+    if (buttonPaneTitle == 'Manual') buttonPaneTitle = 'Default';
     if (buttonPaneTitle == 'Select') buttonPaneTitle = 'Default';
 
     //clears out and displays new button pane
@@ -141,8 +141,9 @@ function setButton(titleOfCurrentButtonSelection) {
             setSelectOptions(Constants.Buildings.Controls);
             setControlsInfoBox();
             break;
-        case "Game Information":
-            setSelectOptions(Constants.Buildings.GameInformation);
+        case "Manual":
+            setSelectOptions(Constants.Buildings.Manual);
+            setManualInfoBox();
             break;
         case "Clear Land":
             setSelectOptions(Constants.Buildings.ClearLand);
@@ -189,3 +190,11 @@ function setControlsInfoBox() {
     $('#controls-text').text(controlString);
     $('#Controls-Box').show();
 };
+
+function setManualInfoBox() {
+
+    $('#manual-text').empty();
+    $('#manual-text').attr( "src","How_to_play.txt");
+    $('#Manual-Box').show();
+};
+
