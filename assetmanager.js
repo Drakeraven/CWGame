@@ -85,6 +85,7 @@ AssetManager.prototype.assetQueueDownloads = function() {
     ASSET_MANAGER.queueDownload('./img/StoreYard.png');
     ASSET_MANAGER.queueDownload("./img/DONUTSTEAL.png");
     ASSET_MANAGER.queueDownload("./img/Title.PNG");
+    ASSET_MANAGER.queueDownload("./img/FireTitle1.PNG");
     //UI IMGS
     ASSET_MANAGER.queueDownload("./img/DefaultPane.png");
     ASSET_MANAGER.queueDownload("./img/HousingPane.png");
