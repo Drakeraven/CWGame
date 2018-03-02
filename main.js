@@ -50,7 +50,6 @@ function getTileInfo(x, y, game) {
     return game.map.mapList[x][y];
 }
 
-
 function getNeighbors(x, y, game) {
     neighbors = [];
     neighbors["above"] = game.map.mapList[x - 1][y];

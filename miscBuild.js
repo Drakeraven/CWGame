@@ -131,7 +131,7 @@ Granary.prototype.update = function () {
             for (var i = 0; i < this.game.industries.length; i++){
                 //send food to bazaar!
                 if (this.game.industries[i] instanceof Bazaar) {
-                    if (this.foodSupply > 100 && this.game.industries[i].foodSupply < 100) {
+                    if (this.foodSupply > 100 && this.game.industries[i].foodLevel < 100) {
                             this.genWalker(this.game.industries[i], 100, "food", this.game.industries[i]);
                             this.foodSupply -= 100;
                     }
