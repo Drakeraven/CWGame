@@ -79,7 +79,7 @@ Bazaar.prototype.update = function () {
                     this.game.walkers[i].removeFromWorld = true;
                 } else if (this.game.walkers[i].loadType === "meat") { 
                     this.foodLevel += this.game.walkers[i].loadCount;
-                    this.funds += this.game.walkers[i].funds;
+                    //this.funds += this.game.walkers[i].funds;
                     this.game.walkers[i].removeFromWorld = true;
                 }
                 if (this.game.walkers[i].bRef == this) this.game.walkers[i].removeFromWorld = true;

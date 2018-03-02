@@ -116,8 +116,8 @@ function goldMine(game, x, y) {
     this.resType = "gold";
     this.prodTime = 30;
     this.numEmpNeeded = 16;
-    this.renderX = 37;
-    this.renderY = 0;
+    this.renderX = 30;
+    this.renderY = 3;
     this.placeCost = 100;
 }
 
@@ -135,7 +135,7 @@ function clayPit(game, x, y) {
     this.prodTime = 10;
     this.numEmpNeeded = 14;
     this.renderX = 29;
-    this.renderY = 9;
+    this.renderY = 8;
     this.placeCost = 20;
 }
 
@@ -153,8 +153,8 @@ function huntLodge(game, x, y) {
     this.resType = "meat";
     this.prodTime = 15;
     this.numEmpNeeded = 18;
-    this.renderX = 27;
-    this.renderY = 53;
+    this.renderX = 28;
+    this.renderY = 50;
     this.placeCost = 35;
     this.foodStore = 0;
 }
