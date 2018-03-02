@@ -409,15 +409,15 @@ GameEngine.prototype.draw = function () {
 goalCounter = 1; //used to display messages
 GameEngine.prototype.update = function () {
     //checks if goals were met
-    //if (this.gameWorld.population > 500) {
-    //    goalCounter++;
-    //    //TODO instead of ending game, just pop up a small window
-    //    //that notifies user they met the goal, green goal box
-    //    //will display new goal,
-    //    //goal message list will be defined in constants.js
-    //    $('.game-container').hide();
-    //    $('#EndGame').show();
-    //} else {
+    if (this.gameWorld.population > 500) {
+        goalCounter++;
+        //TODO instead of ending game, just pop up a small window
+        //that notifies user they met the goal, green goal box
+        //will display new goal,
+        //goal message list will be defined in constants.js
+        $('.game-container').hide();
+        $('#EndGame').show();
+    } else {
         //Updates live info about game on UI
         setGameInfoBox();
         updateFunds();
@@ -562,7 +562,7 @@ GameEngine.prototype.update = function () {
                 this.walkers.splice(i, 1);
             }
         }
-    //}
+    }
 }
 
 GameEngine.prototype.loop = function () {

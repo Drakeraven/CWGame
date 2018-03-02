@@ -9,6 +9,7 @@ function bubbleBuilding(img, game, x, y, bWidth, bHeight, buf) {
     this.renderX = 0;
     this.renderY = 0;
     this.radius = null; 
+    this.range = 30; 
     //this.numEmployed = 0;
     //this.numEmpNeeded = null;
     this.placeCost = 10;
@@ -86,7 +87,7 @@ bubbleBuilding.prototype.draw = function (ctx) {
 bubbleBuilding.prototype.toStringStats = function() {
    // str = "Employed: " + this.numEmployed + "\tEmployees Needed: " + (this.maxEmployed - this.numEmployed) +
     //"\nRange: " + this.range + "\n";;
-    str = "Range: " + this.radius + "\n";
+    str = "Range: " + this.range + "\n";
     return str;
 }
 
@@ -97,6 +98,7 @@ function Well (game, x, y) {
     this.radius = { x: x - 5, y: y - 5, width: 15, height: 15};
     this.renderX = 0;
     this.renderY = -8;
+    this.range = 15;
     this.currAnim = new Animation(img, 0, 1, 58, 51, 1, 0.15, 1, true);
 }
 
