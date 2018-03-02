@@ -107,6 +107,10 @@ ASSET_MANAGER.assetQueueDownloads();// found in assetmanager.js
 var gameEngine = null;//made gameengine null to easily access gameWorld info
 $(function () {//shorthand for window.ready
     ASSET_MANAGER.downloadAll(function () {
+        var music = new Audio("./audio/Khepera.mp3");
+        music.volume = .5;
+        music.load();
+        music.loop = true;
         // Initialize state
         console.log("starting up da sheild");
         var canvas = document.getElementById('gameWorld');
@@ -128,6 +132,7 @@ $(function () {//shorthand for window.ready
 
             // Start the game
             gameEngine.start();
+            music.play();
             console.log(walkerMap);
         });
 
