@@ -23,9 +23,10 @@ function industry(game, x, y) {
     this.numMerch = 0;
     this.merchCost = 0;
     this.prodTime = 0;
-    this.radius = { x: x - 1, y: y - 1, width: this.bWidth + 30, height: this.bHeight + 30 };
+    this.radius = { x: x - 15, y: y - 15, width: this.bWidth + 30, height: this.bHeight + 30 };
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
     this.roadTiles = [];
+    this.working = false;
     Entity.call(this, game, x, y);
 }
 
@@ -39,7 +40,7 @@ industry.prototype.update = function () {
     for (var i = 0; i < this.game.walkers.length; i++) {//loop through walkers
         if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
             console.log("ping!", this.game.walkers.length);
-            if (this.game.walkers[i].loadType == this.resType && this.numResources < 100) {
+            if (this.game.walkers[i].loadType == this.resType && this.numResources < 500) {
                 this.numResources += this.game.walkers[i].loadCount;
                 this.game.walkers[i].removeFromWorld = true;
             } else if (this.game.walkers[i].loadType == this.resType) {
@@ -55,6 +56,8 @@ industry.prototype.update = function () {
                 this.game.walkers[i].y = Math.floor(this.game.walkers[i].y);
                 this.game.walkers[i].destX = this.game.walkers[i].startX;
                 this.game.walkers[i].destY = this.game.walkers[i].startY;
+                this.game.walkers[i].bRef = this.game.walkers[i].hRef;
+                this.game.walkers[i].hRef = this;
             }
         }
 
@@ -97,15 +100,26 @@ industry.prototype.update = function () {
 
     } else {
         this.currAnim = this.openAnim;
-        if (this.game.timer.gameTime - this.workTime >= this.prodTime) {
-            this.workTime = this.game.timer.gameTime;
-            this.numMerch += merchStep;
-            this.numResources -= merchStep;
+        //if (this.game.timer.gameTime - this.workTime >= this.prodTime) {
+        //    this.workTime = this.game.timer.gameTime;
+        //    this.numMerch += merchStep;
+        //    this.numResources -= merchStep;
+        //}
+        if (!this.working) {
+            this.working = true;
+            that = this;
+            setTimeout(function () {
+                console.log("Creating product");
+                that.numMerch += merchStep;
+                that.numResources -= merchStep;
+                that.working = false;
+            }, this.prodTime * 1000);
         }
     }
 }
 industry.prototype.toStringStats = function() {
-    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded;
+    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded +
+        "\nResources: " + this.numResources + "\nProduct: " + this.numMerch;
     return str;
 }
 industry.prototype.draw = function (ctx) {

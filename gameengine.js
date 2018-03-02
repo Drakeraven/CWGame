@@ -165,7 +165,7 @@ function removeBuilding(gameEngine, x, y) {
         }
     }
 }
-var isDraggable = true;
+var isDraggable = false;
 var isClearing = false;
 var isDrawing = false;
 var selectedBuildingCost = 0;
@@ -409,15 +409,15 @@ GameEngine.prototype.draw = function () {
 goalCounter = 1; //used to display messages
 GameEngine.prototype.update = function () {
     //checks if goals were met
-    if (this.gameWorld.population > 500) {
-        goalCounter++;
-        //TODO instead of ending game, just pop up a small window
-        //that notifies user they met the goal, green goal box
-        //will display new goal,
-        //goal message list will be defined in constants.js
-        $('.game-container').hide();
-        $('#EndGame').show();
-    } else {
+    //if (this.gameWorld.population > 500) {
+    //    goalCounter++;
+    //    //TODO instead of ending game, just pop up a small window
+    //    //that notifies user they met the goal, green goal box
+    //    //will display new goal,
+    //    //goal message list will be defined in constants.js
+    //    $('.game-container').hide();
+    //    $('#EndGame').show();
+    //} else {
         //Updates live info about game on UI
         setGameInfoBox();
         updateFunds();
@@ -503,12 +503,12 @@ GameEngine.prototype.update = function () {
             }
         }
 
-        for (var i = 0; i < this.walkers.length; i++) {
-            var walker = this.walkers[i];
-            if (walker.dX == 0 && walker.dY == 0 && !(walker instanceof Hunter)) {
-                walker.removeFromWorld = true;
-            }
-        }
+        //for (var i = 0; i < this.walkers.length; i++) {
+        //    var walker = this.walkers[i];
+        //    //if (walker.dX == 0 && walker.dY == 0 && !(walker instanceof Hunter) && !(walker instanceof bazLad)) {
+        //    //    walker.removeFromWorld = true;
+        //    //}
+        //}
 
         for (var i = this.entities.length - 1; i >= 0; --i) {
             if (this.entities[i].removeFromWorld) {
@@ -562,7 +562,7 @@ GameEngine.prototype.update = function () {
                 this.walkers.splice(i, 1);
             }
         }
-    }
+    //}
 }
 
 GameEngine.prototype.loop = function () {

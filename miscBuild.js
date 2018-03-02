@@ -110,7 +110,7 @@ Granary.prototype.update = function () {
                             //generate walker to the granarie
                             walkerX = Math.floor(this.game.walkers[i].x);
                             walkerY = Math.floor(this.game.walkers[i].y);
-                            canWalk = generateWalker([[walkerX, walkerY]], this.game.granaries[j].roadTiles,);
+                            canWalk = generateWalker([[walkerY, walkerX]], this.game.granaries[j].roadTiles,);
                             if (canWalk != null) {
                                 this.game.walkers[i].destX = canWalk[2];
                                 this.game.walkers[i].destY = canWalk[3];
@@ -142,7 +142,7 @@ Granary.prototype.update = function () {
 Granary.prototype.draw = function (ctx) {
     pt1 = this.game.twodtoisoX(this.x, this.y) - this.renderX;
     pt2 = this.game.twodtoisoY(this.x, this.y) - this.renderY;
-    ctx.fillRect(pt1, pt2, 5, 5);
+    //ctx.fillRect(pt1, pt2, 5, 5);
     this.currAnim.drawFrame(this.game.clockTick, ctx, pt1, pt2);
     Entity.prototype.draw.call(this);
 }
@@ -196,8 +196,9 @@ function StoreYard(game, x, y) {
     this.storeAnims[7] = new Animation(this.img, 0, 7, 176, 132, 16, .17, 16, true); // bar flax
     this.storeAnims[8] = new Animation(this.img, 0, 8, 176, 132, 16, .17, 16, true);// open all
     this.currAnim = this.storeAnims[0];
-    this.renderX = 64;
-    this.renderY = 46;
+    this.placeCost = 60;
+    this.renderX = 59;
+    this.renderY = 39;
     this.numEmployed = 0;
     this.numEmpNeeded = 12;
     this.storage = [];
@@ -211,8 +212,6 @@ function StoreYard(game, x, y) {
 
 StoreYard.prototype = new Entity();
 StoreYard.prototype.constructor = StoreYard;
-//TODO: For farms/Hunting Lodge, check if a yard can take it before sending
-//TODO: take reference to destination for walkers, prevent accidental eating
 
 StoreYard.prototype.update = function () {
     this.roadTiles = findRoad(this.buffer);
@@ -224,15 +223,16 @@ StoreYard.prototype.update = function () {
     } else {
         this.currAnim = this.storeAnims[this.changeAnim()];
         for (var i = 0; i < this.game.walkers.length; i++) {
-            //console.log(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y);
-            if (arrived(this.buffer, Math.floor(this.game.walkers[i].x), Math.floor(this.game.walkers[i].y), this, this.game.walkers[i].bRef)) {
+            if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
                 if (this.game.walkers[i] instanceof cCartMan
                     || this.game.walkers[i] instanceof barCartMan
                     || this.game.walkers[i] instanceof fCartMan) {
 
-                    if (this.storage[this.game.walkers[i].loadType] + this.game.walkers[i].loadCount <= yardMax) {
+                    if (this.storage[this.game.walkers[i].loadType] + this.game.walkers[i].loadCount <= yardMax && this.game.walkers[i].loadCount != 0) {
                         this.storage[this.game.walkers[i].loadType] += this.game.walkers[i].loadCount;
+                        this.game.walkers[i].loadCount -= this.game.walkers[i].loadCount;
                         this.game.walkers[i].removeFromWorld = true;
+
                     } else {
                         for (var j = 0; j < this.game.yards.length; j++) {
                             if (this.game.yards[j] != this &&
@@ -240,8 +240,11 @@ StoreYard.prototype.update = function () {
 
                                 walkerX = Math.floor(this.game.walkers[i].x);
                                 walkerY = Math.floor(this.game.walkers[i].y);
-                                canWalk = generateWalker([[walkerX, walkerY]], this.game.yards[j].roadTiles);
+                                canWalk = generateWalker([[walkerY, walkerX]], this.game.yards[j].roadTiles);
                                 if (canWalk != null) {
+
+                                    walkerX = Math.floor(this.game.walkers[i].x);
+                                    walkerY = Math.floor(this.game.walkers[i].y);
                                     this.game.walkers[i].destX = canWalk[2];
                                     this.game.walkers[i].destY = canWalk[3];
                                     this.game.walkers[i].bRef = this.game.yards[j];
@@ -257,7 +260,7 @@ StoreYard.prototype.update = function () {
         if (this.game.timer.gameTime - this.workTime >= this.pushTime) {
             this.workTime = this.game.timer.gameTime;
             for (var k = 0; k < this.game.industries.length; k++) {
-                if (this.game.industries[k].numResources <= 100 && this.storage[this.game.industries[k].resType] >= 100) {
+                if (this.game.industries[k].numResources <= 100 && this.game.industries[k].numResources < 300 && this.storage[this.game.industries[k].resType] >= 100) {
                     this.storage[this.game.industries[k].resType] = Math.floor(this.storage[this.game.industries[k].resType]) - 100;
                     canWalk = generateWalker(this.roadTiles, this.game.industries[k].roadTiles);
                     cartBoi = null;
@@ -295,7 +298,7 @@ StoreYard.prototype.update = function () {
 StoreYard.prototype.draw = function (ctx) {
     pt1 = this.game.twodtoisoX(this.x, this.y) - this.renderX;
     pt2 = this.game.twodtoisoY(this.x, this.y) - this.renderY;
-    ctx.fillRect(pt1, pt2, 5, 5);
+    //ctx.fillRect(pt1, pt2, 5, 5);
     this.currAnim.drawFrame(this.game.clockTick, ctx, pt1, pt2);
     Entity.prototype.draw.call(this);
 }

@@ -47,7 +47,7 @@ var Constants = {
 var costsArray = [{name: "Bazaar", value:400},{name:"Well", value:10},{name: "Water Supply", value : 10},
 {name: "Tax House", value : 10}, {name: "Fire House", value : 10}, {name: "Police Station", value : 10}, {name: "Grain Farm", value : 30},
 {name: "Barley Farm", value : 30}, {name: "Flax Farm", value :30}, {name: "House", value :25}, {name: "Granary", value: 50}, {name: "Weaver", value :50}, {name: "Brewery", value: 60},
-{name: "Potter", value :70}, {name: "Storage Yard", value :0}, {name: "Gold Mine", value :100}, {name: "Clay Pit", value :20}, {name: "Hunting Lodge", value: 35}];
+{name: "Potter", value :70}, {name: "Storage Yard", value :60}, {name: "Gold Mine", value :100}, {name: "Clay Pit", value :20}, {name: "Hunting Lodge", value: 35}];
 
 var controlString =  
                     "Housing: H\tFood and Farm: F\n" +

@@ -36,17 +36,15 @@ farming.prototype.update = function () {
 
     if (!this.harvested && harvestCheck == 0 && this.game.timer.gameTime >= growSpeed * 6) {
         this.harvested = true;
-        if (Math.floor(this.growTime) < this.harvestTime) {
-            this.yield = this.maxYield - ((this.harvestTime - this.growTime) * 50);
+        //if (Math.floor(this.growTime) <= this.harvestTime) {
+        //    this.yield = 100;
 
-        }
+        //}
         if (this instanceof grainFarm) {
             this.genWalker(this.game.granaries);
         } else {
             this.genWalker(this.game.yards);
         }
-
-        //this.genWalker(this.game.industries);
 
         this.animHarvest.elapsedTime = 0;
         this.growTime = 0;
