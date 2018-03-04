@@ -131,7 +131,7 @@ $(function () {//shorthand for window.ready
 
             // Start the game
             gameEngine.start();
-            //music.play();
+            music.play();
             console.log(walkerMap);
             showPopUpText();
         });
