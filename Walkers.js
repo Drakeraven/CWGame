@@ -49,6 +49,9 @@ Walker4.prototype.update = function () {
         this.isFindingPath = true;
         let that = this;
         this.easyStar.findPath(Math.floor(this.x), Math.floor(this.y), this.destX, this.destY, function (path) {
+            that.isFindingPath = false;
+            that.destX = null;
+            that.destY = null;
             if (path === null) {
                 //console.log("No path :("); 
             } else {
@@ -59,9 +62,6 @@ Walker4.prototype.update = function () {
             }
         });
         this.easyStar.calculate();
-        this.destX = null;
-        this.destY = null;
-        this.isFindingPath = false;
     }
 
     Entity.prototype.update.call(this);
@@ -334,8 +334,12 @@ Hunter.prototype.update = function () {
         this.currAnimation.loop = true;
         //this.destX = this.startX;
         //this.destY = this.startY;
-        this.destX = this.bRef.roadTiles[0][1];
-        this.destY = this.bRef.roadTiles[0][0];
+        if (this.bRef.roadTiles.length > 0) {
+            this.destX = this.bRef.roadTiles[0][1];
+            this.destY = this.bRef.roadTiles[0][0];
+        } else {
+            this.removeFromWorld = true;
+        }
         this.huntTime = 0;
     }
 
