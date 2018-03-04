@@ -1,10 +1,10 @@
 function Fire(game, x, y) {
-    this.img = ASSET_MANAGER.getAsset("./img/FireTile1.png");
+    this.img;
     this.bWidth = 1;
     this.bHeight = 1;
     this.renderX = 30;
     this.renderY = 21;
-    this.openAnim = new Animation(this.img, 0, 1, 35, 35, 8, .15, 12, true);
+    //this.openAnim = new Animation(this.img, 0, 1, 35, 35, 8, .15, 12, true);
 
     Entity.call(this, game, x, y);
 }
