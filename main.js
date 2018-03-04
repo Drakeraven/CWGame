@@ -133,16 +133,23 @@ $(function () {//shorthand for window.ready
             gameEngine.start();
             music.play();
             console.log(walkerMap);
+            showPopUpText();
         });
 
     });
 
-    $('#Close-Button').click(function () {
-        $("#Game-Information").hide();
+    $('#Close-Button-Manual').click(function () {
+        $("#Manual-Box").hide();
         setButton("Select");
     });
     $('#Close-Button-Controls').click(function () {
         $("#Controls-Box").hide();
         setButton("Select");
     });
+    $('#Close-Button').click(function () {
+        $("#Game-Information").hide();
+        $('.pharoh-button.highlighted').removeClass('highlighted');
+        setButton("Select");
+    });
+    
 });

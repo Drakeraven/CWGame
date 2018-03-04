@@ -7,42 +7,13 @@ function Map(gameEngine) {
 }
 Map.prototype.constructor = Map;
 
-Map.prototype.addThing = function(thing, list) {
-  if(thing == null) {
-    return false;
-  }
-  var x = thing.x;
-  var y = thing.y;
-  if(x < 0 || y < 0 || x > this.mapList.length || y > this.mapList.length) {
-    return false;
-  }
-  var canDo = true;
-  for (i = thing.x; i < thing.x + thing.bWidth; i++) {
-    for(j = thing.y; j < thing.y + thing.bHeight; j++) {
-      if(this.mapList[j][i].thing != null || walkerMap[j][i] != 0) {
-        canDo = false;
-      }
+Map.prototype.addThing = function (thing, list) {
+    if (!thing || !this.isInMapBoundaries(thing) || !this.canAddToMap(thing)) {
+        return false;
     }
-  }
-    if (canDo && thing) {
-        console.log('hi');
-        if (list) {
-            list.push(thing);
-            this.game.entities.push(thing);
-        } else {
-            this.game.entities.push(thing);
-        }
-        for (i = thing.x; i < thing.x + thing.bWidth; i++) {
-            for (j = thing.y; j < thing.y + thing.bHeight; j++) {
-                walkerMap[j][i] = 2;
-                this.mapList[j][i].thing = thing;
-            }
-        }
-        console.log(walkerMap);
-        console.log(this.mapList);
-        return true;//if adding was successful return 1
-    }
-    return false;
+    this.addToLists(thing, list);
+    this.addToMaps(thing);
+    return true;
 }
 Map.prototype.readMap = function (mapData) {
 
@@ -60,6 +31,42 @@ Map.prototype.readMap = function (mapData) {
     }
     this.game.initcamera();
 }
+
+Map.prototype.isInMapBoundaries = function (thing) {
+    let x = thing.x;
+    let y = thing.y;
+    if (x < 0 || y < 0 || x > this.mapList.length || y > this.mapList.length) {
+        return false;
+    }
+    return true;
+};
+//Can't add on 1- existing road, 2- existing building, or if 
+Map.prototype.canAddToMap = function (thing) {
+    for (i = thing.x; i < thing.x + thing.bWidth; i++) {
+        for (j = thing.y; j < thing.y + thing.bHeight; j++) {
+            if (this.mapList[j][i].tileType != 0 || this.mapList[j][i].thing != null) {
+                return false;
+            }
+        }
+    }
+    return true;
+};
+
+Map.prototype.addToLists = function (thing, list) {
+    if (list) {
+        list.push(thing);
+    }
+    this.game.entities.push(thing);
+};
+
+Map.prototype.addToMaps = function (thing) {
+    for (i = thing.x; i < thing.x + thing.bWidth; i++) {
+        for (j = thing.y; j < thing.y + thing.bHeight; j++) {
+            walkerMap[j][i] = 2;
+            this.mapList[j][i].thing = thing;
+        }
+    }
+};
 
 // tiling going down
 function Tile(game, tileType, x, y) {
