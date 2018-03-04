@@ -200,8 +200,8 @@ function StoreYard(game, x, y) {
     this.storeAnims[8] = new Animation(this.img, 0, 8, 176, 132, 16, .17, 16, true);// open all
     this.currAnim = this.storeAnims[0];
     this.placeCost = 60;
-    this.renderX = 59;
-    this.renderY = 39;
+    this.renderX = 60;
+    this.renderY = 43;
     this.numEmployed = 0;
     this.numEmpNeeded = 12;
     this.storage = [];
