@@ -117,7 +117,7 @@ function setButton(titleOfCurrentButtonSelection) {
     $('.button-pane img').hide();
     $('.button-pane img[title="' + buttonPaneTitle + '"]').show();
     //Handles creation of new select options in selectmenu
-    
+    gameEngine.hoverEntity = null;
     switch (titleOfCurrentButtonSelection) {
         case "Housing":
             setSelectOptions(Constants.Buildings.Housing);
