@@ -131,8 +131,9 @@ $(function () {//shorthand for window.ready
 
             // Start the game
             gameEngine.start();
-            music.play();
+            //music.play();
             console.log(walkerMap);
+            showPopUpText();
         });
 
     });
@@ -143,6 +144,11 @@ $(function () {//shorthand for window.ready
     });
     $('#Close-Button-Controls').click(function () {
         $("#Controls-Box").hide();
+        setButton("Select");
+    });
+    $('#Close-Button').click(function () {
+        $("#Game-Information").hide();
+        $('.pharoh-button.highlighted').removeClass('highlighted');
         setButton("Select");
     });
     

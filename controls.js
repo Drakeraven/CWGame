@@ -3,6 +3,7 @@ $(function () {
     $('.pharoh-button').click(function () {
         //Deals with what button is shaded on UI, one at a time only
         var selectedButtonTitle = $(this).attr('title');
+        canHover = true;
         setButton(selectedButtonTitle);
     });
 });
@@ -63,8 +64,13 @@ function setHotKeys(event, game) {
 
 function showPopUpText(displayStr) {
     $("#popup-text").empty();
+    displayStr = 
+    "This is a city simulator where your goal is to design and maintain a prosperous society.\n\n"
+    + "To see controls and gameplay information, click the buttons highlighted yellow on the right after closing this menu.";
     $("#popup-text").text(displayStr);
     $("#Game-Information").show();
+    $('.pharoh-button[title="Manual"]').addClass('highlighted');
+    $('.pharoh-button[title="Controls"]').addClass('highlighted');
 };
 
 function updateFunds() {
@@ -110,8 +116,8 @@ function setButton(titleOfCurrentButtonSelection) {
     //clears out and displays new button pane
     $('.button-pane img').hide();
     $('.button-pane img[title="' + buttonPaneTitle + '"]').show();
-
     //Handles creation of new select options in selectmenu
+    
     switch (titleOfCurrentButtonSelection) {
         case "Housing":
             setSelectOptions(Constants.Buildings.Housing);
@@ -136,20 +142,25 @@ function setButton(titleOfCurrentButtonSelection) {
             break;
         case "Roads":
             setSelectOptions(Constants.Buildings.Roads);
+            canHover = false;
             break;
         case "Controls":
             setSelectOptions(Constants.Buildings.Controls);
             setControlsInfoBox();
+            canHover = false;
             break;
         case "Manual":
             setSelectOptions(Constants.Buildings.Manual);
             setManualInfoBox();
+            canHover = false;
             break;
         case "Clear Land":
             setSelectOptions(Constants.Buildings.ClearLand);
+            canHover = false;
             break;
         case "Select":
             setSelectOptions(Constants.Buildings.Select);
+            canHover = false;
             break;
         default:
             console.log('nuthin2seahear');

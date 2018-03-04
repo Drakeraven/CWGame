@@ -40,11 +40,11 @@ Map.prototype.isInMapBoundaries = function (thing) {
     }
     return true;
 };
-
+//Can't add on 1- existing road, 2- existing building, or if 
 Map.prototype.canAddToMap = function (thing) {
     for (i = thing.x; i < thing.x + thing.bWidth; i++) {
         for (j = thing.y; j < thing.y + thing.bHeight; j++) {
-            if (this.mapList[j][i].thing != null || walkerMap[j][i] != 0) {
+            if (this.mapList[j][i].tileType != 0 || this.mapList[j][i].thing != null) {
                 return false;
             }
         }

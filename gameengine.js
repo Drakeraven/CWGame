@@ -80,7 +80,15 @@ function GameEngine() {
     this.surfaceWidth = null;
     this.surfaceHeight = null;
     this.gameWorld = null;
+    this.hoverEntity = null;
 }
+var selectedBuildingCost = 0;
+var currentMessage = "";
+var selectedItemList = null;
+var isDraggable = false;
+var isClearing = false;
+var isDrawing = false;
+var canHover = false;
 
 GameEngine.prototype.init = function (ctx) {
     this.ctx = ctx;
@@ -128,42 +136,36 @@ GameEngine.prototype.isototwodY = function (x, y) {
 }
 
 //sets tiles to original.
-function removeRoad(gameEngine, x, y) {
+GameEngine.prototype.removeRoad = function (x, y) {
     walkerMap[y][x] = mapData[x][y];
-    gameEngine.map.mapList[y][x].tileType = mapData[x][y];
-    var str = "";
+    this.map.mapList[y][x].tileType = mapData[x][y];
+    let str = "";
     if (mapData[y][x] === 0) {
-        str = gameEngine.map.mapList[y][x].grassImage;
+        str = this.map.mapList[y][x].grassImage;
     } else if (mapData[x][y] === 3) {
-        str = gameEngine.map.maplist[y][x].treeImage;
+        str = this.map.maplist[y][x].treeImage;
     }
     gameEngine.map.mapList[y][x].image.src = str;
 }
 
 //"removes" building from map
-function removeBuilding(gameEngine, x, y) {
-    if (gameEngine.map.mapList[y][x].thing != null) {
-        var thing = gameEngine.map.mapList[y][x].thing;
+GameEngine.prototype.removeBuilding = function (x, y) {
+    if (this.map.mapList[y][x].thing) {
+        let thing = this.map.mapList[y][x].thing;
         walkerMap[y][x] = mapData[x][y];
-        gameEngine.map.mapList[y][x].tileType = mapData[x][y];
-        gameEngine.map.mapList[y][x].thing.removeFromWorld = true;
+        this.map.mapList[y][x].tileType = mapData[x][y];
+        this.map.mapList[y][x].thing.removeFromWorld = true;
         for (i = thing.x; i < thing.x + thing.bWidth; i++) {
             for (j = thing.y; j < thing.y + thing.bHeight; j++) {
-                if (gameEngine.map.mapList[j][i].thing != null) {
-                    gameEngine.map.mapList[j][i].thing = null;
+                if (this.map.mapList[j][i].thing != null) {
+                    this.map.mapList[j][i].thing = null;
                     walkerMap[j][i] = mapData[i][j];
                 }
             }
         }
     }
 }
-var isDraggable = false;
-var isClearing = false;
-var isDrawing = false;
-var isHovering = false;
-var hoverX
-var selectedBuildingCost = 0;
-var currentMessage = "";
+
 //Listens to input and events
 GameEngine.prototype.startInput = function () {
     console.log('Starting input');
@@ -182,14 +184,11 @@ GameEngine.prototype.startInput = function () {
             that.drawRoad(x, y);
         } else if (selection == "Clear Land") {
             isClearing = true;
-            that.clearItems(x,y);
+            that.clearItems(x, y);
         } else if (selection == "Select") {
             displayStats(that, x, y);
         } else {
-            if (walkerMap[y][x] != 1) {
-                //creates object and adds to map
-                that.buildOnCanvas(x, y);
-            }
+            that.buildOnCanvas(x, y);
         }
 
     });
@@ -200,16 +199,14 @@ GameEngine.prototype.startInput = function () {
         //converts to iso
         let x = that.isototwodX(fixX, fixY);
         let y = that.isototwodY(fixX, fixY);
-        if(isHovering) {
-        that.hoverItems(that, x, y);
+        //handles hover functionality
+        if (canHover) {
+            that.hoverEntity = that.getSelectedEntity();
+            that.updateHoverEntityPosition(x, y);
         }
-        //TODO
-        //MAKE GLOBAL HOVER ENTITY
-        //MAKE GETENTITY FUNC FORM BUILID IN CANVAS
-        //CALL SPECIAL MAP FUNCTS TO CHECK
-        //CALL ENTITY.DRAW
-
+        //handles draggable remove and draw functions
         if (isDraggable) {
+            that.drawRoad(x, y);
             that.clearItems(x, y);
             that.draw(x, y);
         }
@@ -230,27 +227,48 @@ GameEngine.prototype.startInput = function () {
     });
     console.log('Input started');
 }
-GameEngine.prototype.hoverItems = function (x, y) {
-    that.buildOnCanvas(x, y);
+GameEngine.prototype.updateHoverEntityPosition = function (x, y) {
+    this.hoverEntity.x = x;
+    this.hoverEntity.y = y;
 }
 GameEngine.prototype.drawRoad = function (x, y) {
     if (isDrawing) {
         walkerMap[y][x] = 1;
-        gameEngine.map.mapList[y][x].tileType = 1;
-        gameEngine.map.mapList[y][x].image.src = gameEngine.map.mapList[y][x].roadImage;
+        this.map.mapList[y][x].tileType = 1;
+        this.map.mapList[y][x].image.src = this.map.mapList[y][x].roadImage;
     }
 }
 GameEngine.prototype.clearItems = function (x, y) {
     if (isClearing) {
         if (walkerMap[y][x] == 1) {
-            removeRoad(that, x, y);
+            this.removeRoad(x, y);
         } else if (walkerMap[y][x] == 2) {
-            removeBuilding(that, x, y);
+            if (!(this.map.mapList[y][x].thing instanceof Palace)) {
+                this.removeBuilding(x, y);
+            }
         }
     }
 }
 
 GameEngine.prototype.buildOnCanvas = function (x, y) {
+    let entity = this.getSelectedEntity(x, y)
+    if (entity) {//checks that selection is not null/ not default
+        let updatedFunds = this.gameWorld.funds - selectedBuildingCost;//peeks if purchaseable
+        if (updatedFunds >= 0) {
+            if (this.map.addThing(entity, selectedItemList)) {
+                this.gameWorld.withdrawFunds(selectedBuildingCost);
+                currentMessage = "Building Added!";
+            } else {
+                currentMessage = "Can't place building here.";
+            }
+        } else {
+            currentMessage = "Insufficient funds!";
+        }
+        updateCurrentMessage();//uses global var currentMessage to set message
+    }
+}
+
+GameEngine.prototype.getSelectedEntity = function (x, y) {
     let selection = $('.pharoh-button.selected').attr("title");
     if (selection != "Roads") {
         //Will return nothing if no buttons are selected
@@ -262,14 +280,14 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
     }
     var that = this;
     let entity = null;
-    let list = null;
+    selectedItemList = null;
     switch (selection) {
         //addmap function called at the very end, so its not repeated in each case
         //NOTICE: Some are added to special arrays defined above this gameengine, some are pushed to entities[]
         //X and Y have been make ISO friendly before entering this function
         case "House":
             entity = new Housing(that, x, y);
-            list = that.housingArr;
+            selectedItemList = that.housingArr;
             break;
 
         case "Grain Farm":
@@ -299,32 +317,32 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
         case "Bazaar":
             entity = new Bazaar(that, x, y);
             console.log("new bazaar");
-            list = that.industries;
+            selectedItemList = that.industries;
             break;
 
         case "Granary":
             entity = new Granary(that, x, y);
-            list = that.granaries;
+            selectedItemList = that.granaries;
             break;
 
         case "Storage Yard":
             entity = new StoreYard(that, x, y);
-            list = that.yards;
+            selectedItemList = that.yards;
             break;
 
         case "Weaver":
             entity = new Weaver(that, x, y);
-            list = that.industries;
+            selectedItemList = that.industries;
             break;
 
         case "Brewery":
             entity = new Brewery(that, x, y);
-            list = that.industries;
+            selectedItemList = that.industries;
             break;
 
         case "Potter":
             entity = new Potter(that, x, y);
-            list = that.industries;
+            selectedItemList = that.industries;
             break;
         case "Clay Pit":
             entity = new clayPit(that, x, y);
@@ -342,26 +360,16 @@ GameEngine.prototype.buildOnCanvas = function (x, y) {
             entity = new TaxHouse(that, x, y);
             break;
         default:
+            entity = null
             console.log('nuthin2seahear')
             break
     }
-    if (selection && entity) {//checks that selection is not null/ not default
-        let updatedFunds = that.gameWorld.funds - selectedBuildingCost;//peeks if purchaseable
-        if (updatedFunds >= 0) {
-            if (that.map.addThing(entity, list)) {
-                that.gameWorld.withdrawFunds(selectedBuildingCost);
-                currentMessage = "Building Added!";
-            } else {
-                currentMessage = "Can't place building here.";
-            }
-        } else {
-            currentMessage = "Insufficient funds!";
-        }
-        updateCurrentMessage();//uses global var currentMessage to set message
+    if (!selection) {
+        entity = null;
     }
+    return entity;
 }
 
-//Cynthia says should I use these functiosn in switch? is it really a good idea to be logging everything?
 GameEngine.prototype.addEntity = function (entity) {
     console.log(entity);
     console.log('added entity');
@@ -411,6 +419,19 @@ GameEngine.prototype.draw = function () {
         ents[i].draw(this.ctx);
     }
 
+    if (this.hoverEntity && canHover && this.map.isInMapBoundaries(this.hoverEntity)) {
+        this.ctx.save();
+        if(!this.map.canAddToMap(this.hoverEntity)) {
+            this.ctx.shadowColor = 'red';
+        } else {
+            this.ctx.shadowColor = 'aqua';
+        }
+        this.ctx.shadowBlur = 1;
+        this.ctx.globalAlpha = 0.6;
+        this.hoverEntity.draw(this.ctx); //updates for hoverEntity
+        this.ctx.restore();
+    }
+
     this.ctx.restore();
 }
 goalCounter = 1; //used to display messages
@@ -421,7 +442,7 @@ GameEngine.prototype.update = function () {
         //TODO instead of ending game, just pop up a small window
         //that notifies user they met the goal, green goal box
         //will display new goal,
-        //goal message list will be defined in constants.js
+        //goal message selectedItemList will be defined in constants.js
         $('.game-container').hide();
         $('#EndGame').show();
     } else {
@@ -510,13 +531,6 @@ GameEngine.prototype.update = function () {
             }
         }
 
-        //for (var i = 0; i < this.walkers.length; i++) {
-        //    var walker = this.walkers[i];
-        //    //if (walker.dX == 0 && walker.dY == 0 && !(walker instanceof Hunter) && !(walker instanceof bazLad)) {
-        //    //    walker.removeFromWorld = true;
-        //    //}
-        //}
-
         for (var i = this.entities.length - 1; i >= 0; --i) {
             if (this.entities[i].removeFromWorld) {
                 if (this.entities[i] instanceof Well || this.entities[i] instanceof WaterSupply) {
@@ -530,7 +544,6 @@ GameEngine.prototype.update = function () {
         for (var i = 0; i < this.housingArr.length; i++) {
             var myHouse = this.housingArr[i];
             if (!myHouse.removeFromWorld) {
-                //console.log("Updating building")
                 myHouse.update();
             }
         }
@@ -571,6 +584,7 @@ GameEngine.prototype.update = function () {
         }
     }
 }
+
 
 GameEngine.prototype.loop = function () {
     this.clockTick = this.timer.tick();
