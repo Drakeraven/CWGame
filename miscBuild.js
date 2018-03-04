@@ -53,7 +53,7 @@ Palace.prototype.draw = function (ctx) {
 const maxFood = 1000;
 
 Palace.prototype.toStringStats = function() {
-    str = "Employees: " + this.numEmployed + "Employees Needed: " + this.numEmpNeeded;//TODO
+    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded;//TODO
     return str;
 }
 function Granary(game, x, y) {
@@ -64,8 +64,8 @@ function Granary(game, x, y) {
     this.openAnim = new Animation(this.img, 0, 1, 238, 161, 8, .17, 24, true);
     this.closedAnim = new Animation(this.img, 0, 0, 238, 161, 1, .17, 1, true);
     this.currAnim = this.closedAnim;
-    this.renderX = 70;
-    this.renderY = 35;
+    this.renderX = 89;
+    this.renderY = 42;
     this.placeCost = 50;
     this.numEmployed = 0;
     this.numEmpNeeded = 20;
@@ -131,7 +131,7 @@ Granary.prototype.update = function () {
             for (var i = 0; i < this.game.industries.length; i++){
                 //send food to bazaar!
                 if (this.game.industries[i] instanceof Bazaar) {
-                    if (this.foodSupply > 100 && this.game.industries[i].foodSupply < 100) {
+                    if (this.foodSupply > 100 && this.game.industries[i].foodLevel < 100) {
                             this.genWalker(this.game.industries[i], 100, "food", this.game.industries[i]);
                             this.foodSupply -= 100;
                     }
@@ -177,7 +177,7 @@ Granary.prototype.pushBoi = function (canWalk, funds, type, bRef) {
 }
 
 Granary.prototype.toStringStats = function() {
-    str = "Employees: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded +
+    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded +
         "\nFood Level: " + this.foodSupply; //TODO
     return str;
 }
@@ -306,7 +306,7 @@ StoreYard.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 StoreYard.prototype.toStringStats = function() {
-    str = "Employees: " + this.numEmployed + "Employees Needed: " + this.numEmpNeeded;//TODO
+    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded;//TODO
     return str;
 }
 

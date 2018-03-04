@@ -61,32 +61,32 @@ house.prototype.update = function () {
 
     if (!this.waterLevel) {
         this.level = 0;
-        this.renderX = 33;
-        this.renderY = 21;
+        this.renderX = 31;
+        this.renderY = 24;
     } else {
         if (this.waterLevel && this.foodLevel && this.potterLevel && this.weaverLevel && this.brewerLevel) {
             this.level = 5;
-            this.renderX = 0;
-            this.renderY = 17;
+            this.renderX = 30;
+            this.renderY = 38;
             //change render x y
         } else if (this.waterLevel && this.foodLevel
             && ((this.potterLevel && this.weaverLevel)
                 || (this.potterLevel && this.brewerLevel)
                 || (this.weaverLevel && this.brewerLevel))) {
             this.level = 4;
-            this.renderX = 0;
-            this.renderY = 23;
+            this.renderX = 30;
+            this.renderY = 38;
             //change renderx and renderY
         } else if(this.waterLevel && this.foodLevel
             && (this.potterLevel || this.weaverLevel || this.brewerLevel)) {
             this.level = 3;
-            this.renderX = 0;
-            this.renderY = 24;
+            this.renderX = 31;
+            this.renderY = 41;
             //change renderx and renderY
         } else if(this.waterLevel && this.foodLevel) {
             this.level = 2;
-            this.renderX = -3;
-            this.renderY = 14;
+            this.renderX = 31;
+            this.renderY = 31;
             //change renderx and renderY
         } else {
             this.level = 1;
@@ -155,7 +155,7 @@ function Housing(game, x, y) {
     this.animFrame[5] = new Animation(img, 5, 1, 118, 97, 1, 0.15, 1, true);
     this.currAnim = this.animFrame[0];
     this.numHoused = 30;
-    console.log(this.buffer);
+    //console.log(this.buffer);
 }
 
 Housing.prototype = Object.create(house.prototype);

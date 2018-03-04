@@ -9,6 +9,7 @@ function bubbleBuilding(img, game, x, y, bWidth, bHeight, buf) {
     this.renderX = 0;
     this.renderY = 0;
     this.radius = null; 
+    this.range = 30; 
     //this.numEmployed = 0;
     //this.numEmpNeeded = null;
     this.placeCost = 10;
@@ -86,7 +87,7 @@ bubbleBuilding.prototype.draw = function (ctx) {
 bubbleBuilding.prototype.toStringStats = function() {
    // str = "Employed: " + this.numEmployed + "\tEmployees Needed: " + (this.maxEmployed - this.numEmployed) +
     //"\nRange: " + this.range + "\n";;
-    str = "Range: " + this.radius + "\n";
+    str = "Range: " + this.range + "\n";
     return str;
 }
 
@@ -96,7 +97,8 @@ function Well (game, x, y) {
     workTime = game.timer.gameTime;
     this.radius = { x: x - 5, y: y - 5, width: 15, height: 15};
     this.renderX = 0;
-    this.renderY = -8;
+    this.renderY = 21;
+    this.range = 15;
     this.currAnim = new Animation(img, 0, 1, 58, 51, 1, 0.15, 1, true);
 }
 
@@ -107,6 +109,8 @@ function WaterSupply (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/bigWell.png");
     bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
     workTime = game.timer.gameTime;
+    this.renderX = 29;
+    this.renderY = 17;
     this.radius = { x: x - 10, y: y - 10, width: 1 + 25, height: 1 + 25};
     this.currAnim = new Animation(img, 0, 1, 118, 77, 1, 0.15, 1, true);
 }
@@ -119,7 +123,7 @@ function TaxHouse (game, x, y) {
     bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
     this.workTime = game.timer.gameTime;
     this.radius = { x: x - 15, y: y - 15, width: 2 + 30, height: 2 + 30};
-    this.renderX = 28;
+    this.renderX = 29;
     this.renderY = 35;
     this.currAnim = new Animation(img, 0, 1, 118, 96, 8, 0.15, 8, true);
 }
@@ -133,7 +137,7 @@ function FireHouse (game, x, y) {
     this.workTime = game.timer.gameTime;
     this.radius = {x: x - 15, y: y - 15, width: 2 + 30, height: 2 + 30};
     this.renderX = 0;
-    this.renderY = 40;
+    this.renderY = 70;
     this.currAnim = new Animation(img, 0, 1, 58, 100, 6, .15, 12, true);
 }
 
@@ -145,8 +149,8 @@ function CopHouse (game, x, y) {
     bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
     this.workTime = game.timer.gameTime;
     this.radius = {x: x - 15, y: y - 15, width: 2 + 30, height: 2 + 30};
-    this.renderX = 58;
-    this.renderY = 60;
+    this.renderX = 0;
+    this.renderY = 73;
     this.currAnim = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
 }
 
