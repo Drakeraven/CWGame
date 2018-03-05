@@ -8,17 +8,10 @@ function bubbleBuilding(img, game, x, y, bWidth, bHeight, buf) {
     this.currAnim = null;
     this.renderX = 0;
     this.renderY = 0;
-<<<<<<< HEAD
-    this.radius = null; 
-    this.range = 30; 
-    this.numEmployed = 0;
-    this.numEmpNeeded = 6;
-=======
     this.radius = null;
     this.range = 30;
-    //this.numEmployed = 0;
-    //this.numEmpNeeded = null;
->>>>>>> e33d63f68619669801944be0ce3dd88b6e9d7dd4
+    this.numEmployed = 0;
+    this.numEmpNeeded = 6;
     this.placeCost = 10;
     this.pushTime = 15;
     this.workTime = 0;
@@ -56,10 +49,10 @@ bubbleBuilding.prototype.update = function () {
 
     // for a set interval, collect taxes from myPop
     //(30mon / 10ppl)
-    if (this.numEmployed < this.numEmpNeeded) { 
-        this.currAnim = this.closedAnim; 
-    } else { 
-        this.currAnim = this.openAnim; 
+    if (this.numEmployed < this.numEmpNeeded) {
+        this.currAnim = this.closedAnim;
+    } else {
+        this.currAnim = this.openAnim;
         if (this.game.timer.gameTime - this.workTime >= this.pushTime && this instanceof TaxHouse && myPop > 0) {
             this.workTime = this.game.timer.gameTime;
             //var myPop = this.game.gameWorld.population;
