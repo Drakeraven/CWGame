@@ -53,7 +53,7 @@ Palace.prototype.draw = function (ctx) {
 const maxFood = 1000;
 
 Palace.prototype.toStringStats = function() {
-    str = "Employees: " + this.numEmployed + "Employees Needed: " + this.numEmpNeeded;//TODO
+    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded;//TODO
     return str;
 }
 function Granary(game, x, y) {
@@ -177,7 +177,7 @@ Granary.prototype.pushBoi = function (canWalk, funds, type, bRef) {
 }
 
 Granary.prototype.toStringStats = function() {
-    str = "Employees: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded +
+    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded +
         "\nFood Level: " + this.foodSupply; //TODO
     return str;
 }
@@ -200,8 +200,8 @@ function StoreYard(game, x, y) {
     this.storeAnims[8] = new Animation(this.img, 0, 8, 176, 132, 16, .17, 16, true);// open all
     this.currAnim = this.storeAnims[0];
     this.placeCost = 60;
-    this.renderX = 59;
-    this.renderY = 39;
+    this.renderX = 60;
+    this.renderY = 43;
     this.numEmployed = 0;
     this.numEmpNeeded = 12;
     this.storage = [];
@@ -306,7 +306,7 @@ StoreYard.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 StoreYard.prototype.toStringStats = function() {
-    str = "Employees: " + this.numEmployed + "Employees Needed: " + this.numEmpNeeded;//TODO
+    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded;//TODO
     return str;
 }
 

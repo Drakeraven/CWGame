@@ -20,8 +20,8 @@ function house(img, game, x, y, bWidth, bHeight) {
     this.weaverLevel = false;
     this.potterLevel = false;
     this.brewerLevel = false;
-    this.renderX = 58;
-    this.renderY = 30;
+    this.renderX = 31;
+    this.renderY = 24;
     this.foodTime = 0;
     this.pushTime = 20;
     this.fireResist = 0.9; //percent chance of fire
@@ -145,8 +145,8 @@ function Housing(game, x, y) {
     this.foodTime = game.timer.gameTime;
     this.level = 0;
     this.placeCost = 25;
-    this.renderX = 58;
-    this.renderY = 30;
+    this.renderX = 31;
+    this.renderY = 24;
     this.animFrame[0] = new Animation(img, 0, 0, 118, 97, 1, 0.15, 1, true);
     this.animFrame[1] = new Animation(img, 3, 0, 118, 97, 1, 0.15, 1, true);
     this.animFrame[2] = new Animation(img, 5, 0, 118, 97, 1, 0.15, 1, true);

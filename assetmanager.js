@@ -74,7 +74,6 @@ AssetManager.prototype.assetQueueDownloads = function() {
     ASSET_MANAGER.queueDownload("./img/FarmPlots.png");
     ASSET_MANAGER.queueDownload("./img/bazaarLady 22x42.png");
     ASSET_MANAGER.queueDownload("./img/FireDude1.png")
-    ASSET_MANAGER.queueDownload("./img/Firedude2.png");
     ASSET_MANAGER.queueDownload("./img/Hunter1.5.png");
     ASSET_MANAGER.queueDownload("./img/Hunter2.png");
     ASSET_MANAGER.queueDownload("./img/immig.png");
@@ -85,30 +84,6 @@ AssetManager.prototype.assetQueueDownloads = function() {
     ASSET_MANAGER.queueDownload('./img/StoreYard.png');
     ASSET_MANAGER.queueDownload("./img/DONUTSTEAL.png");
     ASSET_MANAGER.queueDownload("./img/Title.PNG");
-    //UI IMGS
-    ASSET_MANAGER.queueDownload("./img/DefaultPane.png");
-    ASSET_MANAGER.queueDownload("./img/HousingPane.png");
-    ASSET_MANAGER.queueDownload("./img/FoodAndFarmingPane.png");
-    ASSET_MANAGER.queueDownload("./img/RoadsPane.png");
-    ASSET_MANAGER.queueDownload("./img/ClearLandPane.png");
-    ASSET_MANAGER.queueDownload("./img/IndustrialPane.png");
-    ASSET_MANAGER.queueDownload("./img/RawMaterialsPane.png");
-    ASSET_MANAGER.queueDownload("./img/UtilitiesPane.png");
-    ASSET_MANAGER.queueDownload("./img/StorageAndDistributionPane.png");
-    ASSET_MANAGER.queueDownload("./img/MunicipalPane.png");
-    ASSET_MANAGER.queueDownload("./img/Housing.png");
-    ASSET_MANAGER.queueDownload("./img/Utilities.png");
-    ASSET_MANAGER.queueDownload("./img/StorageAndDistribution.png");
-    ASSET_MANAGER.queueDownload("./img/FoodAndFarming.png");
-    ASSET_MANAGER.queueDownload("./img/Industrial.png");
-    ASSET_MANAGER.queueDownload("./img/RawMaterials.png");
-    ASSET_MANAGER.queueDownload("./img/Roads.png");
-    ASSET_MANAGER.queueDownload("./img/ClearLand1.png");
-    ASSET_MANAGER.queueDownload("./img/Municipal.png");
-    ASSET_MANAGER.queueDownload("./img/Select.png");
-    ASSET_MANAGER.queueDownload("./img/StatsAndGoals.png");
-    ASSET_MANAGER.queueDownload("./img/Messages.png");
-
 
 }
 

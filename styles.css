@@ -51,9 +51,9 @@ img.btn {
     position: fixed;
 }
 #Game-Information {
-    width:200px;
-    height:200px;
-    left: 300px;
+    width:400px;
+    height:190px;
+    left: 200px;
     top: 250px;
     position: fixed;
     background-color:rgb(206, 235, 164);
@@ -61,6 +61,7 @@ img.btn {
     -moz-border-radius: 5px;
     border-radius: 5px;
     border: 5px solid rgb(5, 4, 4);
+    overflow-wrap: break-word;
     
 }
 #Controls-Box {
@@ -77,6 +78,25 @@ img.btn {
     
 }
 
+#Manual-Box {
+    width:400px;
+    height:500px;
+    left: 200px;
+    top: 150px;
+    position: fixed;
+    background-color:rgb(206, 235, 164);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 5px solid rgb(5, 4, 4);
+    overflow-wrap: break-word;
+    
+}
+
+#manual-text {
+    width:100%;
+    height:85%;
+}
 
 .game-container {
     max-height: 500px;
@@ -100,6 +120,15 @@ img.btn {
 .selected img {
     opacity: 0.5;
 }
+
+.highlighted {
+    background-color: rgb(206, 235, 164);
+}
+
+.highlighted img {
+    opacity: 0.5;
+}
+
 
 .GameUI {
     padding: 5px;
@@ -247,7 +276,7 @@ label {
     width:350px;
     height:18px; 
     overflow: hidden;
-    background: rgb(240, 207, 163);
+    background: rgb(206, 235, 164);
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
