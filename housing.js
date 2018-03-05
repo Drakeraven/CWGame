@@ -17,13 +17,13 @@ function house(img, game, x, y, bWidth, bHeight) {
     this.placeCost = null;
     this.waterLevel = false;
     this.foodLevel = 0;
-    this.weaverLevel = false;
-    this.potterLevel = false;
-    this.brewerLevel = false;
+    this.weaverLevel = 0;
+    this.potterLevel = 0;
+    this.brewerLevel = 0;
     this.renderX = 31;
     this.renderY = 24;
     this.foodTime = 0; 
-    this.pushTime = 20; 
+    this.pushTime = 30; 
     this.fireResist = 0.9; //percent chance of fire
     this.buffer = { x: x - 1, y: y - 1, width: bWidth + 1, height: bHeight + 1};
     Entity.call(this, game, x, y);
@@ -98,19 +98,24 @@ house.prototype.update = function () {
     this.numHoused = (this.level + 1) * 30;
     //add later: if prosperity over certain %, upgrade?
 
-    //detect who within your radius
-
-    //get food from others >> after set amount of time, eat X amount of food
-    // if gametime = 1 month
-        //this.foodLevel -= numHoused;
-
     if (this.game.timer.gameTime - this.foodTime >= this.pushTime) {
         this.foodTime = this.game.timer.gameTime;
-        this.foodLevel -= Math.ceil( this.numHoused * 0.5 );
-        if (this.foodLevel < 0) { 
+        this.foodLevel -= Math.floor( this.numHoused * 0.15 );
+        this.potterLevel -= Math.floor( this.numHoused * 0.15 );
+        this.brewerLevel -= Math.floor( this.numHoused * 0.15 );
+        this.weaverLevel -= Math.floor( this.numHoused * 0.15 );
+        if (this.foodLevel < 1) { 
             this.foodLevel = 0; 
+        } 
+        if (this.potterLevel < 1) { 
+            this.potterLevel = 0; 
+        } 
+        if (this.brewerLevel < 1) { 
+            this.brewerLevel = 0; 
         }
-
+        if (this.weaverLevel < 1) { 
+            this.weaverLevel = 0; 
+        }
     }
 
     //UPDATE Pop:
@@ -122,10 +127,9 @@ house.prototype.update = function () {
     if (currentPop > this.game.gameWorld.population) {
         this.game.gameWorld.addPop(currentPop - this.game.gameWorld.population);
         this.game.gameWorld.workForce = this.game.gameWorld.getWorkForce();
-        //console.log(this.game.gameWorld.workForce);
     } else {
-        this.game.gameWorld.remPop(this.game.gameWorld.population - currentPop);
-        this.game.gameWorld.workForce = this.game.gameWorld.getWorkForce();
+        //this.game.gameWorld.remPop(this.game.gameWorld.population - currentPop);
+        //this.game.gameWorld.workForce = this.game.gameWorld.getWorkForce();
     }
     //Iterate over all buildings in array, add/subtract difference between gameWorld pop and array pop
     //PUSH POP TO INDUSTRY LIST > check gameWorld for population stat > 40%? > only give each industry building what they need

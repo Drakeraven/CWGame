@@ -10,10 +10,10 @@ function bubbleBuilding(img, game, x, y, bWidth, bHeight, buf) {
     this.renderY = 0;
     this.radius = null; 
     this.range = 30; 
-    //this.numEmployed = 0;
-    //this.numEmpNeeded = null;
+    this.numEmployed = 0;
+    this.numEmpNeeded = 6;
     this.placeCost = 10;
-    this.pushTime = 5;
+    this.pushTime = 15;
     this.workTime = 0;
     this.roadTiles = [];
     this.buffer = { x: x - 1, y: y - 1, width: bWidth + 1, height: bHeight + 1};
@@ -49,16 +49,21 @@ bubbleBuilding.prototype.update = function () {
 
     // for a set interval, collect taxes from myPop
     //(30mon / 10ppl)
-    if (this.game.timer.gameTime - this.workTime >= this.pushTime && this instanceof TaxHouse) {
-        this.workTime = this.game.timer.gameTime;
-        //var myPop = this.game.gameWorld.population;
-        var myTax = (Math.ceil((Math.floor((myPop / 10)) * 30) * 0.1)); //10 percent of 30 money per 10 people
-        //console.log("Tax: ", myTax);
-        //console.log("Pop: ", myPop);
-        this.genWalker(this.game.gameWorld.palace, myTax, "gold");
-        //send a gold cart man every 45-1min seconds w/ this fundage
-        /* go through industry list later??? nope dont need to
-        */
+    if (this.numEmployed < this.numEmpNeeded) { 
+        this.currAnim = this.closedAnim; 
+    } else { 
+        this.currAnim = this.openAnim; 
+        if (this.game.timer.gameTime - this.workTime >= this.pushTime && this instanceof TaxHouse && myPop > 0) {
+            this.workTime = this.game.timer.gameTime;
+            //var myPop = this.game.gameWorld.population;
+            var myTax = (Math.ceil((Math.floor((myPop / 10)) * 30) * 0.1)); //10 percent of 30 money per 10 people
+            //console.log("Tax: ", myTax);
+            //console.log("Pop: ", myPop);
+            this.genWalker(this.game.gameWorld.palace, myTax, "gold");
+            //send a gold cart man every 45-1min seconds w/ this fundage
+            /* go through industry list later??? nope dont need to
+            */
+        }
     }
 }
 
@@ -99,6 +104,8 @@ function Well (game, x, y) {
     this.renderX = 0;
     this.renderY = 21;
     this.range = 15;
+    this.openAnim = new Animation(img, 0, 1, 58, 51, 1, 0.15, 1, true);
+    this.closedAnim = new Animation(img, 0, 1, 58, 51, 1, 0.15, 1, true);
     this.currAnim = new Animation(img, 0, 1, 58, 51, 1, 0.15, 1, true);
 }
 
@@ -112,6 +119,8 @@ function WaterSupply (game, x, y) {
     this.renderX = 29;
     this.renderY = 17;
     this.radius = { x: x - 10, y: y - 10, width: 1 + 25, height: 1 + 25};
+    this.openAnim = new Animation(img, 0, 1, 118, 77, 1, 0.15, 1, true);
+    this.closedAnim = new Animation(img, 0, 1, 118, 77, 1, 0.15, 1, true);
     this.currAnim = new Animation(img, 0, 1, 118, 77, 1, 0.15, 1, true);
 }
 
@@ -125,7 +134,9 @@ function TaxHouse (game, x, y) {
     this.radius = { x: x - 15, y: y - 15, width: 2 + 30, height: 2 + 30};
     this.renderX = 29;
     this.renderY = 35;
-    this.currAnim = new Animation(img, 0, 1, 118, 96, 8, 0.15, 8, true);
+    this.openAnim = new Animation(img, 0, 1, 118, 96, 8, 0.15, 8, true);
+    this.closedAnim = new Animation(img, 0, 0, 118, 96, 1, 0.15, 1, true);
+    this.currAnim = this.closedAnim;
 }
 
 TaxHouse.prototype = Object.create(bubbleBuilding.prototype);
@@ -138,7 +149,9 @@ function FireHouse (game, x, y) {
     this.radius = {x: x - 15, y: y - 15, width: 2 + 30, height: 2 + 30};
     this.renderX = 0;
     this.renderY = 70;
-    this.currAnim = new Animation(img, 0, 1, 58, 100, 6, .15, 12, true);
+    this.openAnim = new Animation(img, 0, 1, 58, 100, 6, .15, 12, true);
+    this.closedAnim = new Animation(img, 0, 0, 58, 100, 1, .15, 1, true);
+    this.currAnim = this.closedAnim;
 }
 
 FireHouse.prototype = Object.create(bubbleBuilding.prototype);
@@ -151,6 +164,8 @@ function CopHouse (game, x, y) {
     this.radius = {x: x - 15, y: y - 15, width: 2 + 30, height: 2 + 30};
     this.renderX = 0;
     this.renderY = 73;
+    this.openAnim = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
+    this.closedAnim = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
     this.currAnim = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
 }
 
