@@ -18,6 +18,7 @@ function Timer() {
 }
 
 GameEngine.prototype.mergeSort = function (arr) {
+  console.log('hi');
     if (arr.length === 0) {
         return [];
     }
@@ -42,7 +43,7 @@ GameEngine.prototype.merge = function (left, right) {
     let indexRight = 0
 
     while (indexLeft < left.length && indexRight < right.length) {
-        if (this.twodtoisoY(left[indexLeft].x, left[indexLeft].y) < this.twodtoisoY(right[indexRight].x, right[indexRight].y)) {
+        if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) + this.twodtoisoX(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) < this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight) + this.twodtoisoX(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight)) {
             result.push(left[indexLeft])
             indexLeft++
         } else {
@@ -406,9 +407,7 @@ GameEngine.prototype.addYard = function (yard) {
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
-
-    var ents = this.mergeSort(this.entities);
-
+    this.entities = this.mergeSort(this.entities);
     for (var i = 0; i < this.map.mapList.length; i++) {
         for (var j = 0; j < this.map.mapList[1].length; j++) {
             this.map.mapList[j][i].draw(this.ctx);
@@ -416,7 +415,7 @@ GameEngine.prototype.draw = function () {
     }
 
     for (var i = 0; i < this.entities.length; i++) {
-        ents[i].draw(this.ctx);
+        this.entities[i].draw(this.ctx);
     }
 
     if (this.hoverEntity && canHover && this.map.isInMapBoundaries(this.hoverEntity)) {
