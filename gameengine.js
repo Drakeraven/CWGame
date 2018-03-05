@@ -449,13 +449,17 @@ GameEngine.prototype.update = function () {
         updateSelectedItemCost();
 
         var entitiesCount = this.entities.length;
-        var working = this.gameWorld.workForce;
+        this.gameWorld.workForce = this.gameWorld.getWorkForce();
+        var working = this.gameWorld.getWorkForce();
 
 
         //give palace employees first >:)
         if (this.gameWorld.palace != null && working > this.gameWorld.palace.numEmpNeeded) {
             this.gameWorld.palace.numEmployed = 0;
             this.gameWorld.palace.numEmployed = this.gameWorld.palace.numEmpNeeded;
+            working -= this.gameWorld.palace.numEmployed;
+        } else if (working < this.gameWorld.palace.numEmpNeeded){ 
+            this.gameWorld.palace.numEmployed = 0;
         }
 
 
@@ -465,6 +469,9 @@ GameEngine.prototype.update = function () {
                 || farm instanceof goldMine) && working > farm.numEmpNeeded) {
                 farm.numEmployed = farm.numEmpNeeded;
                 working -= farm.numEmpNeeded;
+            } else if ((farm instanceof clayPit || farm instanceof huntLodge
+                || farm instanceof goldMine) && working < farm.numEmpNeeded) { 
+                farm.numEmployed = 0; 
             }
         }
 
@@ -473,6 +480,8 @@ GameEngine.prototype.update = function () {
             if (working > granary.numEmpNeeded) {
                 granary.numEmployed = granary.numEmpNeeded;
                 working -= granary.numEmpNeeded;
+            } else if (working < granary.numEmpNeeded) { 
+                granary.numEmployed = 0; 
             }
 
             if (!granary.removeFromWorld) {
@@ -487,6 +496,8 @@ GameEngine.prototype.update = function () {
             if (working > industry.numEmpNeeded && (industry.numResources > 0 || industry instanceof Bazaar)) {
                 industry.numEmployed = industry.numEmpNeeded;
                 working -= industry.numEmpNeeded;
+            } else if (working < industry.numEmpNeeded) { 
+                industry.numEmployed = 0; 
             }
             //console.log(working);
             //console.log()
@@ -497,6 +508,8 @@ GameEngine.prototype.update = function () {
             if (working > yard.numEmpNeeded) {
                 yard.numEmployed = yard.numEmpNeeded;
                 working -= yard.numEmpNeeded;
+            } else if (working < yard.numEmpNeeded) { 
+                yard.numEmployed = 0; 
             }
             if (!yard.removeFromWorld) {
                 yard.update();
@@ -506,7 +519,12 @@ GameEngine.prototype.update = function () {
 
         for (var i = 0; i < entitiesCount; i++) {
             var entity = this.entities[i];
-
+            if ((entity instanceof TaxHouse || entity instanceof FireHouse) && working > entity.numEmpNeeded) {
+                entity.numEmployed = entity.numEmpNeeded;
+                working -= entity.numEmployed; 
+            } else if ((entity instanceof TaxHouse || entity instanceof FireHouse) && working < entity.numEmpNeeded){
+                entity.numEmployed = 0; 
+            }
             if (!entity.removeFromWorld) {
                 entity.update();
             }
@@ -547,6 +565,7 @@ GameEngine.prototype.update = function () {
 
         for (var i = this.housingArr.length - 1; i >= 0; --i) {
             if (this.housingArr[i].removeFromWorld) {
+                this.gameWorld.population -= this.housingArr[i].numHoused;
                 this.housingArr.splice(i, 1);
             }
         }
