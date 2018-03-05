@@ -18,7 +18,6 @@ function Timer() {
 }
 
 GameEngine.prototype.mergeSort = function (arr) {
-  console.log('hi');
     if (arr.length === 0) {
         return [];
     }
@@ -111,15 +110,12 @@ GameEngine.prototype.start = function () {
     })();
 }
 
-//2D to ISO functiosn to manipulate X and Y
-GameEngine.prototype.twodtoisoX = function (x, y) {
-    return (((x - y) + this.cameraoffX) * 29);
-}
 GameEngine.prototype.initcamera = function () {
     this.cameraoffX = (this.map.mapList.length / 2);
     this.cameraoffY = (this.map.mapList[1].length / 2) * 2;
 }
 
+//2D to ISO functiosn to manipulate X and Y
 GameEngine.prototype.twodtoisoX = function (x, y) {
     return (((x - y) + this.cameraoffX) * 29);
 }
