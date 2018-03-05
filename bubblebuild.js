@@ -8,10 +8,17 @@ function bubbleBuilding(img, game, x, y, bWidth, bHeight, buf) {
     this.currAnim = null;
     this.renderX = 0;
     this.renderY = 0;
+<<<<<<< HEAD
     this.radius = null; 
     this.range = 30; 
     this.numEmployed = 0;
     this.numEmpNeeded = 6;
+=======
+    this.radius = null;
+    this.range = 30;
+    //this.numEmployed = 0;
+    //this.numEmpNeeded = null;
+>>>>>>> e33d63f68619669801944be0ce3dd88b6e9d7dd4
     this.placeCost = 10;
     this.pushTime = 15;
     this.workTime = 0;
@@ -28,7 +35,7 @@ bubbleBuilding.prototype.update = function () {
     this.roadTiles = findRoad(this.buffer);
     //detect who within your radius
     //impart reduced/improved affect onto the buildings in turn.
-   
+
     myPop = 0;
     for (i = 0; i < this.game.housingArr.length; i++) {
         //console.log("this, ", this.x, " | ", this.y)
@@ -159,7 +166,7 @@ FireHouse.prototype.constructor = FireHouse;
 
 function CopHouse (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/COPS-1.png");
-    bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
+    bubbleBuilding.call(this, img, game, x, y, 1, 1, 30);
     this.workTime = game.timer.gameTime;
     this.radius = {x: x - 15, y: y - 15, width: 2 + 30, height: 2 + 30};
     this.renderX = 0;
