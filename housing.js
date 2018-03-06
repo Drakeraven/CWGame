@@ -22,13 +22,8 @@ function house(img, game, x, y, bWidth, bHeight) {
     this.brewerLevel = 0;
     this.renderX = 31;
     this.renderY = 24;
-<<<<<<< HEAD
     this.foodTime = 0; 
     this.pushTime = 30; 
-=======
-    this.foodTime = 0;
-    this.pushTime = 20;
->>>>>>> e33d63f68619669801944be0ce3dd88b6e9d7dd4
     this.fireResist = 0.9; //percent chance of fire
     this.buffer = { x: x - 1, y: y - 1, width: bWidth + 1, height: bHeight + 1};
     Entity.call(this, game, x, y);
@@ -105,7 +100,6 @@ house.prototype.update = function () {
 
     if (this.game.timer.gameTime - this.foodTime >= this.pushTime) {
         this.foodTime = this.game.timer.gameTime;
-<<<<<<< HEAD
         this.foodLevel -= Math.floor( this.numHoused * 0.15 );
         this.potterLevel -= Math.floor( this.numHoused * 0.15 );
         this.brewerLevel -= Math.floor( this.numHoused * 0.15 );
@@ -121,11 +115,6 @@ house.prototype.update = function () {
         }
         if (this.weaverLevel < 1) { 
             this.weaverLevel = 0; 
-=======
-        this.foodLevel -= Math.ceil( this.numHoused * 0.5 );
-        if (this.foodLevel < 0) {
-            this.foodLevel = 0;
->>>>>>> e33d63f68619669801944be0ce3dd88b6e9d7dd4
         }
     }
 
