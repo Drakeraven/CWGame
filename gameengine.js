@@ -460,14 +460,14 @@ GameEngine.prototype.checkGoals = function (currentGoal) {
         case 0:
             if (this.gameWorld.population > 500) {
                 this.gameWorld.currentGoal++;
-                //displayNewGoalMessage(); 
+                updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
             }
             break;
         case 1:
             if (this.gameWorld.population > 750 &&
                 this.gameWorld.funds > 10000) {
                 this.gameWorld.currentGoal++;
-                 //displayNewGoalMessage();
+                updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
             }
 
             break;
@@ -476,7 +476,7 @@ GameEngine.prototype.checkGoals = function (currentGoal) {
         if (numberOfBazaar > 3) {
             gameIsStillGoing = false;
             this.gameWorld.currentGoal++;
-             //displayNewGoalMessage();
+            updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
         }
             break;
         case 3:
@@ -489,6 +489,7 @@ GameEngine.prototype.checkGoals = function (currentGoal) {
 }
 var gameStillGoing = true;
 GameEngine.prototype.update = function () {
+    this.checkGoals();
     if (gameStillGoing) {
         setGameInfoBox();
         updateFunds();

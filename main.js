@@ -66,7 +66,7 @@ function GameWorld() {
     this.workForce = 0;
     this.taxRev = .10;
     this.funds = 1000;
-    this.goals = [];
+    this.goals = goalsArray;//defined in constants.js
     this.maxNumberOfTaxHouses = 2;
     this.numberOfTaxHouses = 0;
     this.maxNumberOfGoldMines = 1;
@@ -154,6 +154,11 @@ $(function () {//shorthand for window.ready
     $('#Close-Button').click(function () {
         $("#Game-Information").hide();
         $('.pharoh-button.highlighted').removeClass('highlighted');
+        setButton("Select");
+    });
+
+    $('#Close-Button-Goal').click(function () {
+        $("#Goal-Information").hide();
         setButton("Select");
     });
     

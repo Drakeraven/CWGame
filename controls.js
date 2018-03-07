@@ -16,6 +16,12 @@ function displayStats(gameEngine, x, y) {
         $('#toStringStats').text(displayStr);
     }
 }
+
+function updateGoal(str) {
+    $('#current-goal').empty();
+    $('#current-goal').text(str);
+    $('#Goal-Information').show();
+}
 function setHotKeys(event, game) {
     if (event.code === "KeyH") {
         setButton("Housing");
@@ -64,9 +70,9 @@ function setHotKeys(event, game) {
 
 function showPopUpText(displayStr) {
     $("#popup-text").empty();
-    displayStr = 
-    "This is a city simulator where your goal is to design and maintain a prosperous society.\n\n"
-    + "To see controls and gameplay information, click the buttons highlighted yellow on the right after closing this menu.";
+    displayStr =
+        "This is a city simulator where your goal is to design and maintain a prosperous society.\n\n"
+        + "To see controls and gameplay information, click the buttons highlighted yellow on the right after closing this menu.";
     $("#popup-text").text(displayStr);
     $("#Game-Information").show();
     $('.pharoh-button[title="Manual"]').addClass('highlighted');
@@ -100,7 +106,7 @@ function updateSelectedItemCost() {
 function updateCurrentMessage() {
     $("#current-msg").empty();
     $("#current-msg").text(currentMessage);
-    
+
 };
 //handles setting the button as selected based on the key listener in the game engine.
 function setButton(titleOfCurrentButtonSelection) {
@@ -205,7 +211,7 @@ function setControlsInfoBox() {
 function setManualInfoBox() {
 
     $('#manual-text').empty();
-    $('#manual-text').attr( "src","How_to_play.txt");
+    $('#manual-text').attr("src", "How_to_play.txt");
     $('#Manual-Box').show();
 };
 
