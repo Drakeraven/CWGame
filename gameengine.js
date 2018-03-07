@@ -456,10 +456,10 @@ GameEngine.prototype.update = function () {
         var onFire = false; 
         var firePush = 45; 
         var fireArr = [];
-        if(this.industries.length > 0) {fireArr = Array.concat(fireArr, this.industries)};
-        if (this.housingArr.length > 0) {fireArr = Array.concat(fireArr, this.housingArr)};
-        if (this.granaries.length > 0) {fireArr = Array.concat(fireArr, this.granaries)};
-        if (this.yards.length > 0) {fireArr = Array.concat(fireArr, this.yards)};
+        if(this.industries.length > 0) {fireArr.concat(this.industries)};
+        if (this.housingArr.length > 0) {fireArr.concat(this.housingArr)};
+        if (this.granaries.length > 0) {fireArr.concat(this.granaries)};
+        if (this.yards.length > 0) {fireArr.concat(this.yards)};
         var i;
         for (i = 0; i < this.entities.length; i++) {
             if (this.entities[i] instanceof huntLodge) { 
