@@ -194,6 +194,13 @@ Bazaar.prototype.pushBoi = function (canWalk, funds, type, bRef, hRef) {
 
 Bazaar.prototype.toStringStats = function () {
     str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded +
-            "\nRange: " + this.range + "\nFunds: " + this.funds + "\n";
+            "\nRange: " + this.range + "\nFunds: " + this.funds +
+            "\nFood lvl: " + this.foodLevel + 
+            "\Beer lvl: " + this.brewerLevel + 
+            "\Beer sale: " + this.brewerSell +
+            "\nLinen lvl: " + this.weaverLevel +
+            "\Linen sale: " + this.weaverSell + 
+            "\nPotter lvl: " + this.potterLevel + 
+            "\nPotter sale: " + this.potterSell ;
     return str;
 }

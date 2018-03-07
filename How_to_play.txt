@@ -39,8 +39,6 @@ You can also place a tax collector or gold mine to generate funds.
 Other hazards to keep in mind are the potential for crisis.
 
 Houses and industries can burn down, lower the risk with firehouses.
-They can also collapse, lower this risk with architect posts.
-Thieves may try to steal funds, lower this risk with a police station.
 These buildings work in a radius.
 
 

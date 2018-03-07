@@ -67,6 +67,11 @@ function GameWorld() {
     this.taxRev = .10;
     this.funds = 1000;
     this.goals = [];
+    this.maxNumberOfTaxHouses = 2;
+    this.numberOfTaxHouses = 0;
+    this.maxNumberOfGoldMines = 1;
+    this.numberOfGoldMines = 0;
+    this.currentGoal = 0; //first one, just used for array indexing
 }
 
 GameWorld.prototype.addPop = function (num) {

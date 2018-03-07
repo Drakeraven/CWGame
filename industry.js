@@ -119,6 +119,7 @@ industry.prototype.update = function () {
 }
 industry.prototype.toStringStats = function() {
     str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded +
+    "\nResource Type: " + this.resType + "\nProduct Type/Cost: " + this.merchType + "/" + this.merchCost +
         "\nResources: " + this.numResources + "\nProduct: " + this.numMerch;
     return str;
 }

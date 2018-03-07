@@ -10,8 +10,8 @@ function bubbleBuilding(img, game, x, y, bWidth, bHeight, buf) {
     this.renderY = 0;
     this.radius = null; 
     this.range = 30; 
-    //this.numEmployed = 0;
-    //this.numEmpNeeded = null;
+    this.numEmployed = 0;
+    this.numEmpNeeded = null;
     this.placeCost = 10;
     this.pushTime = 5;
     this.workTime = 0;
@@ -85,9 +85,9 @@ bubbleBuilding.prototype.draw = function (ctx) {
 }
 
 bubbleBuilding.prototype.toStringStats = function() {
-   // str = "Employed: " + this.numEmployed + "\tEmployees Needed: " + (this.maxEmployed - this.numEmployed) +
-    //"\nRange: " + this.range + "\n";;
-    str = "Range: " + this.range + "\n";
+    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + (this.maxEmployed - this.numEmployed) +
+    "\nRange: " + this.range + "\n";;
+    //str = "Range: " + this.range + "\n";
     return str;
 }
 

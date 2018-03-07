@@ -249,17 +249,35 @@ GameEngine.prototype.clearItems = function (x, y) {
         }
     }
 }
-
+var possibleGoldMineAdd = 0;
+var possibleTaxHouseAdd = 0;
 GameEngine.prototype.buildOnCanvas = function (x, y) {
-    let entity = this.getSelectedEntity(x, y)
+    let entity = this.getSelectedEntity(x, y);
+    let add = true;
     if (entity) {//checks that selection is not null/ not default
         let updatedFunds = this.gameWorld.funds - selectedBuildingCost;//peeks if purchaseable
         if (updatedFunds >= 0) {
-            if (this.map.addThing(entity, selectedItemList)) {
-                this.gameWorld.withdrawFunds(selectedBuildingCost);
-                currentMessage = "Building Added!";
-            } else {
-                currentMessage = "Can't place building here.";
+            if ((entity instanceof goldMine) &&
+                (this.gameWorld.numberOfGoldMines > this.gameWorld.maxNumberOfGoldMines)) {
+                add = false;
+                currentMessage = "Max number of Gold Mines Reached!";
+            }
+            if ((entity instanceof TaxHouse) &&
+                (this.gameWorld.numberOfTaxHouses > this.gameWorld.maxNumberOfTaxHouses)) {
+                add = false;
+                currentMessage = "Max number of Tax Houses Reached!";
+            }
+            if (add) {
+                if (this.map.addThing(entity, selectedItemList)) {
+                    this.gameWorld.withdrawFunds(selectedBuildingCost);
+                    this.gameWorld.numberOfGoldMines += possibleGoldMineAdd;
+                    this.gameWorld.numberOfTaxHouses += possibleTaxHouseAdd;
+                    possibleGoldMineAdd = 0;
+                    possibleTaxHouseAdd = 0;
+                    currentMessage = "Building Added!";
+                } else {
+                    currentMessage = "Can't place building here.";
+                }
             }
         } else {
             currentMessage = "Insufficient funds!";
@@ -349,6 +367,7 @@ GameEngine.prototype.getSelectedEntity = function (x, y) {
             break;
         case "Gold Mine":
             entity = new goldMine(that, x, y);
+            possibleGoldMineAdd = 1;
             break;
         case "Fire House":
             entity = new FireHouse(that, x, y);
@@ -358,6 +377,7 @@ GameEngine.prototype.getSelectedEntity = function (x, y) {
             break;
         case "Tax House":
             entity = new TaxHouse(that, x, y);
+            possibleTaxHouseAdd = 1;
             break;
         default:
             entity = null
@@ -421,7 +441,7 @@ GameEngine.prototype.draw = function () {
 
     if (this.hoverEntity && canHover && this.map.isInMapBoundaries(this.hoverEntity)) {
         this.ctx.save();
-        if(!this.map.canAddToMap(this.hoverEntity)) {
+        if (!this.map.canAddToMap(this.hoverEntity)) {
             this.ctx.shadowColor = 'red';
         } else {
             this.ctx.shadowColor = 'aqua';
@@ -434,19 +454,42 @@ GameEngine.prototype.draw = function () {
 
     this.ctx.restore();
 }
-goalCounter = 1; //used to display messages
+
+GameEngine.prototype.checkGoals = function (currentGoal) {
+    switch (currentGoal) {
+        case 0:
+            if (this.gameWorld.population > 500) {
+                this.gameWorld.currentGoal++;
+                //displayNewGoalMessage(); 
+            }
+            break;
+        case 1:
+            if (this.gameWorld.population > 750 &&
+                this.gameWorld.funds > 10000) {
+                this.gameWorld.currentGoal++;
+                 //displayNewGoalMessage();
+            }
+
+            break;
+        case 2:
+            let numberOfBazaar = this.entities.filter(x => x instanceof Bazaar).length;
+        if (numberOfBazaar > 3) {
+            gameIsStillGoing = false;
+            this.gameWorld.currentGoal++;
+             //displayNewGoalMessage();
+        }
+            break;
+        case 3:
+            $('.game-container').hide();
+            $('#EndGame').show();
+            break;
+    }
+   
+
+}
+var gameStillGoing = true;
 GameEngine.prototype.update = function () {
-    //checks if goals were met
-    if (this.gameWorld.population > 500) {
-        goalCounter++;
-        //TODO instead of ending game, just pop up a small window
-        //that notifies user they met the goal, green goal box
-        //will display new goal,
-        //goal message selectedItemList will be defined in constants.js
-        $('.game-container').hide();
-        $('#EndGame').show();
-    } else {
-        //Updates live info about game on UI
+    if (gameStillGoing) {
         setGameInfoBox();
         updateFunds();
         updateSelectedItemCost();

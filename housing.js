@@ -163,6 +163,9 @@ Housing.prototype.constructor = Housing;
 
 house.prototype.toStringStats = function() {
     str = "Housed: " + this.numHoused + "\nHas water: " + this.waterLevel +
-            "\nFood access: " + this.foodLevel + "\n";
+            "\nFood access: " + this.foodLevel + 
+            "\nBeer access: " + this.brewerLevel + 
+            "\nLinen access: " + this.weaverLevel + 
+            "\nPotter access: " + this.potterLevel ;
     return str;
 }

@@ -30,7 +30,7 @@ var Constants = {
         ],
         Municipal: [
             { value: "Fire House", text: "Fire House" },
-            { value: "Police Station", text: "Police Station" },
+            //{ value: "Police Station", text: "Police Station" },
             { value: "Tax House", text: "Tax House" },
         ],
         //Following classes do not affect select menu
@@ -62,4 +62,5 @@ var controlString =
                     + "Pay attention to the game information, your current funds, and building costs as you continue to build your city!";
 
                     //add elemented as needed, counter in gameengine will help index the correct goal
-var goalsArray = ["Achieve 500 people living in your city!","Achieve"];
+var goalsArray = ["Achieve 500 people living in your city!",
+"Achieve 750 people living in your city, and funds of 10,000!", "Achieve managing 3 Bazaar!"];
