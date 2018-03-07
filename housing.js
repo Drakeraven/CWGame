@@ -24,7 +24,7 @@ function house(img, game, x, y, bWidth, bHeight) {
     this.renderY = 24;
     this.foodTime = 0;
     this.pushTime = 30;
-    this.fireResist = 0.9; //percent chance of fire
+    this.fireResist = 0.10; //percent chance of fire
     this.buffer = { x: x - 1, y: y - 1, width: bWidth + 1, height: bHeight + 1};
     Entity.call(this, game, x, y);
 }

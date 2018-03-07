@@ -15,6 +15,7 @@ function resourceBuild(game, x, y) {
     this.placeCost = null;
     this.resType = "";
     this.prodTime = 0;
+    this.fireResist = 0.1;
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
     this.roadTiles = [];
     Entity.call(this, game, x, y);
