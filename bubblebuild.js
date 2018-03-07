@@ -13,6 +13,7 @@ function bubbleBuilding(img, game, x, y, bWidth, bHeight, buf) {
     this.numEmployed = 0;
     this.numEmpNeeded = 6;
     this.placeCost = 10;
+    this.fireTime = 5; 
     this.pushTime = 15;
     this.workTime = 0;
     this.roadTiles = [];
@@ -40,12 +41,37 @@ bubbleBuilding.prototype.update = function () {
                 //console.log("arrived")
                 this.game.housingArr[i].waterLevel = true;
             } else if (this instanceof FireHouse) {
-                this.game.housingArr[i].fireResist == 0.01;
+                this.game.housingArr[i].fireResist = 0.01;
             } else if (this instanceof CopHouse) {
                 //this should probably be over the list of walkers
             }
         }
     }
+
+    for(i = 0; i < this.game.industries.length; i++) { 
+        if(this instanceof FireHouse) { 
+            this.game.industries[i].fireResist = 0.01; 
+        }
+    }
+
+    for(i = 0; i < this.game.granaries.length; i++) { 
+        if(this instanceof FireHouse) { 
+            this.game.granaries[i].fireResist = 0.01; 
+        }
+    }
+
+    for(i = 0; i < this.game.yards.length; i++) { 
+        if(this instanceof FireHouse) { 
+            this.game.yards[i].fireResist = 0.01; 
+        }
+    }
+
+    for(i = 0; i < this.game.entities.length; i++) { 
+        if(this instanceof FireHouse && this.game.entities[i] instanceof huntLodge) { 
+            this.game.entities[i].fireResist = 0.01; 
+        }
+    }
+    
 
     // for a set interval, collect taxes from myPop
     //(30mon / 10ppl)
@@ -66,6 +92,7 @@ bubbleBuilding.prototype.update = function () {
         }
     }
 }
+
 
 bubbleBuilding.prototype.remove = function () {
     //iterate over houses in the area of effect and disable benefits
@@ -92,7 +119,7 @@ bubbleBuilding.prototype.draw = function (ctx) {
 bubbleBuilding.prototype.toStringStats = function() {
    // str = "Employed: " + this.numEmployed + "\tEmployees Needed: " + (this.maxEmployed - this.numEmployed) +
     //"\nRange: " + this.range + "\n";;
-    str = "Range: " + this.range + "\n";
+    str = "Range: " + this.range + "\n" + "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded;
     return str;
 }
 

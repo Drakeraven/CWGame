@@ -71,6 +71,7 @@ function Granary(game, x, y) {
     this.numEmpNeeded = 20;
     this.foodSupply = 0;
     this.foodMax = 1000;
+    this.fireResist = 0.10;
     this.workTime = this.game.timer.gameTime;
     this.pushTime = 15;
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
