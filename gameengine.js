@@ -99,6 +99,7 @@ GameEngine.prototype.init = function (ctx) {
     this.surfaceHeight = this.ctx.canvas.height;
     this.startInput();
     this.timer = new Timer();
+    this.fireTime = 0; 
     this.cameraoffX = 0;
     this.cameraoffY = 0;
     console.log('game initialized');
@@ -452,7 +453,33 @@ GameEngine.prototype.update = function () {
         var entitiesCount = this.entities.length;
         this.gameWorld.workForce = this.gameWorld.getWorkForce();
         var working = this.gameWorld.getWorkForce();
+        var onFire = false; 
+        var firePush = 45; 
+        var fireArr = [];
+        if(this.industries.length > 0) {fireArr.concat(this.industries)};
+        if (this.housingArr.length > 0) {fireArr.concat(this.housingArr)};
+        if (this.granaries.length > 0) {fireArr.concat(this.granaries)};
+        if (this.yards.length > 0) {fireArr.concat(this.yards)};
+        var i;
+        for (i = 0; i < this.entities.length; i++) {
+            if (this.entities[i] instanceof huntLodge) { 
+                fireArr.push(this.entities[i]);
+            }
+        }
 
+        
+        if (this.timer.gameTime - this.fireTime >= firePush && fireArr.length > 0) {
+            this.fireTime = this.timer.gameTime;
+            for (i = 0; i < fireArr.length; i++) {
+                //console.log(fireArr[i].fireResist);
+                if (Math.random() < fireArr[i].fireResist && !onFire) { 
+                    console.log(true);
+                    onFire = true; 
+                } else { 
+                   console.log(false);
+                }
+            }
+        }
 
         //give palace employees first >:)
         if (this.gameWorld.palace != null && working > this.gameWorld.palace.numEmpNeeded) {
@@ -492,16 +519,12 @@ GameEngine.prototype.update = function () {
 
         for (var i = 0; i < this.industries.length; i++) {
             var industry = this.industries[i];
-            //console.log(industry instanceof Bazaar);
-            //console.log(industry.numEmployed);
             if (working > industry.numEmpNeeded && (industry.numResources > 0 || industry instanceof Bazaar)) {
                 industry.numEmployed = industry.numEmpNeeded;
                 working -= industry.numEmpNeeded;
             } else if (working < industry.numEmpNeeded) {
                 industry.numEmployed = 0;
             }
-            //console.log(working);
-            //console.log()
         }
 
         for (var i = 0; i < this.yards.length; i++) {
@@ -599,6 +622,8 @@ GameEngine.prototype.update = function () {
                 this.walkers.splice(i, 1);
             }
         }
+
+        //Loop through necessary arrays, if something catches on fire then break.
     }
 }
 

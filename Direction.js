@@ -1,3 +1,19 @@
+mapBind = function (buffer) {
+    if (buffer.x + buffer.width > walkerMap.length - 1) {
+        buffer.width -= (walkerMap.length - 1) - (buffer.x + buffer.width); 
+    }
+    if (buffer.x < 0) {
+        buffer.x += Math.abs(buffer.x);
+    }
+    if (buffer.y < 0) {
+        buffer.y += Math.abs(buffer.y);
+    }
+    if (buffer.y + buffer.height > walkerMap.length -1) {
+        buffer.height -= (walkerMap.length - 1) - (buffer.y + buffer.height);
+    }
+    return buffer; 
+}
+
 findRoad = function (buffer) {
     result = [];
     //console.log(walkerMap);
@@ -5,11 +21,16 @@ findRoad = function (buffer) {
     for (var i = buffer.x; i <= buffer.x + buffer.width; i++) {
         temp = [buffer.y, i];
         temp1 = [buffer.y + buffer.height, i];
-        if (walkerMap[buffer.y][i] == 1) {
-            result.push(temp);
+
+        if (walkerMap[buffer.y] !== undefined && walkerMap[buffer.y][i] !== undefined) {
+            if (walkerMap[buffer.y][i] == 1) {
+                result.push(temp);
+            }
         }
-        if (walkerMap[buffer.y + buffer.height][i] == 1) {
-            result.push(temp1);
+        if (walkerMap[buffer.y + buffer.height] !== undefined && walkerMap[buffer.y + buffer.height][i] !== undefined) {
+            if (walkerMap[buffer.y + buffer.height][i] == 1) {
+                result.push(temp1);
+            }
         }
 
     }
@@ -17,11 +38,17 @@ findRoad = function (buffer) {
     for (var i = buffer.y; i <= buffer.y + buffer.height; i++) {
         temp = [i, buffer.x + buffer.width];
         temp1 = [i, buffer.x];
-        if (walkerMap[i][buffer.x + buffer.width] == 1) {
-            result.push(temp);
+
+        if (walkerMap[i] !== undefined && walkerMap[i][buffer.x + buffer.width] !== undefined) {
+            if (walkerMap[i][buffer.x + buffer.width] == 1) {
+                result.push(temp);
+            }
         }
-        if (walkerMap[i][buffer.x] == 1) {
-            result.push(temp1);
+
+        if (walkerMap[i] !== undefined && walkerMap[i][buffer.x] !== undefined) {
+            if (walkerMap[i][buffer.x] == 1) {
+                result.push(temp1);
+            }
         }
     }
     return result;
