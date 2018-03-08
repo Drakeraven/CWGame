@@ -20,6 +20,8 @@ function displayStats(gameEngine, x, y) {
 function updateGoal(str) {
     $('#current-goal').empty();
     $('#current-goal').text(str);
+    let displayString = "You have met a goal!\n\nNext Goal: " + str;
+    $('#goal-text').text(displayString);
     $('#Goal-Information').show();
 }
 function setHotKeys(event, game) {

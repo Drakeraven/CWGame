@@ -462,6 +462,7 @@ GameEngine.prototype.checkGoals = function (currentGoal) {
                 this.gameWorld.currentGoal++;
                 updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
             }
+            console.log("Checking goal 1");
             break;
         case 1:
             if (this.gameWorld.population > 750 &&
@@ -489,7 +490,7 @@ GameEngine.prototype.checkGoals = function (currentGoal) {
 }
 var gameStillGoing = true;
 GameEngine.prototype.update = function () {
-    this.checkGoals();
+    this.checkGoals(this.gameWorld.currentGoal);
     if (gameStillGoing) {
         setGameInfoBox();
         updateFunds();
