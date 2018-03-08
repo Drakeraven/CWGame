@@ -14,7 +14,6 @@ function Palace(game, x, y) {
     this.numEmpNeeded = 20;
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
     this.roadTiles = [];
-    this.game.addEntity(this);
     Entity.call(this, game, x, y);
 }
 

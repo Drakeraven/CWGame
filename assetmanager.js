@@ -44,6 +44,7 @@ AssetManager.prototype.getAsset = function (path) {
     return this.cache[path];
 }
 AssetManager.prototype.assetQueueDownloads = function() {
+    ASSET_MANAGER.queueDownload("./img/Fire.PNG");
     ASSET_MANAGER.queueDownload("./img/Weaver.png");
     ASSET_MANAGER.queueDownload("./img/grass.png");
     ASSET_MANAGER.queueDownload("./img/Land1a_00002.png");
@@ -86,4 +87,3 @@ AssetManager.prototype.assetQueueDownloads = function() {
     ASSET_MANAGER.queueDownload("./img/Title.PNG");
 
 }
-

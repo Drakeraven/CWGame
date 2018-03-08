@@ -42,13 +42,14 @@ GameEngine.prototype.merge = function (left, right) {
     let indexRight = 0
 
     while (indexLeft < left.length && indexRight < right.length) {
-        if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) + this.twodtoisoX(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) < this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight) + this.twodtoisoX(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight)) {
+        if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) < this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight)) {
             result.push(left[indexLeft]);
             indexLeft++;
-        } else if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) + this.twodtoisoX(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) === this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight) + this.twodtoisoX(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight)) {
+        } else if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) === this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight)) {
             result.push(left[indexLeft]);
+            console.log('hi');
             indexLeft++;
-        }else {
+        }else if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) > this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight)){
             result.push(right[indexRight]);
             indexRight++;
         }
@@ -99,7 +100,7 @@ GameEngine.prototype.init = function (ctx) {
     this.surfaceHeight = this.ctx.canvas.height;
     this.startInput();
     this.timer = new Timer();
-    this.fireTime = 0; 
+    this.fireTime = 0;
     this.cameraoffX = 0;
     this.cameraoffY = 0;
     console.log('game initialized');
@@ -141,7 +142,7 @@ GameEngine.prototype.removeRoad = function (x, y) {
     walkerMap[y][x] = mapData[x][y];
     this.map.mapList[y][x].tileType = mapData[x][y];
     let str = "";
-    if (mapData[y][x] === 0) {
+    if (mapData[y][x] === 0 || mapData[y][x] === 1) {
         str = this.map.mapList[y][x].grassImage;
     } else if (mapData[x][y] === 3) {
         str = this.map.maplist[y][x].treeImage;
@@ -453,8 +454,8 @@ GameEngine.prototype.update = function () {
         var entitiesCount = this.entities.length;
         this.gameWorld.workForce = this.gameWorld.getWorkForce();
         var working = this.gameWorld.getWorkForce();
-        var onFire = false; 
-        var firePush = 45; 
+        var onFire = false;
+        var firePush = 45;
         var fireArr = [];
         if(this.industries.length > 0) {fireArr.concat(this.industries)};
         if (this.housingArr.length > 0) {fireArr.concat(this.housingArr)};
@@ -462,20 +463,20 @@ GameEngine.prototype.update = function () {
         if (this.yards.length > 0) {fireArr.concat(this.yards)};
         var i;
         for (i = 0; i < this.entities.length; i++) {
-            if (this.entities[i] instanceof huntLodge) { 
+            if (this.entities[i] instanceof huntLodge) {
                 fireArr.push(this.entities[i]);
             }
         }
 
-        
+
         if (this.timer.gameTime - this.fireTime >= firePush && fireArr.length > 0) {
             this.fireTime = this.timer.gameTime;
             for (i = 0; i < fireArr.length; i++) {
                 //console.log(fireArr[i].fireResist);
-                if (Math.random() < fireArr[i].fireResist && !onFire) { 
+                if (Math.random() < fireArr[i].fireResist && !onFire) {
                     console.log(true);
-                    onFire = true; 
-                } else { 
+                    onFire = true;
+                } else {
                    console.log(false);
                 }
             }

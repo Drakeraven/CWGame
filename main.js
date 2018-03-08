@@ -120,8 +120,10 @@ $(function () {//shorthand for window.ready
         gameEngine.init(ctx);
         gameEngine.map.readMap(new MapData().testMap);
         gameEngine.gameWorld.palace = new Palace(gameEngine, 40, 70);
-        gameEngine.map.addThing(gameEngine.gameWorld.palace);
-        console.log(gameEngine.gameWorld.palace);
+        gameEngine.map.addThing(gameEngine.gameWorld.palace, null);
+
+        console.log(gameEngine.entities);
+        console.log(walkerMap);
 
         // Enable Start button
         $('#StartButton').removeAttr("disabled");
@@ -135,7 +137,6 @@ $(function () {//shorthand for window.ready
             console.log(walkerMap);
             showPopUpText();
         });
-
     });
 
     $('#Close-Button-Manual').click(function () {
@@ -151,5 +152,5 @@ $(function () {//shorthand for window.ready
         $('.pharoh-button.highlighted').removeClass('highlighted');
         setButton("Select");
     });
-    
+
 });
