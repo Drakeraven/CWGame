@@ -47,12 +47,12 @@ house.prototype.update = function () {
 
     for (var i = 0; i < this.game.walkers.length; i++) {
         if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
-            console.log(this.game.walkers[i].loadType);
+            //console.log(this.game.walkers[i].loadType);
             if (this.game.walkers[i].loadType === "meat") {
                 if (this.foodLevel + this.game.walkers[i].loadCount <= this.foodMax) {
                     this.foodLevel += this.game.walkers[i].loadCount;
                     this.game.walkers[i].removeFromWorld = true;
-                    console.log("Food Amt: ", this.foodSupply)
+                    //console.log("Food Amt: ", this.foodSupply)
                 }
             }
             if (this.game.walkers[i].bRef == this) this.game.walkers[i].removeFromWorld = true;
@@ -167,6 +167,9 @@ Housing.prototype.constructor = Housing;
 
 house.prototype.toStringStats = function() {
     str = "Housed: " + this.numHoused + "\nHas water: " + this.waterLevel +
-            "\nFood access: " + this.foodLevel + "\n";
+            "\nFood access: " + this.foodLevel + 
+            "\nBeer access: " + this.brewerLevel + 
+            "\nLinen access: " + this.weaverLevel + 
+            "\nPotter access: " + this.potterLevel ;
     return str;
 }

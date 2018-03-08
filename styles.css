@@ -52,7 +52,7 @@ img.btn {
 }
 #Game-Information {
     width:400px;
-    height:190px;
+    height:250px;
     left: 200px;
     top: 250px;
     position: fixed;
@@ -64,7 +64,21 @@ img.btn {
     overflow-wrap: break-word;
     
 }
-#Controls-Box {
+#Goal-Information {
+    width:350px;
+    height:170px;
+    left: 230px;
+    top: 250px;
+    position: fixed;
+    background-color:rgb(206, 235, 164);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 5px solid rgb(5, 4, 4);
+    overflow-wrap: break-word;
+    
+}
+#Controls-Box {    
     width:400px;
     left: 200px;
     top: 150px;
@@ -132,7 +146,7 @@ img.btn {
 
 .GameUI {
     padding: 5px;
-    height: 690px;
+    height: 727px;
     width: 150px;
     border: 1px solid rgb(5, 4, 4);
     background-image: url("./img/Background3.jpg");
@@ -150,7 +164,7 @@ img.btn {
 
 .stats-box {
     width: 144px;
-    height: 80px;
+    height: 138px;
     border: 1px solid rgb(5, 4, 4);
     margin-top: 5px;
     background-color: rgb(243, 172, 125);
@@ -186,7 +200,7 @@ select option {
 
 .gameinfo-box {
     width: 150px;
-    height: 90px;
+    height: 77px;
     border: 1px solid rgb(5, 4, 4);
  
     margin-top: 5px;
@@ -203,6 +217,14 @@ select option {
     margin: 0 auto;
 }
 
+#msg{
+    padding: 4px;
+    text-align:left;
+    font-size:11px;
+    margin-top: 0;
+    white-space: pre-wrap;
+}
+
 .menu-button-container {
     width: 150px;
     height: auto;
@@ -215,13 +237,14 @@ label {
 }
 
 #toStringStats {
+    padding: 4px;
     text-align:left;
     font-size:11px;
     margin-top: 0;
     white-space: pre-wrap;
 }
 #info-bar {
-    width:962px;
+    width:800px;
     height: 35px;
     background-image: url("./img/backgr3.jpg");
     border: 1px solid rgb(5, 4, 4);

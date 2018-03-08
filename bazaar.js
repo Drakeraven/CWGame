@@ -178,19 +178,19 @@ Bazaar.prototype.draw = function (ctx) {
 Bazaar.prototype.genWalker = function (destBuild, funds, type, bRef, hRef) {
     found = false;
     let indie = destBuild;
-    console.log(indie);
+    //console.log(indie);
     //WADDUP BETCH
     let canWalk = generateWalker(this.roadTiles, indie.roadTiles);
     if (canWalk != null) {
         found = true;
-        console.log(canWalk);
+       // console.log(canWalk);
         this.pushBoi(canWalk, funds, type, bRef, hRef);
 
     }
 }
 
 Bazaar.prototype.pushBoi = function (canWalk, funds, type, bRef, hRef) {
-    console.log(funds, type);
+    //console.log(funds, type);
     if (type === "gold") {
         var glcm = new glCartMan(this.game, ASSET_MANAGER.getAsset("./img/goldCartMan.png"), walkerMap, canWalk[0], canWalk[1], bRef);
         glcm.loadCount = funds;
@@ -207,6 +207,13 @@ Bazaar.prototype.pushBoi = function (canWalk, funds, type, bRef, hRef) {
 
 Bazaar.prototype.toStringStats = function () {
     str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded +
-            "\nRange: " + this.range + "\nFunds: " + this.funds + "\n";
+            "\nRange: " + this.range + "\nFunds: " + this.funds +
+            "\nFood lvl: " + this.foodLevel + 
+            "\nBeer lvl: " + this.brewerLevel + 
+           // "\Beer sale: " + this.brewerSell +
+            "\nLinen lvl: " + this.weaverLevel +
+           // "\Linen sale: " + this.weaverSell + 
+            "\nPotter lvl: " + this.potterLevel ;
+           // "\nPotter sale: " + this.potterSell ;
     return str;
 }

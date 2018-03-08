@@ -40,7 +40,7 @@ industry.prototype.update = function () {
 
     for (var i = 0; i < this.game.walkers.length; i++) {//loop through walkers
         if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
-            console.log("ping!", this.game.walkers.length);
+            //("ping!", this.game.walkers.length);
             if (this.game.walkers[i].loadType == this.resType && this.numResources < 500) {
                 this.numResources += this.game.walkers[i].loadCount;
                 this.game.walkers[i].removeFromWorld = true;
@@ -110,7 +110,7 @@ industry.prototype.update = function () {
             this.working = true;
             that = this;
             setTimeout(function () {
-                console.log("Creating product");
+                //console.log("Creating product");
                 that.numMerch += merchStep;
                 that.numResources -= merchStep;
                 that.working = false;
@@ -120,6 +120,7 @@ industry.prototype.update = function () {
 }
 industry.prototype.toStringStats = function() {
     str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded +
+    "\nResource Type: " + this.resType + "\nProduct Type/Cost: " + this.merchType + "/" + this.merchCost +
         "\nResources: " + this.numResources + "\nProduct: " + this.numMerch;
     return str;
 }
