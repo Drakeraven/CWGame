@@ -40,7 +40,6 @@ Map.prototype.alight = function (thing) {
 // reads in map tiles from a given 2d array of integers
 // creating tile objects with corresponding types (grass = 0, road = 1, buildings = 2, trees = 3)
 // each tile object is stored in a new 2d array this.maplist
-// and walkable/unwalkable tiles are stored as 0/1 in walkerMap, respectively
 Map.prototype.readMap = function (mapData) {
 
     for (i = 0; i < mapData.length; i++) {
