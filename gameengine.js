@@ -486,7 +486,7 @@ GameEngine.prototype.checkGoals = function (currentGoal) {
                this.gameWorld.currentGoal++;
                updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
             }
-            console.log("Checking goal 1");
+            //console.log("Checking goal 1");
             break;
         case 1:
             if (this.gameWorld.population > 750 &&
