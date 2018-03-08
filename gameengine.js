@@ -42,13 +42,14 @@ GameEngine.prototype.merge = function (left, right) {
     let indexRight = 0
 
     while (indexLeft < left.length && indexRight < right.length) {
-        if (this.twodtoisoY(left[indexLeft].x, left[indexLeft].y) + this.twodtoisoX(left[indexLeft].x, left[indexLeft].y) < this.twodtoisoY(right[indexRight].x, right[indexRight].y) + this.twodtoisoX(right[indexRight].x, right[indexRight].y)) {
+        if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) < this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight)) {
             result.push(left[indexLeft]);
             indexLeft++;
-        } else if (this.twodtoisoY(left[indexLeft].x, left[indexLeft].y) + this.twodtoisoX(left[indexLeft].x, left[indexLeft].y) === this.twodtoisoY(right[indexRight].x, right[indexRight].y) + this.twodtoisoX(right[indexRight].x, right[indexRight].y)) {
-            result.push(right[indexRight]);
-            indexRight++;
-        }else if (this.twodtoisoY(left[indexLeft].x, left[indexLeft].y) + this.twodtoisoX(left[indexLeft].x, left[indexLeft].y) > this.twodtoisoY(right[indexRight].x, right[indexRight].y) + this.twodtoisoX(right[indexRight].x, right[indexRight].y)){
+        } else if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) === this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight)) {
+            result.push(left[indexLeft]);
+            console.log('hi');
+            indexLeft++;
+        }else if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) > this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight)){
             result.push(right[indexRight]);
             indexRight++;
         }
