@@ -6,7 +6,7 @@ Tooltips provided by the select button (the arrow): click a building to view it'
 
 NOTE:
 Roads are required between buildings to allow interaction.
-Exception is housing, Wells, Firehouses, Police Stations, and Architects.
+Exception is housing, Wells, and Firehouses.
 
 GAMEPLAY:
 Our game intends to simulate a basic agriculture and economy. As such there's some rules:
@@ -36,10 +36,15 @@ To recoup your dwindling funds, bazaars generate profit when they sell goods.
 They will deliver this profit to your palace (thus why it is on the map already and cannot be removed).
 You can also place a tax collector or gold mine to generate funds.
 
+Player cannot build more than 1 gold mine, and 2 Tax Houses in order to avoid overwhelming profit rate.
+
 Other hazards to keep in mind are the potential for crisis.
 
 Houses and industries can burn down, lower the risk with firehouses.
 These buildings work in a radius.
+
+Hover: When hover is red, click on map to attempt to place building, and look at messages box in the information bar below.
+The message box will tell you why you cannot place building.
 
 
 

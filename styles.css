@@ -52,7 +52,7 @@ img.btn {
 }
 #Game-Information {
     width:400px;
-    height:190px;
+    height:250px;
     left: 200px;
     top: 250px;
     position: fixed;
@@ -164,7 +164,7 @@ img.btn {
 
 .stats-box {
     width: 144px;
-    height: 145px;
+    height: 138px;
     border: 1px solid rgb(5, 4, 4);
     margin-top: 5px;
     background-color: rgb(243, 172, 125);
@@ -200,7 +200,7 @@ select option {
 
 .gameinfo-box {
     width: 150px;
-    height: 70px;
+    height: 77px;
     border: 1px solid rgb(5, 4, 4);
  
     margin-top: 5px;

@@ -249,23 +249,41 @@ GameEngine.prototype.clearItems = function (x, y) {
         }
     }
 }
+
+GameEngine.prototype.maxTaxHousesReached = function (entity) {//TODO FOR LATER- PUT THIS FUNCTION IN GAMEWORLD NOT HERE!
+    if ((entity instanceof TaxHouse) &&
+        (this.gameWorld.numberOfTaxHouses >= this.gameWorld.maxNumberOfTaxHouses)) {
+        currentMessage = "Max number of Tax Houses Reached!";
+        return true;
+    }
+    return false;//as in, max not reached yet!
+}
+GameEngine.prototype.maxGoldMinesReached = function (entity) {//TODO FOR LATER- PUT THIS FUNCTION IN GAMEWORLD NOT HERE!
+    if ((entity instanceof goldMine) &&
+        (this.gameWorld.numberOfGoldMines >= this.gameWorld.maxNumberOfGoldMines)) {
+        currentMessage = "Max number of Gold Mines Reached!";
+        return true;
+
+    }
+    return false;//as in, max not reached yet!
+}
+GameEngine.prototype.gameHasSufficientFunds = function () {//TODO FOR LATER- PUT THIS FUNCTION IN GAMEWORLD NOT HERE!
+    let updatedFunds = this.gameWorld.funds - selectedBuildingCost;//peeks if purchaseable
+    return (updatedFunds >= 0);
+}
+
 var possibleGoldMineAdd = 0;
 var possibleTaxHouseAdd = 0;
 GameEngine.prototype.buildOnCanvas = function (x, y) {
     let entity = this.getSelectedEntity(x, y);
     let add = true;
     if (entity) {//checks that selection is not null/ not default
-        let updatedFunds = this.gameWorld.funds - selectedBuildingCost;//peeks if purchaseable
-        if (updatedFunds >= 0) {
-            if ((entity instanceof goldMine) &&
-                (this.gameWorld.numberOfGoldMines > this.gameWorld.maxNumberOfGoldMines)) {
-                add = false;
-                currentMessage = "Max number of Gold Mines Reached!";
+        if (this.gameHasSufficientFunds()) {
+            if (entity instanceof goldMine) {
+                add = !this.maxGoldMinesReached(entity);//as in, if we have not reached max
             }
-            if ((entity instanceof TaxHouse) &&
-                (this.gameWorld.numberOfTaxHouses > this.gameWorld.maxNumberOfTaxHouses)) {
-                add = false;
-                currentMessage = "Max number of Tax Houses Reached!";
+            if (entity instanceof TaxHouse) {
+                add = !this.maxTaxHousesReached(entity);//as in. if we have not reached max
             }
             if (add) {
                 if (this.map.addThing(entity, selectedItemList)) {
@@ -441,10 +459,12 @@ GameEngine.prototype.draw = function () {
 
     if (this.hoverEntity && canHover && this.map.isInMapBoundaries(this.hoverEntity)) {
         this.ctx.save();
-        if (!this.map.canAddToMap(this.hoverEntity)) {
-            this.ctx.shadowColor = 'red';
-        } else {
+        if (this.map.canAddToMap(this.hoverEntity) && !this.maxGoldMinesReached(this.hoverEntity)
+            && !this.maxTaxHousesReached(this.hoverEntity) && this.gameHasSufficientFunds()) {
             this.ctx.shadowColor = 'aqua';
+
+        } else {
+            this.ctx.shadowColor = 'red';
         }
         this.ctx.shadowBlur = 1;
         this.ctx.globalAlpha = 0.6;
@@ -458,9 +478,12 @@ GameEngine.prototype.draw = function () {
 GameEngine.prototype.checkGoals = function (currentGoal) {
     switch (currentGoal) {
         case 0:
-            if (this.gameWorld.population > 500) {
-                this.gameWorld.currentGoal++;
-                updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
+            if (this.gameWorld.population > 100) {
+                gameIsStillGoing = false;
+                $('.game-container').hide();
+            $('#EndGame').show();
+               // this.gameWorld.currentGoal++;
+               // updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
             }
             console.log("Checking goal 1");
             break;
@@ -474,18 +497,18 @@ GameEngine.prototype.checkGoals = function (currentGoal) {
             break;
         case 2:
             let numberOfBazaar = this.entities.filter(x => x instanceof Bazaar).length;
-        if (numberOfBazaar > 3) {
-            gameIsStillGoing = false;
-            this.gameWorld.currentGoal++;
-            updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
-        }
+            if (numberOfBazaar > 3) {
+                gameIsStillGoing = false;
+                this.gameWorld.currentGoal++;
+                updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
+            }
             break;
         case 3:
             $('.game-container').hide();
             $('#EndGame').show();
             break;
     }
-   
+
 
 }
 var gameStillGoing = true;

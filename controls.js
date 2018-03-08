@@ -74,7 +74,8 @@ function showPopUpText(displayStr) {
     $("#popup-text").empty();
     displayStr =
         "This is a city simulator where your goal is to design and maintain a prosperous society.\n\n"
-        + "To see controls and gameplay information, click the buttons highlighted yellow on the right after closing this menu.";
+        + "To see controls and gameplay information, click the buttons highlighted yellow on the right after closing this menu." +
+        "\n\nNOTE: For music and display to look properly, we recommend playing with Chrome or Firefox!";
     $("#popup-text").text(displayStr);
     $("#Game-Information").show();
     $('.pharoh-button[title="Manual"]').addClass('highlighted');
