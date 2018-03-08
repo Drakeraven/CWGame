@@ -140,7 +140,7 @@ GameEngine.prototype.removeRoad = function (x, y) {
     walkerMap[y][x] = mapData[x][y];
     this.map.mapList[y][x].tileType = mapData[x][y];
     let str = "";
-    if (mapData[y][x] === 0) {
+    if (mapData[y][x] === 0 || mapData[y][x] === 1) {
         str = this.map.mapList[y][x].grassImage;
     } else if (mapData[x][y] === 3) {
         str = this.map.maplist[y][x].treeImage;

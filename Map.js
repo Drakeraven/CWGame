@@ -1,12 +1,12 @@
 function Map(gameEngine) {
     this.game = gameEngine;
-    this.simpleMapData = [];
     this.mapList = [];
     // Note: not needed when you give mapData.
 
 }
 Map.prototype.constructor = Map;
 
+//adds a reference to an entity to a given tile.
 Map.prototype.addThing = function (thing, list) {
     if (!thing || !this.isInMapBoundaries(thing) || !this.canAddToMap(thing)) {
         return false;
@@ -15,6 +15,32 @@ Map.prototype.addThing = function (thing, list) {
     this.addToMaps(thing);
     return true;
 }
+
+Map.prototype.alight = function (thing) {
+  let x = parseInt(thing.x);
+  let y = parseInt(thing.y);
+  let width = parseInt(thing.bWidth);
+  let height = parseInt(thing.bHeight);
+  this.game.removeBuilding(x, y);
+  for (let i = x; i < x + width; i+= 1) {
+      for (let j = y; j < y + height; j+= 1) {
+          var fire = new Fire(this.game, i, j);
+          this.addToLists(fire, null);
+          this.addToMaps(fire);
+      }
+  }
+  var that = this;
+  setTimeout(function(){
+    for (let i = x; i < x + width; i++) {
+        for (let j = y; j < y + height; j++) {
+          that.game.removeBuilding(i, j);
+        }
+    }}, 20000);
+}
+// reads in map tiles from a given 2d array of integers
+// creating tile objects with corresponding types (grass = 0, road = 1, buildings = 2, trees = 3)
+// each tile object is stored in a new 2d array this.maplist
+// and walkable/unwalkable tiles are stored as 0/1 in walkerMap, respectively
 Map.prototype.readMap = function (mapData) {
 
     for (i = 0; i < mapData.length; i++) {
@@ -23,9 +49,7 @@ Map.prototype.readMap = function (mapData) {
             x = j;
             y = i;
             tileType = mapData[i][j];
-            //console.log(twodtoisoX(x, y) + ' '+ twodtoisoY(x, y));
             var tile = new Tile(this.game, tileType, x, y);
-            //this.game.addEntity(tile);
             this.mapList[i][j] = tile;
         }
     }
@@ -40,7 +64,7 @@ Map.prototype.isInMapBoundaries = function (thing) {
     }
     return true;
 };
-//Can't add on 1- existing road, 2- existing building, or if 
+//Can't add on 1- existing road, 2- existing building, or if
 Map.prototype.canAddToMap = function (thing) {
     for (i = thing.x; i < thing.x + thing.bWidth; i++) {
         for (j = thing.y; j < thing.y + thing.bHeight; j++) {
@@ -60,8 +84,8 @@ Map.prototype.addToLists = function (thing, list) {
 };
 
 Map.prototype.addToMaps = function (thing) {
-    for (i = thing.x; i < thing.x + thing.bWidth; i++) {
-        for (j = thing.y; j < thing.y + thing.bHeight; j++) {
+    for (i = parseInt(thing.x); i < parseInt(thing.x) + parseInt(thing.bWidth); i++) {
+        for (j = parseInt(thing.y); j < parseInt(thing.y) + parseInt(thing.bHeight); j++) {
             walkerMap[j][i] = 2;
             this.mapList[j][i].thing = thing;
         }
@@ -70,7 +94,6 @@ Map.prototype.addToMaps = function (thing) {
 
 // tiling going down
 function Tile(game, tileType, x, y) {
-    //this.animation = new Animation(ASSET_MANAGER.getAsset("./img/grass.png"), 0, 0, 58, 30, 1, .15, 1, true);
     this.gfxString = '';
     this.grassImage = "./img/grass.png";
     this.roadImage = "./img/FloodPlain_00091.png";
