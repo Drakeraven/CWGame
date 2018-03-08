@@ -478,12 +478,13 @@ GameEngine.prototype.draw = function () {
 GameEngine.prototype.checkGoals = function (currentGoal) {
     switch (currentGoal) {
         case 0:
-            if (this.gameWorld.population > 100) {
-                gameIsStillGoing = false;
-                $('.game-container').hide();
-            $('#EndGame').show();
-               // this.gameWorld.currentGoal++;
-               // updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
+            if (this.gameWorld.population > 500) {
+              //  gameIsStillGoing = false;
+             //   $('.game-container').hide();
+           //$('#EndGame').show();
+           // For testing end game panel! change goal to 100! Comment stuff below out!
+               this.gameWorld.currentGoal++;
+               updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
             }
             console.log("Checking goal 1");
             break;
@@ -500,7 +501,7 @@ GameEngine.prototype.checkGoals = function (currentGoal) {
             if (numberOfBazaar > 3) {
                 gameIsStillGoing = false;
                 this.gameWorld.currentGoal++;
-                updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
+                //updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
             }
             break;
         case 3:
@@ -542,10 +543,10 @@ GameEngine.prototype.update = function () {
             for (i = 0; i < fireArr.length; i++) {
                 //console.log(fireArr[i].fireResist);
                 if (Math.random() < fireArr[i].fireResist && !onFire) {
-                    console.log(true);
+                   // console.log(true);
                     onFire = true;
                 } else {
-                   console.log(false);
+                   //console.log(false);
                 }
             }
         }

@@ -43,7 +43,9 @@ Other hazards to keep in mind are the potential for crisis.
 Houses and industries can burn down, lower the risk with firehouses.
 These buildings work in a radius.
 
-Hover: When hover is red, click on map to attempt to place building, and look at messages box in the information bar below.
+HOVER
+When hover is red, click on map to attempt to place building, and look at messages box in the information bar below.
+
 The message box will tell you why you cannot place building.
 
 

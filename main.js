@@ -116,7 +116,7 @@ $(function () {//shorthand for window.ready
         music.load();
         music.loop = true;
         // Initialize state
-        console.log("starting up da sheild");
+        //console.log("starting up da sheild");
         var canvas = document.getElementById('gameWorld');
         var ctx = canvas.getContext('2d');
         gameEngine = new GameEngine();
@@ -127,8 +127,8 @@ $(function () {//shorthand for window.ready
         gameEngine.gameWorld.palace = new Palace(gameEngine, 40, 70);
         gameEngine.map.addThing(gameEngine.gameWorld.palace, null);
 
-        console.log(gameEngine.entities);
-        console.log(walkerMap);
+       // console.log(gameEngine.entities);
+        //console.log(walkerMap);
 
         // Enable Start button
         $('#StartButton').removeAttr("disabled");
@@ -139,7 +139,7 @@ $(function () {//shorthand for window.ready
             // Start the game
             gameEngine.start();
             music.play();
-            console.log(walkerMap);
+            //console.log(walkerMap);
             showPopUpText();
         });
     });

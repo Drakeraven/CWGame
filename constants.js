@@ -57,8 +57,7 @@ var controlString =
                     "Arrows move map camera.\n\nGame Hints:\n\n" +
                     "Objective of the game is to build a city and\n" +
                     "meet each goal displayed in the Current Goal Box\n " +
-                    "Lookout for the message box, which will update you " +
-                    "on whether some of theft has occured of whether your buildings caught on fire.\n\n"
+                    "Lookout for the message box, whether your buildings caught on fire, and many other things.\n\n"
                     + "Pay attention to the game information, your current funds, and building costs as you continue to build your city!";
 
                     //add elemented as needed, counter in gameengine will help index the correct goal

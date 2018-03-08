@@ -202,12 +202,12 @@ CopHouse.prototype.constructor = CopHouse;
 bubbleBuilding.prototype.genWalker = function (destBuild, funds) {
     found = false;
     let indie = destBuild;
-    console.log(indie);
+    //console.log(indie);
     //WADDUP BETCH
     let canWalk = generateWalker(this.roadTiles, indie.roadTiles);
     if (canWalk != null) {
         found = true;
-        console.log(canWalk);
+       // console.log(canWalk);
         this.pushBoi(canWalk, funds);
 
     }

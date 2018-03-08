@@ -10,7 +10,7 @@ $(function () {
 
 function displayStats(gameEngine, x, y) {
     if (gameEngine.map.mapList[y][x].thing) {
-        console.log("hi");
+        //console.log("hi");
         displayStr = gameEngine.map.mapList[y][x].thing.toStringStats();
         $('#toStringStats').empty();
         $('#toStringStats').text(displayStr);
@@ -172,7 +172,7 @@ function setButton(titleOfCurrentButtonSelection) {
             canHover = false;
             break;
         default:
-            console.log('nuthin2seahear');
+            //console.log('nuthin2seahear');
             break
     };
 };

@@ -47,12 +47,12 @@ house.prototype.update = function () {
 
     for (var i = 0; i < this.game.walkers.length; i++) {
         if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
-            console.log(this.game.walkers[i].loadType);
+            //console.log(this.game.walkers[i].loadType);
             if (this.game.walkers[i].loadType === "meat") {
                 if (this.foodLevel + this.game.walkers[i].loadCount <= this.foodMax) {
                     this.foodLevel += this.game.walkers[i].loadCount;
                     this.game.walkers[i].removeFromWorld = true;
-                    console.log("Food Amt: ", this.foodSupply)
+                    //console.log("Food Amt: ", this.foodSupply)
                 }
             }
             if (this.game.walkers[i].bRef == this) this.game.walkers[i].removeFromWorld = true;
