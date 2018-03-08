@@ -23,6 +23,7 @@ function industry(game, x, y) {
     this.numMerch = 0;
     this.merchCost = 0;
     this.prodTime = 0;
+    this.fireResist = 0.10;
     this.radius = { x: x - 15, y: y - 15, width: this.bWidth + 30, height: this.bHeight + 30 };
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
     this.roadTiles = [];

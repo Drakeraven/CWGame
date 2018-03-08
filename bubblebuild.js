@@ -8,12 +8,13 @@ function bubbleBuilding(img, game, x, y, bWidth, bHeight, buf) {
     this.currAnim = null;
     this.renderX = 0;
     this.renderY = 0;
-    this.radius = null; 
-    this.range = 30; 
+    this.radius = null;
+    this.range = 30;
     this.numEmployed = 0;
-    this.numEmpNeeded = null;
+    this.numEmpNeeded = 6;
     this.placeCost = 10;
-    this.pushTime = 5;
+    this.fireTime = 5; 
+    this.pushTime = 15;
     this.workTime = 0;
     this.roadTiles = [];
     this.buffer = { x: x - 1, y: y - 1, width: bWidth + 1, height: bHeight + 1};
@@ -28,7 +29,7 @@ bubbleBuilding.prototype.update = function () {
     this.roadTiles = findRoad(this.buffer);
     //detect who within your radius
     //impart reduced/improved affect onto the buildings in turn.
-   
+
     myPop = 0;
     for (i = 0; i < this.game.housingArr.length; i++) {
         //console.log("this, ", this.x, " | ", this.y)
@@ -40,27 +41,58 @@ bubbleBuilding.prototype.update = function () {
                 //console.log("arrived")
                 this.game.housingArr[i].waterLevel = true;
             } else if (this instanceof FireHouse) {
-                this.game.housingArr[i].fireResist == 0.01;
+                this.game.housingArr[i].fireResist = 0.01;
             } else if (this instanceof CopHouse) {
                 //this should probably be over the list of walkers
             }
         }
     }
 
+    for(i = 0; i < this.game.industries.length; i++) { 
+        if(this instanceof FireHouse) { 
+            this.game.industries[i].fireResist = 0.01; 
+        }
+    }
+
+    for(i = 0; i < this.game.granaries.length; i++) { 
+        if(this instanceof FireHouse) { 
+            this.game.granaries[i].fireResist = 0.01; 
+        }
+    }
+
+    for(i = 0; i < this.game.yards.length; i++) { 
+        if(this instanceof FireHouse) { 
+            this.game.yards[i].fireResist = 0.01; 
+        }
+    }
+
+    for(i = 0; i < this.game.entities.length; i++) { 
+        if(this instanceof FireHouse && this.game.entities[i] instanceof huntLodge) { 
+            this.game.entities[i].fireResist = 0.01; 
+        }
+    }
+    
+
     // for a set interval, collect taxes from myPop
     //(30mon / 10ppl)
-    if (this.game.timer.gameTime - this.workTime >= this.pushTime && this instanceof TaxHouse) {
-        this.workTime = this.game.timer.gameTime;
-        //var myPop = this.game.gameWorld.population;
-        var myTax = (Math.ceil((Math.floor((myPop / 10)) * 30) * 0.1)); //10 percent of 30 money per 10 people
-        //console.log("Tax: ", myTax);
-        //console.log("Pop: ", myPop);
-        this.genWalker(this.game.gameWorld.palace, myTax, "gold");
-        //send a gold cart man every 45-1min seconds w/ this fundage
-        /* go through industry list later??? nope dont need to
-        */
+    if (this.numEmployed < this.numEmpNeeded) {
+        this.currAnim = this.closedAnim;
+    } else {
+        this.currAnim = this.openAnim;
+        if (this.game.timer.gameTime - this.workTime >= this.pushTime && this instanceof TaxHouse && myPop > 0) {
+            this.workTime = this.game.timer.gameTime;
+            //var myPop = this.game.gameWorld.population;
+            var myTax = (Math.ceil((Math.floor((myPop / 10)) * 30) * 0.1)); //10 percent of 30 money per 10 people
+            //console.log("Tax: ", myTax);
+            //console.log("Pop: ", myPop);
+            this.genWalker(this.game.gameWorld.palace, myTax, "gold");
+            //send a gold cart man every 45-1min seconds w/ this fundage
+            /* go through industry list later??? nope dont need to
+            */
+        }
     }
 }
+
 
 bubbleBuilding.prototype.remove = function () {
     //iterate over houses in the area of effect and disable benefits
@@ -85,9 +117,9 @@ bubbleBuilding.prototype.draw = function (ctx) {
 }
 
 bubbleBuilding.prototype.toStringStats = function() {
-    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + (this.maxEmployed - this.numEmployed) +
-    "\nRange: " + this.range + "\n";;
-    //str = "Range: " + this.range + "\n";
+   // str = "Employed: " + this.numEmployed + "\tEmployees Needed: " + (this.maxEmployed - this.numEmployed) +
+    //"\nRange: " + this.range + "\n";;
+    str =  "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded + "\nRange: " + this.range;
     return str;
 }
 
@@ -99,6 +131,8 @@ function Well (game, x, y) {
     this.renderX = 0;
     this.renderY = 21;
     this.range = 15;
+    this.openAnim = new Animation(img, 0, 1, 58, 51, 1, 0.15, 1, true);
+    this.closedAnim = new Animation(img, 0, 1, 58, 51, 1, 0.15, 1, true);
     this.currAnim = new Animation(img, 0, 1, 58, 51, 1, 0.15, 1, true);
 }
 
@@ -112,6 +146,8 @@ function WaterSupply (game, x, y) {
     this.renderX = 29;
     this.renderY = 17;
     this.radius = { x: x - 10, y: y - 10, width: 1 + 25, height: 1 + 25};
+    this.openAnim = new Animation(img, 0, 1, 118, 77, 1, 0.15, 1, true);
+    this.closedAnim = new Animation(img, 0, 1, 118, 77, 1, 0.15, 1, true);
     this.currAnim = new Animation(img, 0, 1, 118, 77, 1, 0.15, 1, true);
 }
 
@@ -125,7 +161,9 @@ function TaxHouse (game, x, y) {
     this.radius = { x: x - 15, y: y - 15, width: 2 + 30, height: 2 + 30};
     this.renderX = 29;
     this.renderY = 35;
-    this.currAnim = new Animation(img, 0, 1, 118, 96, 8, 0.15, 8, true);
+    this.openAnim = new Animation(img, 0, 1, 118, 96, 8, 0.15, 8, true);
+    this.closedAnim = new Animation(img, 0, 0, 118, 96, 1, 0.15, 1, true);
+    this.currAnim = this.closedAnim;
 }
 
 TaxHouse.prototype = Object.create(bubbleBuilding.prototype);
@@ -138,7 +176,9 @@ function FireHouse (game, x, y) {
     this.radius = {x: x - 15, y: y - 15, width: 2 + 30, height: 2 + 30};
     this.renderX = 0;
     this.renderY = 70;
-    this.currAnim = new Animation(img, 0, 1, 58, 100, 6, .15, 12, true);
+    this.openAnim = new Animation(img, 0, 1, 58, 100, 6, .15, 12, true);
+    this.closedAnim = new Animation(img, 0, 0, 58, 100, 1, .15, 1, true);
+    this.currAnim = this.closedAnim;
 }
 
 FireHouse.prototype = Object.create(bubbleBuilding.prototype);
@@ -146,11 +186,13 @@ FireHouse.prototype.constructor = FireHouse;
 
 function CopHouse (game, x, y) {
     img = ASSET_MANAGER.getAsset("./img/COPS-1.png");
-    bubbleBuilding.call(this, img, game, x, y, 2, 2, 30);
+    bubbleBuilding.call(this, img, game, x, y, 1, 1, 30);
     this.workTime = game.timer.gameTime;
     this.radius = {x: x - 15, y: y - 15, width: 2 + 30, height: 2 + 30};
     this.renderX = 0;
     this.renderY = 73;
+    this.openAnim = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
+    this.closedAnim = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
     this.currAnim = new Animation(img, 0, 1, 58, 102, 6, .15, 12, true);
 }
 

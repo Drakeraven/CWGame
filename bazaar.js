@@ -20,17 +20,19 @@ function Bazaar(game, x, y) {
     this.placeCost = 400;
     this.range = 30;
     this.foodLevel = 0;
-    this.foodMax = 500; 
-    this.weaverLevel = 0;
+    this.foodMax = 750; 
+    this.weaverLevel = 110;
     this.weaverSell = 40;  
-    this.potterLevel = 0;
+    this.potterLevel = 110;
     this.potterSell = 35; 
-    this.brewerLevel = 0;
-    this.brewerSell = 45; 
+    this.brewerLevel = 110;
+    this.brewerSell = 45;
+    this.pushAmt = 10; 
     this.maxRes = 500;
     this.funds = 320; 
     this.workTime = 0;
     this.pushTime = 30;
+    this.fireResist = .10; 
     this.radius = {x: x - 15, y: y - 15, width: 2 + 30, height: 2 + 30};
     this.buffer = { x: x - 1, y: y - 1, width: 2 + 1, height: 2 + 1}; 
     this.roadTiles = [];
@@ -117,17 +119,33 @@ Bazaar.prototype.update = function () {
                 }
             }
     
-            // send food to house 
+            // send food and goods to house 
             rangePop = 0; 
+            amtPushed = 0; 
             for (i = 0; i < this.game.housingArr.length; i++) { 
                 thisHouse = this.game.housingArr[i];
                 rangePop += thisHouse.numHoused;
                 if (arrived(this.radius, thisHouse.x, thisHouse.y, this, this)) { 
-                    if (this.foodLevel > 0) { 
+                    if (this.foodLevel > thisHouse.level * this.pushAmt * 2) { 
                         //this.genWalker(this.game.housingArr[i], thisHouse.level * 20, "food", this.game.housingArr[i]);
-                        thisHouse.foodLevel += thisHouse.level * 20;
-                        this.foodLevel -= thisHouse.level * 20; 
+                        thisHouse.foodLevel += thisHouse.level * this.pushAmt * 2;
+                        this.foodLevel -= thisHouse.level * this.pushAmt * 2; 
                     } 
+                    if (this.potterLevel > thisHouse.level * this.pushAmt) {
+                        thisHouse.potterLevel += thisHouse.level * this.pushAmt; 
+                        this.potterLevel -= thisHouse.level * this.pushAmt; 
+                        amtPushed += thisHouse.level * this.pushAmt; 
+                    }
+                    if (this.weaverLevel > thisHouse.level * this.pushAmt) { 
+                        thisHouse.weaverLevel += thisHouse.level * this.pushAmt; 
+                        this.weaverLevel -= thisHouse.level * this.pushAmt; 
+                        amtPushed += thisHouse.level * this.pushAmt;
+                    } 
+                    if (this.brewerLevel > thisHouse.level * this.pushAmt) { 
+                        thisHouse.brewerLevel += thisHouse.level * this.pushAmt; 
+                        this.brewerLevel -= thisHouse.level * this.pushAmt; 
+                        amtPushed += thisHouse.level * this.pushAmt;
+                    }
                 } 
             }
             //send gold guy to palace 
@@ -135,17 +153,12 @@ Bazaar.prototype.update = function () {
             if (this.game.gameWorld.funds > 0 && this.brewerLevel > 0 || this.potterLevel > 0 || this.weaverLevel > 0) {
                 //It just happens 
                 //grab the excess for sold amount then send it in a gold card to the palace 
-                //item amount x100 * itemSellprice 
-                toSend += (this.brewerLevel / 100 * 75) + (this.weaverLevel / 100 * 80) + (this.potterLevel / 100 * 85);
-                this.funds += toSend * 0.75; 
-                //.25 goes to Palace
-                brewerLevel = 0; 
-                weaverLevel = 0; 
-                potterLevel = 0; 
-                //console.log("GOLD: ", toSend * .25);
-                this.genWalker(this.game.gameWorld.palace, (toSend * .25), "gold", this.game.gameWorld.palace, this);
+                //toSend += (this.brewerLevel / 100 * 75) + (this.weaverLevel / 100 * 80) + (this.potterLevel / 100 * 85);
+                this.funds += amtPushed * 0.25; 
+                if (amtPushed != 0) { 
+                    this.genWalker(this.game.gameWorld.palace, (amtPushed * 0.25), "gold", this.game.gameWorld.palace, this);
+                }
             }
-    
         }
 
     }

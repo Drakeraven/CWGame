@@ -42,12 +42,16 @@ GameEngine.prototype.merge = function (left, right) {
     let indexRight = 0
 
     while (indexLeft < left.length && indexRight < right.length) {
-        if (this.twodtoisoY(left[indexLeft].x, left[indexLeft].y) < this.twodtoisoY(right[indexRight].x, right[indexRight].y)) {
-            result.push(left[indexLeft])
-            indexLeft++
-        } else {
-            result.push(right[indexRight])
-            indexRight++
+        if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) < this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight)) {
+            result.push(left[indexLeft]);
+            indexLeft++;
+        } else if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) === this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight)) {
+            result.push(left[indexLeft]);
+            console.log('hi');
+            indexLeft++;
+        }else if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) > this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight)){
+            result.push(right[indexRight]);
+            indexRight++;
         }
         return result.concat(left.slice(indexLeft)).concat(right.slice(indexRight));
     }
@@ -96,6 +100,7 @@ GameEngine.prototype.init = function (ctx) {
     this.surfaceHeight = this.ctx.canvas.height;
     this.startInput();
     this.timer = new Timer();
+    this.fireTime = 0;
     this.cameraoffX = 0;
     this.cameraoffY = 0;
     console.log('game initialized');
@@ -110,15 +115,12 @@ GameEngine.prototype.start = function () {
     })();
 }
 
-//2D to ISO functiosn to manipulate X and Y
-GameEngine.prototype.twodtoisoX = function (x, y) {
-    return (((x - y) + this.cameraoffX) * 29);
-}
 GameEngine.prototype.initcamera = function () {
     this.cameraoffX = (this.map.mapList.length / 2);
     this.cameraoffY = (this.map.mapList[1].length / 2) * 2;
 }
 
+//2D to ISO functiosn to manipulate X and Y
 GameEngine.prototype.twodtoisoX = function (x, y) {
     return (((x - y) + this.cameraoffX) * 29);
 }
@@ -140,7 +142,7 @@ GameEngine.prototype.removeRoad = function (x, y) {
     walkerMap[y][x] = mapData[x][y];
     this.map.mapList[y][x].tileType = mapData[x][y];
     let str = "";
-    if (mapData[y][x] === 0) {
+    if (mapData[y][x] === 0 || mapData[y][x] === 1) {
         str = this.map.mapList[y][x].grassImage;
     } else if (mapData[x][y] === 3) {
         str = this.map.maplist[y][x].treeImage;
@@ -444,9 +446,7 @@ GameEngine.prototype.addYard = function (yard) {
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
-
-    var ents = this.mergeSort(this.entities);
-
+    this.entities = this.mergeSort(this.entities);
     for (var i = 0; i < this.map.mapList.length; i++) {
         for (var j = 0; j < this.map.mapList[1].length; j++) {
             this.map.mapList[j][i].draw(this.ctx);
@@ -454,7 +454,7 @@ GameEngine.prototype.draw = function () {
     }
 
     for (var i = 0; i < this.entities.length; i++) {
-        ents[i].draw(this.ctx);
+        this.entities[i].draw(this.ctx);
     }
 
     if (this.hoverEntity && canHover && this.map.isInMapBoundaries(this.hoverEntity)) {
@@ -520,13 +520,43 @@ GameEngine.prototype.update = function () {
         updateSelectedItemCost();
 
         var entitiesCount = this.entities.length;
-        var working = this.gameWorld.workForce;
+        this.gameWorld.workForce = this.gameWorld.getWorkForce();
+        var working = this.gameWorld.getWorkForce();
+        var onFire = false;
+        var firePush = 45;
+        var fireArr = [];
+        if(this.industries.length > 0) {fireArr.concat(this.industries)};
+        if (this.housingArr.length > 0) {fireArr.concat(this.housingArr)};
+        if (this.granaries.length > 0) {fireArr.concat(this.granaries)};
+        if (this.yards.length > 0) {fireArr.concat(this.yards)};
+        var i;
+        for (i = 0; i < this.entities.length; i++) {
+            if (this.entities[i] instanceof huntLodge) {
+                fireArr.push(this.entities[i]);
+            }
+        }
 
+
+        if (this.timer.gameTime - this.fireTime >= firePush && fireArr.length > 0) {
+            this.fireTime = this.timer.gameTime;
+            for (i = 0; i < fireArr.length; i++) {
+                //console.log(fireArr[i].fireResist);
+                if (Math.random() < fireArr[i].fireResist && !onFire) {
+                    console.log(true);
+                    onFire = true;
+                } else {
+                   console.log(false);
+                }
+            }
+        }
 
         //give palace employees first >:)
         if (this.gameWorld.palace != null && working > this.gameWorld.palace.numEmpNeeded) {
             this.gameWorld.palace.numEmployed = 0;
             this.gameWorld.palace.numEmployed = this.gameWorld.palace.numEmpNeeded;
+            working -= this.gameWorld.palace.numEmployed;
+        } else if (working < this.gameWorld.palace.numEmpNeeded){
+            this.gameWorld.palace.numEmployed = 0;
         }
 
 
@@ -536,6 +566,9 @@ GameEngine.prototype.update = function () {
                 || farm instanceof goldMine) && working > farm.numEmpNeeded) {
                 farm.numEmployed = farm.numEmpNeeded;
                 working -= farm.numEmpNeeded;
+            } else if ((farm instanceof clayPit || farm instanceof huntLodge
+                || farm instanceof goldMine) && working < farm.numEmpNeeded) {
+                farm.numEmployed = 0;
             }
         }
 
@@ -544,6 +577,8 @@ GameEngine.prototype.update = function () {
             if (working > granary.numEmpNeeded) {
                 granary.numEmployed = granary.numEmpNeeded;
                 working -= granary.numEmpNeeded;
+            } else if (working < granary.numEmpNeeded) {
+                granary.numEmployed = 0;
             }
 
             if (!granary.removeFromWorld) {
@@ -553,14 +588,12 @@ GameEngine.prototype.update = function () {
 
         for (var i = 0; i < this.industries.length; i++) {
             var industry = this.industries[i];
-            //console.log(industry instanceof Bazaar);
-            //console.log(industry.numEmployed);
             if (working > industry.numEmpNeeded && (industry.numResources > 0 || industry instanceof Bazaar)) {
                 industry.numEmployed = industry.numEmpNeeded;
                 working -= industry.numEmpNeeded;
+            } else if (working < industry.numEmpNeeded) {
+                industry.numEmployed = 0;
             }
-            //console.log(working);
-            //console.log()
         }
 
         for (var i = 0; i < this.yards.length; i++) {
@@ -568,6 +601,8 @@ GameEngine.prototype.update = function () {
             if (working > yard.numEmpNeeded) {
                 yard.numEmployed = yard.numEmpNeeded;
                 working -= yard.numEmpNeeded;
+            } else if (working < yard.numEmpNeeded) {
+                yard.numEmployed = 0;
             }
             if (!yard.removeFromWorld) {
                 yard.update();
@@ -577,7 +612,12 @@ GameEngine.prototype.update = function () {
 
         for (var i = 0; i < entitiesCount; i++) {
             var entity = this.entities[i];
-
+            if ((entity instanceof TaxHouse || entity instanceof FireHouse) && working > entity.numEmpNeeded) {
+                entity.numEmployed = entity.numEmpNeeded;
+                working -= entity.numEmployed;
+            } else if ((entity instanceof TaxHouse || entity instanceof FireHouse) && working < entity.numEmpNeeded){
+                entity.numEmployed = 0;
+            }
             if (!entity.removeFromWorld) {
                 entity.update();
             }
@@ -618,6 +658,7 @@ GameEngine.prototype.update = function () {
 
         for (var i = this.housingArr.length - 1; i >= 0; --i) {
             if (this.housingArr[i].removeFromWorld) {
+                this.gameWorld.population -= this.housingArr[i].numHoused;
                 this.housingArr.splice(i, 1);
             }
         }
@@ -650,6 +691,8 @@ GameEngine.prototype.update = function () {
                 this.walkers.splice(i, 1);
             }
         }
+
+        //Loop through necessary arrays, if something catches on fire then break.
     }
 }
 
