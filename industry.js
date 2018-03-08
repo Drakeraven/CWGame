@@ -64,7 +64,7 @@ industry.prototype.update = function () {
 
     }
 
-    for (i = 0; i < this.game.housingArr.length; i++) { 
+    /*for (i = 0; i < this.game.housingArr.length; i++) { 
         if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y, this, this)) {
             if (this instanceof Potter) { 
                 this.game.housingArr[i].potterLevel = true;
@@ -74,7 +74,8 @@ industry.prototype.update = function () {
                 this.game.housingArr[i].brewerLevel = true;
             } 
         }
-    }
+    }*/
+    
     //this.roadTiles = findRoad(this.buffer);
     //Checks for fire/collapse. Need to make this happen, not ALOT of the time...
     //if (getRandomInt(1, 101) <= fireResist) {
