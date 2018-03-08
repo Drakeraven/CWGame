@@ -17,9 +17,13 @@ function house(img, game, x, y, bWidth, bHeight) {
     this.placeCost = null;
     this.waterLevel = false;
     this.foodLevel = 0;
+    this.foodMax = 200;
     this.weaverLevel = 0;
+    this.weaverMax = 100;
     this.potterLevel = 0;
+    this.potterMax = 100; 
     this.brewerLevel = 0;
+    this.brewerMax = 100; 
     this.renderX = 31;
     this.renderY = 24;
     this.foodTime = 0;
@@ -100,10 +104,10 @@ house.prototype.update = function () {
 
     if (this.game.timer.gameTime - this.foodTime >= this.pushTime) {
         this.foodTime = this.game.timer.gameTime;
-        this.foodLevel -= Math.floor( this.numHoused * 0.15 );
-        this.potterLevel -= Math.floor( this.numHoused * 0.15 );
-        this.brewerLevel -= Math.floor( this.numHoused * 0.15 );
-        this.weaverLevel -= Math.floor( this.numHoused * 0.15 );
+        this.foodLevel -= Math.floor( this.numHoused * 0.10 );
+        this.potterLevel -= Math.floor( this.numHoused * 0.10 );
+        this.brewerLevel -= Math.floor( this.numHoused * 0.10 );
+        this.weaverLevel -= Math.floor( this.numHoused * 0.10 );
         if (this.foodLevel < 1) {
             this.foodLevel = 0;
         }
@@ -128,7 +132,7 @@ house.prototype.update = function () {
         this.game.gameWorld.addPop(currentPop - this.game.gameWorld.population);
         this.game.gameWorld.workForce = this.game.gameWorld.getWorkForce();
     } else {
-        //this.game.gameWorld.remPop(this.game.gameWorld.population - currentPop);
+        this.game.gameWorld.remPop(this.game.gameWorld.population - currentPop);
         //this.game.gameWorld.workForce = this.game.gameWorld.getWorkForce();
     }
     //Iterate over all buildings in array, add/subtract difference between gameWorld pop and array pop

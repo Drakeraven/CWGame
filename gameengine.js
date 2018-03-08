@@ -526,10 +526,10 @@ GameEngine.prototype.update = function () {
         var onFire = false;
         var firePush = 45;
         var fireArr = [];
-        if(this.industries.length > 0) {fireArr.concat(this.industries)};
-        if (this.housingArr.length > 0) {fireArr.concat(this.housingArr)};
-        if (this.granaries.length > 0) {fireArr.concat(this.granaries)};
-        if (this.yards.length > 0) {fireArr.concat(this.yards)};
+        if (this.industries.length > 0) {fireArr = fireArr.concat(this.industries)};
+        if (this.housingArr.length > 0) {fireArr = fireArr.concat(this.housingArr)};
+        if (this.granaries.length > 0) {fireArr = fireArr.concat(this.granaries)};
+        if (this.yards.length > 0) {fireArr = fireArr.concat(this.yards)};
         var i;
         for (i = 0; i < this.entities.length; i++) {
             if (this.entities[i] instanceof huntLodge) {
@@ -537,16 +537,18 @@ GameEngine.prototype.update = function () {
             }
         }
 
-
+        console.log(fireArr);
         if (this.timer.gameTime - this.fireTime >= firePush && fireArr.length > 0) {
             this.fireTime = this.timer.gameTime;
             for (i = 0; i < fireArr.length; i++) {
                 //console.log(fireArr[i].fireResist);
                 if (Math.random() < fireArr[i].fireResist && !onFire) {
                    // console.log(true);
+                    this.map.alight(fireArr[i]);
+                    console.log("true");
                     onFire = true;
                 } else {
-                   //console.log(false);
+                   console.log(false);
                 }
             }
         }
