@@ -84,8 +84,8 @@ Map.prototype.addToLists = function (thing, list) {
 };
 
 Map.prototype.addToMaps = function (thing) {
-    for (i = parseInt(thing.x); i < parseInt(thing.x) + parseInt(thing.bWidth); i++) {
-        for (j = parseInt(thing.y); j < parseInt(thing.y) + parseInt(thing.bHeight); j++) {
+    for (i = thing.x; i < thing.x + thing.bWidth; i++) {
+        for (j = thing.y; j < thing.y + thing.bHeight; j++) {
             walkerMap[j][i] = 2;
             this.mapList[j][i].thing = thing;
         }
