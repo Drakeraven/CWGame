@@ -537,18 +537,13 @@ GameEngine.prototype.update = function () {
             }
         }
 
-        console.log(fireArr);
         if (this.timer.gameTime - this.fireTime >= firePush && fireArr.length > 0) {
             this.fireTime = this.timer.gameTime;
             for (i = 0; i < fireArr.length; i++) {
-                //console.log(fireArr[i].fireResist);
                 if (Math.random() < fireArr[i].fireResist && !onFire) {
-                   // console.log(true);
                     this.map.alight(fireArr[i]);
-                    console.log("true");
                     onFire = true;
                 } else {
-                   console.log(false);
                 }
             }
         }
