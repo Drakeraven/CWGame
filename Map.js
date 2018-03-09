@@ -45,8 +45,8 @@ Map.prototype.clearWalkers = function(thing) {
     }
   }
 }
-// adds a fire animation to the tiles on the map in a given location coresponding to
-// the coordinates coresponding to the original bHeight and bWidth
+// adds a fire animation to the tiles on the map in a given location corresponding to
+// the coordinates corresponding to the original bHeight and bWidth
 // of the building caught on fire
 Map.prototype.addFire = function(x, y, width, height) {
   for (let i = x; i < x + width; i+= 1) {
