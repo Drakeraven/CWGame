@@ -244,7 +244,8 @@ GameEngine.prototype.clearItems = function (x, y) {
         if (walkerMap[y][x] == 1) {
             this.removeRoad(x, y);
         } else if (walkerMap[y][x] == 2) {
-            if (!(this.map.mapList[y][x].thing instanceof Palace)) {
+            if (!(this.map.mapList[y][x].thing instanceof Palace) &&
+                !(this.map.mapList[y][x].thing instanceof Fire)) {
                 this.removeBuilding(x, y);
             }
         }

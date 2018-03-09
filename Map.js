@@ -16,12 +16,32 @@ Map.prototype.addThing = function (thing, list) {
     return true;
 }
 
+// replaces a given building with a fire animation
+// which is removed from the map after 20 seconds
 Map.prototype.alight = function (thing) {
   let x = parseInt(thing.x);
   let y = parseInt(thing.y);
   let width = parseInt(thing.bWidth);
   let height = parseInt(thing.bHeight);
   this.game.removeBuilding(x, y);
+  this.clearWalkers(thing);
+  this.addFire(x, y, width, height);
+  this.removeFire(x, y, width, height);
+}
+
+// runs through gameEngine's list of walkers and removes them from the game
+// if any have a reference to this building
+Map.prototype.clearWalkers = function(thing) {
+  for(let i = 0; i < this.game.walkers.length; i++) {
+    if(this.game.walkers[i] === thing) {
+      this.game.walkers[i].removeFromWorld = true;
+    }
+  }
+}
+// adds a fire animation to the tiles on the map in a given location coresponding to
+// the coordinates coresponding to the original bHeight and bWidth
+// of the building caught on fire
+Map.prototype.addFire = function(x, y, width, height) {
   for (let i = x; i < x + width; i+= 1) {
       for (let j = y; j < y + height; j+= 1) {
           var fire = new Fire(this.game, i, j);
@@ -29,6 +49,12 @@ Map.prototype.alight = function (thing) {
           this.addToMaps(fire);
       }
   }
+}
+
+// removes fire animation from the map after an interval of 20 seconds
+// iterates through the coordinates coresponding to the original bHeight and bWidth
+// of the building caught on fire
+Map.prototype.removeFire = function(x, y, width, height) {
   var that = this;
   setTimeout(function(){
     for (let i = x; i < x + width; i++) {
@@ -37,6 +63,7 @@ Map.prototype.alight = function (thing) {
         }
     }}, 20000);
 }
+
 // reads in map tiles from a given 2d array of integers
 // creating tile objects with corresponding types (grass = 0, road = 1, buildings = 2, trees = 3)
 // each tile object is stored in a new 2d array this.maplist
