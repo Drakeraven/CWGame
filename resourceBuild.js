@@ -170,7 +170,7 @@ huntLodge.prototype.update = function () {
             if (this.game.walkers[i] instanceof Hunter && this.game.walkers[i].hunted) {
                 this.foodStore += 100;
                 this.game.walkers[i].removeFromWorld = true;
-                console.log(this.foodStore);
+                //console.log(this.foodStore);
             }
         }
     }

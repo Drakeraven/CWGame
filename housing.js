@@ -13,13 +13,18 @@ function house(img, game, x, y, bWidth, bHeight) {
     this.destroyedAnim = null;
     this.currAnim = null;
     this.animFrame = [];
+    this.prevPop = 0; 
     this.numHoused = 30;
     this.placeCost = null;
     this.waterLevel = false;
     this.foodLevel = 0;
+    this.foodMax = 200;
     this.weaverLevel = 0;
+    this.weaverMax = 100;
     this.potterLevel = 0;
+    this.potterMax = 100; 
     this.brewerLevel = 0;
+    this.brewerMax = 100; 
     this.renderX = 31;
     this.renderY = 24;
     this.foodTime = 0;
@@ -47,12 +52,12 @@ house.prototype.update = function () {
 
     for (var i = 0; i < this.game.walkers.length; i++) {
         if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
-            console.log(this.game.walkers[i].loadType);
+            //console.log(this.game.walkers[i].loadType);
             if (this.game.walkers[i].loadType === "meat") {
                 if (this.foodLevel + this.game.walkers[i].loadCount <= this.foodMax) {
                     this.foodLevel += this.game.walkers[i].loadCount;
                     this.game.walkers[i].removeFromWorld = true;
-                    console.log("Food Amt: ", this.foodSupply)
+                    //console.log("Food Amt: ", this.foodSupply)
                 }
             }
             if (this.game.walkers[i].bRef == this) this.game.walkers[i].removeFromWorld = true;
@@ -95,15 +100,15 @@ house.prototype.update = function () {
         }
     }
     this.currAnim = this.animFrame[this.level];
-    this.numHoused = (this.level + 1) * 30;
+    
     //add later: if prosperity over certain %, upgrade?
 
     if (this.game.timer.gameTime - this.foodTime >= this.pushTime) {
         this.foodTime = this.game.timer.gameTime;
-        this.foodLevel -= Math.floor( this.numHoused * 0.15 );
-        this.potterLevel -= Math.floor( this.numHoused * 0.15 );
-        this.brewerLevel -= Math.floor( this.numHoused * 0.15 );
-        this.weaverLevel -= Math.floor( this.numHoused * 0.15 );
+        this.foodLevel -= Math.floor( this.numHoused * 0.10 );
+        this.potterLevel -= Math.floor( this.numHoused * 0.10 );
+        this.brewerLevel -= Math.floor( this.numHoused * 0.10 );
+        this.weaverLevel -= Math.floor( this.numHoused * 0.10 );
         if (this.foodLevel < 1) {
             this.foodLevel = 0;
         }
@@ -119,20 +124,20 @@ house.prototype.update = function () {
     }
 
     //UPDATE Pop:
-    currentPop = 0;
+    /*currentPop = 0;
     for (i = 0; i < this.game.housingArr.length; i++) {
         currentPop += this.numHoused;
-    }
+    }*/
 
-    if (currentPop > this.game.gameWorld.population) {
-        this.game.gameWorld.addPop(currentPop - this.game.gameWorld.population);
+    if (this.prevPop < this.numHoused) {
+        this.game.gameWorld.addPop(this.numHoused - this.prevPop);
         this.game.gameWorld.workForce = this.game.gameWorld.getWorkForce();
     } else {
-        //this.game.gameWorld.remPop(this.game.gameWorld.population - currentPop);
+        this.game.gameWorld.remPop(this.prevPop - this.numHoused);
         //this.game.gameWorld.workForce = this.game.gameWorld.getWorkForce();
     }
-    //Iterate over all buildings in array, add/subtract difference between gameWorld pop and array pop
-    //PUSH POP TO INDUSTRY LIST > check gameWorld for population stat > 40%? > only give each industry building what they need
+    this.prevPop = this.numHoused; 
+    this.numHoused = (this.level + 1) * 30;
 }
 
 house.prototype.draw = function (ctx) {
@@ -167,6 +172,9 @@ Housing.prototype.constructor = Housing;
 
 house.prototype.toStringStats = function() {
     str = "Housed: " + this.numHoused + "\nHas water: " + this.waterLevel +
-            "\nFood access: " + this.foodLevel + "\n";
+            "\nFood access: " + this.foodLevel + 
+            "\nBeer access: " + this.brewerLevel + 
+            "\nLinen access: " + this.weaverLevel + 
+            "\nPotter access: " + this.potterLevel ;
     return str;
 }

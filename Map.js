@@ -85,7 +85,7 @@ Map.prototype.readMap = function (mapData) {
 Map.prototype.isInMapBoundaries = function (thing) {
     let x = thing.x;
     let y = thing.y;
-    if (x < 0 || y < 0 || x > this.mapList.length || y > this.mapList.length) {
+    if (x < 0 || y < 0 || x > (this.mapList.length - thing.bWidth)|| y > (this.mapList.length - thing.bHeight)) {
         return false;
     }
     return true;

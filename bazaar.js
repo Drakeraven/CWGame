@@ -21,11 +21,11 @@ function Bazaar(game, x, y) {
     this.range = 30;
     this.foodLevel = 0;
     this.foodMax = 750; 
-    this.weaverLevel = 110;
+    this.weaverLevel = 0;
     this.weaverSell = 40;  
-    this.potterLevel = 110;
+    this.potterLevel = 0;
     this.potterSell = 35; 
-    this.brewerLevel = 110;
+    this.brewerLevel = 0;
     this.brewerSell = 45;
     this.pushAmt = 10; 
     this.maxRes = 500;
@@ -126,22 +126,26 @@ Bazaar.prototype.update = function () {
                 thisHouse = this.game.housingArr[i];
                 rangePop += thisHouse.numHoused;
                 if (arrived(this.radius, thisHouse.x, thisHouse.y, this, this)) { 
-                    if (this.foodLevel > thisHouse.level * this.pushAmt * 2) { 
+                    if (this.foodLevel > thisHouse.level * this.pushAmt * 2 
+                        && thisHouse.level * this.pushAmt * 2 <= thisHouse.foodMax - thisHouse.foodLevel) { 
                         //this.genWalker(this.game.housingArr[i], thisHouse.level * 20, "food", this.game.housingArr[i]);
                         thisHouse.foodLevel += thisHouse.level * this.pushAmt * 2;
                         this.foodLevel -= thisHouse.level * this.pushAmt * 2; 
                     } 
-                    if (this.potterLevel > thisHouse.level * this.pushAmt) {
+                    if (this.potterLevel > thisHouse.level * this.pushAmt 
+                        && thisHouse.level * this.pushAmt <= thisHouse.potterMax - thisHouse.potterLevel) {
                         thisHouse.potterLevel += thisHouse.level * this.pushAmt; 
                         this.potterLevel -= thisHouse.level * this.pushAmt; 
                         amtPushed += thisHouse.level * this.pushAmt; 
                     }
-                    if (this.weaverLevel > thisHouse.level * this.pushAmt) { 
+                    if (this.weaverLevel > thisHouse.level * this.pushAmt
+                        && thisHouse.level * this.pushAmt <= thisHouse.weaverMax - thisHouse.weaverLevel) { 
                         thisHouse.weaverLevel += thisHouse.level * this.pushAmt; 
                         this.weaverLevel -= thisHouse.level * this.pushAmt; 
                         amtPushed += thisHouse.level * this.pushAmt;
                     } 
-                    if (this.brewerLevel > thisHouse.level * this.pushAmt) { 
+                    if (this.brewerLevel > thisHouse.level * this.pushAmt 
+                        && thisHouse.level * this.pushAmt <= thisHouse.brewerMax - thisHouse.brewerLevel) { 
                         thisHouse.brewerLevel += thisHouse.level * this.pushAmt; 
                         this.brewerLevel -= thisHouse.level * this.pushAmt; 
                         amtPushed += thisHouse.level * this.pushAmt;
@@ -178,19 +182,19 @@ Bazaar.prototype.draw = function (ctx) {
 Bazaar.prototype.genWalker = function (destBuild, funds, type, bRef, hRef) {
     found = false;
     let indie = destBuild;
-    console.log(indie);
+    //console.log(indie);
     //WADDUP BETCH
     let canWalk = generateWalker(this.roadTiles, indie.roadTiles);
     if (canWalk != null) {
         found = true;
-        console.log(canWalk);
+       // console.log(canWalk);
         this.pushBoi(canWalk, funds, type, bRef, hRef);
 
     }
 }
 
 Bazaar.prototype.pushBoi = function (canWalk, funds, type, bRef, hRef) {
-    console.log(funds, type);
+    //console.log(funds, type);
     if (type === "gold") {
         var glcm = new glCartMan(this.game, ASSET_MANAGER.getAsset("./img/goldCartMan.png"), walkerMap, canWalk[0], canWalk[1], bRef);
         glcm.loadCount = funds;
@@ -207,6 +211,13 @@ Bazaar.prototype.pushBoi = function (canWalk, funds, type, bRef, hRef) {
 
 Bazaar.prototype.toStringStats = function () {
     str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded +
-            "\nRange: " + this.range + "\nFunds: " + this.funds + "\n";
+            "\nRange: " + this.range + "\nFunds: " + this.funds +
+            "\nFood lvl: " + this.foodLevel + 
+            "\nBeer lvl: " + this.brewerLevel + 
+           // "\Beer sale: " + this.brewerSell +
+            "\nLinen lvl: " + this.weaverLevel +
+           // "\Linen sale: " + this.weaverSell + 
+            "\nPotter lvl: " + this.potterLevel ;
+           // "\nPotter sale: " + this.potterSell ;
     return str;
 }
