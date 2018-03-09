@@ -109,6 +109,26 @@ Map.prototype.canAddToMap = function (thing) {
     return true;
 };
 
+//TODO FOR FUTURE: THESE FUNCTIONS SHOULD BE USED BY EVERYONE, AND I SHOULD ADD 3RD PARAM REPRESNGINT BUFFER for each building/object
+//Checks if you can add road to map, mainly checks for overlap
+Map.prototype.canAddRoadToMap = function (x, y) {
+    for (i = x; i < x + 1; i++) {//roads are 1 by 1
+        for (j = y; j < y + 1; j++) {
+            if (this.mapList[j][i].tileType != 0 || this.mapList[j][i].thing != null) {
+                return false;
+            }
+        }
+    }
+    return true;
+};
+//Checks same as isinmapboundaries, except just for x and y
+Map.prototype.roadIsInMapBoundaries = function (x, y) {
+    if (x < 0 || y < 0 || x > (this.mapList.length - 1)|| y > (this.mapList.length - 1)) {
+        return false;
+    }
+    return true;
+};
+
 Map.prototype.addToLists = function (thing, list) {
     if (list) {
         list.push(thing);

@@ -48,7 +48,7 @@ GameEngine.prototype.merge = function (left, right) {
         } else if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) === this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight)) {
             result.push(left[indexLeft]);
             indexLeft++;
-        }else if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) > this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight)){
+        } else if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) > this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight)) {
             result.push(right[indexRight]);
             indexRight++;
         }
@@ -138,32 +138,46 @@ GameEngine.prototype.isototwodY = function (x, y) {
 
 //sets tiles to original.
 GameEngine.prototype.removeRoad = function (x, y) {
-    walkerMap[y][x] = mapData[x][y];
-    this.map.mapList[y][x].tileType = mapData[x][y];
-    let str = "";
-    if (mapData[y][x] === 0 || mapData[y][x] === 1) {
-        str = this.map.mapList[y][x].grassImage;
-    } else if (mapData[x][y] === 3) {
-        str = this.map.maplist[y][x].treeImage;
+    if (this.map.roadIsInMapBoundaries(x, y)) {
+        walkerMap[y][x] = mapData[x][y];
+        this.map.mapList[y][x].tileType = mapData[x][y];
+        let str = "";
+        if (mapData[y][x] === 0 || mapData[y][x] === 1) {
+            str = this.map.mapList[y][x].grassImage;
+        } else if (mapData[x][y] === 3) {
+            str = this.map.maplist[y][x].treeImage;
+        }
+        gameEngine.map.mapList[y][x].image.src = str;
+        currentMessage = "Road Removed!";
+    } else {
+        currentMessage = "Can't remove here or nothing to remove!";
+        
     }
-    gameEngine.map.mapList[y][x].image.src = str;
+    updateCurrentMessage();
 }
 
 //"removes" building from map
 GameEngine.prototype.removeBuilding = function (x, y) {
     if (this.map.mapList[y][x].thing) {
         let thing = this.map.mapList[y][x].thing;
-        walkerMap[y][x] = mapData[x][y];
-        this.map.mapList[y][x].tileType = mapData[x][y];
-        this.map.mapList[y][x].thing.removeFromWorld = true;
-        for (i = thing.x; i < thing.x + thing.bWidth; i++) {
-            for (j = thing.y; j < thing.y + thing.bHeight; j++) {
-                if (this.map.mapList[j][i].thing != null) {
-                    this.map.mapList[j][i].thing = null;
-                    walkerMap[j][i] = mapData[i][j];
+        if (this.map.isInMapBoundaries(thing)) {
+            walkerMap[y][x] = mapData[x][y];
+            this.map.mapList[y][x].tileType = mapData[x][y];
+            this.map.mapList[y][x].thing.removeFromWorld = true;
+            for (i = thing.x; i < thing.x + thing.bWidth; i++) {
+                for (j = thing.y; j < thing.y + thing.bHeight; j++) {
+                    if (this.map.mapList[j][i].thing != null) {
+                        this.map.mapList[j][i].thing = null;
+                        walkerMap[j][i] = mapData[i][j];
+                    }
                 }
             }
+            currentMessage = "Building Removed!";
+        } else {
+            currentMessage = "Can't remove buildings here!";
+            
         }
+        updateCurrentMessage();
     }
 }
 
@@ -233,14 +247,23 @@ GameEngine.prototype.updateHoverEntityPosition = function (x, y) {
     this.hoverEntity.y = y;
 }
 GameEngine.prototype.drawRoad = function (x, y) {
-    if (isDrawing && (walkerMap[y][x] != 2) && walkerMap[y][x] != 3) {
-        walkerMap[y][x] = 1;
-        this.map.mapList[y][x].tileType = 1;
-        this.map.mapList[y][x].image.src = this.map.mapList[y][x].roadImage;
+    if (isDrawing && this.map.roadIsInMapBoundaries(x, y)) {
+        if (this.map.canAddRoadToMap(x, y)) {
+            walkerMap[y][x] = 1;
+            this.map.mapList[y][x].tileType = 1;
+            this.map.mapList[y][x].image.src = this.map.mapList[y][x].roadImage;
+            currentMessage = "Road Added!"
+        } else {
+            currentMessage = "Can't add road here!"
+        }
+    } else {
+        currentMessage = "Can't add road here!"
+       
     }
+    updateCurrentMessage();
 }
 GameEngine.prototype.clearItems = function (x, y) {
-    if (isClearing) {
+    if (isClearing && this.map.roadIsInMapBoundaries(x, y)) {
         if (walkerMap[y][x] == 1) {
             this.removeRoad(x, y);
         } else if (walkerMap[y][x] == 2) {
@@ -256,6 +279,7 @@ GameEngine.prototype.maxTaxHousesReached = function (entity) {//TODO FOR LATER- 
     if ((entity instanceof TaxHouse) &&
         (this.gameWorld.numberOfTaxHouses >= this.gameWorld.maxNumberOfTaxHouses)) {
         currentMessage = "Max number of Tax Houses Reached!";
+        updateCurrentMessage();
         return true;
     }
     return false;//as in, max not reached yet!
@@ -264,6 +288,7 @@ GameEngine.prototype.maxGoldMinesReached = function (entity) {//TODO FOR LATER- 
     if ((entity instanceof goldMine) &&
         (this.gameWorld.numberOfGoldMines >= this.gameWorld.maxNumberOfGoldMines)) {
         currentMessage = "Max number of Gold Mines Reached!";
+        updateCurrentMessage();
         return true;
 
     }
@@ -476,17 +501,19 @@ GameEngine.prototype.draw = function () {
 
     this.ctx.restore();
 }
-
+var numberOfBazaar = 0;
 GameEngine.prototype.checkGoals = function (currentGoal) {
+    let numberOfBazaar = 0;
+    let that = this;
     switch (currentGoal) {
         case 0:
             if (this.gameWorld.population > 500) {
-              //  gameIsStillGoing = false;
-             //   $('.game-container').hide();
-           //$('#EndGame').show();
-           // For testing end game panel! change goal to 100! Comment stuff below out!
-               this.gameWorld.currentGoal++;
-               updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
+                //  gameIsStillGoing = false;
+                //   $('.game-container').hide();
+                //$('#EndGame').show();
+                // For testing end game panel! change goal to 100! Comment stuff below out!
+                this.gameWorld.currentGoal++;
+                updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
             }
             //console.log("Checking goal 1");
             break;
@@ -499,10 +526,13 @@ GameEngine.prototype.checkGoals = function (currentGoal) {
 
             break;
         case 2:
-            let numberOfBazaar = this.entities.filter(x => x instanceof Bazaar).length;
-            if (numberOfBazaar > 3) {
+            numberOfBazaar = that.entities.filter(x => (x instanceof Bazaar)).length;
+            if (numberOfBazaar >= 3) {
                 gameIsStillGoing = false;
                 this.gameWorld.currentGoal++;
+                $("#Goal-Information").hide();
+                $('.game-container').hide();
+                $('#EndGame').show();
                 //updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
             }
             break;
@@ -528,10 +558,10 @@ GameEngine.prototype.update = function () {
         var onFire = false;
         var firePush = 45;
         var fireArr = [];
-        if (this.industries.length > 0) {fireArr = fireArr.concat(this.industries)};
-        if (this.housingArr.length > 0) {fireArr = fireArr.concat(this.housingArr)};
-        if (this.granaries.length > 0) {fireArr = fireArr.concat(this.granaries)};
-        if (this.yards.length > 0) {fireArr = fireArr.concat(this.yards)};
+        if (this.industries.length > 0) { fireArr = fireArr.concat(this.industries) };
+        if (this.housingArr.length > 0) { fireArr = fireArr.concat(this.housingArr) };
+        if (this.granaries.length > 0) { fireArr = fireArr.concat(this.granaries) };
+        if (this.yards.length > 0) { fireArr = fireArr.concat(this.yards) };
         var i;
         for (i = 0; i < this.entities.length; i++) {
             if (this.entities[i] instanceof huntLodge) {
@@ -555,7 +585,7 @@ GameEngine.prototype.update = function () {
             this.gameWorld.palace.numEmployed = 0;
             this.gameWorld.palace.numEmployed = this.gameWorld.palace.numEmpNeeded;
             working -= this.gameWorld.palace.numEmployed;
-        } else if (working < this.gameWorld.palace.numEmpNeeded){
+        } else if (working < this.gameWorld.palace.numEmpNeeded) {
             this.gameWorld.palace.numEmployed = 0;
         }
 
@@ -615,7 +645,7 @@ GameEngine.prototype.update = function () {
             if ((entity instanceof TaxHouse || entity instanceof FireHouse) && working > entity.numEmpNeeded) {
                 entity.numEmployed = entity.numEmpNeeded;
                 working -= entity.numEmployed;
-            } else if ((entity instanceof TaxHouse || entity instanceof FireHouse) && working < entity.numEmpNeeded){
+            } else if ((entity instanceof TaxHouse || entity instanceof FireHouse) && working < entity.numEmpNeeded) {
                 entity.numEmployed = 0;
             }
             if (!entity.removeFromWorld) {
@@ -698,10 +728,12 @@ GameEngine.prototype.update = function () {
 
 
 GameEngine.prototype.loop = function () {
-    this.clockTick = this.timer.tick();
-    this.update();
-    this.draw();
-    this.space = null;
+    if (gameStillGoing) {
+        this.clockTick = this.timer.tick();
+        this.update();
+        this.draw();
+        this.space = null;
+    }
 }
 
 
