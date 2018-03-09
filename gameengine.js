@@ -414,6 +414,7 @@ GameEngine.prototype.addEntity = function (entity) {
     console.log(entity);
     console.log('added entity');
     this.entities.push(entity);
+    this.entities = mergeSort(this.entities);
 }
 
 GameEngine.prototype.addHouse = function (entity) {
