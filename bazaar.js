@@ -103,7 +103,7 @@ Bazaar.prototype.update = function () {
                         if (this.game.industries[i] instanceof Brewery && this.funds > 45) { 
                             //genwaker beer
                             this.genWalker(this.game.industries[i], 45, "beer", this.game.industries[i], this);
-                            this.funds -= 45; 
+                            this.funds -= 45;
                         }
                         if (this.game.industries[i] instanceof Weaver && this.funds > 50) {
                             //genwalker linen
