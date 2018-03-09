@@ -80,18 +80,19 @@ Walker4.prototype.walkPath = function () {
         this.isWalking = false;
         return;
     } else if (arriv) {
-        this.next = this.path.shift();
-        this.dX = setDirection(Math.floor(this.x), this.next.x);
-        this.dY = setDirection(Math.floor(this.y), this.next.y);
-        this.currAnimation = this.animation[setFace(this.dX, this.dY)];
+            this.stepsTaken = 0;
+            this.next = this.path.shift();
+            this.dX = setDirection(Math.floor(this.x), this.next.x);
+            this.dY = setDirection(Math.floor(this.y), this.next.y);
+            this.currAnimation = this.animation[setFace(this.dX, this.dY)];
     }
     this.x += this.dX * this.game.clockTick * speed;
     this.y += this.dY * this.game.clockTick * speed;
 }
 
 Walker4.prototype.draw = function (ctx) {
-    pt1 = this.game.twodtoisoX(this.x, this.y) + 27 - this.currAnimation.frameWidth / 2;
-    pt2 = this.game.twodtoisoY(this.x, this.y) + 10 - this.currAnimation.frameHeight / 2;
+    pt1 = this.game.twodtoisoX(this.x, this.y) + this.currAnimation.frameWidth - this.currAnimation.frameWidth / 2;
+    pt2 = this.game.twodtoisoY(this.x, this.y) - this.currAnimation.frameHeight / 3;
     //ctx.fillRect(pt1, pt2, 5, 5);
     this.currAnimation.drawFrame(this.game.clockTick, ctx, pt1, pt2);
     Entity.prototype.draw.call(this);

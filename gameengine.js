@@ -439,6 +439,7 @@ GameEngine.prototype.addEntity = function (entity) {
     console.log(entity);
     console.log('added entity');
     this.entities.push(entity);
+    this.entities = mergeSort(this.entities);
 }
 
 GameEngine.prototype.addHouse = function (entity) {
@@ -472,13 +473,14 @@ GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
     this.entities = this.mergeSort(this.entities);
-    for (var i = 0; i < this.map.mapList.length; i++) {
-        for (var j = 0; j < this.map.mapList[1].length; j++) {
+    for (let i = 0; i < this.map.mapList.length; i++) {
+      console.log(this.cameraoffY);
+        for (let j = 0; j < this.map.mapList[1].length; j++) {
             this.map.mapList[j][i].draw(this.ctx);
         }
     }
 
-    for (var i = 0; i < this.entities.length; i++) {
+    for (let i = 0; i < this.entities.length; i++) {
         this.entities[i].draw(this.ctx);
     }
 
@@ -693,11 +695,11 @@ GameEngine.prototype.update = function () {
 
         for (var i = this.industries.length - 1; i >= 0; --i) {
             if (this.industries[i].removeFromWorld) {
-                if (this.industries[i] instanceof Potter
+                /*if (this.industries[i] instanceof Potter
                     || this.industries[i] instanceof Weaver
                     || this.industries[i] instanceof Brewery) {
                     this.industries[i].remove();
-                }
+                }*/
                 this.industries.splice(i, 1);
             }
         }

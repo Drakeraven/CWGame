@@ -66,13 +66,13 @@ house.prototype.update = function () {
 
     if (!this.waterLevel) {
         this.level = 0;
-        this.renderX = 31;
-        this.renderY = 24;
+        this.renderX = 29;
+        this.renderY = 23;
     } else {
         if (this.waterLevel && this.foodLevel && this.potterLevel && this.weaverLevel && this.brewerLevel) {
             this.level = 5;
             this.renderX = 30;
-            this.renderY = 38;
+            this.renderY = 32;
             //change render x y
         } else if (this.waterLevel && this.foodLevel
             && ((this.potterLevel && this.weaverLevel)

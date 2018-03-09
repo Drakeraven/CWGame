@@ -19,12 +19,16 @@ Map.prototype.addThing = function (thing, list) {
 // replaces a given building with a fire animation
 // which is removed from the map after 20 seconds
 Map.prototype.alight = function (thing) {
+  let flame = new Audio("./audio/fire.MP3");
+  flame.volume = .5;
+  flame.load();
   let x = parseInt(thing.x);
   let y = parseInt(thing.y);
   this.clearWalkers(thing);
   let width = parseInt(thing.bWidth);
   let height = parseInt(thing.bHeight);
   this.game.removeBuilding(x, y);
+  flame.play();
   this.addFire(x, y, width, height);
   this.removeFire(x, y, width, height);
 }
@@ -32,15 +36,17 @@ Map.prototype.alight = function (thing) {
 // runs through gameEngine's list of walkers and removes them from the game
 // if any have a reference to this building
 Map.prototype.clearWalkers = function(thing) {
-  for(let i = 0; i < this.game.walkers.length; i++) {
-    if(this.game.walkers[i] === thing) {
+    for (let i = 0; i < this.game.walkers.length; i++) {
+        if (this.game.walkers[i].bRef == thing
+            || (this.game.walkers[i] instanceof bazLad
+            && this.game.walkers[i].hRef == thing)) {
       console.log('remove me!');
       this.game.walkers[i].removeFromWorld = true;
     }
   }
 }
-// adds a fire animation to the tiles on the map in a given location coresponding to
-// the coordinates coresponding to the original bHeight and bWidth
+// adds a fire animation to the tiles on the map in a given location corresponding to
+// the coordinates corresponding to the original bHeight and bWidth
 // of the building caught on fire
 Map.prototype.addFire = function(x, y, width, height) {
   for (let i = x; i < x + width; i+= 1) {
