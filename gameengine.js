@@ -138,32 +138,46 @@ GameEngine.prototype.isototwodY = function (x, y) {
 
 //sets tiles to original.
 GameEngine.prototype.removeRoad = function (x, y) {
-    walkerMap[y][x] = mapData[x][y];
-    this.map.mapList[y][x].tileType = mapData[x][y];
-    let str = "";
-    if (mapData[y][x] === 0 || mapData[y][x] === 1) {
-        str = this.map.mapList[y][x].grassImage;
-    } else if (mapData[x][y] === 3) {
-        str = this.map.maplist[y][x].treeImage;
+    if (this.map.roadIsInMapBoundaries(x, y)) {
+        walkerMap[y][x] = mapData[x][y];
+        this.map.mapList[y][x].tileType = mapData[x][y];
+        let str = "";
+        if (mapData[y][x] === 0 || mapData[y][x] === 1) {
+            str = this.map.mapList[y][x].grassImage;
+        } else if (mapData[x][y] === 3) {
+            str = this.map.maplist[y][x].treeImage;
+        }
+        gameEngine.map.mapList[y][x].image.src = str;
+        currentMessage = "Road Removed!";
+    } else {
+        currentMessage = "Can't remove here or nothing to remove!";
+        
     }
-    gameEngine.map.mapList[y][x].image.src = str;
+    updateCurrentMessage();
 }
 
 //"removes" building from map
 GameEngine.prototype.removeBuilding = function (x, y) {
     if (this.map.mapList[y][x].thing) {
         let thing = this.map.mapList[y][x].thing;
-        walkerMap[y][x] = mapData[x][y];
-        this.map.mapList[y][x].tileType = mapData[x][y];
-        this.map.mapList[y][x].thing.removeFromWorld = true;
-        for (i = thing.x; i < thing.x + thing.bWidth; i++) {
-            for (j = thing.y; j < thing.y + thing.bHeight; j++) {
-                if (this.map.mapList[j][i].thing != null) {
-                    this.map.mapList[j][i].thing = null;
-                    walkerMap[j][i] = mapData[i][j];
+        if (this.map.isInMapBoundaries(thing)) {
+            walkerMap[y][x] = mapData[x][y];
+            this.map.mapList[y][x].tileType = mapData[x][y];
+            this.map.mapList[y][x].thing.removeFromWorld = true;
+            for (i = thing.x; i < thing.x + thing.bWidth; i++) {
+                for (j = thing.y; j < thing.y + thing.bHeight; j++) {
+                    if (this.map.mapList[j][i].thing != null) {
+                        this.map.mapList[j][i].thing = null;
+                        walkerMap[j][i] = mapData[i][j];
+                    }
                 }
             }
+            currentMessage = "Building Removed!";
+        } else {
+            currentMessage = "Can't remove buildings here!";
+            
         }
+        updateCurrentMessage();
     }
 }
 
@@ -233,14 +247,23 @@ GameEngine.prototype.updateHoverEntityPosition = function (x, y) {
     this.hoverEntity.y = y;
 }
 GameEngine.prototype.drawRoad = function (x, y) {
-    if (isDrawing) {
-        walkerMap[y][x] = 1;
-        this.map.mapList[y][x].tileType = 1;
-        this.map.mapList[y][x].image.src = this.map.mapList[y][x].roadImage;
+    if (isDrawing && this.map.roadIsInMapBoundaries(x, y)) {
+        if (this.map.canAddRoadToMap(x, y)) {
+            walkerMap[y][x] = 1;
+            this.map.mapList[y][x].tileType = 1;
+            this.map.mapList[y][x].image.src = this.map.mapList[y][x].roadImage;
+            currentMessage = "Road Added!"
+        } else {
+            currentMessage = "Can't add road here!"
+        }
+    } else {
+        currentMessage = "Can't add road here!"
+       
     }
+    updateCurrentMessage();
 }
 GameEngine.prototype.clearItems = function (x, y) {
-    if (isClearing) {
+    if (isClearing && this.map.roadIsInMapBoundaries(x, y)) {
         if (walkerMap[y][x] == 1) {
             this.removeRoad(x, y);
         } else if (walkerMap[y][x] == 2) {
@@ -256,6 +279,7 @@ GameEngine.prototype.maxTaxHousesReached = function (entity) {//TODO FOR LATER- 
     if ((entity instanceof TaxHouse) &&
         (this.gameWorld.numberOfTaxHouses >= this.gameWorld.maxNumberOfTaxHouses)) {
         currentMessage = "Max number of Tax Houses Reached!";
+        updateCurrentMessage();
         return true;
     }
     return false;//as in, max not reached yet!
@@ -264,6 +288,7 @@ GameEngine.prototype.maxGoldMinesReached = function (entity) {//TODO FOR LATER- 
     if ((entity instanceof goldMine) &&
         (this.gameWorld.numberOfGoldMines >= this.gameWorld.maxNumberOfGoldMines)) {
         currentMessage = "Max number of Gold Mines Reached!";
+        updateCurrentMessage();
         return true;
 
     }
@@ -499,7 +524,7 @@ GameEngine.prototype.checkGoals = function (currentGoal) {
 
             break;
         case 2:
-           numberOfBazaar = that.entities.filter(x => (x instanceof Bazaar)).length;
+            numberOfBazaar = that.entities.filter(x => (x instanceof Bazaar)).length;
             if (numberOfBazaar >= 3) {
                 gameIsStillGoing = false;
                 this.gameWorld.currentGoal++;
