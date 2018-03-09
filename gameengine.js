@@ -544,7 +544,6 @@ GameEngine.prototype.update = function () {
                     this.map.alight(fireArr[i]);
                     onFire = true;
                 } else {
-                   console.log(false);
                 }
             }
         }

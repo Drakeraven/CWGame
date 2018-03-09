@@ -13,6 +13,7 @@ function house(img, game, x, y, bWidth, bHeight) {
     this.destroyedAnim = null;
     this.currAnim = null;
     this.animFrame = [];
+    this.prevPop = 0; 
     this.numHoused = 30;
     this.placeCost = null;
     this.waterLevel = false;
@@ -99,7 +100,7 @@ house.prototype.update = function () {
         }
     }
     this.currAnim = this.animFrame[this.level];
-    this.numHoused = (this.level + 1) * 30;
+    
     //add later: if prosperity over certain %, upgrade?
 
     if (this.game.timer.gameTime - this.foodTime >= this.pushTime) {
@@ -123,20 +124,20 @@ house.prototype.update = function () {
     }
 
     //UPDATE Pop:
-    currentPop = 0;
+    /*currentPop = 0;
     for (i = 0; i < this.game.housingArr.length; i++) {
         currentPop += this.numHoused;
-    }
+    }*/
 
-    if (currentPop > this.game.gameWorld.population) {
-        this.game.gameWorld.addPop(currentPop - this.game.gameWorld.population);
+    if (this.prevPop < this.numHoused) {
+        this.game.gameWorld.addPop(this.numHoused - this.prevPop);
         this.game.gameWorld.workForce = this.game.gameWorld.getWorkForce();
     } else {
-        this.game.gameWorld.remPop(this.game.gameWorld.population - currentPop);
+        this.game.gameWorld.remPop(this.prevPop - this.numHoused);
         //this.game.gameWorld.workForce = this.game.gameWorld.getWorkForce();
     }
-    //Iterate over all buildings in array, add/subtract difference between gameWorld pop and array pop
-    //PUSH POP TO INDUSTRY LIST > check gameWorld for population stat > 40%? > only give each industry building what they need
+    this.prevPop = this.numHoused; 
+    this.numHoused = (this.level + 1) * 30;
 }
 
 house.prototype.draw = function (ctx) {
