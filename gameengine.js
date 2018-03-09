@@ -665,11 +665,11 @@ GameEngine.prototype.update = function () {
 
         for (var i = this.industries.length - 1; i >= 0; --i) {
             if (this.industries[i].removeFromWorld) {
-                if (this.industries[i] instanceof Potter
+                /*if (this.industries[i] instanceof Potter
                     || this.industries[i] instanceof Weaver
                     || this.industries[i] instanceof Brewery) {
                     this.industries[i].remove();
-                }
+                }*/
                 this.industries.splice(i, 1);
             }
         }
