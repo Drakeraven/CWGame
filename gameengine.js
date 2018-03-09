@@ -448,13 +448,14 @@ GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
     this.entities = this.mergeSort(this.entities);
-    for (var i = 0; i < this.map.mapList.length; i++) {
-        for (var j = 0; j < this.map.mapList[1].length; j++) {
+    for (let i = 0; i < this.map.mapList.length; i++) {
+      console.log(this.cameraoffY);
+        for (let j = 0; j < this.map.mapList[1].length; j++) {
             this.map.mapList[j][i].draw(this.ctx);
         }
     }
 
-    for (var i = 0; i < this.entities.length; i++) {
+    for (let i = 0; i < this.entities.length; i++) {
         this.entities[i].draw(this.ctx);
     }
 
