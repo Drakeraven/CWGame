@@ -47,7 +47,6 @@ GameEngine.prototype.merge = function (left, right) {
             indexLeft++;
         } else if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) === this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight)) {
             result.push(left[indexLeft]);
-            console.log('hi');
             indexLeft++;
         }else if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) > this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight)){
             result.push(right[indexRight]);
@@ -116,8 +115,8 @@ GameEngine.prototype.start = function () {
 }
 
 GameEngine.prototype.initcamera = function () {
-    this.cameraoffX = (this.map.mapList.length / 2);
-    this.cameraoffY = (this.map.mapList[1].length / 2) * 2;
+    this.cameraoffX = (this.map.mapList.length / 2) - 40;
+    this.cameraoffY = (this.map.mapList[1].length / 2) + 30;
 }
 
 //2D to ISO functiosn to manipulate X and Y

@@ -44,8 +44,8 @@ resourceBuild.prototype.update = function () {
                     //console.log(walkerMap);
                     let huntah = new Hunter(this.game, ASSET_MANAGER.getAsset("./img/Hunter1.5.png"),
                         ASSET_MANAGER.getAsset("./img/Hunter2.png"), walkerMap, this.x, this.y, this);
-                    huntah.destX = 45;//FOR TESTING, NEEDS A FOREST COORD
-                    huntah.destY = 66;
+                    huntah.destX = 48;//FOR TESTING, NEEDS A FOREST COORD
+                    huntah.destY = 49;
                     this.game.addWalker(huntah);
                 }
 
@@ -181,4 +181,3 @@ huntLodge.prototype.update = function () {
 
 
 }
-
