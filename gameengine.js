@@ -48,7 +48,7 @@ GameEngine.prototype.merge = function (left, right) {
         } else if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) === this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight)) {
             result.push(left[indexLeft]);
             indexLeft++;
-        }else if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) > this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight)){
+        } else if (this.twodtoisoY(left[indexLeft].x + left[indexLeft].bWidth, left[indexLeft].y + left[indexLeft].bHeight) > this.twodtoisoY(right[indexRight].x + right[indexRight].bWidth, right[indexRight].y + right[indexRight].bHeight)) {
             result.push(right[indexRight]);
             indexRight++;
         }
@@ -474,17 +474,19 @@ GameEngine.prototype.draw = function () {
 
     this.ctx.restore();
 }
-
+var numberOfBazaar = 0;
 GameEngine.prototype.checkGoals = function (currentGoal) {
+    let numberOfBazaar = 0;
+    let that = this;
     switch (currentGoal) {
         case 0:
             if (this.gameWorld.population > 500) {
-              //  gameIsStillGoing = false;
-             //   $('.game-container').hide();
-           //$('#EndGame').show();
-           // For testing end game panel! change goal to 100! Comment stuff below out!
-               this.gameWorld.currentGoal++;
-               updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
+                //  gameIsStillGoing = false;
+                //   $('.game-container').hide();
+                //$('#EndGame').show();
+                // For testing end game panel! change goal to 100! Comment stuff below out!
+                this.gameWorld.currentGoal++;
+                updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
             }
             //console.log("Checking goal 1");
             break;
@@ -497,10 +499,13 @@ GameEngine.prototype.checkGoals = function (currentGoal) {
 
             break;
         case 2:
-            let numberOfBazaar = this.entities.filter(x => x instanceof Bazaar).length;
-            if (numberOfBazaar > 3) {
+           numberOfBazaar = that.entities.filter(x => (x instanceof Bazaar)).length;
+            if (numberOfBazaar >= 3) {
                 gameIsStillGoing = false;
                 this.gameWorld.currentGoal++;
+                $("#Goal-Information").hide();
+                $('.game-container').hide();
+                $('#EndGame').show();
                 //updateGoal(this.gameWorld.goals[this.gameWorld.currentGoal]);
             }
             break;
@@ -526,10 +531,10 @@ GameEngine.prototype.update = function () {
         var onFire = false;
         var firePush = 45;
         var fireArr = [];
-        if (this.industries.length > 0) {fireArr = fireArr.concat(this.industries)};
-        if (this.housingArr.length > 0) {fireArr = fireArr.concat(this.housingArr)};
-        if (this.granaries.length > 0) {fireArr = fireArr.concat(this.granaries)};
-        if (this.yards.length > 0) {fireArr = fireArr.concat(this.yards)};
+        if (this.industries.length > 0) { fireArr = fireArr.concat(this.industries) };
+        if (this.housingArr.length > 0) { fireArr = fireArr.concat(this.housingArr) };
+        if (this.granaries.length > 0) { fireArr = fireArr.concat(this.granaries) };
+        if (this.yards.length > 0) { fireArr = fireArr.concat(this.yards) };
         var i;
         for (i = 0; i < this.entities.length; i++) {
             if (this.entities[i] instanceof huntLodge) {
@@ -553,7 +558,7 @@ GameEngine.prototype.update = function () {
             this.gameWorld.palace.numEmployed = 0;
             this.gameWorld.palace.numEmployed = this.gameWorld.palace.numEmpNeeded;
             working -= this.gameWorld.palace.numEmployed;
-        } else if (working < this.gameWorld.palace.numEmpNeeded){
+        } else if (working < this.gameWorld.palace.numEmpNeeded) {
             this.gameWorld.palace.numEmployed = 0;
         }
 
@@ -613,7 +618,7 @@ GameEngine.prototype.update = function () {
             if ((entity instanceof TaxHouse || entity instanceof FireHouse) && working > entity.numEmpNeeded) {
                 entity.numEmployed = entity.numEmpNeeded;
                 working -= entity.numEmployed;
-            } else if ((entity instanceof TaxHouse || entity instanceof FireHouse) && working < entity.numEmpNeeded){
+            } else if ((entity instanceof TaxHouse || entity instanceof FireHouse) && working < entity.numEmpNeeded) {
                 entity.numEmployed = 0;
             }
             if (!entity.removeFromWorld) {
@@ -696,10 +701,12 @@ GameEngine.prototype.update = function () {
 
 
 GameEngine.prototype.loop = function () {
-    this.clockTick = this.timer.tick();
-    this.update();
-    this.draw();
-    this.space = null;
+    if (gameStillGoing) {
+        this.clockTick = this.timer.tick();
+        this.update();
+        this.draw();
+        this.space = null;
+    }
 }
 
 
