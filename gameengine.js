@@ -234,7 +234,6 @@ GameEngine.prototype.updateHoverEntityPosition = function (x, y) {
 }
 GameEngine.prototype.drawRoad = function (x, y) {
     if (isDrawing && (walkerMap[y][x] != 2) && walkerMap[y][x] != 3) {
-        console.log(walkerMap[y][x]);
         walkerMap[y][x] = 1;
         this.map.mapList[y][x].tileType = 1;
         this.map.mapList[y][x].image.src = this.map.mapList[y][x].roadImage;
