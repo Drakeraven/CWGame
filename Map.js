@@ -21,10 +21,10 @@ Map.prototype.addThing = function (thing, list) {
 Map.prototype.alight = function (thing) {
   let x = parseInt(thing.x);
   let y = parseInt(thing.y);
+  this.clearWalkers(thing);
   let width = parseInt(thing.bWidth);
   let height = parseInt(thing.bHeight);
   this.game.removeBuilding(x, y);
-  this.clearWalkers(thing);
   this.addFire(x, y, width, height);
   this.removeFire(x, y, width, height);
 }
@@ -34,6 +34,7 @@ Map.prototype.alight = function (thing) {
 Map.prototype.clearWalkers = function(thing) {
   for(let i = 0; i < this.game.walkers.length; i++) {
     if(this.game.walkers[i] === thing) {
+      console.log('remove me!');
       this.game.walkers[i].removeFromWorld = true;
     }
   }
