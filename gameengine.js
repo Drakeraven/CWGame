@@ -172,6 +172,7 @@ GameEngine.prototype.removeBuilding = function (x, y) {
                     }
                 }
             }
+            this.map.clearWalkers(thing);
             currentMessage = "Building Removed!";
         } else {
             currentMessage = "Can't remove buildings here!";
