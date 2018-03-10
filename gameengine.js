@@ -102,11 +102,11 @@ GameEngine.prototype.init = function (ctx) {
     this.fireTime = 0;
     this.cameraoffX = 0;
     this.cameraoffY = 0;
-    console.log('game initialized');
+  //  console.log('game initialized');
 }
 
 GameEngine.prototype.start = function () {
-    console.log("starting game");
+   // console.log("starting game");
     var that = this;
     (function gameLoop() {
         that.loop();
@@ -184,7 +184,7 @@ GameEngine.prototype.removeBuilding = function (x, y) {
 
 //Listens to input and events
 GameEngine.prototype.startInput = function () {
-    console.log('Starting input');
+    //console.log('Starting input');
     var that = this;
 
     this.ctx.canvas.addEventListener("mousedown", function (event) {//click down
@@ -241,7 +241,7 @@ GameEngine.prototype.startInput = function () {
     this.ctx.canvas.addEventListener("keydown", function (event) {
         setHotKeys(event, that);//in controls
     });
-    console.log('Input started');
+  //  console.log('Input started');
 }
 GameEngine.prototype.updateHoverEntityPosition = function (x, y) {
     this.hoverEntity.x = x;
@@ -380,7 +380,7 @@ GameEngine.prototype.getSelectedEntity = function (x, y) {
 
         case "Bazaar":
             entity = new Bazaar(that, x, y);
-            console.log("new bazaar");
+            //console.log("new bazaar");
             selectedItemList = that.industries;
             break;
 
@@ -427,7 +427,7 @@ GameEngine.prototype.getSelectedEntity = function (x, y) {
             break;
         default:
             entity = null
-            console.log('nuthin2seahear')
+           // console.log('nuthin2seahear')
             break
     }
     if (!selection) {
@@ -438,13 +438,13 @@ GameEngine.prototype.getSelectedEntity = function (x, y) {
 
 GameEngine.prototype.addEntity = function (entity) {
     console.log(entity);
-    console.log('added entity');
+    //console.log('added entity');
     this.entities.push(entity);
     this.entities = mergeSort(this.entities);
 }
 
 GameEngine.prototype.addHouse = function (entity) {
-    console.log('added house');
+   // console.log('added house');
     this.housingArr.push(entity);
 }
 
@@ -455,18 +455,18 @@ GameEngine.prototype.addWalker = function (walker) {
 }
 
 GameEngine.prototype.addIndustry = function (industry) {
-    console.log("added industry");
+   // console.log("added industry");
     this.industries.push(industry);
     this.entities.push(industry);
 }
 
 GameEngine.prototype.addGranary = function (granary) {
-    console.log("added Granary");
+   // console.log("added Granary");
     this.granaries.push(granary);
 }
 
 GameEngine.prototype.addYard = function (yard) {
-    console.log("added Storage Yard");
+   // console.log("added Storage Yard");
     this.yards.push(yard);
 }
 
@@ -475,7 +475,7 @@ GameEngine.prototype.draw = function () {
     this.ctx.save();
     this.entities = this.mergeSort(this.entities);
     for (let i = 0; i < this.map.mapList.length; i++) {
-      console.log(this.cameraoffY);
+    //  console.log(this.cameraoffY);
         for (let j = 0; j < this.map.mapList[1].length; j++) {
             this.map.mapList[j][i].draw(this.ctx);
         }
@@ -674,7 +674,7 @@ GameEngine.prototype.update = function () {
             if (this.entities[i].removeFromWorld) {
                 if (this.entities[i] instanceof Well || this.entities[i] instanceof WaterSupply) {
                     this.entities[i].remove();
-                    console.log("removing");
+                   // console.log("removing");
                 }
                 this.entities.splice(i, 1);
             }
