@@ -40,7 +40,7 @@ Map.prototype.clearWalkers = function(thing) {
         if (this.game.walkers[i].bRef == thing
             || (this.game.walkers[i] instanceof bazLad
             && this.game.walkers[i].hRef == thing)) {
-      console.log('remove me!');
+      //console.log('remove me!');
       this.game.walkers[i].removeFromWorld = true;
     }
   }
