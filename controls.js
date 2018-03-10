@@ -10,11 +10,19 @@ $(function () {
 
 function displayStats(gameEngine, x, y) {
     if (gameEngine.map.mapList[y][x].thing) {
-        console.log("hi");
+        //console.log("hi");
         displayStr = gameEngine.map.mapList[y][x].thing.toStringStats();
         $('#toStringStats').empty();
         $('#toStringStats').text(displayStr);
     }
+}
+
+function updateGoal(str) {
+    $('#current-goal').empty();
+    $('#current-goal').text(str);
+    let displayString = "You have met a goal!\n\nNext Goal: " + str;
+    $('#goal-text').text(displayString);
+    $('#Goal-Information').show();
 }
 function setHotKeys(event, game) {
     if (event.code === "KeyH") {
@@ -64,9 +72,10 @@ function setHotKeys(event, game) {
 
 function showPopUpText(displayStr) {
     $("#popup-text").empty();
-    displayStr = 
-    "This is a city simulator where your goal is to design and maintain a prosperous society.\n\n"
-    + "To see controls and gameplay information, click the buttons highlighted yellow on the right after closing this menu.";
+    displayStr =
+        "This is a city simulator where your goal is to design and maintain a prosperous society.\n\n"
+        + "To see controls and gameplay information, click the buttons highlighted yellow on the right after closing this menu." +
+        "\n\nNOTE: For music and display to look properly, we recommend playing with Chrome or Firefox!";
     $("#popup-text").text(displayStr);
     $("#Game-Information").show();
     $('.pharoh-button[title="Manual"]').addClass('highlighted');
@@ -100,7 +109,7 @@ function updateSelectedItemCost() {
 function updateCurrentMessage() {
     $("#current-msg").empty();
     $("#current-msg").text(currentMessage);
-    
+
 };
 //handles setting the button as selected based on the key listener in the game engine.
 function setButton(titleOfCurrentButtonSelection) {
@@ -163,7 +172,7 @@ function setButton(titleOfCurrentButtonSelection) {
             canHover = false;
             break;
         default:
-            console.log('nuthin2seahear');
+            //console.log('nuthin2seahear');
             break
     };
 };
@@ -205,7 +214,7 @@ function setControlsInfoBox() {
 function setManualInfoBox() {
 
     $('#manual-text').empty();
-    $('#manual-text').attr( "src","How_to_play.txt");
+    $('#manual-text').attr("src", "How_to_play.txt");
     $('#Manual-Box').show();
 };
 

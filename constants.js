@@ -30,7 +30,7 @@ var Constants = {
         ],
         Municipal: [
             { value: "Fire House", text: "Fire House" },
-            { value: "Police Station", text: "Police Station" },
+            //{ value: "Police Station", text: "Police Station" },
             { value: "Tax House", text: "Tax House" },
         ],
         //Following classes do not affect select menu
@@ -57,9 +57,9 @@ var controlString =
                     "Arrows move map camera.\n\nGame Hints:\n\n" +
                     "Objective of the game is to build a city and\n" +
                     "meet each goal displayed in the Current Goal Box\n " +
-                    "Lookout for the message box, which will update you " +
-                    "on whether some of theft has occured of whether your buildings caught on fire.\n\n"
+                    "Lookout for the message box, whether your buildings caught on fire, and many other things.\n\n"
                     + "Pay attention to the game information, your current funds, and building costs as you continue to build your city!";
 
                     //add elemented as needed, counter in gameengine will help index the correct goal
-var goalsArray = ["Achieve 500 people living in your city!","Achieve"];
+var goalsArray = ["Achieve 500 people living in your city!",
+"Achieve 750 people living in your city, and funds of 10,000!", "Achieve managing 3 Bazaar!"];

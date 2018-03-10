@@ -15,6 +15,7 @@ function resourceBuild(game, x, y) {
     this.placeCost = null;
     this.resType = "";
     this.prodTime = 0;
+    this.fireResist = 0.1;
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
     this.roadTiles = [];
     Entity.call(this, game, x, y);
@@ -43,8 +44,8 @@ resourceBuild.prototype.update = function () {
                     //console.log(walkerMap);
                     let huntah = new Hunter(this.game, ASSET_MANAGER.getAsset("./img/Hunter1.5.png"),
                         ASSET_MANAGER.getAsset("./img/Hunter2.png"), walkerMap, this.x, this.y, this);
-                    huntah.destX = 45;//FOR TESTING, NEEDS A FOREST COORD
-                    huntah.destY = 66;
+                    huntah.destX = 48;//FOR TESTING, NEEDS A FOREST COORD
+                    huntah.destY = 49;
                     this.game.addWalker(huntah);
                 }
 
@@ -169,7 +170,7 @@ huntLodge.prototype.update = function () {
             if (this.game.walkers[i] instanceof Hunter && this.game.walkers[i].hunted) {
                 this.foodStore += 100;
                 this.game.walkers[i].removeFromWorld = true;
-                console.log(this.foodStore);
+                //console.log(this.foodStore);
             }
         }
     }
@@ -180,4 +181,3 @@ huntLodge.prototype.update = function () {
 
 
 }
-

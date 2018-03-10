@@ -83,7 +83,8 @@ farming.prototype.pushBoi = function (canWalk, bRef) {
 }
 
 farming.prototype.toStringStats = function() {
-    str = "Yield: " + this.yield + "\n";
+    str = "Yield: " + this.yield + "\n" +
+     "Max Yield: " + this.maxYield + "\n";
     return str;
 }
 function grainFarm(game, x, y) {

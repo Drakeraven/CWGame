@@ -66,7 +66,12 @@ function GameWorld() {
     this.workForce = 0;
     this.taxRev = .10;
     this.funds = 1000;
-    this.goals = [];
+    this.goals = goalsArray;//defined in constants.js
+    this.maxNumberOfTaxHouses = 2;
+    this.numberOfTaxHouses = 0;
+    this.maxNumberOfGoldMines = 1;
+    this.numberOfGoldMines = 0;
+    this.currentGoal = 0; //first one, just used for array indexing
 }
 
 GameWorld.prototype.addPop = function (num) {
@@ -111,7 +116,7 @@ $(function () {//shorthand for window.ready
         music.load();
         music.loop = true;
         // Initialize state
-        console.log("starting up da sheild");
+        //console.log("starting up da sheild");
         var canvas = document.getElementById('gameWorld');
         var ctx = canvas.getContext('2d');
         gameEngine = new GameEngine();
@@ -119,9 +124,11 @@ $(function () {//shorthand for window.ready
         gameEngine.map = new Map(gameEngine);
         gameEngine.init(ctx);
         gameEngine.map.readMap(new MapData().testMap);
-        gameEngine.gameWorld.palace = new Palace(gameEngine, 40, 70);
-        gameEngine.map.addThing(gameEngine.gameWorld.palace);
-        console.log(gameEngine.gameWorld.palace);
+        gameEngine.gameWorld.palace = new Palace(gameEngine, 55, 55);
+        gameEngine.map.addThing(gameEngine.gameWorld.palace, null);
+
+       // console.log(gameEngine.entities);
+        //console.log(walkerMap);
 
         // Enable Start button
         $('#StartButton').removeAttr("disabled");
@@ -132,10 +139,9 @@ $(function () {//shorthand for window.ready
             // Start the game
             gameEngine.start();
             music.play();
-            console.log(walkerMap);
+            //console.log(walkerMap);
             showPopUpText();
         });
-
     });
 
     $('#Close-Button-Manual').click(function () {
@@ -149,6 +155,11 @@ $(function () {//shorthand for window.ready
     $('#Close-Button').click(function () {
         $("#Game-Information").hide();
         $('.pharoh-button.highlighted').removeClass('highlighted');
+        setButton("Select");
+    });
+
+    $('#Close-Button-Goal').click(function () {
+        $("#Goal-Information").hide();
         setButton("Select");
     });
     

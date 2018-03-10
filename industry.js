@@ -23,6 +23,7 @@ function industry(game, x, y) {
     this.numMerch = 0;
     this.merchCost = 0;
     this.prodTime = 0;
+    this.fireResist = 0.10;
     this.radius = { x: x - 15, y: y - 15, width: this.bWidth + 30, height: this.bHeight + 30 };
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
     this.roadTiles = [];
@@ -39,7 +40,7 @@ industry.prototype.update = function () {
 
     for (var i = 0; i < this.game.walkers.length; i++) {//loop through walkers
         if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
-            console.log("ping!", this.game.walkers.length);
+            //("ping!", this.game.walkers.length);
             if (this.game.walkers[i].loadType == this.resType && this.numResources < 500) {
                 this.numResources += this.game.walkers[i].loadCount;
                 this.game.walkers[i].removeFromWorld = true;
@@ -63,7 +64,7 @@ industry.prototype.update = function () {
 
     }
 
-    for (i = 0; i < this.game.housingArr.length; i++) { 
+    /*for (i = 0; i < this.game.housingArr.length; i++) { 
         if (arrived(this.radius, this.game.housingArr[i].x, this.game.housingArr[i].y, this, this)) {
             if (this instanceof Potter) { 
                 this.game.housingArr[i].potterLevel = true;
@@ -73,7 +74,8 @@ industry.prototype.update = function () {
                 this.game.housingArr[i].brewerLevel = true;
             } 
         }
-    }
+    }*/
+    
     //this.roadTiles = findRoad(this.buffer);
     //Checks for fire/collapse. Need to make this happen, not ALOT of the time...
     //if (getRandomInt(1, 101) <= fireResist) {
@@ -109,7 +111,7 @@ industry.prototype.update = function () {
             this.working = true;
             that = this;
             setTimeout(function () {
-                console.log("Creating product");
+                //console.log("Creating product");
                 that.numMerch += merchStep;
                 that.numResources -= merchStep;
                 that.working = false;
@@ -119,6 +121,7 @@ industry.prototype.update = function () {
 }
 industry.prototype.toStringStats = function() {
     str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded +
+    "\nResource Type: " + this.resType + "\nProduct Type/Cost: " + this.merchType + "/" + this.merchCost +
         "\nResources: " + this.numResources + "\nProduct: " + this.numMerch;
     return str;
 }

@@ -14,7 +14,6 @@ function Palace(game, x, y) {
     this.numEmpNeeded = 20;
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
     this.roadTiles = [];
-    this.game.addEntity(this);
     Entity.call(this, game, x, y);
 }
 
@@ -35,7 +34,7 @@ Palace.prototype.update = function () {
                     this.game.gameWorld.addFunds(this.game.walkers[i].loadCount);
                     this.game.walkers[i].loadCount -= this.game.walkers[i].loadCount;
                     this.game.walkers[i].removeFromWorld = true;
-                    console.log(this.game.gameWorld.funds);
+                  //  console.log(this.game.gameWorld.funds);
                 }
             }
         }
@@ -71,6 +70,7 @@ function Granary(game, x, y) {
     this.numEmpNeeded = 20;
     this.foodSupply = 0;
     this.foodMax = 1000;
+    this.fireResist = 0.10;
     this.workTime = this.game.timer.gameTime;
     this.pushTime = 15;
     this.buffer = { x: x - 1, y: y - 1, width: this.bWidth + 1, height: this.bHeight + 1 };
@@ -94,16 +94,16 @@ Granary.prototype.update = function () {
         //NEED: take in walkers W/ food
         for (var i = 0; i < this.game.walkers.length; i++) {
             if (arrived(this.buffer, this.game.walkers[i].x, this.game.walkers[i].y, this, this.game.walkers[i].bRef)) {
-                console.log("Arrived");
-                console.log(this.game.walkers[i].loadType);
+               // console.log("Arrived");
+               // console.log(this.game.walkers[i].loadType);
                 if (this.game.walkers[i].loadType === "meat" || this.game.walkers[i].loadType === "grain") {
-                    console.log(this.game.walkers[i].loadCount);
-                    console.log(this.foodSupply + this.game.walkers[i].loadCount <= this.foodMax)
+                  //  console.log(this.game.walkers[i].loadCount);
+                  //  console.log(this.foodSupply + this.game.walkers[i].loadCount <= this.foodMax)
                     if (this.foodSupply + this.game.walkers[i].loadCount <= this.foodMax && this.game.walkers[i].loadCount != 0) {
                         this.foodSupply += this.game.walkers[i].loadCount;
                         this.game.walkers[i].loadCount -= this.game.walkers[i].loadCount;
                         this.game.walkers[i].removeFromWorld = true;
-                        console.log("Food Amt: ", this.foodSupply)
+                      //  console.log("Food Amt: ", this.foodSupply)
                     } else {
                         //code to send the walker somewhere else, or kill it
                         for (var j = 0; j < this.game.granaries.length; j++) {
@@ -152,12 +152,12 @@ Granary.prototype.draw = function (ctx) {
 Granary.prototype.genWalker = function (destBuild, funds, type, bRef) {
     found = false;
     let indie = destBuild;
-    console.log(indie);
+  //  console.log(indie);
     //WADDUP BETCH
     let canWalk = generateWalker(this.roadTiles, indie.roadTiles);
     if (canWalk != null) {
         found = true;
-        console.log(canWalk);
+       // console.log(canWalk);
         this.pushBoi(canWalk, funds, type, bRef);
 
     }
@@ -166,7 +166,7 @@ Granary.prototype.genWalker = function (destBuild, funds, type, bRef) {
 }
 
 Granary.prototype.pushBoi = function (canWalk, funds, type, bRef) {
-    console.log(funds, type);
+  //  console.log(funds, type);
     if (type === "food") {
         var ccm = new mCartMan(this.game, ASSET_MANAGER.getAsset("./img/meatCartMan.png"), walkerMap, canWalk[0], canWalk[1], bRef);
         ccm.loadCount = funds;
@@ -178,7 +178,7 @@ Granary.prototype.pushBoi = function (canWalk, funds, type, bRef) {
 
 Granary.prototype.toStringStats = function() {
     str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded +
-        "\nFood Level: " + this.foodSupply; //TODO
+        "\nFood lvl: " + this.foodSupply + "\nMax Food: " + this.maxFood;
     return str;
 }
 function StoreYard(game, x, y) {
@@ -306,7 +306,9 @@ StoreYard.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 StoreYard.prototype.toStringStats = function() {
-    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded;//TODO
+    str = "Employed: " + this.numEmployed + "\nEmployees Needed: " + this.numEmpNeeded +
+    "\nClay lvl: " + this.storage['clay'] + "\nBarley lvl: " + this.storage['barley'] +
+    "\nFlax lvl: " + this.storage['flax'];
     return str;
 }
 
